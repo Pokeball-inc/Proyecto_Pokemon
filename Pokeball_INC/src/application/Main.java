@@ -1,30 +1,41 @@
 package application;
 	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import java.io.InputStream;
  
 public class Main extends Application {
  
   @Override
   public void start(Stage stage) {
-    // Crear el layout y la escena
-    StackPane root = new StackPane();
-    Scene scene = new Scene(root, 320, 320);    
-    
-    // Cargar el icono 
     try {
-    	Image logo = new Image(getClass().getResourceAsStream("/resources/logo.png"));
-    	stage.getIcons().add(logo);
+        // 1. CARGAR EL FXML 
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        Parent rootFXML = loader.load(); 
+
+        // 2. CREAR LA ESCENA con el contenido del FXML
+        Scene scene = new Scene(rootFXML, 320, 320);    
+        
+        // 3. CARGAR EL ICONO
+        InputStream iconStream = getClass().getResourceAsStream("/resources/logo.png");
+        if (iconStream != null) {
+            stage.getIcons().add(new Image(iconStream));
+        }
+
+        // 4. CONFIGURAR EL STAGE
+        stage.setTitle("Pokeball Inc.");
+        stage.setScene(scene);
+        stage.show();
+
     } catch (Exception e) {
-        System.out.println("No se pudo cargar el logo: " + e.getMessage());
+        System.out.println("Error al iniciar la aplicación: " + e.getMessage());
+        e.printStackTrace(); // Esto te dirá exactamente qué falló
     }
-    // Establecer el título y mostrar
-    stage.setTitle("Pokeball Inc.");
-    stage.setScene(scene);
-    stage.show();
   }
  
   public static void main(String[] args) {

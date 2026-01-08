@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Button?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="application.Controller">
+    <Button text="¡Haz clic aquí!" onAction="#handleButtonAction" />
+</StackPane>
