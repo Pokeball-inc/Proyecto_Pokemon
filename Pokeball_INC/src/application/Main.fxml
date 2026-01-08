@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Button?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml/1" 
-           fx:controller="application.Controller">
-    <Button text="¡Haz clic aquí!" onAction="#handleButtonAction" />
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+    <children>
+        <Button onAction="#handleButtonAction" prefHeight="129.0" prefWidth="287.0" text="¡Haz clic aquí!" />
+    </children>
 </StackPane>
