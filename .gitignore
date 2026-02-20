@@ -1,0 +1,38 @@
+# --- General / Compilación ---
+*.class
+*.log
+bin/
+build/
+target/
+out/
+.DS_Store
+Thumbs.db
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+cmake-build-*/
+
+# --- Eclipse IDE---
+.metadata/
+.recommenders/
+remote-systems-temp-files/
+.loadpath
+.externalToolBuilders/
+*.launch
+.settings/
+.project
+.classpath
+
+# --- JavaFX / Runtime ---
+hs_err_pid*
+replay_pid*
+
+# --- Maven / Gradle ---
+.mvn/
+.gradle/
+pom.xml.tag
+pom.xml.releaseBackup
