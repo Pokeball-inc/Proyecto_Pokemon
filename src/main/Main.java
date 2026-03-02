@@ -1,6 +1,11 @@
 package main;
 	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import java.io.File;
+
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -10,9 +15,29 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
+			// Cargar el login
+			Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+
+			Scene scene = new Scene(root);
+
+			// Titulo, forzar el tamaño de la ventana y bloquear cambio manual
+			primaryStage.setTitle("PokeINC");
+			primaryStage.setResizable(false);
+			primaryStage.sizeToScene();
+
+			// Cargar icono
+			File file = new File("imgs/Login-icon.png");
+
+			if (file.exists()) {
+				String imagePath = file.toURI().toString();
+				primaryStage.getIcons().add(new Image(imagePath));
+			} else {
+				System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
+			}
+
+
 			primaryStage.setScene(scene);
+
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
