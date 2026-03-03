@@ -445,6 +445,6 @@ public class Entrenador {
   public void criarPokemon(Pokemon pokemonMacho, Pokemon pokemonHembra)
   {
   }
-
+  
 
 }

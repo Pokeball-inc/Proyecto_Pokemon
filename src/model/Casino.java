@@ -14,9 +14,20 @@ abstract public class Casino {
   private Entrenador entrenador;
   
   //
-  // Constructors
+  // Constructor defecto
   //
   public Casino () { };
+  
+// Constructor con entrenador
+  public Casino(Entrenador entrenador) {
+      this.entrenador = entrenador;
+  }
+  
+
+  // Constructor copia 
+  public Casino(Casino c) {
+      this.entrenador = c.entrenador;
+  }
   
   //
   // Methods
@@ -31,8 +42,8 @@ abstract public class Casino {
    * Set the value of entrenador
    * @param newVar the new value of entrenador
    */
-  public void setEntrenador (Entrenador newVar) {
-    entrenador = newVar;
+  public void setEntrenador (Entrenador entrenador) {
+    this.entrenador = entrenador;
   }
 
   /**
@@ -50,7 +61,7 @@ abstract public class Casino {
   /**
    * metodo para el coste de la apuesta
    */
-  public void costeApuesta()
+  public void costeApuesta(int apuesta)
   {
   }
 
@@ -59,9 +70,10 @@ abstract public class Casino {
    * metodo par calcular la cantidad del premio si se gana la apuesta
    * 
    */
-  public void cantidadPremio()
+  public void cantidadPremio(int apuesta)
   {
   }
+
 
 
 }
