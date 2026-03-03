@@ -1,3 +1,5 @@
+package model;
+
 
 
 /**
@@ -34,6 +36,7 @@ class CaraCruz extends Casino {
    */
   public int lanzarMoneda()
   {
+	return 0;
   }
 
 

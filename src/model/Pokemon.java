@@ -1,3 +1,5 @@
+package model;
+
 
 import java.util.*;
 
@@ -83,7 +85,7 @@ public class Pokemon {
   /**
    * estado del Pokemon
    */
-  private Estados estado = normal;
+  private Estados estado = estado;
   /**
    * objeto que puede o no llevar el Pokemon
    */

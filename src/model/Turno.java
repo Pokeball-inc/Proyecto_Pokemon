@@ -1,10 +1,12 @@
+package model;
+
 
 
 /**
  * Class Turno
  * Ej:
  * Turno 1:
- * Entrenador: Pikachu usa Ataque Rápido.
+ * Entrenador: Pikachu usa Ataque Rï¿½pido.
  * Rival: Charmander usa Ascuas.
  */
 public class Turno {

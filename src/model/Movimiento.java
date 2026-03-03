@@ -1,3 +1,5 @@
+package model;
+
 
 import java.util.*;
 
@@ -275,7 +277,7 @@ public class Movimiento {
 
 
   /**
-   * metodo para realizar daño del ataque tipo atque
+   * metodo para realizar daï¿½o del ataque tipo atque
    * @param        new_parameter
    */
   public void aplicarDanio(TiposMovimiento new_parameter = ATAQUE)

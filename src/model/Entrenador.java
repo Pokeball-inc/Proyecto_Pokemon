@@ -1,3 +1,5 @@
+package model;
+
 
 import java.util.*;
 
@@ -21,7 +23,7 @@ public class Entrenador {
    */
   private String nombreEntrenador;
   /**
-   * es la contraseña del entrenador jugador
+   * es la contraseï¿½a del entrenador jugador
    */
   private String contrasena;
   /**
@@ -130,7 +132,7 @@ public class Entrenador {
 
   /**
    * Set the value of contrasena
-   * es la contraseña del entrenador jugador
+   * es la contraseï¿½a del entrenador jugador
    * @param newVar the new value of contrasena
    */
   public void setContrasena (String newVar) {
@@ -139,7 +141,7 @@ public class Entrenador {
 
   /**
    * Get the value of contrasena
-   * es la contraseña del entrenador jugador
+   * es la contraseï¿½a del entrenador jugador
    * @return the value of contrasena
    */
   public String getContrasena () {
@@ -393,14 +395,14 @@ public class Entrenador {
   /**
    * para entrenar un Pokemon mediante pokedollares con diferentes tipos de
    * entrenamiento
-   * Entrenamiento pesado: se gastan 20*NIVEL pokédollars y se aumentan las
-   * estadísticas de defensa, defensa especial y vitalidad en 5 puntos.
-   * Entrenamiento furioso: se gastan 30*NIVEL pokédollars y se aumentan las
-   * estadísticas de ataque, ataque especial y velocidad en 5 puntos.
-   * Entrenamiento funcional: se gastan 40*NIVEL pokédollars y se aumentan las
-   * estadísticas de velocidad, ataque, defensa y vitalidad en 5 puntos.
-   * Entrenamiento onírico: se gastan 40*NIVEL pokédollars y se aumentan las
-   * estadísticas de velocidad, ataque especial, defensa especial y vitalidad en 5
+   * Entrenamiento pesado: se gastan 20*NIVEL pokï¿½dollars y se aumentan las
+   * estadï¿½sticas de defensa, defensa especial y vitalidad en 5 puntos.
+   * Entrenamiento furioso: se gastan 30*NIVEL pokï¿½dollars y se aumentan las
+   * estadï¿½sticas de ataque, ataque especial y velocidad en 5 puntos.
+   * Entrenamiento funcional: se gastan 40*NIVEL pokï¿½dollars y se aumentan las
+   * estadï¿½sticas de velocidad, ataque, defensa y vitalidad en 5 puntos.
+   * Entrenamiento onï¿½rico: se gastan 40*NIVEL pokï¿½dollars y se aumentan las
+   * estadï¿½sticas de velocidad, ataque especial, defensa especial y vitalidad en 5
    * puntos.
    * @param        pokemon
    * @param        tipoEntrenamiento
@@ -429,14 +431,14 @@ public class Entrenador {
 
   /**
    * metodo para criar pokemon, el Pokemon criado tendra :
-   * Mote como mezcla (la mitad del mote será de la madre y la otra mitad del padre,
+   * Mote como mezcla (la mitad del mote serï¿½ de la madre y la otra mitad del padre,
    * con el orden aleatorio).
-   * Ataques mezclados (la mitad de los ataques serán del padre, la otra mitad serán
+   * Ataques mezclados (la mitad de los ataques serï¿½n del padre, la otra mitad serï¿½n
    * de la madre).
-   * Tipos mezclados (el hijo tendrá, de forma aleatoria, los tipos de los padres,
+   * Tipos mezclados (el hijo tendrï¿½, de forma aleatoria, los tipos de los padres,
    * pudiendo tener ambos tipos del padre o de la madre, un tipo de cada o, en caso
    * de compartir tipos sus progenitores, el tipo que comparten ambos).
-   * Las mejores características de cada progenitor.
+   * Las mejores caracterï¿½sticas de cada progenitor.
    * @param        pokemonMacho
    * @param        pokemonHembra
    */

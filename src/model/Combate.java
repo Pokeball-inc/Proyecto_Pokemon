@@ -1,3 +1,5 @@
+package model;
+
 
 
 /**
@@ -24,7 +26,7 @@ public class Combate {
   /**
    * cada turno del combate
    */
-  private Turno turno = 1;
+  private Turno turno;
   /**
    * pokemon derrotados el jugador
    */
