@@ -3,31 +3,26 @@ package model;
 
 
 /**
- * Class Estados
+ * enum Estados
  */
-public class Estados {
-
-  //
-  // Fields
-  //
-
-  
-  //
-  // Constructors
-  //
-  public Estados () { };
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
-
+public enum Estados {
+	NORMAL,
+	PARALIZADO,
+	QUEMADO,
+	ENVENENADO,
+	GRAVEMENTEENMVENEDADO,
+	DORMIDO,
+	CONGELADO,
+	HELADO,
+	SOMNOLIENTO,
+	POKERUS,
+	DEBILITADO,
+	CONFUSO,
+	ENAMORADO,
+	ATRAPADO,
+	MALDITO,
+	DRENADORAS,
+	CANTOMORTAL,
+	CENTROATENCION,
+	AMEDENTRADO
 }

@@ -19,7 +19,7 @@ public class Ruleta extends Casino {
   /**
    * numeros de la ruleta 1-37
    */
-  private int numerosRuleta_;
+  private int numerosRuleta;
   
   //
   // Constructors
@@ -56,21 +56,21 @@ public class Ruleta extends Casino {
   }
 
   /**
-   * Set the value of numerosRuleta_
+   * Set the value of numerosRuleta
    * numeros de la ruleta 1-37
-   * @param newVar the new value of numerosRuleta_
+   * @param newVar the new value of numerosRuleta
    */
-  public void setNumerosRuleta_ (int newVar) {
-    numerosRuleta_ = newVar;
+  public void setNumerosRuleta (int newVar) {
+    numerosRuleta = newVar;
   }
 
   /**
-   * Get the value of numerosRuleta_
+   * Get the value of numerosRuleta
    * numeros de la ruleta 1-37
-   * @return the value of numerosRuleta_
+   * @return the value of numerosRuleta
    */
-  public int getNumerosRuleta_ () {
-    return numerosRuleta_;
+  public int getNumerosRuleta () {
+    return numerosRuleta;
   }
 
   //

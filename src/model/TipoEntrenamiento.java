@@ -5,31 +5,12 @@ import java.util.*;
 
 
 /**
- * Class TipoEntrenamiento
+ * enum TipoEntrenamiento
  */
-public class TipoEntrenamiento {
+public enum TipoEntrenamiento {
 
-  //
-  // Fields
-  //
-
-  
-  //
-  // Constructors
-  //
-  public TipoEntrenamiento () { };
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
-
+	ENTRENAMIENTOPESADOM,
+	ENTRENAMIENTOFURIOSO,
+	ENTRENAMIENTOFUNCIONAL,
+	ENTRENAMIENTOONIRICO
 }

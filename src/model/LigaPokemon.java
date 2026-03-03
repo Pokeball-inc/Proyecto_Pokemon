@@ -14,7 +14,7 @@ public class LigaPokemon {
   /**
    * lista de entrenadores de la liga
    */
-  private Entrenador entrenadorLigaPokemon_;
+  private Entrenador entrenadorLigaPokemon;
   
   //
   // Constructors
@@ -31,21 +31,21 @@ public class LigaPokemon {
   //
 
   /**
-   * Set the value of entrenadorLigaPokemon_
+   * Set the value of entrenadorLigaPokemon
    * lista de entrenadores de la liga
-   * @param newVar the new value of entrenadorLigaPokemon_
+   * @param newVar the new value of entrenadorLigaPokemon
    */
-  public void setEntrenadorLigaPokemon_ (Entrenador newVar) {
-    entrenadorLigaPokemon_ = newVar;
+  public void setEntrenadorLigaPokemon (Entrenador newVar) {
+    entrenadorLigaPokemon = newVar;
   }
 
   /**
-   * Get the value of entrenadorLigaPokemon_
+   * Get the value of entrenadorLigaPokemon
    * lista de entrenadores de la liga
-   * @return the value of entrenadorLigaPokemon_
+   * @return the value of entrenadorLigaPokemon
    */
-  public Entrenador getEntrenadorLigaPokemon_ () {
-    return entrenadorLigaPokemon_;
+  public Entrenador getEntrenadorLigaPokemon () {
+    return entrenadorLigaPokemon;
   }
 
   //

@@ -54,7 +54,7 @@ public class Movimiento {
   /**
    * para la animacion del movimiento
    */
-  private String _animacionMovimiento;
+  //private String animacionMovimiento;
   
   //
   // Constructors
@@ -237,23 +237,25 @@ public class Movimiento {
   }
 
   /**
-   * Set the value of _animacionMovimiento
+   * Set the value of animacionMovimiento
    * para la animacion del movimiento
-   * @param newVar the new value of _animacionMovimiento
+   * @param newVar the new value of animacionMovimiento
    */
-  public void set_animacionMovimiento (String newVar) {
-    _animacionMovimiento = newVar;
+  /*
+  public void setanimacionMovimiento (String newVar) {
+    animacionMovimiento = newVar;
   }
-
+*/
   /**
-   * Get the value of _animacionMovimiento
+   * Get the value of animacionMovimiento
    * para la animacion del movimiento
-   * @return the value of _animacionMovimiento
+   * @return the value of animacionMovimiento
    */
-  public String get_animacionMovimiento () {
-    return _animacionMovimiento;
+  /*
+  public String getAnimacionMovimiento () {
+    return animacionMovimiento;
   }
-
+*/
   //
   // Other methods
   //
@@ -262,25 +264,25 @@ public class Movimiento {
    * metodo para aplicar los estados del ataque tipo estado
    * @param        tipoMovimiento
    */
-  public void aplicarEstado(TiposMovimiento tipoMovimiento = ESTADO)
+  public void aplicarEstado(TiposMovimiento movimientoEstado)
   {
   }
 
 
   /**
    * metodo para aplicar la mejora del ataque tipo mejor
-   * @param        new_parameter
+   * @param        newparameter
    */
-  public void aplicarMejora(TiposMovimiento new_parameter = MEJORA)
+  public void aplicarMejora(TiposMovimiento movimientoMejora)
   {
   }
 
 
   /**
    * metodo para realizar da�o del ataque tipo atque
-   * @param        new_parameter
+   * @param        newparameter
    */
-  public void aplicarDanio(TiposMovimiento new_parameter = ATAQUE)
+  public void aplicarDanio(TiposMovimiento movimientoDanio)
   {
   }
 

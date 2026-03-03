@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Class Pokemon
  */
-public class Pokemon {
+public class Pokemon{
 
   //
   // Fields
@@ -20,7 +20,7 @@ public class Pokemon {
   /**
    * el numero de la pokedex de cada Pokemon
    */
-  private int num_pokedex;
+  private int numPokedex;
   /**
    * nombre del Pokemon
    */
@@ -85,7 +85,7 @@ public class Pokemon {
   /**
    * estado del Pokemon
    */
-  private Estados estado = estado;
+  private Estados estadoActual = Estados.NORMAL;
   /**
    * objeto que puede o no llevar el Pokemon
    */
@@ -97,15 +97,15 @@ public class Pokemon {
   /**
    * Ratio de captura de pokemon
    */
-  private Double _ratioCaptura;
+  private Double ratioCaptura;
   /**
    * ubicacion de captura del Pokemon
    */
-  private Ubicacion Pokemon(equipo-caja) _ubicacion;
+  private UbicacionPokemon ubicacion;
   /**
    * atributo para los estados permanentes
    */
-  private Estados estadoPermanente = normal;
+  private Estados estadoPermanente = Estados.NORMAL;
   /**
    * indica el origen del Pokemon, si es crianza o captura
    */
@@ -152,21 +152,21 @@ public class Pokemon {
   }
 
   /**
-   * Set the value of num_pokedex
+   * Set the value of numpokedex
    * el numero de la pokedex de cada Pokemon
-   * @param newVar the new value of num_pokedex
+   * @param newVar the new value of numpokedex
    */
-  public void setNum_pokedex (int newVar) {
-    num_pokedex = newVar;
+  public void setNumPokedex (int newVar) {
+    numPokedex = newVar;
   }
 
   /**
-   * Get the value of num_pokedex
+   * Get the value of numpokedex
    * el numero de la pokedex de cada Pokemon
-   * @return the value of num_pokedex
+   * @return the value of numpokedex
    */
-  public int getNum_pokedex () {
-    return num_pokedex;
+  public int getNumPokedex () {
+    return numPokedex;
   }
 
   /**
@@ -451,7 +451,7 @@ public class Pokemon {
    * @param newVar the new value of estado
    */
   public void setEstado (Estados newVar) {
-    estado = newVar;
+    estadoActual = newVar;
   }
 
   /**
@@ -460,7 +460,7 @@ public class Pokemon {
    * @return the value of estado
    */
   public Estados getEstado () {
-    return estado;
+    return estadoActual;
   }
 
   /**
@@ -500,39 +500,40 @@ public class Pokemon {
   }
 
   /**
-   * Set the value of _ratioCaptura
+   * Set the value of ratioCaptura
    * Ratio de captura de pokemon
-   * @param newVar the new value of _ratioCaptura
+   * @param newVar the new value of ratioCaptura
    */
-  public void set_ratioCaptura (Double newVar) {
-    _ratioCaptura = newVar;
+  public void setRatioCaptura (Double newVar) {
+    ratioCaptura = newVar;
   }
 
   /**
-   * Get the value of _ratioCaptura
+   * Get the value of ratioCaptura
    * Ratio de captura de pokemon
-   * @return the value of _ratioCaptura
+   * @return the value of ratioCaptura
    */
-  public Double get_ratioCaptura () {
-    return _ratioCaptura;
+  public Double geRratioCaptura () {
+    return ratioCaptura;
   }
 
   /**
-   * Set the value of _ubicacion
+   * Set the value of ubicacion
    * ubicacion de captura del Pokemon
-   * @param newVar the new value of _ubicacion
+   * @param newVar the new value of ubicacion
    */
-  public void set_ubicacion (Ubicacion Pokemon(equipo-caja) newVar) {
-    _ubicacion = newVar;
+ 
+  public void setUbicacion (UbicacionPokemon newVar) {
+    ubicacion = newVar;
   }
-
+  
   /**
-   * Get the value of _ubicacion
+   * Get the value of ubicacion
    * ubicacion de captura del Pokemon
-   * @return the value of _ubicacion
+   * @return the value of ubicacion
    */
-  public Ubicacion Pokemon(equipo-caja) get_ubicacion () {
-    return _ubicacion;
+ public UbicacionPokemon getUbicacion () {
+    return ubicacion;
   }
 
   /**
@@ -624,7 +625,7 @@ public class Pokemon {
    * con salida (CONSTANTES):
    * NEUTRO  =
    * VENTAJA X2
-   * DOBLE_VENTAJA x4
+   * DOBLEVENTAJA x4
    * DESVENTAJA 1/2
    * DOBLEDESVENTAJA 1/4
    * 
@@ -633,7 +634,7 @@ public class Pokemon {
    * @param        movimiento
    * @param        pokemon
    */
-  public void _atacar(Movimiento movimiento, Pokemon pokemon)
+  public void atacar(Movimiento movimiento, Pokemon pokemon)
   {
   }
 

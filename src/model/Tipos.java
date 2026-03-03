@@ -3,31 +3,26 @@ package model;
 
 
 /**
- * Class Tipos
+ * enum Tipos
  */
-public class Tipos {
-
-  //
-  // Fields
-  //
-
-  
-  //
-  // Constructors
-  //
-  public Tipos () { };
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
-
+public enum Tipos {
+	
+	ACERO,
+	AGUA,
+	BICHO,
+	DRAGON,
+	ELECTRICO,
+	FANTASMA,
+	FUEGO,
+	HADA,
+	HIELO,
+	LUCHA,
+	NORMAL,
+	PLANTA,
+	PSIQUICO,
+	ROCA,
+	SINIESTRO,
+	TIERRA,
+	VENENO,
+	VOLADOR
 }

@@ -3,31 +3,11 @@ package model;
 
 
 /**
- * Class TiposMovimiento
+ * enum TiposMovimiento
  */
-public class TiposMovimiento {
+public enum TiposMovimiento {
 
-  //
-  // Fields
-  //
-
-  
-  //
-  // Constructors
-  //
-  public TiposMovimiento () { };
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
-
+	ATAQUE,
+	ESTADO,
+	MEJORA
 }

@@ -5,31 +5,11 @@ import java.util.*;
 
 
 /**
- * Class Generos
+ * Enum Generos
  */
-public class Generos {
-
-  //
-  // Fields
-  //
-
-  
-  //
-  // Constructors
-  //
-  public Generos () { };
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
+public enum Generos {
+	
+	Hombre,
+	Mujer
 
 }

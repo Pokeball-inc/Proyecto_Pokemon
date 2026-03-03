@@ -18,7 +18,7 @@ public class Log {
   /**
    * lista con todos los turbnos realizados
    */
-  private Turno turnosLog_;
+  private Turno turnosLog;
   
   //
   // Constructors
@@ -53,21 +53,21 @@ public class Log {
   }
 
   /**
-   * Set the value of turnosLog_
+   * Set the value of turnosLog
    * lista con todos los turbnos realizados
-   * @param newVar the new value of turnosLog_
+   * @param newVar the new value of turnosLog
    */
-  public void setTurnosLog_ (Turno newVar) {
-    turnosLog_ = newVar;
+  public void setTurnosLog (Turno newVar) {
+    turnosLog = newVar;
   }
 
   /**
-   * Get the value of turnosLog_
+   * Get the value of turnosLog
    * lista con todos los turbnos realizados
-   * @return the value of turnosLog_
+   * @return the value of turnosLog
    */
-  public Turno getTurnosLog_ () {
-    return turnosLog_;
+  public Turno getTurnosLog () {
+    return turnosLog;
   }
 
   //

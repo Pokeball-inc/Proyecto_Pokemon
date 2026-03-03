@@ -14,7 +14,7 @@ public class Inventario {
   /**
    * todos los objetos que tiene el entrenador disponible
    */
-  private Objeto objetoInventario_;
+  private Objeto objetoInventario;
   
   //
   // Constructors
@@ -36,7 +36,7 @@ public class Inventario {
    * @param newVar the new value of objetoInventario_
    */
   public void setObjetoInventario_ (Objeto newVar) {
-    objetoInventario_ = newVar;
+    objetoInventario = newVar;
   }
 
   /**
@@ -45,7 +45,7 @@ public class Inventario {
    * @return the value of objetoInventario_
    */
   public Objeto getObjetoInventario_ () {
-    return objetoInventario_;
+    return objetoInventario;
   }
 
   //
