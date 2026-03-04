@@ -67,5 +67,10 @@ abstract public class Casino {
 	 * 
 	 */
 	public abstract void cantidadPremio(int apuesta);
+	
+	// metodo para comprobar si el entrenador tiene dinero para apostar
+	public boolean puedeApostar(int cantidad) {
+	    return entrenador != null && cantidad > 0 && entrenador.getPokedollares() >= cantidad;
+	}
 
 }

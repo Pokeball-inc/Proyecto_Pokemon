@@ -36,7 +36,7 @@ class CaraCruz extends Casino {
 			return "La apuesta debe ser mayor que 0.";
 		}
 		// comprobamos si tiene Pokedóllares el entrenador
-		if (apuesta > entrenador.getPokedollares()) {
+		if (!puedeApostar(apuesta)) {
 			return "Pokedóllares insuficientes.";
 		}
 
