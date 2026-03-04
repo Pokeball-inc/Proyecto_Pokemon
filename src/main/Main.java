@@ -8,8 +8,6 @@ import java.io.File;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
 
 public class Main extends Application {
 	@Override
@@ -26,7 +24,7 @@ public class Main extends Application {
 			primaryStage.sizeToScene();
 
 			// Cargar icono
-			File file = new File("imgs/Login-icon.png");
+			File file = new File("imgs/Login/Login-icon.png");
 
 			if (file.exists()) {
 				String imagePath = file.toURI().toString();
