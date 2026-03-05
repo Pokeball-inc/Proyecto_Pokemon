@@ -97,7 +97,7 @@ public class Pokemon{
   /**
    * Ratio de captura de pokemon
    */
-  private Double ratioCaptura;
+  private RatioCaptura ratioCaptura;
   /**
    * ubicacion de captura del Pokemon
    */
@@ -504,7 +504,7 @@ public class Pokemon{
    * Ratio de captura de pokemon
    * @param newVar the new value of ratioCaptura
    */
-  public void setRatioCaptura (Double newVar) {
+  public void setRatioCaptura (RatioCaptura newVar) {
     ratioCaptura = newVar;
   }
 
@@ -513,7 +513,7 @@ public class Pokemon{
    * Ratio de captura de pokemon
    * @return the value of ratioCaptura
    */
-  public Double geRratioCaptura () {
+  public RatioCaptura geRratioCaptura () {
     return ratioCaptura;
   }
 

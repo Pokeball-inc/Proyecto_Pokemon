@@ -52,7 +52,7 @@ public class Entrenador {
   /**
    * los Pokemon capturados que no estan en el equipo
    */
-  private Pokemon[] cajaPokemon;
+  private ArrayList <Pokemon> cajaPokemon;
   /**
    * victorias del entrenador
    */
@@ -79,9 +79,66 @@ public class Entrenador {
   private String imgPosteriorEntrenador;
   
   //
-  // Constructors
+  // Constructors por defecto
   //
-  public Entrenador () { };
+  public Entrenador () {
+	  super();
+	  this.idEntrenador = 0;
+	  this.nombreEntrenador = "";
+	  this.contrasena = "";
+	  this.genero = Generos.Neutro;
+	  this.ciudadOrigen = "";
+	  this.tiempoJuego = (long) 0;
+	  this.pokedollares = 0;
+	  this.equipoPokemon = new Pokemon[6];
+	  this.cajaPokemon = new ArrayList<>();
+	  this.victorias = 0;
+	  this.derrotas = 0;
+	  this.inventario = new Objeto[50];
+	  this.esNPC = false;
+	  this.imgFrontalEntrenador = "";
+	  this.imgPosteriorEntrenador = "";
+  };
+  
+  //Constructor todos los parametros
+  public Entrenador (int idEntrenador, String nombreEntrenador, String contrasena, Generos genero, String ciudadOrigen, long tiempoJuego, int pokedollares, Pokemon[] equipoPokemon, ArrayList<Pokemon> cajaPokemon, int victorias, int derrotas, Objeto[] inventario, boolean esNPC, String imgFrontalEntrenador, String imgPosteriorEntrenador) {
+	  super();
+	  this.idEntrenador = idEntrenador;
+	  this.nombreEntrenador = nombreEntrenador;
+	  this.contrasena = contrasena;
+	  this.genero = genero;
+	  this.ciudadOrigen = ciudadOrigen;
+	  this.tiempoJuego = tiempoJuego;
+	  this.pokedollares = pokedollares;
+	  this.equipoPokemon = equipoPokemon;
+	  this.cajaPokemon = cajaPokemon;
+	  this.victorias = victorias;
+	  this.derrotas = derrotas;
+	  this.inventario = inventario;
+	  this.esNPC = esNPC;
+	  this.imgFrontalEntrenador = imgFrontalEntrenador;
+	  this.imgPosteriorEntrenador = imgPosteriorEntrenador;
+  };
+  
+  //Constructor copia
+  public Entrenador (Entrenador e) {
+	  this.idEntrenador = e.idEntrenador;
+	  this.nombreEntrenador = e.nombreEntrenador;
+	  this.contrasena = e.contrasena;
+	  this.genero = e.genero;
+	  this.ciudadOrigen = e.ciudadOrigen;
+	  this.tiempoJuego = e.tiempoJuego;
+	  this.pokedollares = e.pokedollares;
+	  this.equipoPokemon = e.equipoPokemon.clone(); //para que si hay varios entrenadores no compartan el mismo 
+	  this.cajaPokemon = new ArrayList<>(e.cajaPokemon);
+	  this.victorias = e.victorias;
+	  this.derrotas = e.derrotas;
+	  this.inventario = e.inventario.clone();
+	  this.esNPC = e.esNPC;
+	  this.imgFrontalEntrenador = e.imgFrontalEntrenador;
+	  this.imgPosteriorEntrenador = e.imgPosteriorEntrenador;
+  };
+  
   
   //
   // Methods
@@ -249,7 +306,7 @@ public class Entrenador {
    * los Pokemon capturados que no estan en el equipo
    * @param newVar the new value of cajaPokemon
    */
-  public void setCajaPokemon (Pokemon[] newVar) {
+  public void setCajaPokemon (ArrayList<Pokemon> newVar) {
     cajaPokemon = newVar;
   }
 
@@ -258,7 +315,7 @@ public class Entrenador {
    * los Pokemon capturados que no estan en el equipo
    * @return the value of cajaPokemon
    */
-  public Pokemon[] getCajaPokemon () {
+  public ArrayList<Pokemon> getCajaPokemon () {
     return cajaPokemon;
   }
 
@@ -378,17 +435,54 @@ public class Entrenador {
    * para mover los Pokemon desde el equipo a la caja
    * @param        pokemon
    */
-  public void moverPokemonACaja(Pokemon pokemon)
-  {
+  public void moverPokemonACaja(Pokemon pokemon) {
+      // 1. Buscamos el Pokémon dentro del equipo
+      int posicionEnEquipo = -1;
+      
+      for (int i = 0; i < equipoPokemon.length; i++) {
+          if (equipoPokemon[i] != null && equipoPokemon[i].equals(pokemon)) {
+              posicionEnEquipo = i;
+              break;
+          }
+      }
+      // 2.Si lo encontramos en el equipo
+      if (posicionEnEquipo != -1) {
+          cajaPokemon.add(pokemon);               //Añadir caja (crece)
+          equipoPokemon[posicionEnEquipo] = null; // Lo borramos del equipo
+          System.out.println("¡El Pokémon ha sido movido a la caja PC!");
+      } else {
+          System.out.println("Ese Pokémon no se encuentra en tu equipo actual.");
+      }
   }
-
 
   /**
    * para mover los Pokemon desde la caja al equipo principal
    * @param        pokemon
    */
-  public void moverPokemonAEquipo(Pokemon pokemon)
-  {
+  public void moverPokemonAEquipo(Pokemon pokemon) {
+      // 1. Buscamos si hay un hueco libre en el equipo
+      int huecoEquipo = -1; 
+      
+      for (int i = 0; i < equipoPokemon.length; i++) {
+          if (equipoPokemon[i] == null) {
+              huecoEquipo = i; 
+              break; 
+          }
+      }
+      //Equipo lleno
+      if (huecoEquipo == -1) {
+          System.out.println("Tu equipo ya está lleno (6 Pokémon).");
+          return; 
+      }
+
+      // 2. Buscamos y movemos gracias
+      if (cajaPokemon.contains(pokemon)) { //Busca por ti si está dentro
+          equipoPokemon[huecoEquipo] = pokemon; // Lo metemos al equipo
+          cajaPokemon.remove(pokemon);          // Lo borra de la caja 
+          System.out.println("¡El Pokémon ha sido movido al equipo principal!");
+      } else {
+          System.out.println("No se ha encontrado a ese Pokémon en la caja.");
+      }
   }
 
 
@@ -407,8 +501,62 @@ public class Entrenador {
    * @param        pokemon
    * @param        tipoEntrenamiento
    */
-  public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento)
-  {
+public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento) {
+      int coste = 0;
+
+      // PASO 1: Calculamos el coste según el tipo de entrenamiento
+      switch (tipoEntrenamiento) {
+          case ENTRENAMIENTOPESADOM:
+              coste = 20 * pokemon.getNivel();
+              break;
+          case ENTRENAMIENTOFURIOSO:
+              coste = 30 * pokemon.getNivel();
+              break;
+          case ENTRENAMIENTOFUNCIONAL:
+          case ENTRENAMIENTOONIRICO:
+              coste = 40 * pokemon.getNivel(); // Ambos cuestan lo mismo
+              break;
+      }
+
+      // PASO 2: Comprobamos si hay dinero suficiente (una sola comprobación para todos)
+      if (this.pokedollares >= coste) {
+          
+          this.pokedollares = this.pokedollares - coste;
+
+          // PASO 3: Subimos las estadísticas según el tipo
+          switch (tipoEntrenamiento) {
+              case ENTRENAMIENTOPESADOM:
+                  pokemon.setDefensa(pokemon.getDefensa() + 5);
+                  pokemon.setDefensaEspecial(pokemon.getDefensaEspecial() + 5);
+                  pokemon.setVitalidad(pokemon.getVitalidad() + 5);
+                  break;
+                  
+              case ENTRENAMIENTOFURIOSO:
+                  pokemon.setAtaque(pokemon.getAtaque() + 5);
+                  pokemon.setAtaqueEspecial(pokemon.getAtaqueEspecial() + 5);
+                  pokemon.setVelocidad(pokemon.getVelocidad() + 5);
+                  break;
+                  
+              case ENTRENAMIENTOFUNCIONAL:
+                  pokemon.setVelocidad(pokemon.getVelocidad() + 5);
+                  pokemon.setAtaque(pokemon.getAtaque() + 5);
+                  pokemon.setDefensa(pokemon.getDefensa() + 5);
+                  pokemon.setVitalidad(pokemon.getVitalidad() + 5);
+                  break;
+                  
+              case ENTRENAMIENTOONIRICO:
+                  pokemon.setVelocidad(pokemon.getVelocidad() + 5);
+                  pokemon.setAtaqueEspecial(pokemon.getAtaqueEspecial() + 5);
+                  pokemon.setDefensaEspecial(pokemon.getDefensaEspecial() + 5);
+                  pokemon.setVitalidad(pokemon.getVitalidad() + 5);
+                  break;
+          }
+          
+          System.out.println("¡Entrenamiento " + tipoEntrenamiento + " completado con éxito!");
+          
+      } else {
+          System.out.println("No tienes suficientes pokédollares. Necesitas " + coste + " y tienes " + this.pokedollares);
+      }
   }
 
 

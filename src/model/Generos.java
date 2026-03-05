@@ -10,6 +10,7 @@ import java.util.*;
 public enum Generos {
 	
 	Hombre,
-	Mujer
+	Mujer,
+	Neutro
 
 }
