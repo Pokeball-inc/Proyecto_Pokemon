@@ -15,7 +15,7 @@ public class Ruleta extends Casino {
    * color de la ruleta negro/rojo
    *    */
 
-  private String colorNumero;
+  private String colorRuleta;
   /**
    * numeros de la ruleta 1-37
    */
@@ -30,45 +30,18 @@ public class Ruleta extends Casino {
   // Methods
   //
 
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of colorNumero
-   * color de la ruleta negro/rojo
-   * 
-   * @param newVar the new value of colorNumero
-   */
-  public void setColorNumero (String newVar) {
-    colorNumero = newVar;
+  public void setColorRuleta (String color) {
+    colorRuleta = color;
   }
 
-  /**
-   * Get the value of colorNumero
-   * color de la ruleta negro/rojo
-   * 
-   * @return the value of colorNumero
-   */
-  public String getColorNumero () {
-    return colorNumero;
+  public String getColorRuleta () {
+    return colorRuleta;
   }
 
-  /**
-   * Set the value of numerosRuleta
-   * numeros de la ruleta 1-37
-   * @param newVar the new value of numerosRuleta
-   */
   public void setNumerosRuleta (int newVar) {
     numerosRuleta = newVar;
   }
 
-  /**
-   * Get the value of numerosRuleta
-   * numeros de la ruleta 1-37
-   * @return the value of numerosRuleta
-   */
   public int getNumerosRuleta () {
     return numerosRuleta;
   }
@@ -85,6 +58,26 @@ public class Ruleta extends Casino {
   public void apostarRuleta(String color, int numero)
   {
   }
+
+	@Override
+	// el costeApuesta descuenta los Pokedóllares al entrenador
+	public void costeApuesta(int apuesta) {
+		Entrenador entrenador = getEntrenador();
+		// si el entrenador existe y la apuesta es mayor a 0 le descontamos lo apostado
+		if (entrenador != null && apuesta > 0) {
+			entrenador.setPokedollares(entrenador.getPokedollares() - apuesta);
+		}
+	}
+
+	@Override
+	// la cantidadPremio suma los Pokedóllares al entrenador
+	public void cantidadPremio(int apuesta) {
+		Entrenador entrenador = getEntrenador();
+		// si el entrenador existe y la apuesta es mayor a 0 le entregamos sus ganacias
+		if (entrenador != null && apuesta > 0) {
+			entrenador.setPokedollares(entrenador.getPokedollares() + (apuesta * 2));
+		}
+	}
 
 
 }
