@@ -5,5 +5,11 @@ public enum Rareza {
 	BASICO,
 	RARO,
 	EPICO,
-	LEGENDARIO
+	LEGENDARIO;
+	
+	private double ratio;
+	
+	public double getRatio() {
+		return ratio;
+	}
 }

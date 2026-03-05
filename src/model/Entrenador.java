@@ -615,8 +615,19 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
    * metodo para capturar Pokemon
    * @param        pokemon
    */
-  public void capturarPokemon(Pokemon pokemon)
+  public void capturarPokemon(Pokemon pokemon, TipoPokeBall bolaLanzada)
   {
+	  double intento = Math.random()*255;
+	  
+	  double ratioFinal = pokemon.getRatioCaptura().getRatio()*bolaLanzada.getMultiplicador();
+	  System.out.println("Lanzando "+bolaLanzada+" a "+pokemon.getNombrePokemon()+"...");
+	  
+	  if(intento<ratioFinal) {
+		  System.out.println("¡Capturado! se ha añadido "+pokemon.getNombrePokemon()+" a tu PC");
+		  this.cajaPokemon.add(pokemon);
+	  }else {
+		  System.out.println("¡El Pokemon se ha escapado!");
+	  }
   }
 
 
