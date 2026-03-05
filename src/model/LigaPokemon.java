@@ -25,25 +25,10 @@ public class LigaPokemon {
   // Methods
   //
 
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of entrenadorLigaPokemon
-   * lista de entrenadores de la liga
-   * @param newVar the new value of entrenadorLigaPokemon
-   */
   public void setEntrenadorLigaPokemon (Entrenador newVar) {
     entrenadorLigaPokemon = newVar;
   }
 
-  /**
-   * Get the value of entrenadorLigaPokemon
-   * lista de entrenadores de la liga
-   * @return the value of entrenadorLigaPokemon
-   */
   public Entrenador getEntrenadorLigaPokemon () {
     return entrenadorLigaPokemon;
   }

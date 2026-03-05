@@ -25,26 +25,11 @@ public class Inventario {
   // Methods
   //
 
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of objetoInventario_
-   * todos los objetos que tiene el entrenador disponible
-   * @param newVar the new value of objetoInventario_
-   */
-  public void setObjetoInventario_ (Objeto newVar) {
+  public void setObjetoInventario (Objeto newVar) {
     objetoInventario = newVar;
   }
 
-  /**
-   * Get the value of objetoInventario_
-   * todos los objetos que tiene el entrenador disponible
-   * @return the value of objetoInventario_
-   */
-  public Objeto getObjetoInventario_ () {
+  public Objeto getObjetoInventario () {
     return objetoInventario;
   }
 

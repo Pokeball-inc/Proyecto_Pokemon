@@ -30,20 +30,10 @@ public class Pokedex {
   // Accessor methods
   //
 
-  /**
-   * Set the value of listaPokemon
-   * lista o diccionario de Pokemon
-   * @param newVar the new value of listaPokemon
-   */
   public void setListaPokemon (Pokemon newVar) {
     listaPokemon = newVar;
   }
 
-  /**
-   * Get the value of listaPokemon
-   * lista o diccionario de Pokemon
-   * @return the value of listaPokemon
-   */
   public Pokemon getListaPokemon () {
     return listaPokemon;
   }

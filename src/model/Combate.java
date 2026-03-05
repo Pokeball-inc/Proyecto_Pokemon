@@ -49,11 +49,7 @@ public class Combate {
     idCombate = newVar;
   }
 
-  /**
-   * Get the value of idCombate
-   * el id de la clase combate
-   * @return the value of idCombate
-   */
+
   public int getIdCombate () {
     return idCombate;
   }
