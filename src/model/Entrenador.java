@@ -144,285 +144,122 @@ public class Entrenador {
   // Methods
   //
 
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of idEntrenador
-   * el identificador del entrenador
-   * 
-   * @param newVar the new value of idEntrenador
-   */
   public void setIdEntrenador (int newVar) {
     idEntrenador = newVar;
   }
 
-  /**
-   * Get the value of idEntrenador
-   * el identificador del entrenador
-   * 
-   * @return the value of idEntrenador
-   */
   public int getIdEntrenador () {
     return idEntrenador;
   }
 
-  /**
-   * Set the value of nombreEntrenador
-   * nombre del entrenador
-   * @param newVar the new value of nombreEntrenador
-   */
   public void setNombreEntrenador (String newVar) {
     nombreEntrenador = newVar;
   }
 
-  /**
-   * Get the value of nombreEntrenador
-   * nombre del entrenador
-   * @return the value of nombreEntrenador
-   */
   public String getNombreEntrenador () {
     return nombreEntrenador;
   }
 
-  /**
-   * Set the value of contrasena
-   * es la contrase�a del entrenador jugador
-   * @param newVar the new value of contrasena
-   */
   public void setContrasena (String newVar) {
     contrasena = newVar;
   }
 
-  /**
-   * Get the value of contrasena
-   * es la contrase�a del entrenador jugador
-   * @return the value of contrasena
-   */
   public String getContrasena () {
     return contrasena;
   }
 
-  /**
-   * Set the value of genero
-   * genero del entrenador
-   * @param newVar the new value of genero
-   */
   public void setGenero (Generos newVar) {
     genero = newVar;
   }
 
-  /**
-   * Get the value of genero
-   * genero del entrenador
-   * @return the value of genero
-   */
   public Generos getGenero () {
     return genero;
   }
 
-  /**
-   * Set the value of ciudadOrigen
-   * ciudad natal del entrenador
-   * 
-   * @param newVar the new value of ciudadOrigen
-   */
   public void setCiudadOrigen (String newVar) {
     ciudadOrigen = newVar;
   }
 
-  /**
-   * Get the value of ciudadOrigen
-   * ciudad natal del entrenador
-   * 
-   * @return the value of ciudadOrigen
-   */
   public String getCiudadOrigen () {
     return ciudadOrigen;
   }
 
-  /**
-   * Set the value of tiempoJuego
-   * tiempo de juego del entrenador
-   * comprobar  como almacenarlo  y guardarlo
-   * @param newVar the new value of tiempoJuego
-   */
   public void setTiempoJuego (Long newVar) {
     tiempoJuego = newVar;
   }
 
-  /**
-   * Get the value of tiempoJuego
-   * tiempo de juego del entrenador
-   * comprobar  como almacenarlo  y guardarlo
-   * @return the value of tiempoJuego
-   */
   public Long getTiempoJuego () {
     return tiempoJuego;
   }
 
-  /**
-   * Set the value of pokedollares
-   * dinero del jugador, su unidad es Pokedollares
-   * empieza con 800-1000 pokedolarres
-   * @param newVar the new value of pokedollares
-   */
   public void setPokedollares (int newVar) {
     pokedollares = newVar;
   }
 
-  /**
-   * Get the value of pokedollares
-   * dinero del jugador, su unidad es Pokedollares
-   * empieza con 800-1000 pokedolarres
-   * @return the value of pokedollares
-   */
   public int getPokedollares () {
     return pokedollares;
   }
 
-  /**
-   * Set the value of equipoPokemon
-   * los Pokemon del equipo
-   * @param newVar the new value of equipoPokemon
-   */
   public void setEquipoPokemon (Pokemon[] newVar) {
     equipoPokemon = newVar;
   }
 
-  /**
-   * Get the value of equipoPokemon
-   * los Pokemon del equipo
-   * @return the value of equipoPokemon
-   */
   public Pokemon[] getEquipoPokemon () {
     return equipoPokemon;
   }
 
-  /**
-   * Set the value of cajaPokemon
-   * los Pokemon capturados que no estan en el equipo
-   * @param newVar the new value of cajaPokemon
-   */
   public void setCajaPokemon (ArrayList<Pokemon> newVar) {
     cajaPokemon = newVar;
   }
 
-  /**
-   * Get the value of cajaPokemon
-   * los Pokemon capturados que no estan en el equipo
-   * @return the value of cajaPokemon
-   */
   public ArrayList<Pokemon> getCajaPokemon () {
     return cajaPokemon;
   }
 
-  /**
-   * Set the value of victorias
-   * victorias del entrenador
-   * @param newVar the new value of victorias
-   */
   public void setVictorias (int newVar) {
     victorias = newVar;
   }
 
-  /**
-   * Get the value of victorias
-   * victorias del entrenador
-   * @return the value of victorias
-   */
   public int getVictorias () {
     return victorias;
   }
 
-  /**
-   * Set the value of derrotas
-   * derrotas del entrenador
-   * @param newVar the new value of derrotas
-   */
   public void setDerrotas (int newVar) {
     derrotas = newVar;
   }
 
-  /**
-   * Get the value of derrotas
-   * derrotas del entrenador
-   * @return the value of derrotas
-   */
   public int getDerrotas () {
     return derrotas;
   }
 
-  /**
-   * Set the value of inventario
-   * mochila con los objetos del entrenador
-   * @param newVar the new value of inventario
-   */
   public void setInventario (Objeto[] newVar) {
     inventario = newVar;
   }
 
-  /**
-   * Get the value of inventario
-   * mochila con los objetos del entrenador
-   * @return the value of inventario
-   */
   public Objeto[] getInventario () {
     return inventario;
   }
 
-  /**
-   * Set the value of esNPC
-   * para saber si es entrenador del juego o de un jugador
-   * @param newVar the new value of esNPC
-   */
   public void setEsNPC (Boolean newVar) {
     esNPC = newVar;
   }
 
-  /**
-   * Get the value of esNPC
-   * para saber si es entrenador del juego o de un jugador
-   * @return the value of esNPC
-   */
   public Boolean getEsNPC () {
     return esNPC;
   }
 
-  /**
-   * Set the value of imgFrontalEntrenador
-   * para el spray frontal del entrenador
-   * @param newVar the new value of imgFrontalEntrenador
-   */
   public void setImgFrontalEntrenador (String newVar) {
     imgFrontalEntrenador = newVar;
   }
 
-  /**
-   * Get the value of imgFrontalEntrenador
-   * para el spray frontal del entrenador
-   * @return the value of imgFrontalEntrenador
-   */
   public String getImgFrontalEntrenador () {
     return imgFrontalEntrenador;
   }
 
-  /**
-   * Set the value of imgPosteriorEntrenador
-   * para el spray posterior del entrenador
-   * @param newVar the new value of imgPosteriorEntrenador
-   */
   public void setImgPosteriorEntrenador (String newVar) {
     imgPosteriorEntrenador = newVar;
   }
 
-  /**
-   * Get the value of imgPosteriorEntrenador
-   * para el spray posterior del entrenador
-   * @return the value of imgPosteriorEntrenador
-   */
   public String getImgPosteriorEntrenador () {
     return imgPosteriorEntrenador;
   }
