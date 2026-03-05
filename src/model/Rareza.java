@@ -1,9 +1,9 @@
 package model;
 
-public enum RatioCaptura {
+public enum Rareza {
 
 	BASICO,
 	RARO,
-	ESPICO,
+	EPICO,
 	LEGENDARIO
 }

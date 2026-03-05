@@ -559,7 +559,58 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
       }
   }
 
+  //Metodo crear pokemon por rareza (CAPTURA)
+  private Pokemon crearPokemonPorRareza(Rareza rareza) {
+	  Pokemon nuevo = new Pokemon();
+	  int nivel = 1;
+	  //Diferentes tipos de rareza
+	  switch(rareza) {
+	  case BASICO:{
+		  String[] b ={"Caterpie", "Metapod", "Weedle", "Kakuna", "Pidgey", "Rattata", "Spearow", "Ekans", "Sandshrew", "Nidoran F", "Nidoran M", "Zubat", "Oddish", "Paras", "Venonat", "Diglett", "Meowth", "Pysduck", "Mankey", "Poliwag", "Abra", "Machop", "Bellsprout", "Tentacool", "Geodude", "Ponyta", "Slowpoke", "Magnemite", "Doduo", "Seel", "Grimer", "Shellder", "Gastly", "Drowzee", "Krabby", "Voltorb", "Exeggcute", "Cubone", "Koffing", "Rhyhorn", "Horsea", "Goldeen", "Staryu", "Magikarp", "Eevee", "Sentret", "Hoothoot", "Ledyba", "Spinarak", "Chinchou", "Pichu", "Cleffa", "Igglybuff", "Togepi", "Natu", "Mareep", "Marill", "Hoppip", "Sunkern", "Wooper", "Pineco", "Snubbull", "Teddiursa", "Slugma", "Swinub", "Remoraid", "Phanpy", "Tyrogue", "Smoochum", "Elekid", "Magby", "Larvitar"};
+		    nuevo.setNombrePokemon(b[(int)(Math.random()*b.length)]);
+		    nuevo.setNombrePokemon(b[(int)(Math.random()*b.length)]); //Para que coja solo un nombre dentro de la lista
+		    nuevo.setVitalidad(50);
+		    break; 
+	  }   
+	  case RARO:{
+		    String[] r = {"Bulbasaur", "Ivysaur", "Charmander", "Charmeleon", "Squirtle", "Wartortle", "Butterfree", "Beedrill", "Pidgeotto", "Raticate", "Fearow", "Arbok", "Pikachu", "Raichu", "Sandslash", "Nidorina", "Nidorino", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Golbat", "Gloom", "Parasect", "Venomoth", "Dugtrio", "Persian", "Golduck", "Primeape", "Growlithe", "Arcanine", "Poliwhirl", "Kadabra", "Machoke", "Weepinbell", "Tentacruel", "Graveler", "Rapidash", "Slowbro", "Magneton", "Farfetchd", "Dodrio", "Dewgong", "Muk", "Cloyster", "Haunter", "Onix", "Hypno", "Kingler", "Electrode", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Weezing", "Chansey", "Tangela", "Kangaskhan", "Seadra", "Seaking", "Mr Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Ditto", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Dratini", "Dragonair", "Chikorita", "Bayleef", "Cyndaquil", "Quilava", "Totodile", "Croconaw", "Furret", "Noctowl", "Ledian", "Ariados", "Lanturn", "Togetic", "Xatu", "Flaaffy", "Bellossom", "Azumarill", "Sudowoodo", "Skiploom", "Aipom", "Sunflora", "Yanma", "Quagsire", "Murkrow", "Misdreavus", "Unown", "Wobbuffet", "Girafarig", "Forretress", "Dunsparce", "Gligar", "Granbull", "Qwilfish", "Shuckle", "Heracross", "Sneasel", "Ursaring", "Magcargo", "Piloswine", "Corsola", "Octillery", "Delibird", "Mantine", "Skarmory", "Houndour", "Houndoom", "Donphan", "Stantler", "Smeargle", "Hitmontop", "Miltank", "Pupitar"};
+		    nuevo.setNombrePokemon(r[(int)(Math.random()*r.length)]);
+		    nuevo.setVitalidad(75);
+		    break;
+	  }
+	  case EPICO:{
+		   String[] e = {"Venusaur", "Charizard", "Blastoise", "Pidgeot", "Nidoqueen", "Nidoking", "Vileplume", "Poliwrath", "Alakazam", "Machamp", "Victreebel", "Golem", "Gengar", "Exeggutor", "Rhydon", "Starmie", "Gyarados", "Lapras", "Vaporeon", "Jolteon", "Flareon", "Snorlax", "Dragonite", "Meganium", "Typhlosion", "Feraligatr", "Crobat", "Ampharos", "Politoed", "Jumpluff", "Espeon", "Umbreon", "Slowking", "Steelix", "Scizor", "Kingdra", "Porygon2", "Blissey", "Tyranitar"};
+		   nuevo.setNombrePokemon(e[(int)(Math.random()*e.length)]);
+		   nuevo.setVitalidad(110);
+		   break;
+	  }
+	  case LEGENDARIO:{
+		  String[] l = {"Articuno", "Zapdos", "Moltres", "Mewtwo", "Mew", "Raikou", "Entei", "Suicune", "Lugia", "Ho-oh", "Celebi"};
+		  nuevo.setNombrePokemon(l[(int)(Math.random()*l.length)]);
+		  nuevo.setVitalidad(200);
+		  break;
+	  }
+	 }
+	return nuevo;
+	  
+  }
 
+  //Metodo generar encuentro aleatorio (CAPTURA)
+  public Pokemon generarEncuentroAleatorio() {
+	  double ratio = Math.random()*100;
+	  if(ratio<60) {
+		  return crearPokemonPorRareza(Rareza.BASICO);
+	  }else if(ratio<85) {
+		  return crearPokemonPorRareza(Rareza.RARO);
+	  }else if(ratio<95) {
+		  return crearPokemonPorRareza(Rareza.EPICO);
+	  }else {
+		  System.out.println("¡¡¡UNA PRESENCIA PODEROSA APARECE EN LA HIERBA!!!");
+		  return crearPokemonPorRareza(Rareza.LEGENDARIO);
+	  }
+  }
+  
+  
   /**
    * metodo para capturar Pokemon
    * @param        pokemon
