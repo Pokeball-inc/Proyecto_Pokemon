@@ -7,9 +7,6 @@ import java.util.Scanner;
  * Class AdivinarNumero
  */
 public class AdivinarNumero extends Casino {
-	//
-	// Fields
-	//
 	/**
 	 * 
 	 * numero entre 1 y 20 para adivinar 5 intentos
@@ -50,73 +47,43 @@ public class AdivinarNumero extends Casino {
 	// Methods
 	//
 
-	//
-	// Accessor methods
-	//
-
-	/**
-	 * Set the value of numeroSecreto numero entre 1 y 20 para adivinar 5 intentos
-	 * 
-	 * @param newVar the new value of numeroSecreto
-	 */
 	public void setNumeroSecreto(int numero) {
 		numeroSecreto = numero;
 	}
 
-	/**
-	 * Get the value of numeroSecreto numero entre 1 y 20 para adivinar 5 intentos
-	 * 
-	 * @return the value of numeroSecreto
-	 */
 	public int getNumeroSecreto() {
 		return numeroSecreto;
 	}
 
-	/**
-	 * Set the value of numeroIntroducido numero introducido por el usuario
-	 * 
-	 * @param newVar the new value of numeroIntroducido
-	 */
 	public void setNumeroIntroducido(int numero) {
 		numeroIntroducido = numero;
 	}
 
-	/**
-	 * Get the value of numeroIntroducido numero introducido por el usuario
-	 * 
-	 * @return the value of numeroIntroducido
-	 */
 	public int getNumeroIntroducido() {
 		return numeroIntroducido;
 	}
 
-	/**
-	 * Set the value of intentosRestantes numeor de intentos maximo 5
-	 * 
-	 * @param newVar the new value of intentosRestantes
-	 */
 	public void setIntentosRestantes(int numero) {
 		intentosRestantes = numero;
 	}
 
-	/**
-	 * Get the value of intentosRestantes numeor de intentos maximo 5
-	 * 
-	 * @return the value of intentosRestantes
-	 */
 	public int getIntentosRestantes() {
 		return intentosRestantes;
 	}
 
+	public void setacertado(boolean bool) {
+		acertado = bool;
+	}
+
+	public boolean getAcertado() {
+		return acertado;
+	}
 	//
 	// Other methods
 	//
 
 	/**
 	 * la mecanica de adivinar el numero, intentos maximos 5
-	 * 
-	 * @param numeroUsuario
-	 * @param numeroSecreto
 	 */
 	public void adivinarNumero() {
 		Scanner sc = new Scanner(System.in);

@@ -31,24 +31,10 @@ abstract public class Casino {
 	// Methods
 	//
 
-	//
-	// Accessor methods
-	//
-
-	/**
-	 * Set the value of entrenador
-	 * 
-	 * @param newVar the new value of entrenador
-	 */
 	public void setEntrenador(Entrenador entrenador) {
 		this.entrenador = entrenador;
 	}
 
-	/**
-	 * Get the value of entrenador
-	 * 
-	 * @return the value of entrenador
-	 */
 	public Entrenador getEntrenador() {
 		return entrenador;
 	}
