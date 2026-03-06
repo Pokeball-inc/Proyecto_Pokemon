@@ -10,16 +10,36 @@ public class Ruleta extends Casino {
   //
   // Fields
   //
+	
+	// enum para la eleccion de color del jugador
+	public enum EleccionColor {
+		NEGRO, ROJO
+	}
+	
+	// enum para la combinacion de apuesta en la eleccion del jugador
+	public enum formaApuesta {
+		NUMEROSOLO, COLORSOLO, NUMYCOLOR
+	}
+	
   /**
-
    * color de la ruleta negro/rojo
    *    */
 
-  private String colorRuleta;
+  private EleccionColor colorApuesta;
+  
+  /**
+   * tipo de apuesta
+   *    */
+
+  private formaApuesta combinacionApuesta;
+  
   /**
    * numeros de la ruleta 1-37
    */
-  private int numerosRuleta;
+  private int numeroApuesta;
+  
+  
+  
   
   //
   // Constructors
@@ -30,20 +50,28 @@ public class Ruleta extends Casino {
   // Methods
   //
 
-  public void setColorRuleta (String color) {
-    colorRuleta = color;
+  public void setColorApuesta (EleccionColor color) {
+	  colorApuesta = color;
   }
 
-  public String getColorRuleta () {
-    return colorRuleta;
+  public EleccionColor getColorApuesta () {
+    return colorApuesta;
+  }
+  
+  public void setCombinacionApuesta (formaApuesta combinacion) {
+	  combinacionApuesta = combinacion;
   }
 
-  public void setNumerosRuleta (int newVar) {
-    numerosRuleta = newVar;
+  public formaApuesta getCombinacionApuesta() {
+    return combinacionApuesta;
   }
 
-  public int getNumerosRuleta () {
-    return numerosRuleta;
+  public void setNumeroApuesta (int numero) {
+	  numeroApuesta = numero;
+  }
+
+  public int getNumeroApuesta () {
+    return numeroApuesta;
   }
 
   //
