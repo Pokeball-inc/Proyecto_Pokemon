@@ -284,8 +284,9 @@ public class Entrenador {
       }
       // 2.Si lo encontramos en el equipo
       if (posicionEnEquipo != -1) {
-          cajaPokemon.add(pokemon);               //Añadir caja (crece)
-          equipoPokemon[posicionEnEquipo] = null; // Lo borramos del equipo
+          pokemon.setUbicacion(UbicacionPokemon.CAJA); 
+          cajaPokemon.add(pokemon);
+          equipoPokemon[posicionEnEquipo] = null;
           System.out.println("¡El Pokémon ha sido movido a la caja PC!");
       } else {
           System.out.println("Ese Pokémon no se encuentra en tu equipo actual.");
@@ -314,6 +315,7 @@ public class Entrenador {
 
       // 2. Buscamos y movemos gracias
       if (cajaPokemon.contains(pokemon)) { //Busca por ti si está dentro
+    	  	  pokemon.setUbicacion(UbicacionPokemon.EQUIPO);
           equipoPokemon[huecoEquipo] = pokemon; // Lo metemos al equipo
           cajaPokemon.remove(pokemon);          // Lo borra de la caja 
           System.out.println("¡El Pokémon ha sido movido al equipo principal!");
