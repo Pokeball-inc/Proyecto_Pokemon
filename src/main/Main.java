@@ -14,9 +14,15 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			// Cargar el login
-			Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+
 
 			Scene scene = new Scene(root);
+
+			// Cargar el CSS
+
+			String css = this.getClass().getResource("/view/login.css").toExternalForm();
+			scene.getStylesheets().add(css);
 
 			// Titulo, forzar el tamaño de la ventana y bloquear cambio manual
 			primaryStage.setTitle("PokeINC");
@@ -38,7 +44,7 @@ public class Main extends Application {
 
 			primaryStage.show();
 		} catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("Error: Se ha producido un error inesperado. "+e.getMessage());
 		}
 	}
 	

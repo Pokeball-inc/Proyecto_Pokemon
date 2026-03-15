@@ -31,7 +31,7 @@ public class ConexionBBDD {
 /*
  * 
  * TODO
- * terminar conexion y comproar, esta cogida de los apuntes
+ * terminar conexion y comprobar, esta cogida de los apuntes
  * 
  * 
  * 
