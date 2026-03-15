@@ -11,7 +11,7 @@
    <children>
       <ImageView id="imgFondoVCasino" fitHeight="793.0" fitWidth="897.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imgs/Casino/VCasino/casino_fondo.png" />
+            <Image url="@../../../imgs/Casino/VCasino/casino_fondo.png" />
          </image>
       </ImageView>
       <HBox id="contenedorBotonesHVCasino" alignment="CENTER" prefHeight="100.0" prefWidth="100.0" spacing="20.0">
@@ -28,17 +28,17 @@
          <children>
             <ImageView id="imgNombreRuletaVCasino" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../imgs/Casino/VCasino/nombre_ruleta_VCasino.png" />
+                  <Image url="@../../../imgs/Casino/VCasino/nombre_ruleta_VCasino.png" />
                </image>
             </ImageView>
             <ImageView id="imgNombreMonedaVCasino" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../imgs/Casino/VCasino/nombre_moneda_VCasino.png" />
+                  <Image url="@../../../imgs/Casino/VCasino/nombre_moneda_VCasino.png" />
                </image>
             </ImageView>
             <ImageView id="imgNombreNumeroVCasino" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../imgs/Casino//VCasino/nombre_numero_VCasino.png" />
+                  <Image url="@../../../imgs/Casino/VCasino/nombre_numero_VCasino.png" />
                </image>
             </ImageView>
          </children>

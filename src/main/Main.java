@@ -14,14 +14,14 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			// Cargar el login
-			Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/view/login/login.fxml"));
 
 
 			Scene scene = new Scene(root);
 
 			// Cargar el CSS
 
-			String css = this.getClass().getResource("/view/login.css").toExternalForm();
+			String css = this.getClass().getResource("/view/login/login.css").toExternalForm();
 			scene.getStylesheets().add(css);
 
 			// Titulo, forzar el tamaño de la ventana y bloquear cambio manual

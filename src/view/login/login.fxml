@@ -15,12 +15,13 @@
    <children>
       <ImageView id="imgFondoLogin" fitHeight="607.0" fitWidth="1087.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../imgs/Login/rayquaza-wallpaper.jpg" />
+            <Image url="@../../../imgs/Login/rayquaza-wallpaper.jpg" />
          </image>
       </ImageView>
-      <Pane fx:id="panelParticulas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />      <ImageView id="logoLogin" fitHeight="110.0" fitWidth="276.0" layoutX="71.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+      <Pane fx:id="panelParticulas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ImageView id="logoLogin" fitHeight="110.0" fitWidth="276.0" layoutX="71.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imgs/Login/Login-titulo.png" />
+            <Image url="@../../../imgs/Login/Login-titulo.png" />
          </image>
       </ImageView>
       <TextField id="campoUsuarioLogin" fx:id="loginusuario" layoutX="71.0" layoutY="223.0" opacity="0.66" prefHeight="33.0" prefWidth="262.0" promptText="👤  | Introducir nombre de usuario...">
@@ -40,7 +41,7 @@
             <Font name="Nirmala Text Bold" size="22.0" />
          </font>
       </Text>
-      <Button id="botonAccederLogin" fx:id="loginentrar" contentDisplay="CENTER" defaultButton="true" layoutX="71.0" layoutY="345.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" text="Acceder" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+      <Button id="botonAccederLogin" fx:id="loginentrar" onMouseClicked="#accionAcceder" contentDisplay="CENTER" defaultButton="true" layoutX="71.0" layoutY="345.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" text="Acceder" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
@@ -58,10 +59,13 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </PasswordField>
-      <ImageView fitHeight="57.0" fitWidth="74.0" layoutX="1002.0" layoutY="536.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="BotonSalir" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="1002.0" layoutY="536.0" onMouseClicked="#accionSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imgs/Login/botonCerrarLoginV1.png" />
+            <Image url="@../../../imgs/Login/botonCerrarLoginV1.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>
