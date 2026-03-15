@@ -30,37 +30,41 @@
             <Image url="@../../../imgs/Principal/flecha_izquierda.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCaptura" onMouseClicked="#accederCaptura" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/captura.png" />
          </image>
+          <cursor>
+              <Cursor fx:constant="HAND" />
+          </cursor>
+
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCasino" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/casino.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="392.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCreditos" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="392.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/creditos.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonEntrenamiento" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/entrenamiento.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCrianza" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/crianza.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonEquipo" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/equipo.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonPokedex" fitHeight="150.0" fitWidth="200.0" layoutX="34.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Principal/pokedex.png" />
          </image>

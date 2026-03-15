@@ -1,11 +1,16 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -78,6 +83,53 @@ public class MainController implements Initializable {
             }
         } catch (Exception e) {
             System.out.println("Error al alternar la musica: " + e.getMessage());
+        }
+    }
+
+    // ---------------------- BOTONES CAMBIO ---------------------------------------//
+
+
+    // --------------- CAPTURA ----------------
+
+    @FXML
+    public void accederCaptura(MouseEvent event) {
+        try {
+            System.out.println("Cargando la vista captura...");
+
+            // Recibir el click
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+
+            // Recuperar la ventana
+            Stage primaryStage = (Stage) source.getScene().getWindow();
+
+            // Cargar la vista Principal
+            Parent root = FXMLLoader.load(getClass().getResource("/view/captura/captura.fxml"));
+            Scene scene = new Scene(root);
+
+
+            // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
+            primaryStage.setTitle("PokeINC - Captura");
+            primaryStage.setResizable(false);
+
+            // Cargar icono
+            File file = new File("imgs/Login/Login-icon.png");
+
+            if (file.exists()) {
+                String imagePath = file.toURI().toString();
+                primaryStage.getIcons().add(new Image(imagePath));
+            } else {
+                System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
+            }
+
+            // Cambiar la escena del login por la nueva
+            primaryStage.setScene(scene);
+
+            // Mostrar la escena
+
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error al cambiar de ventana - "+ e.getMessage());
+            e.printStackTrace();
         }
     }
 
