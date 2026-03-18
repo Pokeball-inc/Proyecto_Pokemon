@@ -130,7 +130,7 @@ public class LoginController implements Initializable {
 	// metodo con usuario y contraseña comprobando en base de datos, si usuario
 	// nuevo da opcion de crear
 	
-	/*
+/*
 	@FXML
 	public void accionAcceder(MouseEvent event) {
 		// obtencion de datos entrantes
@@ -139,24 +139,28 @@ public class LoginController implements Initializable {
 
 		// comprobar campos vacios
 		if (usuario.isEmpty() || contrasena.isEmpty()) {
+			// mostramos un mensaje indicando que faltan datos
 			JOptionPane.showMessageDialog(null, "Rellena todos los campos");
 			return;
 		}
 
 		EntrenadorDAO dao = new EntrenadorDAO();
 
-		// Intentar login
+		// intentamos hacer login con los datos introducidos
 		if (dao.login(usuario, contrasena)) {
-
+			// si login es correcto lo mostramos
 			System.out.println("Login correcto");
 
 			try {
+				// obtenemos la ventana actual
 				javafx.scene.Node source = (javafx.scene.Node) event.getSource();
 				Stage primaryStage = (Stage) source.getScene().getWindow();
 
+				// cargamos la vista pantalla principal
 				Parent root = FXMLLoader.load(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
 				Scene scene = new Scene(root);
 
+				// cambiamos la escena
 				primaryStage.setScene(scene);
 				primaryStage.show();
 
@@ -165,37 +169,40 @@ public class LoginController implements Initializable {
 			}
 
 		} else {
-
+			// si el login falla pero se han introducido datos , preguntamos si quiere registrarse
 			int opcion = JOptionPane.showConfirmDialog(null, "Usuario no existe. ¿Quieres registrarlo?");
 
 			if (opcion == JOptionPane.YES_OPTION) {
 
-				//  REGISTRO AUTOMÁTICO
+				// creamos un nuevo entrenador con los datos introducidosICO
 				Entrenador nuevo = new Entrenador();
 				nuevo.setNombreEntrenador(usuario);
 				nuevo.setContrasena(contrasena);
 
+				// comprobamos si el usuario ya existe en la base de datos
 				if (!dao.existeUsuario(usuario)) {
-
+					// si no existe, lo registramos
 					if (dao.registrar(nuevo)) {
 						JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
 					} else {
 						JOptionPane.showMessageDialog(null, "Error al registrar");
 					}
-
+					
 				} else {
+					// si ya existe, lo mostramos 
 					JOptionPane.showMessageDialog(null, "El usuario ya existe");
 				}
 
 			} else {
+				// si el usuario dice que no, limpiamos los campos
 				loginusuario.clear();
 				logincontra.clear();
 			}
 		}
 	}
 
-	*/
-
+*/
+	
 	// ---------------------------- BOTÓN DE ACCEDER NO LOGIN ---------------------------- \\
 	@FXML
 	public void accionAcceder(MouseEvent event) {
@@ -245,7 +252,7 @@ public class LoginController implements Initializable {
 	}
 
 
-	
+		
 	
 	
 	
