@@ -129,7 +129,8 @@ public class LoginController implements Initializable {
 
 	// metodo con usuario y contraseña comprobando en base de datos, si usuario
 	// nuevo da opcion de crear
-/*
+	
+	/*
 	@FXML
 	public void accionAcceder(MouseEvent event) {
 		// obtencion de datos entrantes
@@ -192,8 +193,8 @@ public class LoginController implements Initializable {
 			}
 		}
 	}
-*/
-	
+
+	*/
 
 	@FXML
 	public void accionAcceder(MouseEvent event) {
@@ -242,7 +243,7 @@ public class LoginController implements Initializable {
 
 	}
 
-	
+
 	
 	
 	

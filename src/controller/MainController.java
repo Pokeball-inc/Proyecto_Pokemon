@@ -1,6 +1,6 @@
 package controller;
 
-import com.sun.javafx.scene.control.inputmap.InputMap;
+
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
