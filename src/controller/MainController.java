@@ -5,9 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -87,6 +89,33 @@ public class MainController implements Initializable {
     }
 
     // ---------------------- BOTONES CAMBIO ---------------------------------------//
+
+    // --------------- ALTERNAR MODOS ----------------
+
+    private boolean botonesActivos = true;
+    @FXML
+    private Pane botones;
+
+    @FXML
+    private void modos(MouseEvent event) {
+        try  {
+                // Si los botones están activos, se desactivan
+                if (botonesActivos) {
+                    botones.setVisible(true);
+                    System.out.println("Botones activados");
+                    botonesActivos = false;
+                } else { // Caso contrario, musica reactivada
+                    botones.setVisible(false);
+                    System.out.println("Botones desactivados");
+                    botonesActivos = true;
+                }
+
+        } catch (Exception e) {
+            System.out.println("Error al alternar la visibilidad de los botones: " + e.getMessage());
+        }
+    }
+
+
 
 
     // --------------- CAPTURA ----------------
