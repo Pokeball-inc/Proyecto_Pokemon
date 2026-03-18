@@ -69,8 +69,6 @@ public class EntrenadorDAO {
 		ps.setInt(3, e.getPokedollares());
 		
 		ResultSet rs = ps.executeQuery();
-		
-		while(rs.next())
 	}
 	
 	

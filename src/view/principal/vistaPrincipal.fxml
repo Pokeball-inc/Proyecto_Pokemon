@@ -22,18 +22,8 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-      <ImageView fitHeight="107.0" fitWidth="118.0" layoutX="713.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../imgs/Principal/flecha_derecha.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="107.0" fitWidth="118.0" layoutX="243.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../imgs/Principal/flecha_izquierda.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="modos" onMouseClicked="#modos" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" text="Modos" />
-      <Pane  fx:id="botones" layoutX="22.0" layoutY="81.0" prefHeight="512.0" prefWidth="200.0" visible="false">
+      <Button fx:id="modos" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#modos" text="Modos" />
+      <Pane fx:id="botones" layoutX="22.0" layoutY="81.0" prefHeight="512.0" prefWidth="200.0" visible="false">
          <children>
             <ImageView fx:id="botonCaptura" fitHeight="150.0" fitWidth="200.0" layoutY="6.0" onMouseClicked="#accederCaptura" pickOnBounds="true" preserveRatio="true" styleClass="seleccionModo">
                <image>
@@ -76,5 +66,29 @@
             </ImageView>
          </children>
       </Pane>
+      <ImageView fx:id="vidrioPrincipal" fitHeight="436.0" fitWidth="400.0" layoutX="358.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="vidrioPosterior" fitHeight="196.0" fitWidth="245.0" layoutX="857.0" layoutY="239.0" onMouseClicked="#clickPosterior" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="vidrioAnterior" fitHeight="196.0" fitWidth="245.0" layoutX="56.0" layoutY="239.0" onMouseClicked="#clickAnterior" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
     </children>
 </AnchorPane>
