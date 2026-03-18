@@ -8,7 +8,15 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="JavaFX" level="project" />
-    <orderEntry type="library" name="javafx.base" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://C:/JavaFX/javafx-sdk-21.0.10/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://C:/JavaFX/javafx-sdk-21.0.10/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
