@@ -28,5 +28,15 @@
         <jarDirectory url="file://C:/MySQL" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://C:/JavaFX/javafx-sdk-21.0.2/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://C:/JavaFX/javafx-sdk-21.0.2/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
