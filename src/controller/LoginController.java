@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import model.Entrenador;
 import javafx.scene.input.MouseEvent;
 
 import java.awt.event.ActionEvent;
@@ -188,10 +188,7 @@ public class LoginController implements Initializable {
 		}
 	}
 
-	
-	
-	
-	
+
 	
 	
 	

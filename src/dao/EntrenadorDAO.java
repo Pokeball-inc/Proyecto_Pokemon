@@ -56,6 +56,34 @@ public class EntrenadorDAO {
 	
 	
 	
+	// Obtener Pokedollares por id
+	private static void obtenerIDPokedollares(Connection con, Entrenador e) throws SQLException{
+		String sql = "SELECT ID_ENTRENADOR, POKEDOLLARES\r\n"
+				+ "FROM ENTRENADOR \r\n"
+				+ "WHERE NOM_ENTRENADOR \r\n"
+				+ "AND PASSWORD = ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, e.getNombreEntrenador());
+		ps.setString(2, e.getContrasena());
+		ps.setInt(3, e.getPokedollares());
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next())
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
