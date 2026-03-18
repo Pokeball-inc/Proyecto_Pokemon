@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.javafx.scene.control.inputmap.InputMap;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -238,6 +239,58 @@ public class MainController implements Initializable {
         tt.play();
     }
 
+    // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL PANEL PRINCIPAL AL PASAR EL CURSOR ---------------
+    @FXML
+    private void aumentarTamañoPanelPrincipal(MouseEvent event) {
+
+        vidrioPrincipal.setScaleX(vidrioPrincipal.getScaleX() + 0.2);
+        vidrioPrincipal.setScaleY(vidrioPrincipal.getScaleY() + 0.2);
+
+    }
+
+    @FXML
+    private void disminuirTamañoPanelPrincipal(MouseEvent event) {
+
+        vidrioPrincipal.setScaleX(vidrioPrincipal.getScaleX() - 0.2);
+        vidrioPrincipal.setScaleY(vidrioPrincipal.getScaleY() - 0.2);
+
+    }
+
+    // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL PANEL ANTERIOR AL PASAR EL CURSOR ---------------
+    @FXML
+    private void aumentarTamañoPanelAnterior(MouseEvent event) {
+
+        vidrioAnterior.setScaleX(vidrioAnterior.getScaleX() + 0.2);
+        vidrioAnterior.setScaleY(vidrioAnterior.getScaleY() + 0.2);
+
+    }
+
+    @FXML
+    private void disminuirTamañoPanelAnterior(MouseEvent event) {
+
+        vidrioAnterior.setScaleX(vidrioAnterior.getScaleX() - 0.2);
+        vidrioAnterior.setScaleY(vidrioAnterior.getScaleY() - 0.2);
+
+    }
+
+
+    // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL PANEL POSTERIOR AL PASAR EL CURSOR ---------------
+    @FXML
+    private void aumentarTamañoPanelPosterior(MouseEvent event) {
+
+        vidrioPosterior.setScaleX(vidrioPosterior.getScaleX() + 0.2);
+        vidrioPosterior.setScaleY(vidrioPosterior.getScaleY() + 0.2);
+
+    }
+
+    @FXML
+    private void disminuirTamañoPanelPosterior(MouseEvent event) {
+
+        vidrioPosterior.setScaleX(vidrioPosterior.getScaleX() - 0.2);
+        vidrioPosterior.setScaleY(vidrioPosterior.getScaleY() - 0.2);
+
+    }
+
 
     // --------------- CAPTURA ----------------
 
@@ -276,6 +329,7 @@ public class MainController implements Initializable {
 
             // Mostrar la escena
 
+            mediaPlayer.stop();
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
@@ -323,6 +377,7 @@ public class MainController implements Initializable {
             primaryStage.setScene(scene);
 
             // Mostrar la escena
+            mediaPlayer.stop();
 
             primaryStage.show();
         } catch (Exception e) {
@@ -371,6 +426,7 @@ public class MainController implements Initializable {
 
             // Mostrar la escena
 
+            mediaPlayer.stop();
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
@@ -417,6 +473,7 @@ public class MainController implements Initializable {
 
             // Mostrar la escena
 
+            mediaPlayer.stop();
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
@@ -427,7 +484,7 @@ public class MainController implements Initializable {
 
 
 
-    // --------------- ENTRENAMIENTO ----------------
+    // --------------- POKEDEX ----------------
 
     @FXML
     public void accederPokedex(MouseEvent event) {
@@ -464,6 +521,7 @@ public class MainController implements Initializable {
 
             // Mostrar la escena
 
+            mediaPlayer.stop();
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
@@ -473,7 +531,7 @@ public class MainController implements Initializable {
 
 
 
-    // --------------- ENTRENAMIENTO ----------------
+    // --------------- CASINO ----------------
 
     @FXML
     public void accederCasino(MouseEvent event) {
@@ -510,6 +568,7 @@ public class MainController implements Initializable {
 
             // Mostrar la escena
 
+            mediaPlayer.stop();
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
