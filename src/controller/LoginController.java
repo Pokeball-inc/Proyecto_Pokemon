@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import dao.EntrenadorDAO;
 import javax.swing.JOptionPane;
 
 public class LoginController implements Initializable {
@@ -35,10 +35,10 @@ public class LoginController implements Initializable {
 	private Pane panelParticulas;
 
 	@FXML
-	private TextField textoUsuarioLogin;
+	private TextField loginusuario;
 
 	@FXML
-	private TextField textoContrasenaLogin;
+	private TextField logincontra;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -125,10 +125,79 @@ public class LoginController implements Initializable {
 
 // ---------------------------- BOTÓN DE ACCEDER ---------------------------- \\
 
-// Metodo para Acceder -- MouseEvent y cargar vista Principal
+// Metodo para Acceder -- MouseEvent  cargar vista Principal
+
+	// metodo con usuario y contraseña comprobando en base de datos, si usuario
+	// nuevo da opcion de crear
+/*
+	@FXML
+	public void accionAcceder(MouseEvent event) {
+		// obtencion de datos entrantes
+		String usuario = loginusuario.getText();
+		String contrasena = logincontra.getText();
+
+		// comprobar campos vacios
+		if (usuario.isEmpty() || contrasena.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Rellena todos los campos");
+			return;
+		}
+
+		EntrenadorDAO dao = new EntrenadorDAO();
+
+		// Intentar login
+		if (dao.login(usuario, contrasena)) {
+
+			System.out.println("Login correcto");
+
+			try {
+				javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+				Stage primaryStage = (Stage) source.getScene().getWindow();
+
+				Parent root = FXMLLoader.load(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+				Scene scene = new Scene(root);
+
+				primaryStage.setScene(scene);
+				primaryStage.show();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} else {
+
+			int opcion = JOptionPane.showConfirmDialog(null, "Usuario no existe. ¿Quieres registrarlo?");
+
+			if (opcion == JOptionPane.YES_OPTION) {
+
+				//  REGISTRO AUTOMÁTICO
+				Entrenador nuevo = new Entrenador();
+				nuevo.setNombreEntrenador(usuario);
+				nuevo.setContrasena(contrasena);
+
+				if (!dao.existeUsuario(usuario)) {
+
+					if (dao.registrar(nuevo)) {
+						JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
+					} else {
+						JOptionPane.showMessageDialog(null, "Error al registrar");
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null, "El usuario ya existe");
+				}
+
+			} else {
+				loginusuario.clear();
+				logincontra.clear();
+			}
+		}
+	}
+*/
+	
 
 	@FXML
 	public void accionAcceder(MouseEvent event) {
+
 		try {
 			System.out.println("Cargando la vista principal...");
 
@@ -170,25 +239,17 @@ public class LoginController implements Initializable {
 			System.out.println("Error al cambiar de ventana - " + e.getMessage());
 			e.printStackTrace();
 		}
+
 	}
 
-	void loguearse(ActionEvent event) {
-		if (textoUsuarioLogin.getText().isEmpty()) {
-			// lblError.setText("Error: inserta nombre de usuario");
-		}
-
-		// J Option Panel
-		int opcion = JOptionPane.showConfirmDialog(null, "Usuario NO encontrado, ¿desea registrarlo?");
-		// si la rspuesta es si
-		if (opcion == JOptionPane.YES_NO_OPTION) {
-			System.out.println("Usuario registrado");
-		} else {
-			textoUsuarioLogin.setText(" ");
-			textoContrasenaLogin.setText(" ");
-		}
-	}
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
