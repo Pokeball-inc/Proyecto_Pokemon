@@ -123,7 +123,7 @@ public class LoginController implements Initializable {
 		}
 	}
 
-// ---------------------------- BOTÓN DE ACCEDER ---------------------------- \\
+// ---------------------------- BOTÓN DE ACCEDER CON LOGIN  ---------------------------- \\
 
 // Metodo para Acceder -- MouseEvent  cargar vista Principal
 
@@ -196,6 +196,7 @@ public class LoginController implements Initializable {
 
 	*/
 
+	// ---------------------------- BOTÓN DE ACCEDER NO LOGIN ---------------------------- \\
 	@FXML
 	public void accionAcceder(MouseEvent event) {
 
