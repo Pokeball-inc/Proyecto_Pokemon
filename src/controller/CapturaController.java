@@ -16,10 +16,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.text.Text;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
+
+import dao.CapturaDao;
+import model.Pokemon;
+import bd.ConexionBBDD;
 
 public class CapturaController implements Initializable {
 
@@ -28,11 +34,39 @@ public class CapturaController implements Initializable {
     @FXML
     private Pane panelParticulas;
 
+    @FXML
+    private Text txtNombre; // para cambiar el nombre del pokemon
 
+    @FXML
+    private Text txtTipo1; // para el primer tipo
+
+    @FXML
+    private Text txtTipo2; // para el segundo tipo
+
+    @FXML
+    private ImageView imgPokemonActual; // imagen del pokemon
+    
+    private Pokemon pokemonActual;
+    
+    // botones
+    @FXML
+    private ImageView botonCaptura;
+    
+    @FXML
+    private ImageView botonCambiar;
+    
+    @FXML
+    private ImageView botonSalir;
+
+    
+ 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+        // sacamos el primer pokemon nada mas entrar 
+       // generarEncuentro();
 
-        // Generar 120 partículas al iniciar la pantalla
-
+        // 3. generamos las particulas (las 240 que pusimos para que mole mas) 
         for (int i = 0; i < 240; i++) {
             crearParticula();
         }
@@ -101,14 +135,7 @@ public class CapturaController implements Initializable {
     }
     // ---------------------------- PARTICULAS ---------------------------- \\
 
-    // BOTONES
 
-    @FXML
-    private ImageView botonCaptura;
-    @FXML
-    private ImageView botonCambiar;
-    @FXML
-    private ImageView botonSalir;
 
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CAPTURA AL PASAR EL CURSOR ---------------
     @FXML
@@ -209,4 +236,77 @@ public class CapturaController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    
+    
+/*
+ aqui esta a medio falta poner la extension del sprite donde estan los espacions grandes
+ 
+ 
+ 
+ // --- metodo para pedir un pokemon al dao y actualizar la vista 
+    private void generarEncuentro() {
+        
+        //instanciamos el dao y la conexion
+        CapturaDao dao = new CapturaDao();
+        ConexionBBDD conexion = new ConexionBBDD();
+        Connection con = conexion.getConexion();
+        
+        // comprobamos que la conexion no sea nula
+        if (con != null) {
+            // usamos el metodo del dao y guardamos el resultado en pokemonActual
+            this.pokemonActual = dao.crearPokemonAleatorio(con); 
+            
+            // comprovbamos que no sea null el pokemon
+            if (this.pokemonActual != null) {
+                // actualizamos el nombre en la vista
+                txtNombre.setText(this.pokemonActual.getNombrePokemon()); 
+                
+                // cargamos la imagen correspondiente al nombre del pokemon
+                try {
+                    // pasamos el nombre a minusculas y ponemos extension del sprite
+                    String nombreSprite = this.pokemonActual.getNombrePokemon().toLowerCase() + "                       "; 
+                    
+                    // buscamos el archivo en tu carpeta de sprites
+                    URL rutaImagen = getClass().getResource("/imgs/Captura/pokemon/" + nombreSprite);
+                    
+                    if (rutaImagen != null) {
+                        Image img = new Image(rutaImagen.toExternalForm());
+                        imgPokemonActual.setImage(img);
+                    } else {
+                        System.out.println("no se ha encontrado el archivo: " + nombreSprite);
+                    }
+                    
+                } catch (Exception e) {
+                    System.out.println("error al cargar el sprite del pokemon"); 
+                }
+            }
+        } else {
+            System.out.println("error: la conexion con la bbdd es nula");
+        }
+    }
+    
+
+    
+    @FXML
+    // accion para el botod de cambiar pokemon
+    private void clicCambiar(MouseEvent event) {
+        // simplemente refrescamos la pantalla llamando al metodo que genera un encuentro
+        // esto pedira otro pokemon aleatorio al dao y actualizara el sprite y el nombre
+        generarEncuentro(); 
+    }
+    
+    
+    
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

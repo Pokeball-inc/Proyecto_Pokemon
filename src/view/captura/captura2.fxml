@@ -29,7 +29,7 @@
       <Line endX="198.0" endY="-263.0" layoutX="502.0" layoutY="856.0" startX="-130.0" startY="-263.0" stroke="#68f2ff" />
       <Pane fx:id="CajaImagenPokemon" layoutX="455.0" layoutY="108.0" prefHeight="165.0" prefWidth="164.0">
          <children>
-            <ImageView fitHeight="282.0" fitWidth="353.0" layoutX="-94.0" layoutY="-106.0" nodeOrientation="INHERIT" pickOnBounds="true">
+            <ImageView fx:id="imgPokemonActual" fitHeight="282.0" fitWidth="353.0" layoutX="-94.0" layoutY="-106.0" nodeOrientation="INHERIT" pickOnBounds="true">
                <image>
                   <Image url="@../../../imgs/Captura/pokemon/charizard.gif" />
                </image>
@@ -40,7 +40,7 @@
          </children>
       </Pane>
       <Line endX="200.0" layoutX="483.0" layoutY="434.0" startX="-91.0" stroke="#68f2ff" />
-      <Text fill="WHITE" layoutX="455.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard" textAlignment="CENTER" wrappingWidth="164.0">
+      <Text fx:id="txtNombre" fill="WHITE" layoutX="455.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard" textAlignment="CENTER" wrappingWidth="164.0">
          <font>
             <Font name="Consolas Bold" size="31.0" />
          </font>
@@ -51,7 +51,7 @@
             <Font name="Consolas Bold" size="16.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="437.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuego" textAlignment="CENTER" wrappingWidth="72.0">
+      <Text fx:id="txtTipo1" fill="WHITE" layoutX="437.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuego" textAlignment="CENTER" wrappingWidth="72.0">
          <font>
             <Font name="Consolas Bold" size="22.0" />
          </font>
@@ -62,7 +62,7 @@
             <Font name="Consolas" size="16.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="547.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Volador" textAlignment="CENTER" wrappingWidth="113.0">
+      <Text fx:id="txtTipo2" fill="WHITE" layoutX="547.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Volador" textAlignment="CENTER" wrappingWidth="113.0">
          <font>
             <Font name="Consolas Bold" size="23.0" />
          </font>
@@ -72,7 +72,7 @@
             <Font name="Consolas" size="16.0" />
          </font>
       </Text>
-      <ImageView fx:id="botonCaptura" fitHeight="100.0" fitWidth="90.0" layoutX="397.0" layoutY="487.0" onMouseEntered="#aumentarTamañoBotonCaptura" onMouseExited="#disminuirTamañoBotonCaptura" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCaptura" fitHeight="100.0" fitWidth="90.0" layoutX="397.0" layoutY="487.0" onMouseClicked="#clicCapturar" onMouseEntered="#aumentarTamañoBotonCaptura" onMouseExited="#disminuirTamañoBotonCaptura" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Captura/elementosUIX/iconoCaptura.png" />
          </image>
@@ -80,7 +80,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="botonCambiar" fitHeight="100.0" fitWidth="90.0" layoutX="495.0" layoutY="487.0" onMouseEntered="#aumentarTamañoBotonCambiar" onMouseExited="#disminuirTamañoBotonCambiar" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCambiar" fitHeight="100.0" fitWidth="90.0" layoutX="495.0" layoutY="487.0" onMouseClicked="#clicCambiar" onMouseEntered="#aumentarTamañoBotonCambiar" onMouseExited="#disminuirTamañoBotonCambiar" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Captura/elementosUIX/iconoCambiar.png" />
          </image>
@@ -98,3 +98,8 @@
       </ImageView>
    </children>
 </AnchorPane>
+
+
+
+
+
