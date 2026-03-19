@@ -129,7 +129,7 @@ public class MainController implements Initializable {
         animacion.setDelay(Duration.seconds(Math.random() * 10));
         animacion.play();
     }
-// ---------------------------- PARTICULAS DEL LOGIN ---------------------------- \\
+// ---------------------------- PARTICULAS ---------------------------- \\
 
     // Metodo para iniciar la musica
 
@@ -387,6 +387,10 @@ public class MainController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/view/captura/captura.fxml"));
             Scene scene = new Scene(root);
 
+
+            // Cargar el CSS
+            String css = this.getClass().getResource("/view/captura/captura.css").toExternalForm();
+            scene.getStylesheets().add(css);
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
             primaryStage.setTitle("PokeINC - Captura");
