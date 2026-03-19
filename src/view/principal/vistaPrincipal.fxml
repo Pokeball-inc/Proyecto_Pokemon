@@ -6,103 +6,44 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="anchorPaneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="607.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane id="anchorPaneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <children>
         <ImageView fitHeight="607.0" fitWidth="1074.0" pickOnBounds="true">
             <image>
-                <Image url="@../../../imgs/Principal/fondo-principal.png"/>
+                <Image url="@../../../imgs/Principal/fondo-principal.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="iconoMusica" fitHeight="81.0" fitWidth="100.0" layoutX="983.0"
-                   onMouseClicked="#alternarMusica" pickOnBounds="true" preserveRatio="true">
+        <Pane fx:id="panelParticulas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <ImageView fx:id="iconoMusica" fitHeight="81.0" fitWidth="100.0" layoutX="983.0" onMouseClicked="#alternarMusica" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../imgs/Principal/musica-activa.png"/>
+                <Image url="@../../../imgs/Principal/musica-activa.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <Pane fx:id="botones" layoutX="22.0" layoutY="81.0" prefHeight="512.0" prefWidth="200.0" visible="false">
-            <children>
-                <ImageView fx:id="botonCaptura" fitHeight="150.0" fitWidth="200.0" layoutY="6.0"
-                           onMouseClicked="#accederCaptura" pickOnBounds="true" preserveRatio="true"
-                           styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/captura.png"/>
-                    </image>
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-
-                </ImageView>
-                <ImageView fx:id="botonCasino" fitHeight="150.0" fitWidth="200.0" layoutY="340.0" pickOnBounds="true"
-                           preserveRatio="true" styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/casino.png"/>
-                    </image>
-                </ImageView>
-                <ImageView fx:id="botonCreditos" fitHeight="90.0" fitWidth="200.0" layoutY="410.0" pickOnBounds="true"
-                           preserveRatio="true" styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/creditos.png"/>
-                    </image>
-                </ImageView>
-                <ImageView fx:id="botonEntrenamiento" fitHeight="56.0" fitWidth="200.0" layoutY="132.0"
-                           pickOnBounds="true" styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/entrenamiento.png"/>
-                    </image>
-                </ImageView>
-                <ImageView fx:id="botonCrianza" fitHeight="150.0" fitWidth="200.0" layoutY="66.0" pickOnBounds="true"
-                           preserveRatio="true" styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/crianza.png"/>
-                    </image>
-                </ImageView>
-                <ImageView fx:id="botonEquipo" fitHeight="150.0" fitWidth="200.0" layoutY="198.0" pickOnBounds="true"
-                           preserveRatio="true" styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/equipo.png"/>
-                    </image>
-                </ImageView>
-                <ImageView fx:id="botonPokedex" fitHeight="150.0" fitWidth="200.0" layoutY="271.0" pickOnBounds="true"
-                           preserveRatio="true" styleClass="seleccionModo">
-                    <image>
-                        <Image url="@../../../imgs/Principal/pokedex.png"/>
-                    </image>
-                </ImageView>
-            </children>
-        </Pane>
-        <ImageView fx:id="vidrioPrincipal" fitHeight="436.0" onMouseEntered="#aumentarTamañoPanelPrincipal"
-                   onMouseExited="#disminuirTamañoPanelPrincipal" fitWidth="400.0" layoutX="358.0" layoutY="86.0"
-                   pickOnBounds="true" preserveRatio="true" styleClass="vidrios">
+        <ImageView fx:id="vidrioPrincipal" fitHeight="436.0" fitWidth="400.0" layoutX="358.0" layoutY="86.0" onMouseEntered="#aumentarTamañoPanelPrincipal" onMouseExited="#disminuirTamañoPanelPrincipal" pickOnBounds="true" preserveRatio="true" styleClass="vidrios">
             <image>
-                <Image url="@../../../imgs/Principal/Vidrio_panel.png"/>
+                <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="vidrioPosterior" fitHeight="196.0" onMouseEntered="#aumentarTamañoPanelPosterior"
-                   onMouseExited="#disminuirTamañoPanelPosterior" fitWidth="245.0" layoutX="857.0" layoutY="239.0"
-                   onMouseClicked="#clickPosterior" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="vidrioPosterior" fitHeight="196.0" fitWidth="245.0" layoutX="857.0" layoutY="239.0" onMouseClicked="#clickPosterior" onMouseEntered="#aumentarTamañoPanelPosterior" onMouseExited="#disminuirTamañoPanelPosterior" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../imgs/Principal/Vidrio_panel.png"/>
+                <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="vidrioAnterior" fitHeight="196.0" onMouseEntered="#aumentarTamañoPanelAnterior"
-                   onMouseExited="#disminuirTamañoPanelAnterior" fitWidth="245.0" layoutX="56.0" layoutY="239.0"
-                   onMouseClicked="#clickAnterior" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="vidrioAnterior" fitHeight="196.0" fitWidth="245.0" layoutX="56.0" layoutY="239.0" onMouseClicked="#clickAnterior" onMouseEntered="#aumentarTamañoPanelAnterior" onMouseExited="#disminuirTamañoPanelAnterior" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../imgs/Principal/Vidrio_panel.png"/>
+                <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
     </children>

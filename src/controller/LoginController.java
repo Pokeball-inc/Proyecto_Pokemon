@@ -47,6 +47,7 @@ public class LoginController implements Initializable {
 
 		for (int i = 0; i < 120; i++) {
 			crearParticula();
+
 		}
 	}
 
