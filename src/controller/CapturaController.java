@@ -20,6 +20,9 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.text.Text;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
 
 import java.io.File;
 import java.lang.reflect.Executable;
@@ -456,16 +459,61 @@ public class CapturaController implements Initializable {
             // guardamos en la bd usando el dao inicializado previamente con su metodo guardar pokemon
             capturaDao.guardarPokemon(this.con, pokemonActual, entrenadorActual.getIdEntrenador(), pokemonActual.getUbicacion().name());
             
-            System.out.println("¡Atrapado! " + pokemonActual.getNombrePokemon() + " enviado a " + pokemonActual.getUbicacion());
+            //System.out.println("¡Atrapado! " + pokemonActual.getNombrePokemon() + " enviado a " + pokemonActual.getUbicacion());
+            mostrarAlerta("¡Enhorabuena!","¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!", " enviado a " + pokemonActual.getUbicacion(),AlertType.INFORMATION);
             
             // generamos otro encuento 
             generarEncuentro(); 
             
         } else {
-            System.out.println("¡Se ha escapado! Inténtalo de nuevo.");
+        		//System.out.println("¡Se ha escapado! Inténtalo de nuevo.");
+        		mostrarAlerta("¡Oh no!","¡El pokemon se ha escapado","¡ "+pokemonActual.getNombrePokemon()+" ha huido de la Pokeball!",AlertType.WARNING);
         }
+           
     }
     
+  //Metodo para mostrar pop-up con mensajes
+    private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
+    		Alert alerta = new Alert(tipo); //ventana del tipo que pasemos informacion, advertencia... lo que queramos
+    		//Textos de la ventana
+    		alerta.setTitle(titulo); //Texto barra superior
+    		alerta.setHeaderText(cabecera); //Texto grande en negrita
+    		alerta.setContentText(contenido); //Texto en pequeño
+    		
+    		//Parte visual de la alerta
+    		//Icono central
+    		try {
+    			String rutaIcono = new File("imgs/Login/Login-icon.png").toURI().toString();
+    			ImageView icono = new ImageView(new Image(rutaIcono));
+    			icono.setFitHeight(50);
+    			icono.setFitWidth(50);
+    			alerta.setGraphic(icono); //sustituye el que hay por defecto
+    		} catch (Exception e) {
+    			System.out.println("No se puede cargar el icono personalizado");
+    		}
+    		
+    		DialogPane dialogPane = alerta.getDialogPane(); //panel principal de alerta
+    		
+    		//Icono esquina superior izquierda
+    		try {
+    			Stage stage = (Stage) dialogPane.getScene().getWindow();
+    			stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
+    		} catch (Exception e) {
+    			System.out.println("No se puede cargar el icono personalizado");
+    		}
+    		
+    		//Para diferenciar entre exito y fracaso 
+    		if(tipo == AlertType.WARNING) {
+    			dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
+    		} else {
+    			dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); //Enlace con archivo alertas css personalizado
+    		}
+    		
+    		
+    		
+    		alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
+    		
+    }
     
     
     
