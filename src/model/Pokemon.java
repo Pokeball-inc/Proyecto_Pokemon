@@ -120,7 +120,11 @@ public class Pokemon{
    * la imagen del spray del Pokemon por detras
    */
   private String imgPosteriorPokemon;
-
+  /**
+   * El color del pokemon en funcion de su tipo
+   */
+  private int nivelEvolucion;
+  
   /**
    * El color del pokemon en funcion de su tipo
    */
@@ -338,6 +342,14 @@ public class Pokemon{
   public String getImgPosteriorPokemon () {
     return imgPosteriorPokemon;
   }
+  
+  public void setNivelEvolucion (int newVar) {
+	  nivelEvolucion = newVar;
+	  }
+
+	  public int getNivelEvolucion () {
+	    return nivelEvolucion;
+	  }
 
   public Color getColor() {
     return color;

@@ -8,6 +8,7 @@ import java.util.Random;
 import bd.ConexionBBDD;
 import javafx.scene.paint.Color;
 import model.Pokemon;
+import model.Tipos;
 
 public class CapturaDao {
 
@@ -34,13 +35,14 @@ public class CapturaDao {
 	            p.setNumPokedex(rs.getInt("NUM_POKEDEX"));
 	            p.setNombrePokemon(rs.getString("NOM_POKEMON")); 
 	            p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL"));
+	            p.setImgPosteriorPokemon(rs.getString("IMG_TRASERA"));
 				generarStats(p);
 	            
 	            // empezamos enumerados
 	            // si el tipo 1 no está vacio en la base de datos entonces: 
 	            if (rs.getString("TIPO1") != null) {
 	            	// convertimos el texto de la bd a mayusculas y lo buscamos en Enum Tipos
-	                p.setTipoPrincipal(model.Tipos.valueOf(rs.getString("TIPO1").trim().toUpperCase()));
+	                p.setTipoPrincipal(Tipos.valueOf(rs.getString("TIPO1").trim().toUpperCase()));
 
 					// Le asignamos un color al pokemon en funcion de su tipo
 
@@ -52,7 +54,7 @@ public class CapturaDao {
 	            }
 	            if (rs.getString("TIPO2") != null) {
 	            	// hacemos lo mismo con el tipo 2
-	                p.setTipoSecundario(model.Tipos.valueOf(rs.getString("TIPO2").trim().toUpperCase()));
+	                p.setTipoSecundario(Tipos.valueOf(rs.getString("TIPO2").trim().toUpperCase()));
 	            } else {
 					p.setTipoSecundario(null);
 				}
@@ -105,9 +107,9 @@ public class CapturaDao {
 	        ps.setInt(7, p.getVelocidad());
 	        ps.setInt(8, p.getAtaqueEspecial());
 	        ps.setInt(9, p.getDefensaEspecial());
-
 	        ps.setInt(10, p.getNivel());
 	        ps.setString(11, ubicacion);
+
 	        
 	        // usamos el executeupdate para modificar la base de datos
 	        ps.executeUpdate();

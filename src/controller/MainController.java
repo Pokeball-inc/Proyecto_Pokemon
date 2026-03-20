@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.Entrenador;
 import model.Seccion;
 
 import java.io.File;
@@ -28,6 +29,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
+	
+	// Variable para guardar al usuario logueado
+	private Entrenador entrenadorActual; 
+
+    // Método para recibir al entrenador desde el Login
+    public void setEntrenador(Entrenador e) {
+        this.entrenadorActual = e;
+        System.out.println("MainController: Entrenador " + e.getNombreEntrenador() + " cargado.");
+    }
 
     // MUSICA DE FONDO
 
@@ -377,16 +387,23 @@ public class MainController implements Initializable {
         try {
             System.out.println("Cargando la vista captura...");
 
+            // cargamos la vista principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/captura/captura.fxml"));
+            Parent root = loader.load(); 
+
+            // obtenemos  el controlador
+            controller.CapturaController capturaCtrl = loader.getController();
+
+            // enviamos el entrenador logueado al nuevo controlador
+            capturaCtrl.setEntrenador(this.entrenadorActual);
+            
             // Recibir el click
             javafx.scene.Node source = (javafx.scene.Node) event.getSource();
 
             // Recuperar la ventana
             Stage primaryStage = (Stage) source.getScene().getWindow();
-
-            // Cargar la vista Principal
-            Parent root = FXMLLoader.load(getClass().getResource("/view/captura/captura.fxml"));
+            
             Scene scene = new Scene(root);
-
 
             // Cargar el CSS
             String css = this.getClass().getResource("/view/captura/captura.css").toExternalForm();

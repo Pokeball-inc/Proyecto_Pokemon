@@ -5,6 +5,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -21,9 +22,12 @@ import javafx.scene.input.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 import dao.EntrenadorDAO;
 import javax.swing.JOptionPane;
+
+import bd.ConexionBBDD;
 
 public class LoginController implements Initializable {
 
@@ -131,12 +135,16 @@ public class LoginController implements Initializable {
 	// metodo con usuario y contraseña comprobando en base de datos, si usuario
 	// nuevo da opcion de crear
 
-/*
+
 	@FXML
 	public void accionAcceder(MouseEvent event) {
 		// obtencion de datos entrantes
 		String usuario = loginusuario.getText();
 		String contrasena = logincontra.getText();
+		
+		// declaramos la conexioon
+		ConexionBBDD conexion = new ConexionBBDD();
+	    Connection con = conexion.getConexion();
 
 		// comprobar campos vacios
 		if (usuario.isEmpty() || contrasena.isEmpty()) {
@@ -153,18 +161,30 @@ public class LoginController implements Initializable {
 			System.out.println("Login correcto");
 
 			try {
-				// obtenemos la ventana actual
-				javafx.scene.Node source = (javafx.scene.Node) event.getSource();
-				Stage primaryStage = (Stage) source.getScene().getWindow();
-
+				// cargamos los datos del entrenador
+				Entrenador entrenadorLogueado = new Entrenador();
+	            entrenadorLogueado.setNombreEntrenador(usuario);
+	            entrenadorLogueado.setContrasena(contrasena);
+	            
+	            // rellenamos id y pokedollares 
+	            EntrenadorDAO.obtenerIDPokedollares(con, entrenadorLogueado);
+	            
 				// cargamos la vista pantalla principal
-				Parent root = FXMLLoader.load(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
-				Scene scene = new Scene(root);
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+	            Parent root = loader.load();
+				
+				// obtenemos el controlador de la pantalla principal
+	            MainController mainCtrl = loader.getController();
+	            
+	           //  pasamos el entrenador con todos sus datos ya cargados
+	            mainCtrl.setEntrenador(entrenadorLogueado);
 
-				// cambiamos la escena
-				primaryStage.setScene(scene);
-				primaryStage.show();
-
+	         // Configuramos la escena y la mostramos
+	            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	            Scene scene = new Scene(root);
+	            primaryStage.setScene(scene);
+	            primaryStage.show();
+	            
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -203,7 +223,7 @@ public class LoginController implements Initializable {
 	}
 
 
-	*/
+	/*
 	// ---------------------------- BOTÓN DE ACCEDER NO LOGIN ---------------------------- \\
 	@FXML
 	public void accionAcceder(MouseEvent event) {
@@ -252,7 +272,7 @@ public class LoginController implements Initializable {
 
 	}
 
-
+*/
 
 	
 	

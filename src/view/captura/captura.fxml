@@ -72,7 +72,7 @@
             <Font name="Consolas" size="16.0" />
          </font>
       </Text>
-      <ImageView fx:id="botonCaptura" fitHeight="100.0" fitWidth="90.0" layoutX="397.0" layoutY="487.0" onMouseEntered="#aumentarTamañoBotonCaptura" onMouseExited="#disminuirTamañoBotonCaptura" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonCaptura" fitHeight="100.0" fitWidth="90.0" layoutX="397.0" layoutY="487.0" onMouseClicked="#lanzarPokeball" onMouseEntered="#aumentarTamañoBotonCaptura" onMouseExited="#disminuirTamañoBotonCaptura" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Captura/elementosUIX/iconoCaptura.png" />
          </image>

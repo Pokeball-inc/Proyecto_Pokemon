@@ -2,6 +2,7 @@ package controller;
 
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,10 +25,14 @@ import java.io.File;
 import java.lang.reflect.Executable;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import dao.CapturaDao;
+import dao.PokemonDAO;
+import model.Entrenador;
 import model.Pokemon;
+import model.UbicacionPokemon;
 import bd.ConexionBBDD;
 
 public class CapturaController implements Initializable {
@@ -73,6 +78,37 @@ public class CapturaController implements Initializable {
 
     @FXML
     private ImageView botonSalir;
+    
+    
+    private Connection con;
+    
+
+    private Entrenador entrenadorActual;
+    
+
+    private CapturaDao capturaDao = new CapturaDao();
+    
+    // obtener el entrenador de la bd
+    public void setEntrenador(Entrenador e) {
+    	this.entrenadorActual = e;
+    	if (this.entrenadorActual != null) {
+    	try {
+    		// creamos conexion a bf
+            ConexionBBDD conector = new ConexionBBDD();
+            Connection con = conector.getConexion();
+            
+            // llamamos al dao para relenar el array de equipo del entrenador
+            PokemonDAO.obtenerPokemon(con, this.entrenadorActual, UbicacionPokemon.EQUIPO);
+            
+            // para comprobar
+            System.out.println("equipo cargado para: " + this.entrenadorActual.getNombreEntrenador());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        }
+    }
+
 
 
     @Override
@@ -80,6 +116,8 @@ public class CapturaController implements Initializable {
 
         // sacamos el primer pokemon nada mas entrar 
          generarEncuentro();
+         
+         
 
         // 3. generamos las particulas (las 240 que pusimos para que mole mas) 
         for (int i = 0; i < 240; i++) {
@@ -260,14 +298,13 @@ public class CapturaController implements Initializable {
     private void generarEncuentro() {
 
         //instanciamos el dao y la conexion
-        CapturaDao dao = new CapturaDao();
         ConexionBBDD conexion = new ConexionBBDD();
-        Connection con = conexion.getConexion();
+        this.con = conexion.getConexion();
 
         // comprobamos que la conexion no sea nula
         if (con != null) {
             // usamos el metodo del dao y guardamos el resultado en pokemonActual
-            this.pokemonActual = dao.crearPokemonAleatorio(con);
+            this.pokemonActual = capturaDao.crearPokemonAleatorio(con);
 
             // comprovbamos que no sea null el pokemon
             if (this.pokemonActual != null) {
@@ -281,7 +318,7 @@ public class CapturaController implements Initializable {
 
                     // buscamos el archivo en tu carpeta de sprites
                     String rutaImagen = "imgs/Pokemons/" + this.pokemonActual.getImgFrontalPokemon();
-                    String rutaImagenAdaptada = new java.io.File(rutaImagen).toURI().toString();
+                    String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
 
                     // ESTABLECE EL TEXTO DE TIPO1 AL DELPOKEMON ACTUAL
                     this.txtTipo1.setText(this.pokemonActual.getTipoPrincipal().toString());
@@ -333,7 +370,7 @@ public class CapturaController implements Initializable {
                     // CAMBIAR EL COLOR DE FONDO DEL POKEMON EN FUNCION DE SU TIPO
 
                         String rutaFondo = "imgs/Captura/fondosTipos/fondo" + this.pokemonActual.getTipoPrincipal().toString().toLowerCase() + ".png";
-                        String rutaFondoAdaptado = new java.io.File(rutaFondo).toURI().toString();
+                        String rutaFondoAdaptado = new File(rutaFondo).toURI().toString();
                         Image imgFondo = new Image(rutaFondoAdaptado);
 
                         System.out.println(rutaFondo);
@@ -367,13 +404,93 @@ public class CapturaController implements Initializable {
         // esto pedira otro pokemon aleatorio al dao y actualizara el sprite y el nombre
 
         try {
-
             generarEncuentro();
         } catch (Exception e) {
             System.out.println("Error: Se ha producido un error inesperado. " + e.getMessage());
             e.printStackTrace();
         }
     }
+    
+    
+
+    // metodo para capturar el pokemon
+    @FXML
+    void lanzarPokeball(MouseEvent event) {
+        // si no hay entrenador o pokemon, mostramos fallo
+        if (this.entrenadorActual == null || this.pokemonActual == null) {
+            System.out.println("Error: No hay entrenador logueado o pokemon generado.");
+            return;
+        }
+
+        Random r = new Random();
+        
+        //probabilidad 2/3 de captura
+        if (r.nextInt(3) < 2) { 
+            // establecemos que no esta guardado en el equipo por defecto
+            boolean guardadoEnEquipo = false;
+            // obtenemos los pokemon del equipo
+            Pokemon[] equipo = entrenadorActual.getEquipoPokemon(); 
+            
+            // intentamos meter al nuevo equipo
+            for (int i = 0; i < equipo.length; i++) {
+            	// si hay hueco en el array
+                if (equipo[i] == null) {
+                	// introduce el pokemon al array
+                    equipo[i] = pokemonActual;
+                    // establecemos la ubicacion del pokemon en equipo
+                    pokemonActual.setUbicacion(UbicacionPokemon.EQUIPO);
+                    // y lo damos como guardado
+                    guardadoEnEquipo = true;
+                    break;
+                }
+            }
+            
+            // si no podemos, a la caja
+            if (!guardadoEnEquipo) {
+            	// lo añadimos a la lista de la caja pokemon
+                entrenadorActual.getCajaPokemon().add(pokemonActual);
+                // cambiamos su ubicacion a la caja
+                pokemonActual.setUbicacion(UbicacionPokemon.CAJA);
+            }
+
+            // guardamos en la bd usando el dao inicializado previamente con su metodo guardar pokemon
+            capturaDao.guardarPokemon(this.con, pokemonActual, entrenadorActual.getIdEntrenador(), pokemonActual.getUbicacion().name());
+            
+            System.out.println("¡Atrapado! " + pokemonActual.getNombrePokemon() + " enviado a " + pokemonActual.getUbicacion());
+            
+            // generamos otro encuento 
+            generarEncuentro(); 
+            
+        } else {
+            System.out.println("¡Se ha escapado! Inténtalo de nuevo.");
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 }
