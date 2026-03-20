@@ -30,9 +30,10 @@ public class CapturaDao {
 	        
 	        if (rs.next()) {
 	        	// rellenamos los atributos basicos con los datos de las columnas de la bd
-	            p.setNumPokedex(rs.getInt("NUM_POK_DEX"));
+	            p.setNumPokedex(rs.getInt("NUM_POKEDEX"));
 	            p.setNombrePokemon(rs.getString("NOM_POKEMON")); 
-	            p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL")); 
+	            p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL"));
+				generarStats(p);
 	            
 	            // empezamos enumerados
 	            // si el tipo 1 no está vacio en la base de datos entonces: 
@@ -43,7 +44,9 @@ public class CapturaDao {
 	            if (rs.getString("TIPO2") != null) {
 	            	// hacemos lo mismo con el tipo 2
 	                p.setTipoSecundario(model.Tipos.valueOf(rs.getString("TIPO2").trim().toUpperCase()));
-	            }
+	            } else {
+					p.setTipoSecundario(null);
+				}
 	        }
 
 	    } catch (Exception e) {

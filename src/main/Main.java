@@ -45,6 +45,7 @@ public class Main extends Application {
 			primaryStage.show();
 		} catch(Exception e) {
 			System.out.println("Error: Se ha producido un error inesperado. "+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

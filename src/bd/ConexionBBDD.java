@@ -19,7 +19,6 @@ public class ConexionBBDD {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			dataBaseLink = DriverManager.getConnection(url, dataBaseUser, dataBasePassword);
-			System.out.println("Conexión establecida");
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} 
