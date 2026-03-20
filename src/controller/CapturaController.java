@@ -258,9 +258,14 @@ public class CapturaController implements Initializable {
             // Recuperar la ventana
             Stage primaryStage = (Stage) source.getScene().getWindow();
 
-            // Cargar la vista Principal
-            Parent root = FXMLLoader.load(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+            // Cargar la vista Principal 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
+            
+            //Cargar el entrenador
+            MainController mainCtrl = loader.getController();
+            mainCtrl.setEntrenador(this.entrenadorActual);
 
             // Cargar el CSS
             String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
