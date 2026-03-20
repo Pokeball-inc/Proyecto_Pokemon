@@ -37,6 +37,7 @@ public class CapturaController implements Initializable {
     @FXML
     private Pane panelParticulas;
 
+    @FXML ImageView fondoPokemon;
     @FXML
     private Text txtNombre; // para cambiar el nombre del pokemon
 
@@ -82,21 +83,21 @@ public class CapturaController implements Initializable {
 
         // 3. generamos las particulas (las 240 que pusimos para que mole mas) 
         for (int i = 0; i < 240; i++) {
-            crearParticula();
+            crearParticula(Color.RED);
         }
     }
 
 
     // METODO CREAR PARTICULA
 
-    private void crearParticula() {
+    private void crearParticula(Color color) {
 
         // DARLE FORMA DE CIRCULO PEQUEÑERO A LA PARTICULA
 
         // RADIO ALEATORIO ENTRE 1 Y 3 PIXELES POR PARTICULA
 
         double radio = Math.random() * 2 + 1;
-        Circle particula = new Circle(radio, Color.RED);
+        Circle particula = new Circle(radio, color);
 
         // DARLE UN POCO DE BLUR O DESENFOQUE PARA QUE NO SEA TAN COMPACTO
 
@@ -329,6 +330,23 @@ public class CapturaController implements Initializable {
                         vidaCaptura.setText("HP / "+this.pokemonActual.getVitalidad());
                     }
 
+                    // CAMBIAR EL COLOR DE FONDO DEL POKEMON EN FUNCION DE SU TIPO
+
+                        String rutaFondo = "imgs/Captura/fondosTipos/fondo" + this.pokemonActual.getTipoPrincipal().toString().toLowerCase() + ".png";
+                        String rutaFondoAdaptado = new java.io.File(rutaFondo).toURI().toString();
+                        Image imgFondo = new Image(rutaFondoAdaptado);
+
+                        System.out.println(rutaFondo);
+                        System.out.println(rutaFondoAdaptado);
+                        System.out.println(imgFondo.getUrl());
+
+                        double altura = fondoPokemon.getFitHeight();
+                        double ancho = fondoPokemon.getFitWidth();
+
+                        fondoPokemon.setImage(imgFondo);
+                        fondoPokemon.setFitHeight(altura);
+                        fondoPokemon.setFitWidth(ancho);
+                        fondoPokemon.setPreserveRatio(false);
                 } catch (Exception e) {
                     System.out.println("Error al generar el pokemon aleatorio: " + e.getMessage());
                     e.printStackTrace();
@@ -338,6 +356,8 @@ public class CapturaController implements Initializable {
             System.out.println("error: la conexion con la bbdd es nula");
         }
     }
+
+
 
 
     @FXML

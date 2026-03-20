@@ -14,7 +14,7 @@
    <children>
       <ImageView fx:id="fondoPokemon" fitHeight="607.0" fitWidth="1074.0" pickOnBounds="true">
          <image>
-            <Image url="@../../../imgs/Captura/fondosTipos/fondoFuego.png" />
+            <Image url="@../../../imgs/Captura/fondosTipos/fondoTierra.png" />
          </image>
       </ImageView>
       <Pane fx:id="panelParticulas" prefHeight="607.0" prefWidth="1074.0" />

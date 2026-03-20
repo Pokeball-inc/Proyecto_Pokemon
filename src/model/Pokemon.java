@@ -1,6 +1,8 @@
 package model;
 
 
+import javafx.scene.paint.Color;
+
 import java.util.*;
 
 
@@ -118,6 +120,11 @@ public class Pokemon{
    * la imagen del spray del Pokemon por detras
    */
   private String imgPosteriorPokemon;
+
+  /**
+   * El color del pokemon en funcion de su tipo
+   */
+  private Color color;
   
   //
   // Constructors
@@ -330,6 +337,14 @@ public class Pokemon{
 
   public String getImgPosteriorPokemon () {
     return imgPosteriorPokemon;
+  }
+
+  public Color getColor() {
+    return color;
+  }
+
+  public void setColor(Color color) {
+    this.color = color;
   }
 
   //

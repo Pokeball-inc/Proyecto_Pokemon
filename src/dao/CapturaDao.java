@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.Random;
 
 import bd.ConexionBBDD;
+import javafx.scene.paint.Color;
 import model.Pokemon;
 
 public class CapturaDao {
@@ -40,6 +41,14 @@ public class CapturaDao {
 	            if (rs.getString("TIPO1") != null) {
 	            	// convertimos el texto de la bd a mayusculas y lo buscamos en Enum Tipos
 	                p.setTipoPrincipal(model.Tipos.valueOf(rs.getString("TIPO1").trim().toUpperCase()));
+
+					// Le asignamos un color al pokemon en funcion de su tipo
+
+					String tipo1 = p.getTipoPrincipal().toString();
+
+					if (tipo1.equals("ELECTRICO")) {
+						p.setColor(Color.YELLOW);
+					}
 	            }
 	            if (rs.getString("TIPO2") != null) {
 	            	// hacemos lo mismo con el tipo 2
