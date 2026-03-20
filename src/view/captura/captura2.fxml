@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="anchorPaneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="1074.0" stylesheets="@captura.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CapturaController">
+   <children>
+      <ImageView fx:id="fondoPokemon" fitHeight="607.0" fitWidth="1074.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../imgs/Captura/fondosTipos/fondoFuego.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="panelParticulas" prefHeight="607.0" prefWidth="1074.0" />
+      <ImageView id="cuadricula" fitHeight="403.0" fitWidth="330.0" layoutX="372.0" layoutY="191.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../imgs/Captura/elementosUIX/cuadricula.png" />
+         </image>
+      </ImageView>
+      <Line endX="209.0" endY="150.0" layoutX="493.0" layoutY="444.0" startX="209.0" startY="-253.0" stroke="#68f2ff" />
+      <Line endX="209.0" endY="150.0" layoutX="163.0" layoutY="444.0" startX="209.0" startY="-253.0" stroke="#68f2ff" />
+      <Line endX="199.0" endY="-263.0" layoutX="503.0" layoutY="454.0" startX="-130.0" startY="-263.0" stroke="#68f2ff" />
+      <Line endX="198.0" endY="-263.0" layoutX="502.0" layoutY="856.0" startX="-130.0" startY="-263.0" stroke="#68f2ff" />
+      <Pane fx:id="CajaImagenPokemon" layoutX="455.0" layoutY="108.0" prefHeight="165.0" prefWidth="164.0">
+         <children>
+            <ImageView fx:id="imgPokemonActual" fitHeight="282.0" fitWidth="353.0" layoutX="-94.0" layoutY="-106.0" nodeOrientation="INHERIT" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../imgs/Captura/pokemon/charizard.gif" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Line endX="200.0" layoutX="483.0" layoutY="434.0" startX="-91.0" stroke="#68f2ff" />
+      <Text fx:id="txtNombre" fill="WHITE" layoutX="455.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard" textAlignment="CENTER" wrappingWidth="164.0">
+         <font>
+            <Font name="Consolas Bold" size="31.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#20ff67" height="7.0" layoutX="438.0" layoutY="296.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" width="200.0" />
+      <Text fill="WHITE" layoutX="456.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HP / 100HP" textAlignment="CENTER" wrappingWidth="164.0">
+         <font>
+            <Font name="Consolas Bold" size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtTipo1" fill="WHITE" layoutX="437.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuego" textAlignment="CENTER" wrappingWidth="72.0">
+         <font>
+            <Font name="Consolas Bold" size="22.0" />
+         </font>
+      </Text>
+      <Line endX="-25.0" endY="-16.0" layoutX="561.0" layoutY="430.0" startX="-25.0" startY="-59.0" stroke="#68f2ff" />
+      <Text fill="#a6dcff" layoutX="437.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo 1" textAlignment="CENTER" wrappingWidth="72.0">
+         <font>
+            <Font name="Consolas" size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtTipo2" fill="WHITE" layoutX="547.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Volador" textAlignment="CENTER" wrappingWidth="113.0">
+         <font>
+            <Font name="Consolas Bold" size="23.0" />
+         </font>
+      </Text>
+      <Text fill="#a6dcff" layoutX="567.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo 2" textAlignment="CENTER" wrappingWidth="72.0">
+         <font>
+            <Font name="Consolas" size="16.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="botonCaptura" fitHeight="100.0" fitWidth="90.0" layoutX="397.0" layoutY="487.0" onMouseClicked="#clicCapturar" onMouseEntered="#aumentarTamañoBotonCaptura" onMouseExited="#disminuirTamañoBotonCaptura" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Captura/elementosUIX/iconoCaptura.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="botonCambiar" fitHeight="100.0" fitWidth="90.0" layoutX="495.0" layoutY="487.0" onMouseClicked="#clicCambiar" onMouseEntered="#aumentarTamañoBotonCambiar" onMouseExited="#disminuirTamañoBotonCambiar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Captura/elementosUIX/iconoCambiar.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="botonSalir" fitHeight="100.0" fitWidth="90.0" layoutX="590.0" layoutY="487.0" onMouseClicked="#capturaSalir" onMouseEntered="#aumentarTamañoBotonSalir" onMouseExited="#disminuirTamañoBotonSalir" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Captura/elementosUIX/iconoSalir.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+   </children>
+</AnchorPane>
+
+
+
+
+

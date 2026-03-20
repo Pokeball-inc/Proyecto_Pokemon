@@ -1,0 +1,102 @@
+
+/* Archivo CSS para la vista Login */
+
+/* Botón de Acceder*/
+.pokemon-button-acceso {
+    /* Alinear elementos  */
+    -fx-alignment: center;
+    -fx-graphic-text-gap: 10px; /* Espacio entre el icono y el texto */
+
+    /* Forma y bordes */
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 25px;
+    -fx-cursor: hand;
+    -fx-border-color: #6dc0f0;
+    -fx-border-width: 1px;
+
+    /* Color de fondo */
+
+    /* Apilamos dos fondos: el brillo semitransparente arriba, el azul degradado abajo */
+    -fx-background-color:
+            linear-gradient(to bottom, rgba(254, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 40%, transparent 80%),
+            linear-gradient(to bottom, #0a3d62, #1e74a8);
+    -fx-background-insets: 0, 0;
+
+    /* Sombra del botón */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 2);
+
+    /* Estilo del Texto */
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Efecto al pasar el ratón */
+.pokemon-button-acceso:hover {
+    -fx-opacity: 0.9;
+}
+
+/* Efecto al hacer clic */
+.pokemon-button-acceso:pressed {
+    -fx-opacity: 0.7;
+    -fx-translate-y: 1px; /* Hace que el botón baje un píxel al pulsarlo */
+}
+
+/* Sombra oscura para el texto*/
+.pokemon-button-acceso .text {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.8), 2, 0.0, 1, 1);
+}
+
+
+
+
+/* Botón de Registro*/
+
+.pokemon-button-registro {
+    /* Alinear elementos  */
+    -fx-alignment: center;
+    -fx-graphic-text-gap: 10px; /* Espacio entre el icono y el texto */
+
+    /* Forma y bordes */
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 25px;
+    -fx-cursor: hand;
+    -fx-border-color: #6dc0f0;
+    -fx-border-width: 1px;
+
+    /* Color de fondo */
+
+    /* Apilamos dos fondos: el brillo semitransparente arriba, el azul degradado abajo */
+    -fx-background-color:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 40%, transparent 80%),
+            linear-gradient(to bottom, #0a3d62, #1e74a8);
+    -fx-background-insets: 0, 0;
+
+    /* Sombra del botón */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 2);
+
+    /* Estilo del Texto */
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Efecto al pasar el ratón */
+.pokemon-button-registro:hover {
+    -fx-opacity: 0.9;
+}
+
+/* Efecto al hacer clic */
+.pokemon-button-registro:pressed {
+    -fx-opacity: 0.7;
+    -fx-translate-y: 1px; /* Hace que el botón baje un píxel al pulsarlo */
+}
+
+/* Sombra oscura para el texto*/
+.pokemon-button-registro .text {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.8), 2, 0.0, 1, 1);
+}

@@ -11,7 +11,7 @@ public class ConexionBBDD {
 	
 
 	public Connection getConexion() {
-		String dataBaseName = "proyecto_pokemoM";
+		String dataBaseName = "PROYECTO_POKEMON";
 		String dataBaseUser = "root";
 		String dataBasePassword = "";
 		String url = "jdbc:mysql://localhost:3306/" + dataBaseName;
@@ -31,7 +31,7 @@ public class ConexionBBDD {
 /*
  * 
  * TODO
- * terminar conexion y comproar, esta cogida de los apuntes
+ * terminar conexion y comprobar, esta cogida de los apuntes
  * 
  * 
  * 

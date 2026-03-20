@@ -496,4 +496,34 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
   }
   
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
