@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="anchorPaneLogin" fx:controller="controller.LoginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView id="imgFondoLogin" fitHeight="607.0" fitWidth="1087.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../../imgs/Login/rayquaza-wallpaper.jpg" />
+         </image>
+      </ImageView>
+      <Rectangle id="areaMenuLogin" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="429.0" layoutX="48.0" layoutY="64.0" opacity="0.56" stroke="WHITE" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="5.0" width="299.0" />
+      <ImageView id="logoLogin" fitHeight="85.0" fitWidth="194.0" layoutX="103.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../imgs/Login/Login-titulo.png" />
+         </image>
+      </ImageView>
+      <PasswordField id="campoContrasenaLogin" fx:id="logincontra" layoutX="71.0" layoutY="304.0" opacity="0.66" prefWidth="164.0" />
+      <TextField id="campoUsuarioLogin" fx:id="loginusuario" layoutX="71.0" layoutY="223.0" opacity="0.66" prefHeight="25.0" prefWidth="164.0" />
+      <Text id="textoUsuarioLogin" layoutX="71.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" wrappingWidth="149.0">
+         <font>
+            <Font name="Nirmala Text Bold" size="22.0" />
+         </font>
+      </Text>
+      <Text id="textoContrasenaLogin" layoutX="71.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" wrappingWidth="164.0">
+         <font>
+            <Font name="Nirmala Text Bold" size="22.0" />
+         </font>
+      </Text>
+      <Button id="botonAccederLogin" fx:id="loginentrar" defaultButton="true" layoutX="139.0" layoutY="382.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="123.0" text="Acceder" textOverrun="CLIP">
+         <font>
+            <Font name="Microsoft Tai Le Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button id="botonSalirLogin" fx:id="loginentrar1" defaultButton="true" layoutX="139.0" layoutY="431.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="123.0" text="Salir" textOverrun="CLIP">
+         <font>
+            <Font name="Microsoft Tai Le Bold" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
