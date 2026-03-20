@@ -6,7 +6,7 @@ package model;
  * enum Estados
  */
 public enum Estados {
-	NORMAL,
+	SANO,
 	PARALIZADO,
 	QUEMADO,
 	ENVENENADO,

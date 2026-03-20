@@ -1,10 +1,10 @@
 /*Color del fondo*/
 .dialog-pane{
-	-fx-background-color:
+	-fx-background-color:#00FF00;
 }
 /*Texto de la alerta*/
 .dialog-pane.label{
-	-fx-text-fill: white;
+	-fx-text-fill: black;
 	-fx-font-family: "Consolas";
 	-fx-font-size: 14px;
 }

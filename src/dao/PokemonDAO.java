@@ -31,6 +31,8 @@ public class PokemonDAO {
 	            + "P.NIVEL, "
 	            + "P.EXPERIENCIA, "
 	            + "P.FERTILIDAD, "
+	            + "P.SEXO,"
+	            + "P.ESTADO,"
 	            + "P.ES_SHINY, "
 	            + "PX.NUM_POKEDEX, "
 	            + "PX.NOM_POKEMON, "
@@ -86,10 +88,28 @@ public class PokemonDAO {
 			// TODO mirar movimientos
 			p.setMovimientos(null);
 			p.setFertilidad(rs.getInt("FERTILIDAD"));
-			p.setSexo(Sexo.valueOf(rs.getString("SEXO").trim().toUpperCase()));
+			//Lectura del sexo en caso de ser nulo 
+			String sexoBd = rs.getString("SEXO");
+            if (sexoBd != null) {
+                p.setSexo(Sexo.valueOf(sexoBd.trim().toUpperCase()));
+            } else {
+                p.setSexo(Sexo.NEUTRO);
+            }
 			p.setTipoPrincipal(Tipos.valueOf(rs.getString("TIPO1").trim().toUpperCase()));
-			p.setTipoSecundario(Tipos.valueOf(rs.getString("TIPO2").trim().toUpperCase()));
-			p.setEstado(Estados.valueOf(rs.getString("ESTADO").trim().toUpperCase()));
+			//Lectura del tipo2 en caso de ser nulo 
+			String tipo2Bd = rs.getString("TIPO2");
+            if (tipo2Bd != null) {
+                p.setTipoSecundario(Tipos.valueOf(tipo2Bd.trim().toUpperCase()));
+            } else {
+                p.setTipoSecundario(null);
+            }
+            //Lectura del estado en caso de ser nulo
+            String estadoBd = rs.getString("ESTADO");
+            if (estadoBd != null) {
+                p.setEstado(Estados.valueOf(estadoBd.trim().toUpperCase()));
+            } else {
+                p.setEstado(Estados.SANO);
+            }
 			//TODO mirar para poner objets
 			p.setObjetoEquipado(null);
 			p.setEsShiny(rs.getBoolean("ES_SHINY"));

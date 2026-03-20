@@ -87,7 +87,7 @@ public class Pokemon{
   /**
    * estado del Pokemon
    */
-  private Estados estadoActual = Estados.NORMAL;
+  private Estados estadoActual = Estados.SANO;
   /**
    * objeto que puede o no llevar el Pokemon
    */
@@ -107,7 +107,7 @@ public class Pokemon{
   /**
    * atributo para los estados permanentes
    */
-  private Estados estadoPermanente = Estados.NORMAL;
+  private Estados estadoPermanente = Estados.SANO;
   /**
    * indica el origen del Pokemon, si es crianza o captura
    */

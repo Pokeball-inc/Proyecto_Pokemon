@@ -28,6 +28,8 @@ import dao.EntrenadorDAO;
 import javax.swing.JOptionPane;
 
 import bd.ConexionBBDD;
+import dao.PokemonDAO;
+import model.UbicacionPokemon;
 
 public class LoginController implements Initializable {
 
@@ -168,6 +170,11 @@ public class LoginController implements Initializable {
 	            
 	            // rellenamos id y pokedollares 
 	            EntrenadorDAO.obtenerIDPokedollares(con, entrenadorLogueado);
+	            
+	            //cargar los pokemon del entrenador de la BD
+	            PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.EQUIPO);
+	            PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.CAJA);
+	            System.out.println("Pokémon del entrenador descargados de la base de datos.");
 	            
 				// cargamos la vista pantalla principal
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
