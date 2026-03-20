@@ -14,12 +14,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			// Cargar el login
-<<<<<<< HEAD
-			Parent root =  FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-=======
+
 			Parent root = FXMLLoader.load(getClass().getResource("/view/login/login.fxml"));
 
->>>>>>> c6431c78a9a92d5173401955a0dc44ffff9b1f07
+
 
 			Scene scene = new Scene(root);
 

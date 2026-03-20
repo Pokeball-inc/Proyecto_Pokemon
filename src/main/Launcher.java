@@ -1,5 +1,6 @@
 package main;
 
+
 public class Launcher {
 
     // Clase destinada a ejecutar el main debido a un problema encontrado al cargar los módulos de javafx.

@@ -1,32 +1,6 @@
 package controller;
+	
 
-<<<<<<< HEAD
-
-public class LoginController {
-
-   
-}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-=======
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -281,7 +255,7 @@ public class LoginController implements Initializable {
 
 
 		
->>>>>>> c6431c78a9a92d5173401955a0dc44ffff9b1f07
+
 	
 	
 	
