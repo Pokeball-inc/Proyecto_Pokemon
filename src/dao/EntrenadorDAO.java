@@ -59,22 +59,35 @@ public class EntrenadorDAO {
 		return rd.nextInt(1000 - 800 + 1) + 800;
 	}
 
-	// INCOMPLETO
-	// metodo para obtener datos , hehco en clase comprobar uso si no borrar
-	private static void obtenerIDPokedollares(Connection con, Entrenador e) throws SQLException {
-		// incompleta la consulta faltan condiciones
-		String sql = "SELECT ID_ENTRENADOR, POKEDOLLARES\r\n" + "FROM ENTRENADOR \r\n" + "WHERE NOM_ENTRENADOR \r\n"
-				+ "AND CONTRASENA = ?";
-
+	
+	// busca en la base de datos el ID y Pokedollares  de un entrenador basandose en su nombre y contraseña
+public static void obtenerIDPokedollares(Connection con, Entrenador e)throws SQLException{
+	
+		// seleccionamos las columnas qa obtener
+		String sql ="SELECT ID_ENTRENADOR, POKEDOLARES\r\n"
+				+ "FROM ENTRENADOR \r\n"
+				+ "WHERE NOM_ENTRENADOR = ?\r\n"
+				+ "AND PASSWORD =?";
+		
+		// creamos el objeto ps con la conexión y el SQL
 		PreparedStatement ps = con.prepareStatement(sql);
+		// rellenamos los datos faltantes con los del entrenador
 		ps.setString(1, e.getNombreEntrenador());
-		ps.setString(2, e.getContrasena());
-		ps.setInt(3, e.getPokedollares());
-
+		ps.setString(2, e.getContrasena ());
+		
+		// lanzamos la consulta a MySQL y guardamos el resultado en rs
 		ResultSet rs = ps.executeQuery();
 		
-		// aqui deberiamos procesar el resultado, pero no esta implementado
+		
+		while(rs.next()) {
+			// extraemos el valor de la columna ID_ENTRENADOR"y lo guardamos en el entrenador
+			e.setIdEntrenador(rs.getInt("ID_ENTRENADOR"));
+			// extraemos el valor de la columna "POKEDOLARES" y lo guardamos
+			e.setPokedollares(rs.getInt("POKEDOLARES"));
+		}
+		
 	}
+
 
 	// metodo para el login
 	public boolean login(String usuario, String contrasena) {
