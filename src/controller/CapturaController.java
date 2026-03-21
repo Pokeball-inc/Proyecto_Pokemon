@@ -389,10 +389,6 @@ public class CapturaController implements Initializable {
                         String rutaFondoAdaptado = new File(rutaFondo).toURI().toString();
                         Image imgFondo = new Image(rutaFondoAdaptado);
 
-                        System.out.println(rutaFondo);
-                        System.out.println(rutaFondoAdaptado);
-                        System.out.println(imgFondo.getUrl());
-
                         double altura = fondoPokemon.getFitHeight();
                         double ancho = fondoPokemon.getFitWidth();
 
@@ -483,6 +479,9 @@ public class CapturaController implements Initializable {
         } else {
         		//System.out.println("¡Se ha escapado! Inténtalo de nuevo.");
         		mostrarAlerta("¡Oh no!","¡El pokemon se ha escapado","¡ "+pokemonActual.getNombrePokemon()+" ha huido de la Pokeball!",AlertType.WARNING);
+            if (r.nextInt(3) < 2) {
+                generarEncuentro();
+            }
         }
            
     }

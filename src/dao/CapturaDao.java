@@ -121,10 +121,8 @@ public class CapturaDao {
 			p.setColor(Color.VIOLET);
 		} else if (tipo1.equals("VOLADOR")) {
 			p.setColor(Color.SKYBLUE);
-		} else if (tipo1.equals("")) {
-			// Espacio vacío intencionado por si estás evaluando un tipo secundario nulo
 		} else {
-			p.setColor(Color.BLACK); // Color por defecto de seguridad
+			p.setColor(Color.BLACK);
 		}
 	}
 	
