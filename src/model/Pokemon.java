@@ -121,7 +121,7 @@ public class Pokemon{
    */
   private String imgPosteriorPokemon;
   /**
-   * El color del pokemon en funcion de su tipo
+   * El nivel de que necesita el pokemon para evolucionar
    */
   private int nivelEvolucion;
   

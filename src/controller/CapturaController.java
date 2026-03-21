@@ -124,21 +124,21 @@ public class CapturaController implements Initializable {
 
         // 3. generamos las particulas (las 240 que pusimos para que mole mas) 
         for (int i = 0; i < 240; i++) {
-            crearParticula(Color.RED);
+            crearParticula();
         }
     }
 
 
     // METODO CREAR PARTICULA
 
-    private void crearParticula(Color color) {
+    private void crearParticula() {
 
         // DARLE FORMA DE CIRCULO PEQUEÑERO A LA PARTICULA
 
         // RADIO ALEATORIO ENTRE 1 Y 3 PIXELES POR PARTICULA
 
         double radio = Math.random() * 2 + 1;
-        Circle particula = new Circle(radio, color);
+        Circle particula = new Circle(radio, this.pokemonActual.getColor()); // Color del pokemon
 
         // DARLE UN POCO DE BLUR O DESENFOQUE PARA QUE NO SEA TAN COMPACTO
 
@@ -166,7 +166,6 @@ public class CapturaController implements Initializable {
         // ANIMACIÓN DE LAS PARTICULAS
 
         // DARLES UNA VELOCIDAD ALEATORIA ENTRE 8 Y 18 SEGUNDOS PARA EL EFECTO DE FLOTE
-        // SUAVE
 
         double duracionSegundos = Math.random() * 10 + 8;
 
@@ -375,6 +374,15 @@ public class CapturaController implements Initializable {
                         vidaCaptura.setText("HP / "+this.pokemonActual.getVitalidad());
                     }
 
+                    // CAMBIAR EL COLOR DE LAS PARTICULAS EN PANTALLA EN FUNCION DEL POKEMON QUE HA SALIDO
+
+                    Color colorCambio = this.pokemonActual.getColor();
+                    for (Node capturaParticulas : panelParticulas.getChildren()){
+                        if (capturaParticulas instanceof Circle circle){
+                            circle.setFill(colorCambio);
+                        }
+                    }
+
                     // CAMBIAR EL COLOR DE FONDO DEL POKEMON EN FUNCION DE SU TIPO
 
                         String rutaFondo = "imgs/Captura/fondosTipos/fondo" + this.pokemonActual.getTipoPrincipal().toString().toLowerCase() + ".png";
@@ -406,13 +414,15 @@ public class CapturaController implements Initializable {
 
 
     @FXML
-    // accion para el botod de cambiar pokemon
+    // accion para el boton de cambiar pokemon
     public void clicCambiar(MouseEvent event) {
         // simplemente refrescamos la pantalla llamando al metodo que genera un encuentro
         // esto pedira otro pokemon aleatorio al dao y actualizara el sprite y el nombre
 
         try {
             generarEncuentro();
+
+
         } catch (Exception e) {
             System.out.println("Error: Se ha producido un error inesperado. " + e.getMessage());
             e.printStackTrace();
