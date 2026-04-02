@@ -1,0 +1,104 @@
+/* Archivo CSS para la vista numero secreto del casino*/
+
+/* Botón de Acceder (ahora Verde Neón) */
+.pokemon-button-acceso {
+    /* Alinear elementos */
+    -fx-alignment: center;
+    -fx-graphic-text-gap: 10px;
+
+    /* Forma y bordes */
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 25px;
+    -fx-cursor: hand;
+    /* Color de borde inspirado en el neón verde claro de la imagen */
+    -fx-border-color: #39ff14; 
+    -fx-border-width: 2px;
+
+    /* Color de fondo: Degradado de verde neón vibrante a verde muy oscuro/púrpura de fondo */
+    -fx-background-color:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 40%, transparent 80%),
+            linear-gradient(to bottom, #1dd354, #0c421d);
+    -fx-background-insets: 0, 0;
+
+    /* Sombra con brillo neón VERDE */
+    -fx-effect: dropshadow(three-pass-box, rgba(57, 255, 20, 0.6), 12, 0.0, 0, 0);
+
+    /* Estilo del Texto */
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.pokemon-button-acceso:hover {
+    -fx-opacity: 0.9;
+    /* Aumenta el brillo al pasar el mouse con un verde más claro */
+    -fx-effect: dropshadow(three-pass-box, #8cff4d, 18, 0.6, 0, 0);
+}
+
+.pokemon-button-acceso:pressed {
+    -fx-opacity: 0.7;
+    -fx-translate-y: 2px;
+}
+
+/* Mantenemos la sombra del texto para legibilidad */
+.pokemon-button-acceso .text {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.8), 2, 0.0, 1, 1);
+}
+
+.label-intentos {
+    /* Color de letra: Blanco o Verde muy claro para que parezca el centro del neón */
+    -fx-text-fill: #e6ffed; 
+    -fx-font-family: "Consolas";
+    -fx-font-size: 28px; /* Aumentamos el tamaño */
+    -fx-font-weight: bold;
+    
+    /* Sombra de texto: crea el efecto de resplandor (Glow) */
+    /* Estructura: color, radio, esparcimiento, x, y */
+    -fx-effect: dropshadow(three-pass-box, #39ff14, 15, 0.5, 0, 0);
+    
+    /* Un poco de padding para que el brillo no se corte */
+    -fx-padding: 10px;
+    
+    /* Opcional: Un borde sutil que enmarca el contador */
+    -fx-border-color: rgba(57, 255, 20, 0.5);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro semitransparente para que resalte el verde */
+    -fx-background-radius: 10px;
+}
+
+/* Selector específico para forzar el estilo en Scene Builder y ejecución */
+.text-field.text-field-neon {
+    -fx-background-color: #051a0a; 
+    -fx-background-radius: 8px;
+    -fx-border-color: #39ff14; 
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    
+    -fx-text-fill: #e6ffed; 
+    -fx-font-family: "Consolas";
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+
+    -fx-effect: dropshadow(three-pass-box, rgba(57, 255, 20, 0.4), 10, 0.0, 0, 0);
+    -fx-padding: 8px;
+}
+
+/* Esto arregla el color del texto cuando se escribe */
+.text-field.text-field-neon .text {
+    -fx-fill: #e6ffed;
+}
+
+/* Esto arregla el color del "Prompt Text" (Sugerencia) */
+.text-field.text-field-neon .attribute-selection-mark {
+    -fx-fill: rgba(57, 255, 20, 0.5);
+}
+
+.text-field.text-field-neon:focused {
+    -fx-border-color: #8cff4d;
+    -fx-background-color: #0a2911;
+    -fx-effect: dropshadow(three-pass-box, #39ff14, 15, 0.5, 0, 0);
+}

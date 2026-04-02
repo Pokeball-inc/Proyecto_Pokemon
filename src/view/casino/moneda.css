@@ -1,4 +1,4 @@
-/* Archivo CSS para la vistamoneda del casino  copiado del login para rapidez*/
+/* Archivo CSS para la vista moneda del casino  copiado del login para rapidez*/
 
 /* Botón de Acceder */
 .pokemon-button-acceso {
@@ -45,3 +45,43 @@
 .pokemon-button-acceso .text {
     -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.8), 2, 0.0, 1, 1);
 }
+
+/* Selector para el TextField del juego de la moneda (Tonos Rojos) */
+.text-field.text-field-neon-rojo {
+    /* Fondo granate muy oscuro, casi negro */
+    -fx-background-color: #1a0505; 
+    -fx-background-radius: 8px;
+    /* Borde rojo neón vibrante */
+    -fx-border-color: #ff3131; 
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    
+    /* Texto que escribe el usuario (Blanco rosado para que brille) */
+    -fx-text-fill: #ffe6e6; 
+    -fx-font-family: "Consolas";
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+
+    /* Resplandor neón ROJO */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 49, 49, 0.5), 12, 0.0, 0, 0);
+    -fx-padding: 8px;
+}
+
+/* Arreglo para el color del texto interno */
+.text-field.text-field-neon-rojo .text {
+    -fx-fill: #ffe6e6;
+}
+
+/* Color del texto de sugerencia (Prompt Text) en tono rojizo suave */
+.text-field.text-field-neon-rojo .prompt-text {
+    -fx-fill: rgba(255, 49, 49, 0.5);
+}
+
+/* Estado cuando el usuario hace clic para escribir */
+.text-field.text-field-neon-rojo:focused {
+    -fx-border-color: #ff7e8e; /* Rojo más claro/rosado al enfocar */
+    -fx-background-color: #290a0a; 
+    -fx-effect: dropshadow(three-pass-box, #ff3131, 18, 0.6, 0, 0);
+}
+
