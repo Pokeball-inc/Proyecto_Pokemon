@@ -1,0 +1,47 @@
+/* Archivo CSS para la vistamoneda del casino  copiado del login para rapidez*/
+
+/* Botón de Acceder */
+.pokemon-button-acceso {
+    /* Alinear elementos */
+    -fx-alignment: center;
+    -fx-graphic-text-gap: 10px;
+
+    /* Forma y bordes */
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 25px;
+    -fx-cursor: hand;
+    /* Color de borde inspirado en el neón claro de la imagen */
+    -fx-border-color: #ff7e8e; 
+    -fx-border-width: 2px;
+
+    /* Color de fondo: Degradado de rojo vibrante a rojo oscuro/púrpura */
+    -fx-background-color:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 40%, transparent 80%),
+            linear-gradient(to bottom, #d31d3a, #7a0c1d);
+    -fx-background-insets: 0, 0;
+
+    /* Sombra con brillo neón */
+    -fx-effect: dropshadow(three-pass-box, rgba(211, 29, 58, 0.6), 10, 0.0, 0, 0);
+
+    /* Estilo del Texto */
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.pokemon-button-acceso:hover {
+    -fx-opacity: 0.9;
+    /* Aumenta el brillo al pasar el mouse */
+    -fx-effect: dropshadow(three-pass-box, #ff4d6d, 15, 0.5, 0, 0);
+}
+
+.pokemon-button-acceso:pressed {
+    -fx-opacity: 0.7;
+    -fx-translate-y: 2px;
+}
+
+.pokemon-button-acceso .text {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.8), 2, 0.0, 1, 1);
+}
