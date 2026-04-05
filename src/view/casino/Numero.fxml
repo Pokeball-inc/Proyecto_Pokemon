@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -29,5 +30,13 @@
       <TextField fx:id="txtNumero" layoutX="188.0" layoutY="166.0" prefHeight="46.0" prefWidth="348.0" promptText="Introduce aquí el número" styleClass="text-field-neon" stylesheets="@numero.css" />
       <Label fx:id="lblPokedollares" layoutX="229.0" layoutY="55.0" prefHeight="31.0" prefWidth="268.0" styleClass="label-neon-saldo" stylesheets="@numero.css" text="150.000 Pokedollares" />
       <Button fx:id="btnReiniciar" layoutX="232.0" layoutY="550.0" mnemonicParsing="false" onAction="#reiniciarJuego" prefHeight="40.0" prefWidth="262.0" styleClass="pokemon-button-acceso" stylesheets="@numero.css" text="REINICIAR" visible="false" />
+      <ImageView fx:id="BotonSalirCasino" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="652.0" layoutY="650.0" onMouseClicked="#clickSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Login/botonCerrarLoginV1.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
    </children>
 </AnchorPane>
