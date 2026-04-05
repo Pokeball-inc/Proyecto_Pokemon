@@ -16,12 +16,12 @@
          </image>
       </ImageView>
       <TextField fx:id="txtApuesta" layoutX="181.0" layoutY="315.0" prefHeight="46.0" prefWidth="335.0" promptText="Introduce aquí tu apuesta" styleClass="text-field-neon-rojo" stylesheets="@moneda.css" />
-      <Button id="botonCaraMoneda" fx:id="loginentrar" contentDisplay="CENTER" defaultButton="true" layoutX="217.0" layoutY="388.0" mnemonicParsing="false" onMouseClicked="#clickCara" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" stylesheets="@moneda.css" text="CARA" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+      <Button id="botonCaraMoneda" contentDisplay="CENTER" defaultButton="true" layoutX="217.0" layoutY="388.0" mnemonicParsing="false" onMouseClicked="#clickCara" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" stylesheets="@moneda.css" text="CARA" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
       </Button>
-      <Button id="botonCruzMoneda" fx:id="loginentrar1" contentDisplay="CENTER" defaultButton="true" layoutX="217.0" layoutY="448.0" mnemonicParsing="false" onMouseClicked="#clickCruz" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" stylesheets="@moneda.css" text="CRUZ" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+      <Button id="botonCruzMoneda" contentDisplay="CENTER" defaultButton="true" layoutX="217.0" layoutY="448.0" mnemonicParsing="false" onMouseClicked="#clickCruz" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" stylesheets="@moneda.css" text="CRUZ" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>

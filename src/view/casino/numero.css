@@ -102,3 +102,30 @@
     -fx-background-color: #0a2911;
     -fx-effect: dropshadow(three-pass-box, #39ff14, 15, 0.5, 0, 0);
 }
+/* Estilo para el Label de Pokedólares (Saldo) - Versión Número Secreto */
+.label-neon-saldo {
+    -fx-text-fill: #e6ffed; /* Blanco con un toque verde muy suave */
+    -fx-font-family: "Consolas";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    
+    /* Resplandor neón VERDE (Glow) */
+    /* Estructura: color, radio, esparcimiento, x, y */
+    -fx-effect: dropshadow(three-pass-box, #39ff14, 15, 0.5, 0, 0);
+    
+    /* Opcional: añade un poco de sombra de texto negra para que se lea mejor 
+       si el fondo es muy brillante en esa zona */
+    /* -fx-stroke: black;
+       -fx-stroke-width: 1px; */
+}
+
+.boton-reiniciar-neon {
+    -fx-border-color: #ff3131;
+    -fx-text-fill: #ff3131;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 49, 49, 0.6), 12, 0.0, 0, 0);
+}
+
+.boton-reiniciar-neon:hover {
+    -fx-background-color: rgba(255, 49, 49, 0.2);
+    -fx-text-fill: white;
+}
