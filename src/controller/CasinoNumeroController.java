@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
@@ -19,6 +20,8 @@ public class CasinoNumeroController implements Initializable {
 	private Label lblPokedollares;
 	@FXML
 	private TextField txtNumero;
+	@FXML
+	private Button btnReiniciar;
 
 	private AdivinarNumero juego;
 	private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
@@ -50,6 +53,8 @@ public class CasinoNumeroController implements Initializable {
 			lblIntentos.setText("¡Dinero insuficiente!");
 			txtNumero.setDisable(true);
 		}
+		// ocultamos el boton
+	    btnReiniciar.setVisible(false);
 	}
 
 	@FXML
@@ -70,6 +75,10 @@ public class CasinoNumeroController implements Initializable {
 				juego.cantidadPremio(150);
 
 				lblIntentos.setText("¡HAS GANADO!");
+				
+				// bloqueamos la entrada de datos y mostramos boton reiniciar
+	            txtNumero.setDisable(true); 
+	            btnReiniciar.setVisible(true);
 
 				// actyualizamos  las ganancias en la bd
 				entrenadorDAO.actualizarPokedollares(Sesion.entrenadorLogueado.getIdEntrenador(),
@@ -77,11 +86,15 @@ public class CasinoNumeroController implements Initializable {
 			} else {
 				// si falla restamos un intento y actualizamos el texto de la pantalla
 				juego.setIntentosRestantes(juego.getIntentosRestantes() - 1);
-				lblIntentos.setText("Intentos: " + juego.getIntentosRestantes());
+				lblIntentos.setText("Intentos restantes: " + juego.getIntentosRestantes());
 
 				// si llega a cero intentos mostramos que se acaba y revelamos el numero
 				if (juego.getIntentosRestantes() <= 0) {
 					lblIntentos.setText("GAME OVER. Era el: " + juego.getNumeroSecreto());
+					
+					// bloqueamos la entrada de datos y mostramos boton reiniciar
+		            txtNumero.setDisable(true); 
+		            btnReiniciar.setVisible(true);
 				}
 			}
 			// actualizamos el ui con los pokedollares que tiene el entrenador
@@ -92,6 +105,35 @@ public class CasinoNumeroController implements Initializable {
 		} catch (NumberFormatException e) {
 			lblIntentos.setText("¡Número no válido!");
 		}
+	}
+	
+	@FXML
+	// metodo para reiniciar el juego al acabarlo
+	void reiniciarJuego(ActionEvent event) {
+	    // volvemos a comprobar si tiene dinero para otra partida
+	    if (juego.puedeApostar(150)) {
+	        juego.costeApuesta(150);
+	        
+	        // actualizamos la bd
+	        entrenadorDAO.actualizarPokedollares(Sesion.entrenadorLogueado.getIdEntrenador(),
+	                Sesion.entrenadorLogueado.getPokedollares());
+
+	        // reseteamos la logica del juego
+	        juego.setNumeroSecreto((int) (Math.random() * 20) + 1);
+	        juego.setIntentosRestantes(5);
+	        juego.setacertado(false);
+
+	        // limpiamos la interfaz
+	        lblIntentos.setText("Intentos restantes: 5");
+	        txtNumero.setDisable(false);
+	        txtNumero.clear();
+	        btnReiniciar.setVisible(false); // Escondemos el botón de reiniciar hasta que acabe esta partida
+	        actualizarUI();
+	        
+	        System.out.println("Juego reiniciado. Nuevo número secreto generado.");
+	    } else {
+	        lblIntentos.setText("No tienes dinero para reintentar");
+	    }
 	}
 
 	// metodo para actualizar los pokedollares del entrenador en la vista
