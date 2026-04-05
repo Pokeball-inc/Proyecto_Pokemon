@@ -636,7 +636,7 @@ public class MainController implements Initializable {
 
             // Cargar la vista Principal
             Parent root = FXMLLoader.load(getClass().getResource("/view/casino/casino.fxml"));
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 720, 720);
 
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
@@ -655,6 +655,8 @@ public class MainController implements Initializable {
 
             // Cambiar la escena del login por la nueva
             primaryStage.setScene(scene);
+            primaryStage.sizeToScene();  
+            primaryStage.centerOnScreen();
 
             // Mostrar la escena
 
