@@ -95,8 +95,8 @@ public class EntrenadorDAO {
 
 	}
 
-	// metodo para el login
-	public boolean login(String usuario, String contrasena) {
+	// metodo para el login y devuelve el entrenador logueado
+	public Entrenador login(String usuario, String contrasena) {
 
 		// creamos la conexion con la base de datos
 		ConexionBBDD conexion = new ConexionBBDD();
@@ -114,16 +114,23 @@ public class EntrenadorDAO {
 
 			ResultSet rs = ps.executeQuery();
 
-			// si encuentra un resultado entonces login correcto
-			if (rs.next()) {
-				return true;
-			}
+			// si encuentra un resultado, creamos el Entrenador con sus Pokedolares
+	        if (rs.next()) {
+	            Entrenador e = new Entrenador();
+	            e.setIdEntrenador(rs.getInt("ID_ENTRENADOR"));
+	            e.setNombreEntrenador(rs.getString("NOM_ENTRENADOR"));
+	            e.setPokedollares(rs.getInt("POKEDOLARES"));
+	            e.setEsNPC(rs.getBoolean("ES_NPC"));
+	            e.setImgPosteriorEntrenador(rs.getString("IMG_ENTRENADOR"));
+	            
+	            return e; // Login correcto: devolvemos el entrenador con sus datos
+	        }
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// sino encuentra un resultado entonces se devuelve false
-		return false;
+		// sino encuentra el entrenador entonces se devuelve null
+		return null;
 	}
 
 	// metodo para el registro de nuevos usuarios
