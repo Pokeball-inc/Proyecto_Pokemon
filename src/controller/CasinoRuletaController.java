@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.ComboBox;
 import javafx.event.ActionEvent;
 import model.Ruleta;
@@ -23,8 +22,6 @@ public class CasinoRuletaController implements Initializable {
 	private TextField txtApuesta;
 	@FXML
 	private TextField txtNumeroElegido;
-	@FXML 
-	private ImageView imgMoneda;
 	@FXML
 	private ComboBox<Ruleta.formaApuesta> comboTipoApuesta;
 	@FXML
@@ -64,7 +61,7 @@ public class CasinoRuletaController implements Initializable {
 
 			// validamos que haya seleccionado el tipo de apuesta
 			if (tipo == null) {
-				lblResultado.setText("selecciona un tipo de apuesta");
+				lblResultado.setText("Selecciona un tipo de apuesta: ");
 				return;
 			}
 
@@ -84,7 +81,7 @@ public class CasinoRuletaController implements Initializable {
 			actualizarUI();
 
 		} catch (NumberFormatException e) {
-			lblResultado.setText("revisa los numeros introducidos");
+			lblResultado.setText("Revisa los numeros introducidos");
 		}
 	}
 

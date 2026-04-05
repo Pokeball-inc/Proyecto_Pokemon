@@ -8,6 +8,8 @@ public class CaraCruz extends Casino {
 	public enum Eleccion {
 		CARA, CRUZ
 	}
+	
+	private Eleccion resultadoUltimoLanzamiento;
 
 	// Constructor defecto
 	public CaraCruz() {
@@ -23,6 +25,11 @@ public class CaraCruz extends Casino {
 	public CaraCruz(CaraCruz cc) {
 		super(cc);
 	}
+	
+	// getters setters
+	public Eleccion getResultadoUltimoLanzamiento() {
+        return resultadoUltimoLanzamiento;
+    }
 
 	// metodo para jugar el cara o cruz
 	public String jugarMoneda(Eleccion eleccionJugador, int apuesta) {
@@ -40,26 +47,26 @@ public class CaraCruz extends Casino {
 			return "Pokedóllares insuficientes.";
 		}
 
-		// una vez se cumplan que puede apostar se le descuentan los Pokedólares al
+		// una vez se cumplan que puede apostar se le descuentan los Pokedóllares al
 		// entrenador
 		costeApuesta(apuesta);
 		// ramdom para el 50%
 		int num = (int) (Math.random() * 2);
+		
+        // guardamos el resultado en la variable de clase para que el controlador la vea 
+        if (num == 0) {
+            this.resultadoUltimoLanzamiento = Eleccion.CARA;
+        } else {
+            this.resultadoUltimoLanzamiento = Eleccion.CRUZ;
+        }
 
-		Eleccion resultado;
-		// comprobamos dependiendo del ramdom si sale cara o cruz
-		if (num == 0) {
-			resultado = Eleccion.CARA;
-		} else {
-			resultado = Eleccion.CRUZ;
-		}
 		// comprobamos si coincide con la eleccion del jugador
-		if (resultado == eleccionJugador) {
+		if (this.resultadoUltimoLanzamiento == eleccionJugador) {
 			cantidadPremio(apuesta);
-			return "Ha salido " + resultado + ". ¡Has ganado! Ahora tienes: " + entrenador.getPokedollares()
+			return "Ha salido " + this.resultadoUltimoLanzamiento + ". ¡Has ganado! Ahora tienes: " + entrenador.getPokedollares()
 					+ " Pokedólares";
 		} else {
-			return "Ha salido " + resultado + ". ¡Has perdido! Ahora tienes: " + entrenador.getPokedollares()
+			return "Ha salido " + this.resultadoUltimoLanzamiento + ". ¡Has perdido! Ahora tienes: " + entrenador.getPokedollares()
 					+ " Pokedólares";
 		}
 	}

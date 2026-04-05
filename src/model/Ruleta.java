@@ -96,7 +96,7 @@ public class Ruleta extends Casino {
       
       //es necesario tener dinero para poder apostar
       if (!puedeApostar(cantidad)) {
-          return "no tienes suficientes pokedollars.";
+          return "No tienes suficientes pokedollars.";
       }
 
       // cobramos la apuesta

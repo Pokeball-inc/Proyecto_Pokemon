@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import model.CaraCruz;
 import model.Sesion;
@@ -19,6 +20,8 @@ public class CasinoMonedaController implements Initializable {
 	private Label lblPokedollares;
 	@FXML
 	private TextField txtApuesta;
+	@FXML 
+	private ImageView imgMoneda;
 
 	private CaraCruz juego;
 	private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
@@ -54,8 +57,17 @@ public class CasinoMonedaController implements Initializable {
 			if (juego.puedeApostar(cantidadApuesta)) {
 
 				// ejecutamos la logica caracruz
-				// este metodo ya descuenta si pierde o suma el doble si gana en el objeto java
+				// este metodo ya descuenta si pierde o suma el doble si gana
 				String mensajeResultado = juego.jugarMoneda(eleccionUsuario, cantidadApuesta);
+				
+				// obtenemos el resultado que ha salido 
+				if (juego.getResultadoUltimoLanzamiento() == CaraCruz.Eleccion.CARA) {
+					// si sale cara cargamos la imagen de pikachu
+					imgMoneda.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/imgs/Casino/VMoneda/caraMoneda.png")));
+				} else {
+					// si sale cruz cargamos la imagen de jigglypuff
+					imgMoneda.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/imgs/Casino/VMoneda/cruzMoneda.png")));
+				}
 
 				// mostramos el mensaje que devuelve el resultado
 				lblResultado.setText(mensajeResultado);
@@ -69,11 +81,11 @@ public class CasinoMonedaController implements Initializable {
 
 			} else {
 				// si no tiene dinero suficiente avisamos al usuario
-				lblResultado.setText("¡no tienes suficientes pokedollares!");
+				lblResultado.setText("¡No tienes suficientes Pokedóllares!");
 			}
 
 		} catch (NumberFormatException e) {
-			lblResultado.setText("¡introduce una apuesta valida!");
+			lblResultado.setText("¡Introduce una apuesta válida!");
 		}
 	}
 
