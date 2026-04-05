@@ -11,7 +11,6 @@ import java.util.Random;
 import bd.ConexionBBDD;
 import model.Entrenador;
 
-
 public class EntrenadorDAO {
 
 	// metodo para crear entrenador en la base de datos
@@ -40,7 +39,7 @@ public class EntrenadorDAO {
 		if (rs.next()) {
 			int idGenerado = rs.getInt(1);
 			// Se lo asignamos al objeto para que ya tenga su ID real
-			e.setIdEntrenador(idGenerado); 
+			e.setIdEntrenador(idGenerado);
 			System.out.println("Entrenador creado con ID: " + idGenerado);
 		}
 	}
@@ -115,16 +114,16 @@ public class EntrenadorDAO {
 			ResultSet rs = ps.executeQuery();
 
 			// si encuentra un resultado, creamos el Entrenador con sus Pokedolares
-	        if (rs.next()) {
-	            Entrenador e = new Entrenador();
-	            e.setIdEntrenador(rs.getInt("ID_ENTRENADOR"));
-	            e.setNombreEntrenador(rs.getString("NOM_ENTRENADOR"));
-	            e.setPokedollares(rs.getInt("POKEDOLARES"));
-	            e.setEsNPC(rs.getBoolean("ES_NPC"));
-	            e.setImgPosteriorEntrenador(rs.getString("IMG_ENTRENADOR"));
-	            
-	            return e; // Login correcto: devolvemos el entrenador con sus datos
-	        }
+			if (rs.next()) {
+				Entrenador e = new Entrenador();
+				e.setIdEntrenador(rs.getInt("ID_ENTRENADOR"));
+				e.setNombreEntrenador(rs.getString("NOM_ENTRENADOR"));
+				e.setPokedollares(rs.getInt("POKEDOLARES"));
+				e.setEsNPC(rs.getBoolean("ES_NPC"));
+				e.setImgPosteriorEntrenador(rs.getString("IMG_ENTRENADOR"));
+
+				return e; // Login correcto: devolvemos el entrenador con sus datos
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -189,6 +188,43 @@ public class EntrenadorDAO {
 		}
 
 		return false;
+	}
+
+	// metodo para actualizar los pokedolares para casino, y seguramente tambien
+	// apra combate
+	public boolean actualizarPokedollares(int idEntrenador, int nuevoSaldo) {
+		// creamos la conexion con la base de datos
+		ConexionBBDD conexion = new ConexionBBDD();
+		Connection con = conexion.getConexion();
+
+		// sentencia sql para modificar el saldo del entrenador especifico
+		String sql = "UPDATE ENTRENADOR SET POKEDOLARES = ? WHERE ID_ENTRENADOR = ?";
+
+		try {
+			// preparamos la consulta
+			PreparedStatement ps = con.prepareStatement(sql);
+			// pasamos los parametros de nuevo saldo e id
+			ps.setInt(1, nuevoSaldo);
+			ps.setInt(2, idEntrenador);
+
+			// actualizamos en la bd
+			int filasAfectadas = ps.executeUpdate();
+			// devuelve true si modificamos algo
+			return filasAfectadas > 0;
+		} catch (Exception e) {
+			// si hay error mostramos el trazado y devuelve false
+			e.printStackTrace();
+			return false;
+		} finally {
+			// cerramos conexion
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 }

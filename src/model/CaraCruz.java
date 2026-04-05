@@ -3,7 +3,7 @@ package model;
 /**
  * Class CaraCruz
  */
-class CaraCruz extends Casino {
+public class CaraCruz extends Casino {
 	// enum para la eleccion del jugador
 	public enum Eleccion {
 		CARA, CRUZ
