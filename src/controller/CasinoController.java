@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -55,6 +56,31 @@ public class CasinoController implements Initializable {
 
         } catch (IOException e) {
             System.err.println("Error al cargar la vista: " + fxmlPath);
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    // metodo para el boton para salir al menu principal
+    void clickSalir(MouseEvent event) { 
+        try {
+            // cargamos el FXML del menu principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+            Parent root = loader.load();
+
+         // obtenemos la ventana actual a partir del boton pulsado
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // creamos la escena con el tamaño original del menú principal
+            Scene scene = new Scene(root, 1074, 607);
+            
+            stage.setScene(scene);
+            stage.setTitle("Pokémon - Menú Principal");
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al intentar volver al Menú Principal: " + e.getMessage());
             e.printStackTrace();
         }
     }
