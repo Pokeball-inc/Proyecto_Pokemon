@@ -1,0 +1,68 @@
+/* --- FORMATO BASE MEJORADO PARA LEGIBILIDAD --- */
+.btn-casino-base {
+    -fx-min-width: 180px;
+    -fx-min-height: 120px;
+    /* Fondo oscuro semitransparente para que las letras resalten sobre el casino */
+    -fx-background-color: rgba(0, 0, 0, 0.6); 
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-width: 3px;
+    -fx-cursor: hand;
+    
+    -fx-font-family: "Consolas";
+    -fx-font-size: 20px; /* Un pelín más grande */
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    
+    /* SOMBRA NEGRA DETRÁS DEL TEXTO (Crucial para legibilidad) */
+    -fx-effect: dropshadow(one-pass-box, black, 5, 0.0, 1, 1);
+}
+
+/* --- 1. RULETA (AZUL ELÉCTRICO) --- */
+.btn-casino-ruleta {
+    -fx-text-fill: #00ebff;
+    -fx-border-color: #00ebff;
+    /* Brillo neón azul */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 235, 255, 0.8), 15, 0.5, 0, 0);
+}
+
+.btn-casino-ruleta:hover {
+    -fx-background-color: rgba(0, 235, 255, 0.2);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, #00ebff, 25, 0.7, 0, 0);
+}
+
+/* --- 2. COIN FLIP (ROJO NEÓN) --- */
+.btn-casino-moneda {
+    -fx-text-fill: #ff3131;
+    -fx-border-color: #ff3131;
+    /* Brillo neón rojo */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 49, 49, 0.8), 15, 0.5, 0, 0);
+}
+
+.btn-casino-moneda:hover {
+    -fx-background-color: rgba(255, 49, 49, 0.2);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, #ff3131, 25, 0.7, 0, 0);
+}
+
+/* --- 3. NÚMERO SECRETO (VERDE LIMA) --- */
+.btn-casino-numero {
+    -fx-text-fill: #31ff31;
+    -fx-border-color: #31ff31;
+    /* Brillo neón verde */
+    -fx-effect: dropshadow(three-pass-box, rgba(49, 255, 49, 0.8), 15, 0.5, 0, 0);
+}
+
+.btn-casino-numero:hover {
+    -fx-background-color: rgba(49, 255, 49, 0.2);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, #31ff31, 25, 0.7, 0, 0);
+}
+
+/* Efecto al pulsar */
+.btn-casino-base:pressed {
+    -fx-scale-x: 0.92;
+    -fx-scale-y: 0.92;
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}

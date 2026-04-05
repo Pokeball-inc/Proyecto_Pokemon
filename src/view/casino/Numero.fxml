@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="721.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="721.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CasinoNumeroController">
    <children>
       <ImageView fitHeight="721.0" fitWidth="724.0">
          <image>
             <Image url="@../../../imgs/Casino/VNumero/numero_fondo.png" />
          </image>
       </ImageView>
-      <Button id="botonNumero" fx:id="loginentrar" contentDisplay="CENTER" defaultButton="true" layoutX="232.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#accionNumero" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" text="Probar Suerte" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+      <Button id="botonNumero" fx:id="loginentrar" contentDisplay="CENTER" defaultButton="true" layoutX="232.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#adivinarClick" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" text="Probar Suerte" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
@@ -26,6 +26,6 @@
          </stylesheets>
       </Button>
       <Label fx:id="lblIntentosNumero" layoutX="188.0" layoutY="49.0" styleClass="label-intentos" stylesheets="@numero.css" text="Intentos restantes: 5" />
-      <TextField layoutX="188.0" layoutY="136.0" prefHeight="46.0" prefWidth="348.0" promptText="Introduce aquí el número" styleClass="text-field-neon" stylesheets="@numero.css" />
+      <TextField fx:id="txtNumero" layoutX="188.0" layoutY="136.0" prefHeight="46.0" prefWidth="348.0" promptText="Introduce aquí el número" styleClass="text-field-neon" stylesheets="@numero.css" />
    </children>
 </AnchorPane>
