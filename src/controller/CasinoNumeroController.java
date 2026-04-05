@@ -16,7 +16,7 @@ public class CasinoNumeroController implements Initializable {
 	@FXML
 	private Label lblIntentos;
 	@FXML
-	private Label lblPokedolares;
+	private Label lblPokedollares;
 	@FXML
 	private TextField txtNumero;
 
@@ -97,7 +97,7 @@ public class CasinoNumeroController implements Initializable {
 	// metodo para actualizar los pokedollares del entrenador en la vista
 	private void actualizarUI() {
 		if (Sesion.entrenadorLogueado != null) {
-			lblPokedolares.setText(Sesion.entrenadorLogueado.getPokedollares() + " PD");
+			lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
 		}
 	}
 }

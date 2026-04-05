@@ -85,3 +85,26 @@
     -fx-effect: dropshadow(three-pass-box, #ff3131, 18, 0.6, 0, 0);
 }
 
+/* Estilo para el Label de Pokedólares (Saldo) */
+.label-neon-saldo {
+    -fx-text-fill: #ffe6e6; /* Blanco rosado */
+    -fx-font-family: "Consolas";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    /* Resplandor neón rojo suave */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 49, 49, 0.8), 15, 0.5, 0, 0);
+}
+
+/* Estilo para el Label de Resultado (Ganaste/Perdiste) */
+.label-neon-resultado {
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    /* Brillo neón más fuerte para resaltar el mensaje */
+    -fx-effect: dropshadow(three-pass-box, #ff3131, 20, 0.7, 0, 0);
+    -fx-background-color: rgba(26, 5, 5, 0.7); /* Fondo semi-transparente oscuro */
+    -fx-padding: 10px;
+    -fx-background-radius: 10px;
+}

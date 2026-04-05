@@ -16,7 +16,7 @@ public class CasinoMonedaController implements Initializable {
 	@FXML
 	private Label lblResultado;
 	@FXML
-	private Label lblPokedolares;
+	private Label lblPokedollares;
 	@FXML
 	private TextField txtApuesta;
 
@@ -80,7 +80,7 @@ public class CasinoMonedaController implements Initializable {
 	// metodo para actualizar los pokedollares del entrenador en la vista
 	private void actualizarUI() {
 		if (Sesion.entrenadorLogueado != null) {
-			lblPokedolares.setText(Sesion.entrenadorLogueado.getPokedollares() + " pd");
+			lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
 		}
 	}
 }
