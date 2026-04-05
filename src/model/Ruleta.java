@@ -39,6 +39,7 @@ public class Ruleta extends Casino {
   private int numeroApuesta;
   
   
+  private int multiplicadorAplicado = 0;
   
   
   //
@@ -73,18 +74,79 @@ public class Ruleta extends Casino {
   public int getNumeroApuesta () {
     return numeroApuesta;
   }
+  
+  public void setMultiplicadorAplicado(int numero) {
+	  multiplicadorAplicado = numero;
+  }
 
-  //
-  // Other methods
-  //
+  public int getMultiplicadorAplicado () {
+    return multiplicadorAplicado;
+  }
+
 
   /**
    * metodo para apsotar ruleta  se puede elegir, numero, color o numero y color
    * @param        color
    * @param        numero
    */
-  public void apostarRuleta(String color, int numero)
-  {
+  
+// metodo para jugar la ruleta
+  public String jugarRuleta(formaApuesta tipo, int numElegido, EleccionColor colorElegido, int cantidad) {
+      Entrenador entrenador = getEntrenador();
+      
+      //es necesario tener dinero para poder apostar
+      if (!puedeApostar(cantidad)) {
+          return "no tienes suficientes pokedollars.";
+      }
+
+      // cobramos la apuesta
+      costeApuesta(cantidad);
+
+      // generamos el resultado aleatorio entre 1 y 37 y el color entre ROJO y NEGRO
+      int numGanador = (int) (Math.random() * 37) + 1;
+      EleccionColor colorGanador;
+      if (Math.random() < 0.5) {
+    	    colorGanador = EleccionColor.ROJO; // Si el azar es menor a 0.5, es rojo
+    	} else {
+    	    colorGanador = EleccionColor.NEGRO; // Si no, es negro
+    	}
+
+      // reseteamos el premio
+      this.multiplicadorAplicado = 0; 
+      boolean aciertoNum = (numElegido == numGanador);
+      boolean aciertoCol = (colorElegido == colorGanador);
+
+      // determinamos el multiplicador segun las reglas
+      if (tipo == formaApuesta.NUMEROSOLO && aciertoNum) {
+    	// si se acierta numero se gana lo apostado x10
+          this.multiplicadorAplicado = 10; 
+      } 
+   // si se acierta color se gana lo apostado x2
+      else if (tipo == formaApuesta.COLORSOLO && aciertoCol) {
+          this.multiplicadorAplicado = 2;
+      }
+      // si se acierta numero y color se gana lo apostado por 20, si en algun caso acierta algun parametro suelto se le da ganancia correspoppndiente
+      else if (tipo == formaApuesta.NUMYCOLOR) {
+          if (aciertoNum && aciertoCol) {
+              this.multiplicadorAplicado = 20; 
+          } else if (aciertoNum) {
+              this.multiplicadorAplicado = 10;
+          } else if (aciertoCol) {
+              this.multiplicadorAplicado = 2;
+          }
+      }
+
+      // si el multiplicador es mayor a 0 se ha ganado
+      if (this.multiplicadorAplicado > 0) {
+          int premioTotal = cantidad * this.multiplicadorAplicado;
+
+          cantidadPremio(cantidad); 
+          
+          return "Ha salido el " + numGanador + " " + colorGanador + ". ¡has ganado " + premioTotal + " Pokedóllares!";
+      } else {
+          // si no acierta nada se pierde lo apostado
+          return "Ha salido el " + numGanador + " " + colorGanador + ". has perdido lo apostado.";
+      }
   }
 
 	@Override
@@ -98,14 +160,14 @@ public class Ruleta extends Casino {
 	}
 
 	@Override
-	// la cantidadPremio suma los Pokedóllares al entrenador
-	public void cantidadPremio(int apuesta) {
-		Entrenador entrenador = getEntrenador();
-		// si el entrenador existe y la apuesta es mayor a 0 le entregamos sus ganacias
-		if (entrenador != null && apuesta > 0) {
-			entrenador.setPokedollares(entrenador.getPokedollares() + (apuesta * 2));
-		}
-	}
+    public void cantidadPremio(int apuesta) {
+        Entrenador entrenador = getEntrenador();
+        if (entrenador != null && apuesta > 0) {
+            // usamos el multiplicador que calculamos en jugarRuleta
+            int premioFinal = apuesta * multiplicadorAplicado;
+            entrenador.setPokedollares(entrenador.getPokedollares() + premioFinal);
+        }
+    }
 
 
 }
