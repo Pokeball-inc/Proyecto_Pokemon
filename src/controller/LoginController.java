@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Entrenador;
+import model.Sesion;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -156,25 +157,23 @@ public class LoginController implements Initializable {
         }
 
         EntrenadorDAO dao = new EntrenadorDAO();
+        
+     // usamos el login ue nos devuelve el entrenadore cargado
+        Entrenador entrenadorLogueado = dao.login(usuario, contrasena);
 
-        // intentamos hacer login con los datos introducidos
-        if (dao.login(usuario, contrasena)) {
+     // si entrenadorLogueado no es null, el login es correcto
+        if (entrenadorLogueado != null) {
             // si login es correcto lo mostramos
-            System.out.println("Login correcto");
+            System.out.println("Login correcto: " + entrenadorLogueado.getNombreEntrenador()); 
 
             try {
-                // cargamos los datos del entrenador
-                Entrenador entrenadorLogueado = new Entrenador();
-                entrenadorLogueado.setNombreEntrenador(usuario);
-                entrenadorLogueado.setContrasena(contrasena);
-
-                // rellenamos id y pokedollares
-                EntrenadorDAO.obtenerIDPokedollares(con, entrenadorLogueado);
-
+            	
                 //cargar los pokemon del entrenador de la BD
                 PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.EQUIPO);
                 PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.CAJA);
                 System.out.println("Pokémon del entrenador descargados de la base de datos.");
+                
+                Sesion.entrenadorLogueado = entrenadorLogueado;
 
                 // cargamos la vista pantalla principal
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
