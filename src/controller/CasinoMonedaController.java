@@ -165,7 +165,7 @@ public class CasinoMonedaController implements Initializable {
 	            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
 	        }
 
-	        alerta.showAndWait(); // bloquea la aplicacion hasta que el usuario cierra el pop-up
+	        alerta.showAndWait(); // bloquea la aplicacion hasta se cierra el pop-up
 	    }
 
 	
