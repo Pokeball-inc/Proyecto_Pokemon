@@ -1,0 +1,163 @@
+/* archivo css para la vista numero secreto del casino adaptado a azul neon */
+
+/* boton de acceder en azul cian neon */
+.pokemon-button-acceso {
+    -fx-alignment: center;
+    -fx-graphic-text-gap: 10px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 25px;
+    -fx-cursor: hand;
+    
+    /* color de borde azul cian como el de la ruleta */
+    -fx-border-color: #00d4ff; 
+    -fx-border-width: 2px;
+
+    /* fondo con degradado azul oscuro a negro para que resalte el brillo */
+    -fx-background-color:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 40%, transparent 80%),
+            linear-gradient(to bottom, #0095b8, #051a24);
+    -fx-background-insets: 0, 0;
+
+    /* resplandor azul neon */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 212, 255, 0.7), 15, 0.0, 0, 0);
+
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.pokemon-button-acceso:hover {
+    -fx-opacity: 0.9;
+    /* aumenta el brillo azul al pasar el raton */
+    -fx-effect: dropshadow(three-pass-box, #00f2ff, 20, 0.6, 0, 0);
+}
+
+.pokemon-button-acceso:pressed {
+    -fx-translate-y: 2px;
+    -fx-opacity: 0.8;
+}
+
+/* estilo para el contador de intentos */
+.label-intentos {
+    -fx-text-fill: #e0faff; 
+    -fx-font-family: "Consolas";
+    -fx-font-size: 28px; 
+    -fx-font-weight: bold;
+    
+    /* resplandor cian fuerte */
+    -fx-effect: dropshadow(three-pass-box, #00d4ff, 18, 0.5, 0, 0);
+    
+    -fx-padding: 10px;
+    -fx-border-color: rgba(0, 212, 255, 0.5);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    /* fondo muy oscuro para que el azul destaque */
+    -fx-background-color: rgba(5, 26, 36, 0.7); 
+    -fx-background-radius: 10px;
+}
+
+/* cuadro de texto estilo neon azul */
+.text-field.text-field-neon {
+    -fx-background-color: #05121a; 
+    -fx-background-radius: 8px;
+    -fx-border-color: #00d4ff; 
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    
+    -fx-text-fill: #ffffff; 
+    -fx-font-family: "Consolas";
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 212, 255, 0.4), 10, 0.0, 0, 0);
+}
+
+.text-field.text-field-neon:focused {
+    -fx-border-color: #00f2ff;
+    -fx-background-color: #081e29;
+    -fx-effect: dropshadow(three-pass-box, #00d4ff, 15, 0.5, 0, 0);
+}
+
+/* saldo de pokedolares en azul brillante */
+.label-neon-saldo {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, #00d4ff, 15, 0.5, 0, 0);
+}
+
+/* el boton de reiniciar lo mantenemos en rojo pero con brillo para que destaque como emergencia */
+.boton-reiniciar-neon {
+    -fx-background-color: transparent;
+    -fx-border-color: #ff3131;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: #ff3131;
+    -fx-font-family: "Consolas";
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 49, 49, 0.6), 12, 0.0, 0, 0);
+}
+
+.boton-reiniciar-neon:hover {
+    -fx-background-color: rgba(255, 49, 49, 0.2);
+    -fx-text-fill: white;
+}
+
+/* estilos para los botones de apuesta de color de la ruleta */
+
+/* boton rojo neon */
+.boton-apuesta-rojo {
+    -fx-background-color: linear-gradient(to bottom, #7a0000, #330000);
+    -fx-border-color: #ff3131;
+    -fx-border-width: 3px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-cursor: hand;
+    
+    /* resplandor rojo intenso */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 49, 49, 0.8), 15, 0.4, 0, 0);
+}
+
+.boton-apuesta-rojo:hover {
+    -fx-background-color: #ff3131;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, #ff6666, 25, 0.7, 0, 0);
+}
+
+/* boton negro neon */
+.boton-apuesta-negro {
+    /* usamos un gris muy oscuro azulado para que no se pierda en el fondo */
+    -fx-background-color: linear-gradient(to bottom, #2b2b2b, #000000);
+    -fx-border-color: #ffffff; /* borde blanco o gris claro para que brille el neon */
+    -fx-border-width: 3px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-cursor: hand;
+    
+    /* resplandor blanco/plateado para dar efecto de luz negra */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.5), 15, 0.4, 0, 0);
+}
+
+.boton-apuesta-negro:hover {
+    -fx-background-color: #444444;
+    -fx-effect: dropshadow(three-pass-box, #ffffff, 20, 0.6, 0, 0);
+}
+
+/* efecto comun de pulsacion para ambos */
+.boton-apuesta-rojo:pressed, .boton-apuesta-negro:pressed {
+    -fx-scale-x: 0.92;
+    -fx-scale-y: 0.92;
+    -fx-opacity: 0.8;
+}

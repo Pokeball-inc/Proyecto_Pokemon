@@ -38,7 +38,7 @@ public class CasinoController implements Initializable {
         cambiarEscena(event, "/view/casino/Numero.fxml", "Casino - Número Secreto");
     }
 
-    //metodo auxiliar para no repetir código al cambiar de ventana
+    //metodo auxiliar para no repetir codigo al cambiar de ventana
     private void cambiarEscena(ActionEvent event, String fxmlPath, String titulo) {
         try {
             // cargamos el archivo FXML del juego seleccionado
