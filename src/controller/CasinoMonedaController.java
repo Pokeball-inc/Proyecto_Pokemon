@@ -177,21 +177,21 @@ public class CasinoMonedaController implements Initializable {
 		}
 	
 	    @FXML
-	    // metodo para el boton para salir al menu principal
+	    // metodo para el boton para volver al casino
 	    void clickSalir(MouseEvent event) { 
 	        try {
 	            // cargamos el FXML del menu principal
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/casino/Casino.fxml"));
 	            Parent root = loader.load();
 
 	         // obtenemos la ventana actual a partir del boton pulsado
 	            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
 	            // creamos la escena con el tamaño original del menú principal
-	            Scene scene = new Scene(root, 1074, 607);
+	            Scene scene = new Scene(root, 720, 720);
 	            
 	            stage.setScene(scene);
-	            stage.setTitle("Pokémon - Menú Principal");
+	            stage.setTitle("Pokémon - Casino");
 	            stage.centerOnScreen();
 	            stage.show();
 

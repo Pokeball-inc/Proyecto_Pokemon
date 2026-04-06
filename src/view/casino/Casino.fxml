@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="720.0" stylesheets="@casino.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CasinoController">
    <children>
-      <ImageView id="imgFondoVCasino" fitHeight="793.0" fitWidth="897.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="imgFondoVCasino" fitHeight="720.0" fitWidth="720.0" pickOnBounds="true">
          <image>
             <Image url="@../../../imgs/Casino/VCasino/casino_fondo.png" />
          </image>
@@ -27,7 +27,7 @@
             <Insets bottom="95.0" />
          </padding>
 </HBox>
-      <ImageView fx:id="BotonSalirCasino" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="794.0" layoutY="722.0" onMouseClicked="#clickSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="BotonSalirCasino" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="630.0" layoutY="640.0" onMouseClicked="#clickSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Login/botonCerrarLoginV1.png" />
          </image>
