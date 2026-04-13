@@ -138,7 +138,21 @@ public class PokemonDAO {
 	        // pasamos la lista directamente a la caja  si el equipo esta lleno
 	        e.setCajaPokemon(listaAuxiliar);
 	    }
+	    
 	}
+	
+	//Metodo para restar fertilidad despues de la crianza
+		public static void actualizarFertilidadBD(Connection con, Pokemon p) {
+		    String sql = "UPDATE POKEMON SET FERTILIDAD = ? WHERE ID_POKEMON = ?";
+		    try {
+		        PreparedStatement ps = con.prepareStatement(sql);
+		        ps.setInt(1, p.getFertilidad());
+		        ps.setInt(2, p.getIdPokemon());
+		        ps.executeUpdate();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
 	
 	
 	

@@ -141,7 +141,12 @@ public class CapturaDao {
 	        // rellenamos los values
 	        ps.setInt(1, p.getNumPokedex());
 	        ps.setInt(2, idEntrenador);
-	        ps.setString(3, p.getNombrePokemon());
+	        //Para el mote si es crianza (mezcla padres) y salvaje (su especie)
+	        if (p.getMotePokemon() != null && !p.getMotePokemon().isEmpty()) {
+	            ps.setString(3, p.getMotePokemon());
+	        } else {
+	            ps.setString(3, p.getNombrePokemon()); 
+	        }
 
 	        ps.setInt(4, p.getVitalidad());
 	        ps.setInt(5, p.getAtaque());
