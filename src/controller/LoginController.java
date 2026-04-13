@@ -17,7 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Entrenador;
-//import model.Sesion;
+import model.Sesion;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
