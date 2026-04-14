@@ -62,9 +62,6 @@ public class CrianzaController implements Initializable {
     @FXML 
     private Text txtFertilidadHembra;
     
-    @FXML 
-    private Text txtPokedollares;
-    
     //Botones
     @FXML
     private ImageView botonCambiarMacho;
@@ -99,11 +96,6 @@ public class CrianzaController implements Initializable {
         // Conectar a BD
         ConexionBBDD conector = new ConexionBBDD();
         this.con = conector.getConexion();
-        
-        // Actualizar UI del dinero
-        if (txtPokedollares != null) {
-            txtPokedollares.setText(e.getPokedollares() + " P$");
-        }
         
         // Ocultar al bebe al principio
         if (imgBebe != null) {
