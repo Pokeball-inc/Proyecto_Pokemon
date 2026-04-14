@@ -67,6 +67,10 @@ public class CapturaController implements Initializable {
     @FXML
     private ImageView imgPokemonActual; // imagen del pokemon
 
+    @FXML
+    private ImageView imgSexo; //para las imagenes del sexo
+    
+    
     private Pokemon pokemonActual;
 
     @FXML
@@ -315,6 +319,36 @@ public class CapturaController implements Initializable {
 
             // comprovbamos que no sea null el pokemon
             if (this.pokemonActual != null) {
+            	
+            		//Logica para elegir el sexo
+                Random r = new Random();
+                int suerte = r.nextInt(3); 
+                
+                String rutaIcono = "";
+                
+                if (suerte == 0) {
+                    this.pokemonActual.setSexo(model.Sexo.MACHO);
+                    rutaIcono = "imgs/Captura/sexo/macho.png"; 
+                } else if (suerte == 1) {
+                    this.pokemonActual.setSexo(model.Sexo.HEMBRA);
+                    rutaIcono = "imgs/Captura/sexo/hembra.png";
+                } else {
+                    
+                    rutaIcono = "imgs/Captura/sexo/neutro.png";
+                }
+
+                //Actualizar el icono de la vista
+                try {
+                    File fileIcono = new File(rutaIcono);
+                    if (fileIcono.exists()) {
+                        Image imgIco = new Image(fileIcono.toURI().toString());
+                        imgSexo.setImage(imgIco);
+                    }
+                } catch (Exception e) {
+                    System.out.println("No se pudo cargar el icono de sexo");
+                }
+            	
+            	
                 // actualizamos el nombre en la vista
                 txtNombre.setText(this.pokemonActual.getNombrePokemon());
 

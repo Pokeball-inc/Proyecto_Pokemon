@@ -81,6 +81,16 @@ public class CapturaDao {
 	    // y nivel establecido a uno y experiencia a 0
 	    p.setNivel(1);
 	    p.setExperiencia(0);
+	    p.setFertilidad(5); //fertilidad inicial a 5 
+	    //Generar el sexo aleatorio
+	    int suerteSexo = r.nextInt(3);
+	    if (suerteSexo == 0) {
+	        p.setSexo(model.Sexo.MACHO);
+	    } else if (suerteSexo == 1) {
+	        p.setSexo(model.Sexo.HEMBRA);
+	    } else {
+	        p.setSexo(model.Sexo.NEUTRO); 
+	    }
 	}
 
 	public void cambiarColor(Pokemon p){

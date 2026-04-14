@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,11 +18,13 @@ import javafx.stage.Stage;
 import javafx.scene.control.DialogPane;
 
 import java.io.File;
+import java.net.URL;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
@@ -31,7 +34,7 @@ import model.Pokemon;
 import model.Sexo;
 import model.UbicacionPokemon;
 
-public class CrianzaController {
+public class CrianzaController implements Initializable {
 
     //Elementos vista
     
@@ -443,4 +446,10 @@ public class CrianzaController {
         
         alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
     }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		
+	}
 }

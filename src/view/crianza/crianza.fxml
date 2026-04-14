@@ -1,14 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.CrianzaController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="600.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CrianzaController">
+   <children>
+      <ImageView fx:id="fondoPokemon" fitHeight="600.0" fitWidth="1074.0" layoutX="-1.0" layoutY="-1.0">
+         <image>
+            <Image url="@../../../../../../../../../PokeINC/imgs/Crianza/FondoGranja.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="BASELINE_CENTER" layoutX="108.0" layoutY="141.0" prefHeight="315.0" prefWidth="178.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;">
+         <children>
+            <Text fx:id="txtNombreMacho" strokeType="OUTSIDE" strokeWidth="0.0" text="NombreMacho" textAlignment="CENTER">
+               <font>
+                  <Font name="Consolas" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Text>
+            <ImageView fx:id="imgMacho" disable="true" fitHeight="129.0" fitWidth="147.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../../../../../../../../../PokeINC/imgs/Pokemons/sprites/crystal/transparent/249.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="txtPadre" fill="#aceeef" strokeType="OUTSIDE" strokeWidth="0.0" text="Padre">
+               <font>
+                  <Font name="Consolas" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtFertilidadMacho" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" text="Fertilidad">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtFertilidadMachoActual" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
+               <font>
+                  <Font name="Consolas" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Text>
+            <ImageView fx:id="botonCambiarMacho" fitHeight="50.0" fitWidth="85.0" onMouseClicked="#clicCambiarMacho" onMouseEntered="#aumentarTamañoBotonCambiarMacho" onMouseExited="#disminuirTamañoBotonCambiarMacho" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../../../../../../../../../PokeINC/imgs/Captura/elementosUIX/iconoCambiar.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="403.0" layoutY="141.0" prefHeight="315.0" prefWidth="265.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;" />
+      <VBox alignment="BASELINE_CENTER" layoutX="783.0" layoutY="142.0" prefHeight="315.0" prefWidth="178.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;">
+         <children>
+            <Text fx:id="txtNombreHembra" strokeType="OUTSIDE" strokeWidth="0.0" text="NombreHembra">
+               <font>
+                  <Font name="Consolas" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Text>
+            <ImageView fx:id="imgHembra" disable="true" fitHeight="129.0" fitWidth="147.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../PokeINC/imgs/Pokemons/sprites/crystal/transparent/245.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text fx:id="txtMadre" fill="#aceeef" strokeType="OUTSIDE" strokeWidth="0.0" text="Madre">
+               <font>
+                  <Font name="Consolas" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtFertilidadHembra" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" text="Fertilidad">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Text>
+            <Text fx:id="txtFertilidadHembraActual" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
+               <font>
+                  <Font name="Consolas" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Text>
+            <ImageView fx:id="botonCambiarHembra" fitHeight="50.0" fitWidth="85.0" onMouseClicked="#clicCambiarHembra" onMouseEntered="#aumentarTamañoBotonCambiarHembra" onMouseExited="#disminuirTamañoBotonCambiarHembra" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../PokeINC/imgs/Captura/elementosUIX/iconoCambiar.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ImageView>
+         </children>
+      </VBox>
+      <ImageView fx:id="botonSalir" fitHeight="65.0" fitWidth="58.0" layoutX="961.0" layoutY="501.0" onMouseClicked="#capturaSalir" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../PokeINC/imgs/Login/botonCerrarLoginV1.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>
