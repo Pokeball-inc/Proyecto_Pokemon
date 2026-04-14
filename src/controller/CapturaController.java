@@ -328,24 +328,28 @@ public class CapturaController implements Initializable {
                 
                 if (suerte == 0) {
                     this.pokemonActual.setSexo(model.Sexo.MACHO);
-                    rutaIcono = "imgs/Captura/Macho.png"; 
+                    rutaIcono = "C:/PokeINC/imgs/Captura/sexo/Macho.png"; 
                 } else if (suerte == 1) {
                     this.pokemonActual.setSexo(model.Sexo.HEMBRA);
-                    rutaIcono = "imgs/Captura/Hembra.png";
+                    rutaIcono = "C:/PokeINC/imgs/Captura/sexo/Hembra.png";
                 } else {
                     
-                    rutaIcono = "imgs/Captura/Neutro.png";
+                    rutaIcono = "C:/PokeINC/imgs/Captura/sexo/Neutro.png";
                 }
 
                 //Actualizar el icono de la vista
                 try {
-                    File fileIcono = new File(rutaIcono);
-                    if (fileIcono.exists()) {
-                        Image imgIco = new Image(fileIcono.toURI().toString());
-                        imgSexo.setImage(imgIco);
+                    File archivoIcono = new File(rutaIcono);
+                    
+                    if (archivoIcono.exists()) {
+                        Image imagenCargada = new Image(archivoIcono.toURI().toString());
+                        imgSexo.setImage(imagenCargada);
+                    } else {
+                        System.out.println("No encuentro el archivo de imagen en: " + archivoIcono.getAbsolutePath());
+                        imgSexo.setImage(null); // Lo dejamos en blanco para que no muestre cosas falsas
                     }
                 } catch (Exception e) {
-                    System.out.println("No se pudo cargar el icono de sexo");
+                    System.out.println("Error raro al poner la imagen del sexo: " + e.getMessage());
                 }
             	
             	
