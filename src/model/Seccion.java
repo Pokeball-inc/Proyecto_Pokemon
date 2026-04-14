@@ -12,7 +12,7 @@ public class Seccion {
 
     // Constructor por defecto
 
-    public  Seccion() {
+    public Seccion() {
         int id = 0;
         String nombre = "";
         String rutaImagen = "";

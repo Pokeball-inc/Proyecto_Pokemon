@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Entrenador;
 import model.Seccion;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -232,10 +231,11 @@ public class MainController implements Initializable {
         listaSecciones.add(new Seccion(0, "CREDITOS", "/imgs/Principal/vidrio_panel_creditos.png", "/view/creditos/creditos.fxml", ""));
         listaSecciones.add(new Seccion(1, "CAPTURA", "/imgs/Principal/vidrio_panel_captura.png", "/view/captura/captura.fxml", ""));
         listaSecciones.add(new Seccion(2, "CRIANZA", "/imgs/Principal/vidrio_panel_crianza.png", "/view/crianza/crianza.fxml", ""));
-        listaSecciones.add(new Seccion(3, "EQUIPO", "/imgs/Principal/vidrio_panel_equipo.png", "/view/crianza/equipo.fxml", ""));
-        listaSecciones.add(new Seccion(4, "ENTRENAMIENTO", "/imgs/Principal/vidrio_panel_entrenamiento.png", "/view/crianza/entrenamiento.fxml", ""));
-        listaSecciones.add(new Seccion(4, "POKEDEX", "/imgs/Principal/vidrio_panel_pokedex.png", "/view/crianza/pokedex.fxml", ""));
-        listaSecciones.add(new Seccion(4, "CASINO", "/imgs/Principal/vidrio_panel_casino.png", "/view/crianza/casino.fxml", ""));
+        listaSecciones.add(new Seccion(3, "EQUIPO", "/imgs/Principal/vidrio_panel_equipo.png", "/view/equipo/equipo.fxml", ""));
+        listaSecciones.add(new Seccion(4, "COMBATE", "/imgs/Principal/vidrio_panel_equipo.png", "/view/equipo/equipo.fxml", ""));
+        listaSecciones.add(new Seccion(5, "ENTRENAMIENTO", "/imgs/Principal/vidrio_panel_entrenamiento.png", "/crianza/entrenamiento/entrenamiento.fxml", ""));
+        listaSecciones.add(new Seccion(6, "POKEDEX", "/imgs/Principal/vidrio_panel_pokedex.png", "/view/pokedex/pokedex.fxml", ""));
+        listaSecciones.add(new Seccion(7, "CASINO", "/imgs/Principal/vidrio_panel_casino.png", "/view/casino/casino.fxml", ""));
         actualizarLista();
     }
 
@@ -255,6 +255,8 @@ public class MainController implements Initializable {
             } else if (principal.getNombre().equals("CRIANZA")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederCrianza);
             } else if (principal.getNombre().equals("EQUIPO")) {
+                vidrioPrincipal.setOnMouseClicked(this::accederEquipo);
+            } else if (principal.getNombre().equals("COMBATE")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederEquipo);
             } else if (principal.getNombre().equals("ENTRENAMIENTO")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederEntrenamiento);
