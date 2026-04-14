@@ -42,6 +42,11 @@
                   <Font name="Consolas Bold" size="31.0" />
                </font>
             </Text>
+            <ImageView fx:id="imgSexo" fitHeight="31.0" fitWidth="25.0" layoutX="171.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Downloads/Macho.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Line endX="200.0" layoutX="483.0" layoutY="434.0" startX="-91.0" stroke="#68f2ff" />

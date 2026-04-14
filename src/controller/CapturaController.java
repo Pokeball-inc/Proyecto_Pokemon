@@ -328,13 +328,13 @@ public class CapturaController implements Initializable {
                 
                 if (suerte == 0) {
                     this.pokemonActual.setSexo(model.Sexo.MACHO);
-                    rutaIcono = "imgs/Captura/sexo/macho.png"; 
+                    rutaIcono = "imgs/Captura/Macho.png"; 
                 } else if (suerte == 1) {
                     this.pokemonActual.setSexo(model.Sexo.HEMBRA);
-                    rutaIcono = "imgs/Captura/sexo/hembra.png";
+                    rutaIcono = "imgs/Captura/Hembra.png";
                 } else {
                     
-                    rutaIcono = "imgs/Captura/sexo/neutro.png";
+                    rutaIcono = "imgs/Captura/Neutro.png";
                 }
 
                 //Actualizar el icono de la vista

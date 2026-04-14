@@ -142,7 +142,7 @@ public class CapturaDao {
 		
 		// preparamos la sentencia sql de insercion
 		// ponemos un "?" por cada columna para que java rellene los huecos luego
-	    String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, VITALIDAD, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try {
 	    	// preparamos la conexión para enviar esta consulta
@@ -157,15 +157,23 @@ public class CapturaDao {
 	        } else {
 	            ps.setString(3, p.getNombrePokemon()); 
 	        }
-
-	        ps.setInt(4, p.getVitalidad());
-	        ps.setInt(5, p.getAtaque());
-	        ps.setInt(6, p.getDefensa());
-	        ps.setInt(7, p.getVelocidad());
-	        ps.setInt(8, p.getAtaqueEspecial());
-	        ps.setInt(9, p.getDefensaEspecial());
-	        ps.setInt(10, p.getNivel());
-	        ps.setString(11, ubicacion);
+	        //Si es nulo el sexo toma valor neutro
+	        if (p.getSexo() != null) {
+	            ps.setString(4, p.getSexo().name());
+	        } else {
+	            ps.setString(4, "NEUTRO");
+	        }
+	        
+	        ps.setInt(5, p.getVitalidad());
+	        ps.setInt(6, p.getAtaque());
+	        ps.setInt(7, p.getDefensa());
+	        ps.setInt(8, p.getVelocidad());
+	        ps.setInt(9, p.getAtaqueEspecial());
+	        ps.setInt(10, p.getDefensaEspecial());
+	        ps.setInt(11, p.getNivel());
+	        ps.setInt(12, p.getExperiencia());
+	        ps.setInt(13, p.getFertilidad());
+	        ps.setString(14, ubicacion);
 
 	        
 	        // usamos el executeupdate para modificar la base de datos
