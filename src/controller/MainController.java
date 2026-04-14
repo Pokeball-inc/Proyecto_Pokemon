@@ -453,9 +453,16 @@ public class MainController implements Initializable {
             Stage primaryStage = (Stage) source.getScene().getWindow();
 
             // Cargar la vista Principal
-            Parent root = FXMLLoader.load(getClass().getResource("/view/crianza/crianza.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/crianza/crianza.fxml"));
+            Parent root = loader.load();
+            
+            //obtener el controlador
+            CrianzaController crianzaCtrl = loader.getController();
+            
+            //Le pasamos el entrenador
+            crianzaCtrl.setEntrenador(this.entrenadorActual);
+            
             Scene scene = new Scene(root);
-
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
             primaryStage.setTitle("PokeINC - Crianza");

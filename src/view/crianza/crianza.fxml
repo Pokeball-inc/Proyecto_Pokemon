@@ -46,17 +46,9 @@
                   <Font name="Consolas" size="14.0" />
                </font>
             </Text>
-            <Text fx:id="txtFertilidadMachoActual" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
-               <font>
-                  <Font name="Consolas" size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Text>
             <ImageView fx:id="botonCambiarMacho" fitHeight="50.0" fitWidth="85.0" onMouseClicked="#clicCambiarMacho" onMouseEntered="#aumentarTamañoBotonCambiarMacho" onMouseExited="#disminuirTamañoBotonCambiarMacho" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
                <image>
                   <Image url="@../../../../../../../../../PokeINC/imgs/Captura/elementosUIX/iconoCambiar.png" />
@@ -64,7 +56,14 @@
             </ImageView>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="403.0" layoutY="141.0" prefHeight="315.0" prefWidth="265.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;" />
+      <VBox alignment="CENTER" layoutX="403.0" layoutY="141.0" prefHeight="315.0" prefWidth="265.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../PokeINC/imgs/Crianza/Huevo.png" />
+               </image>
+            </ImageView>
+         </children></VBox>
       <VBox alignment="BASELINE_CENTER" layoutX="783.0" layoutY="142.0" prefHeight="315.0" prefWidth="178.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;">
          <children>
             <Text fx:id="txtNombreHembra" strokeType="OUTSIDE" strokeWidth="0.0" text="NombreHembra">
@@ -96,20 +95,12 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Text>
-            <Text fx:id="txtFertilidadHembraActual" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
-               <font>
-                  <Font name="Consolas" size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Text>
             <ImageView fx:id="botonCambiarHembra" fitHeight="50.0" fitWidth="85.0" onMouseClicked="#clicCambiarHembra" onMouseEntered="#aumentarTamañoBotonCambiarHembra" onMouseExited="#disminuirTamañoBotonCambiarHembra" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../../../PokeINC/imgs/Captura/elementosUIX/iconoCambiar.png" />
                </image>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </ImageView>
          </children>
