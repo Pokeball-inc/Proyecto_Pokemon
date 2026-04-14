@@ -7,6 +7,7 @@ import java.util.Random;
 
 import bd.ConexionBBDD;
 import javafx.scene.paint.Color;
+import model.Estados;
 import model.Pokemon;
 import model.Tipos;
 
@@ -82,6 +83,7 @@ public class CapturaDao {
 	    p.setNivel(1);
 	    p.setExperiencia(0);
 	    p.setFertilidad(5); //fertilidad inicial a 5 
+	    p.setEstado(Estados.SANO);
 	    //Generar el sexo aleatorio
 	    int suerteSexo = r.nextInt(3);
 	    if (suerteSexo == 0) {
