@@ -144,7 +144,7 @@ public class CapturaDao {
 		
 		// preparamos la sentencia sql de insercion
 		// ponemos un "?" por cada columna para que java rellene los huecos luego
-		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try {
 	    	// preparamos la conexión para enviar esta consulta
@@ -175,7 +175,13 @@ public class CapturaDao {
 	        ps.setInt(11, p.getNivel());
 	        ps.setInt(12, p.getExperiencia());
 	        ps.setInt(13, p.getFertilidad());
-	        ps.setString(14, ubicacion);
+	        //Si es nulo se le da estado SANO por defecto
+	        if (p.getEstado() != null) {
+	            ps.setString(14, p.getEstado().name()); 
+	        } else {
+	            ps.setString(14, "SANO");
+	        }
+	        ps.setString(15, ubicacion);
 
 	        
 	        // usamos el executeupdate para modificar la base de datos
