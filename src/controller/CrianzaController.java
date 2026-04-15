@@ -72,7 +72,7 @@ public class CrianzaController implements Initializable {
     private ImageView botonSalir;
 
     //Variables
-    private Entrenador entrenadorActual = new Entrenador(Sesion.entrenadorLogueado);
+    private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
     private Connection con;
     private CapturaDao capturaDao = new CapturaDao(); // Reutilizamos el DAO de captura para guardar al bebé
     
