@@ -245,22 +245,53 @@ public class CrianzaController implements Initializable {
         // Si la imagen del bebe de la crianza anterior estaba visible, la ocultamos
         if (imgBebe != null) imgBebe.setVisible(false);
 
-        // Alerta personalizada para el Huevo
+     //Si devuelve true se ha pulsado abrir y se abre el huevo
+        if (mostrarAlertaHuevo()) {
+            eclosionarHuevo(); 
+        }
+    }
+    
+    //Metodo para la alerta del huevo 
+    private boolean mostrarAlertaHuevo() {
         Alert alertaHuevo = new Alert(AlertType.INFORMATION);
         alertaHuevo.setTitle("¡Un Huevo Pokémon!");
         alertaHuevo.setHeaderText("¡Tus Pokémon han puesto un Huevo!");
         alertaHuevo.setContentText("¿Qué deseas hacer con él?");
 
+        DialogPane dialogPane = alertaHuevo.getDialogPane();
+
+        //Cargamos el css de la alerta
+        try {
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+        } catch (Exception e) {
+            System.out.println("Error cargando CSS de la alerta");
+        }
+
+        //Icono esquina superior izquierda
+        try {
+            Stage stage = (Stage) dialogPane.getScene().getWindow();
+            stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
+        } catch (Exception e) {}
+
+        //Icono central
+        try {
+            String rutaHuevo = new File("imgs/Crianza/Huevo.png").toURI().toString(); 
+            ImageView iconoHuevo = new ImageView(new Image(rutaHuevo));
+            iconoHuevo.setFitHeight(60); 
+            iconoHuevo.setFitWidth(60);
+            alertaHuevo.setGraphic(iconoHuevo);
+        } catch (Exception e) {}
+
+        //Botones personalizados de abrir o cancelar 
         ButtonType btnAbrir = new ButtonType("Abrir Huevo");
         ButtonType btnCancelar = new ButtonType("Dejarlo", ButtonBar.ButtonData.CANCEL_CLOSE);
-        
         alertaHuevo.getButtonTypes().setAll(btnAbrir, btnCancelar);
 
+        //Mostrar ventana y esperar respuesta
         Optional<ButtonType> resultado = alertaHuevo.showAndWait();
         
-        if (resultado.isPresent() && resultado.get() == btnAbrir) {
-            eclosionarHuevo(); // Llamamos al metodo donde está el resto del código
-        }
+        //Devuelve true solo si el usuario pulsa abrir
+        return resultado.isPresent() && resultado.get() == btnAbrir;
     }
 
     private void eclosionarHuevo() {
