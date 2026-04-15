@@ -173,7 +173,7 @@ public class LoginController implements Initializable {
                 PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.CAJA);
                 System.out.println("Pokémon del entrenador descargados de la base de datos.");
                 
-               // Sesion.entrenadorLogueado = entrenadorLogueado;
+               Sesion.entrenadorLogueado = entrenadorLogueado;
 
                 // cargamos la vista pantalla principal
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
