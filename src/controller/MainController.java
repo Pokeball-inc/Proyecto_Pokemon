@@ -644,9 +644,16 @@ public class MainController implements Initializable {
             Stage primaryStage = (Stage) source.getScene().getWindow();
 
             // Cargar la vista Principal
-            Parent root = FXMLLoader.load(getClass().getResource("/view/casino/casino.fxml"));
-            Scene scene = new Scene(root, 720, 720);
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/casino/casino.fxml"));
+            Parent root = loader.load();
+            
+            //obtener el controlador
+            CasinoController casinoCtrl = loader.getController();
+            
+            //Le pasamos el entrenador
+            casinoCtrl.setEntrenador(this.entrenadorActual);
+            
+            Scene scene = new Scene(root);
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
             primaryStage.setTitle("PokeINC - Casino");
