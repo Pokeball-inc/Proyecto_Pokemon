@@ -9,28 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.Entrenador;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.util.ResourceBundle;
 
-import bd.ConexionBBDD;
-
 public class CasinoController implements Initializable {
-	
-	private Entrenador entrenadorActual;
-	private Connection con;
-	
-	//Metodo para conexion entrenador con BD
-	public void setEntrenador(Entrenador e) {
-		this.entrenadorActual = e;
-		
-		// Conectar a BD
-        ConexionBBDD conector = new ConexionBBDD();
-        this.con = conector.getConexion();
-	}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,10 +73,6 @@ public class CasinoController implements Initializable {
 
             // creamos la escena con el tamaño original del menú principal
             Scene scene = new Scene(root, 1074, 607);
-            
-            //Cargar el entrenador
-            MainController mainCtrl = loader.getController();
-            mainCtrl.setEntrenador(this.entrenadorActual);
             
             stage.setScene(scene);
             stage.setTitle("Pokémon - Menú Principal");
