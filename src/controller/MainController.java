@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Entrenador;
 import model.Seccion;
+import model.Sesion;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,12 +32,11 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 	
 	// Variable para guardar al usuario logueado
-	private Entrenador entrenadorActual; 
+    private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
 
     // Método para recibir al entrenador desde el Login
-    public void setEntrenador(Entrenador e) {
-        this.entrenadorActual = e;
-        System.out.println("MainController: Entrenador " + e.getNombreEntrenador() + " cargado.");
+    public void setEntrenador() {
+        System.out.println("Entrenador: " + entrenadorActual.getNombreEntrenador());
     }
 
     // MUSICA DE FONDO
@@ -59,6 +60,9 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
+        // Mostrar el entrenador logueado
+
+        setEntrenador();
         // Generar 120 partículas al iniciar la pantalla
 
         for (int i = 0; i < 120; i++) {
@@ -393,12 +397,6 @@ public class MainController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/captura/captura.fxml"));
             Parent root = loader.load(); 
 
-            // obtenemos  el controlador
-            controller.CapturaController capturaCtrl = loader.getController();
-
-            // enviamos el entrenador logueado al nuevo controlador
-            capturaCtrl.setEntrenador(this.entrenadorActual);
-            
             // Recibir el click
             javafx.scene.Node source = (javafx.scene.Node) event.getSource();
 
@@ -455,12 +453,6 @@ public class MainController implements Initializable {
             // Cargar la vista Principal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/crianza/crianza.fxml"));
             Parent root = loader.load();
-            
-            //obtener el controlador
-            CrianzaController crianzaCtrl = loader.getController();
-            
-            //Le pasamos el entrenador
-            crianzaCtrl.setEntrenador(this.entrenadorActual);
             
             Scene scene = new Scene(root);
 

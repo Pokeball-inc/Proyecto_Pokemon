@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -14,9 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.event.ActionEvent;
+import model.Entrenador;
 import model.Ruleta;
 import model.Sesion;
 import dao.EntrenadorDAO;
@@ -42,6 +41,7 @@ public class CasinoRuletaController implements Initializable {
     private Button botonNegro;
 
 	private Ruleta juego;
+    private Entrenador entrenador = Sesion.entrenadorLogueado;
 	private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
 	private Ruleta.EleccionColor colorSeleccionado = null;
 
@@ -49,7 +49,10 @@ public class CasinoRuletaController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// inicializamos la ruleta con el entrenador de la sesion
 		juego = new Ruleta();
-		juego.setEntrenador(Sesion.entrenadorLogueado);
+
+		juego.setEntrenador(entrenador);
+
+        System.out.println("Carga la ruleta para el entrenador: "+ entrenador.getNombreEntrenador());
 
 		// actualizamos el ui con los pokedollares que tiene el entrenador
 		actualizarUI();

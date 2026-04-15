@@ -179,11 +179,6 @@ public class LoginController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
                 Parent root = loader.load();
 
-                // obtenemos el controlador de la pantalla principal
-                MainController mainCtrl = loader.getController();
-
-                //  pasamos el entrenador con todos sus datos ya cargados
-                mainCtrl.setEntrenador(entrenadorLogueado);
 
                 // Configuramos la escena y la mostramos
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

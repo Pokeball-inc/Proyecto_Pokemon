@@ -20,19 +20,12 @@ import javafx.scene.control.DialogPane;
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
 import dao.PokemonDAO;
-import model.Entrenador;
-import model.Pokemon;
-import model.Sexo;
-import model.UbicacionPokemon;
+import model.*;
 
 public class CrianzaController implements Initializable {
 
@@ -79,7 +72,7 @@ public class CrianzaController implements Initializable {
     private ImageView botonSalir;
 
     //Variables
-    private Entrenador entrenadorActual;
+    private Entrenador entrenadorActual = new Entrenador(Sesion.entrenadorLogueado);
     private Connection con;
     private CapturaDao capturaDao = new CapturaDao(); // Reutilizamos el DAO de captura para guardar al bebé
     
@@ -92,14 +85,15 @@ public class CrianzaController implements Initializable {
     private Pokemon hembraElegida;
     private Random rand = new Random();
 
-    //Inicializar
-    public void setEntrenador(Entrenador e) {
-        this.entrenadorActual = e;
-        
+
+    // Metodo mostrar entrenadorActual
+    public void setEntrenador() {
+
         // Conectar a BD
         ConexionBBDD conector = new ConexionBBDD();
         this.con = conector.getConexion();
-        
+
+
         // Ocultar al bebe al principio
         if (imgBebe != null) {
             imgBebe.setVisible(false);
@@ -112,6 +106,7 @@ public class CrianzaController implements Initializable {
         clicCambiarMacho(null);
         clicCambiarHembra(null);
     }
+
 
     private void cargarCandidatos() {
         machosDisponibles.clear();
@@ -399,10 +394,7 @@ public class CrianzaController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            
-            //Cargar el entrenador
-            MainController mainCtrl = loader.getController();
-            mainCtrl.setEntrenador(this.entrenadorActual);
+
 
             // Cargar el CSS
             String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
@@ -475,7 +467,24 @@ public class CrianzaController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
+        // Mostrar entrenador actual
+
+        System.out.println("Entrenador: "+ entrenadorActual.getNombreEntrenador());
+
+        setEntrenador();
+
+        // Revisar que machos están cargando y luego las hembras
+
+        System.out.println("---- Machos disponibles ----");
+        for (Pokemon p : machosDisponibles) {
+            System.out.println(p.getNombrePokemon());
+        }
+
+        System.out.println("---- Hembras disponibles ----");
+        for (Pokemon p : hembrasDisponibles) {
+            System.out.println(p.getNombrePokemon());
+        }
 		
 	}
 }

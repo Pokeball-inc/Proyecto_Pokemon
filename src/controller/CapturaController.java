@@ -2,7 +2,6 @@ package controller;
 
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +24,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 
 import java.io.File;
-import java.lang.reflect.Executable;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.Random;
@@ -35,6 +33,7 @@ import dao.CapturaDao;
 import dao.PokemonDAO;
 import model.Entrenador;
 import model.Pokemon;
+import model.Sesion;
 import model.UbicacionPokemon;
 import bd.ConexionBBDD;
 
@@ -88,27 +87,26 @@ public class CapturaController implements Initializable {
     
     
     private Connection con;
-    
 
-    private Entrenador entrenadorActual;
+
+    private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
     
 
     private CapturaDao capturaDao = new CapturaDao();
     
     // obtener el entrenador de la bd
-    public void setEntrenador(Entrenador e) {
-    	this.entrenadorActual = e;
+    public void setEntrenador() {
     	if (this.entrenadorActual != null) {
     	try {
-    		// creamos conexion a bf
+    		// creamos conexion a bd
             ConexionBBDD conector = new ConexionBBDD();
             Connection con = conector.getConexion();
             
-            // llamamos al dao para relenar el array de equipo del entrenador
-            PokemonDAO.obtenerPokemon(con, this.entrenadorActual, UbicacionPokemon.EQUIPO);
+            // llamamos al dao para rellenar el array de equipo del entrenador
+            PokemonDAO.obtenerPokemon(con, entrenadorActual, UbicacionPokemon.EQUIPO);
             
             // para comprobar
-            System.out.println("equipo cargado para: " + this.entrenadorActual.getNombreEntrenador());
+            System.out.println("Entrenador: " + this.entrenadorActual.getNombreEntrenador());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -121,7 +119,11 @@ public class CapturaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // sacamos el primer pokemon nada mas entrar 
+        // Cargar el entrenador
+
+        setEntrenador();
+
+        // sacamos el primer pokemon nada mas entrar
          generarEncuentro();
          
          
@@ -265,10 +267,6 @@ public class CapturaController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            
-            //Cargar el entrenador
-            MainController mainCtrl = loader.getController();
-            mainCtrl.setEntrenador(this.entrenadorActual);
 
             // Cargar el CSS
             String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
@@ -507,7 +505,6 @@ public class CapturaController implements Initializable {
 
             // guardamos en la bd usando el dao inicializado previamente con su metodo guardar pokemon
             capturaDao.guardarPokemon(this.con, pokemonActual, entrenadorActual.getIdEntrenador(), pokemonActual.getUbicacion().name());
-            
             //System.out.println("¡Atrapado! " + pokemonActual.getNombrePokemon() + " enviado a " + pokemonActual.getUbicacion());
             mostrarAlerta("¡Enhorabuena!","¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!", " enviado a " + pokemonActual.getUbicacion(),AlertType.INFORMATION);
             
