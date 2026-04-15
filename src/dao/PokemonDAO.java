@@ -142,14 +142,32 @@ public class PokemonDAO {
 	}
 	
 	//Metodo para restar fertilidad despues de la crianza
+	//Metodo para restar fertilidad despues de la crianza
 		public static void actualizarFertilidadBD(Connection con, Pokemon p) {
 		    String sql = "UPDATE POKEMON SET FERTILIDAD = ? WHERE ID_POKEMON = ?";
 		    try {
+		        // 1. Imprimimos los datos ANTES de enviarlos a la BD
+		        System.out.println("Intentando actualizar a " + p.getNombrePokemon() + 
+		                           " | ID: " + p.getIdPokemon() + 
+		                           " | Nueva Fertilidad: " + p.getFertilidad());
+		        
 		        PreparedStatement ps = con.prepareStatement(sql);
 		        ps.setInt(1, p.getFertilidad());
 		        ps.setInt(2, p.getIdPokemon());
-		        ps.executeUpdate();
+		        
+		        // 2. Guardamos el numero de filas que se han modificado
+		        int filasAfectadas = ps.executeUpdate();
+		        
+		        
+		        // 3. Comprobamos si realmente se ha actualizado algo
+		        System.out.println("Filas actualizadas en la BD: " + filasAfectadas);
+		        
+		        if(filasAfectadas == 0) {
+		            System.out.println("¡ALERTA! No se actualizó ningún Pokémon. Revisa si el ID existe en tu tabla.");
+		        }
+		        
 		    } catch (Exception e) {
+		        System.out.println("¡ERROR SQL AL ACTUALIZAR LA FERTILIDAD!");
 		        e.printStackTrace();
 		    }
 		}
