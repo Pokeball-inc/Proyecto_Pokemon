@@ -58,9 +58,28 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="403.0" layoutY="141.0" prefHeight="315.0" prefWidth="265.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="textHuevo" strokeType="OUTSIDE" strokeWidth="0.0" text="Crianza">
+               <font>
+                  <Font name="Consolas" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Text>
+            <ImageView fx:id="imgHuevo" fitHeight="123.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../../../PokeINC/imgs/Crianza/Huevo.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="40.0" />
+               </VBox.margin>
+            </ImageView>
+            <ImageView fx:id="botonCriar" fitHeight="63.0" fitWidth="99.0" onMouseClicked="#accionCriar" onMouseEntered="#aumentarTamañoBotonCriar" onMouseExited="#disminuirTamañoBotonCriar" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../../../../../../../../../PokeINC/imgs/Crianza/Crianza2.0.png" />
                </image>
             </ImageView>
          </children></VBox>
@@ -105,7 +124,7 @@
             </ImageView>
          </children>
       </VBox>
-      <ImageView fx:id="botonSalir" fitHeight="65.0" fitWidth="58.0" layoutX="961.0" layoutY="501.0" onMouseClicked="#capturaSalir" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonSalir" fitHeight="65.0" fitWidth="58.0" layoutX="961.0" layoutY="501.0" onMouseClicked="#crianzaSalir" onMouseEntered="#aumentarTamañoBotonSalir" onMouseExited="#disminuirTamañoBotonSalir" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../../../PokeINC/imgs/Login/botonCerrarLoginV1.png" />
          </image>

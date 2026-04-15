@@ -47,6 +47,9 @@ public class CrianzaController implements Initializable {
     @FXML 
     private ImageView imgHembra;
     
+    @FXML
+    private ImageView imgHuevo;
+    
     @FXML 
     private ImageView imgBebe; // Añadido para mostrar al hijo al eclosionar
     
@@ -172,7 +175,7 @@ public class CrianzaController implements Initializable {
     }
 
     @FXML
-    private void disminuirTamañoBotonCambiar(MouseEvent event) {
+    private void disminuirTamañoBotonCriar(MouseEvent event) {
         botonCriar.setScaleX(botonCriar.getScaleX() - 0.2);
         botonCriar.setScaleY(botonCriar.getScaleY() - 0.2);
     }
@@ -351,7 +354,7 @@ public class CrianzaController implements Initializable {
 
     //Boton de salir
     @FXML
-    public void capturaSalir(MouseEvent event) {
+    public void crianzaSalir(MouseEvent event) {
         try {
             System.out.println("Cargando la vista principal...");
 
