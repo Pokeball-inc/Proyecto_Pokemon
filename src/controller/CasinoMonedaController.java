@@ -42,6 +42,8 @@ public class CasinoMonedaController implements Initializable {
 		// iniciamos el juego con el entrenador de la sesion
 		juego = new CaraCruz(Sesion.entrenadorLogueado);
 
+		System.out.println("Entrenador: "+ Sesion.entrenadorLogueado.getNombreEntrenador());
+
 		// mostramos el saldo actual del entrenador nada mas cargar la pantalla
 		actualizarUI();
 	}
@@ -104,7 +106,7 @@ public class CasinoMonedaController implements Initializable {
 	                                   Alert.AlertType.WARNING, rutaImagen);
 	            }
 
-				// actyualizamos las ganancias en la bd
+				// actualizamos las ganancias en la bd
 				entrenadorDAO.actualizarPokedollares(Sesion.entrenadorLogueado.getIdEntrenador(),Sesion.entrenadorLogueado.getPokedollares());
 
 				// actualizamos el ui con los pokedollares que tiene el entrenador
@@ -124,6 +126,7 @@ public class CasinoMonedaController implements Initializable {
 	private void actualizarUI() {
 		if (Sesion.entrenadorLogueado != null) {
 			lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
+			System.out.println(Sesion.entrenadorLogueado.getNombreEntrenador());
 		}
 	}
 	
