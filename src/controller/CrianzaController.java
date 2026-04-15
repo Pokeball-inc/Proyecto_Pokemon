@@ -273,7 +273,7 @@ public class CrianzaController implements Initializable {
         bebe.setNivel(1); // El bebé nace a nivel 1
         bebe.setExperiencia(0);
         bebe.setFertilidad(5); // Fertilidad máxima al nacer
-        bebe.setSexo(rand.nextBoolean() ? Sexo.MACHO : Sexo.HEMBRA); // Sexo aleatorio
+        bebe.setSexo(rand.nextBoolean() ? Sexo.MACHO : Sexo.HEMBRA ); // Sexo aleatorio
         
         //Mezclar el mote (Mitad madre, mitad padre, orden aleatorio)
         String moteP = machoElegido.getMotePokemon() != null ? machoElegido.getMotePokemon() : machoElegido.getNombrePokemon();
@@ -301,9 +301,9 @@ public class CrianzaController implements Initializable {
         machoElegido.setFertilidad(machoElegido.getFertilidad() - 1);
         hembraElegida.setFertilidad(hembraElegida.getFertilidad() - 1);
         
-        // TODO:crear un método en PokemonDAO para hacer un UPDATE de la fertilidad en la base de datos
-        // PokemonDAO.actualizarFertilidadBD(con, machoElegido);
-        // PokemonDAO.actualizarFertilidadBD(con, hembraElegida);
+        //Actualizar la fertilidad en la BD
+        PokemonDAO.actualizarFertilidadBD(con, machoElegido);
+        PokemonDAO.actualizarFertilidadBD(con, hembraElegida);
 
         //Buscar hueco (Equipo o Caja)
         boolean guardadoEnEquipo = false;
