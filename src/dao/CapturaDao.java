@@ -148,7 +148,7 @@ public class CapturaDao {
 
 	    try {
 	    	// preparamos la conexión para enviar esta consulta
-	        PreparedStatement ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS); //Para que sql le diga el ID
+	        PreparedStatement ps = con.prepareStatement(sql);
 	        
 	        // rellenamos los values
 	        ps.setInt(1, p.getNumPokedex());
@@ -184,18 +184,8 @@ public class CapturaDao {
 	        ps.setString(15, ubicacion);
 
 	        
-	        //usamos el executeupdate para modificar la base de datos
+	        // usamos el executeupdate para modificar la base de datos
 	        ps.executeUpdate();
-	        
-	     //Pedimos las claves generadas (el ID autonumérico)
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                int idGenerado = rs.getInt(1); //Extraemos el número
-                p.setIdPokemon(idGenerado);    //Se lo asignamos al objeto Java
-                
-                //Chivato para comprobar 
-                 System.out.println("¡Bebé/Captura guardado! Su ID real es: " + idGenerado);
-            }
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
