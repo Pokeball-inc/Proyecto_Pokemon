@@ -497,15 +497,13 @@ public class MainController implements Initializable {
             // Recuperar la ventana
             Stage primaryStage = (Stage) source.getScene().getWindow();
 
-            // Cargar la vista Principal
+            // Recuperar la vista del equipo
             Parent root = FXMLLoader.load(getClass().getResource("/view/equipo/equipo.fxml"));
             Scene scene = new Scene(root);
-
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
             primaryStage.setTitle("PokeINC - Equipo");
             primaryStage.setResizable(false);
-
             // Cargar icono
             File file = new File("imgs/Login/Login-icon.png");
 
