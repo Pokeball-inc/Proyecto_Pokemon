@@ -401,7 +401,7 @@ public class CrianzaController implements Initializable {
             scene.getStylesheets().add(css);
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
-            primaryStage.setTitle("PokeINC - Prinicipal");
+            primaryStage.setTitle("PokeINC - Principal");
             primaryStage.setResizable(false);
 
             // Cargar icono

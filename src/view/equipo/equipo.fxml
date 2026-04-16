@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -152,6 +153,9 @@
                <image>
                   <Image url="@../../../imgs/Equipo/Stats/INFO.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <Pane layoutX="79.0" layoutY="487.0" prefHeight="28.0" prefWidth="160.0">
                <children>
@@ -160,6 +164,9 @@
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Text>
                </children>
             </Pane>
@@ -180,10 +187,13 @@
             </Text>
          </children>
       </Pane>
-      <ImageView fitHeight="43.0" fitWidth="36.0" layoutX="1030.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonSalir" fitHeight="43.0" fitWidth="36.0" layoutX="1030.0" layoutY="563.0" onMouseClicked="#equipoSalir" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Equipo/botonCerrarLoginV1.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>
