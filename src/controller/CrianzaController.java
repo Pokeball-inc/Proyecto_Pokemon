@@ -390,9 +390,14 @@ public class CrianzaController implements Initializable {
 
                 imgBebe.setLayoutX(403);
                 imgBebe.setLayoutY(278);
+
+                imgBebe.preserveRatioProperty().set(false);
+                // Guardo el tamaño de la imagen para readaptarla despues
+                double xOriginalBebe = imgBebe.getScaleX();
+                double yOriginalBebe = imgBebe.getScaleY();
+                imgBebe.setScaleX( imgBebe.getScaleX() * 1.5);
+                imgBebe.setScaleY( imgBebe.getScaleY() * 1.5);
                 
-                System.out.println(imgBebe.getX());
-                System.out.println(imgBebe.getY());
             }
 
         } catch (Exception e) {
