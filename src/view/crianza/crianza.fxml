@@ -142,7 +142,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="imgBebe" fitHeight="252.0" fitWidth="265.0" layoutX="410.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-9.0" AnchorPane.leftAnchor="410.0" AnchorPane.rightAnchor="412.0" AnchorPane.topAnchor="357.0">
+      <ImageView fx:id="imgBebe" fitHeight="192.0" fitWidth="199.0" layoutX="436.0" layoutY="361.0" pickOnBounds="true" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="436.0" AnchorPane.rightAnchor="452.79999999999995" AnchorPane.topAnchor="361.0">
          <image>
             <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/9.png" />
          </image>
