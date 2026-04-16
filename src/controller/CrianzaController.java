@@ -240,7 +240,7 @@ public class CrianzaController implements Initializable {
         // Si la imagen del bebe de la crianza anterior estaba visible, la ocultamos
         if (imgBebe != null) imgBebe.setVisible(false);
 
-     //Si devuelve true se ha pulsado abrir y se abre el huevo
+        //Si devuelve true se ha pulsado abrir y se abre el huevo
         if (mostrarAlertaHuevo()) {
             eclosionarHuevo(); 
         }
@@ -306,7 +306,7 @@ public class CrianzaController implements Initializable {
         String moteM = hembraElegida.getMotePokemon() != null ? hembraElegida.getMotePokemon() : hembraElegida.getNombrePokemon();
         
         String mitadPadre = moteP.substring(0, Math.max(1, moteP.length() / 2));
-        String mitadMadre = moteM.substring(Math.max(0, moteM.length() / 2));
+        String mitadMadre = moteM.substring(Math.max(0, Math.max(1, moteM.length() / 2)));
         
         String moteBebe = rand.nextBoolean() ? (mitadPadre + mitadMadre) : (mitadMadre + mitadPadre);
         bebe.setMotePokemon(moteBebe);
@@ -353,19 +353,47 @@ public class CrianzaController implements Initializable {
         try {
             capturaDao.guardarPokemon(this.con, bebe, entrenadorActual.getIdEntrenador(), bebe.getUbicacion().name());
             
-            // Mostrar imagen del bebe recien nacido
+            //Ocultar el huevo y mostrar el bebe para que quede de fondo de la alerta
+            if (imgHuevo != null) {
+                imgHuevo.setVisible(false);
+            }
+
             if (imgBebe != null) {
                 String rutaBebe = new File("imgs/Pokemons/" + bebe.getImgFrontalPokemon()).toURI().toString();
                 imgBebe.setImage(new Image(rutaBebe));
-                imgBebe.setVisible(true); // Hace visible al bebé
+                imgBebe.setVisible(true); 
             }
 
-            //Mostrar alerta de exito
-            String destino = guardadoEnEquipo ? "al EQUIPO" : "a la CAJA";
+            //Preparamos la variable del mensaje de la alerta
+            String destino;
+            if (guardadoEnEquipo) {
+                destino = "al EQUIPO";
+            } else {
+                destino = "a la CAJA";
+            }
+
+            //Mostrar alerta de exito (Pausa el codigo hasta que se pulse aceptar)
             mostrarAlerta("¡El huevo ha eclosionado!", 
                     "¡Enhorabuena! Tienes un nuevo " + bebe.getNombrePokemon(), 
                     "Su nuevo mote es: " + bebe.getMotePokemon() + "\nSe ha enviado " + destino + ".", 
                     AlertType.INFORMATION);
+
+            //Al pulsar aceptar se reinicia la vista para la siguiente crianza
+            if (imgBebe != null) {
+                imgBebe.setVisible(false);
+            }
+            
+            if (imgHuevo != null) {
+                String rutaHuevo = new File("imgs/Crianza/Huevo.png").toURI().toString(); 
+                imgHuevo.setImage(new Image(rutaHuevo));
+                imgHuevo.setVisible(true);
+
+                imgBebe.setLayoutX(403);
+                imgBebe.setLayoutY(278);
+                
+                System.out.println(imgBebe.getX());
+                System.out.println(imgBebe.getY());
+            }
 
         } catch (Exception e) {
             mostrarAlerta("Error BD", "Error al guardar", "No se pudo guardar al bebé en la base de datos.", AlertType.ERROR);
@@ -425,7 +453,7 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    ////Metodo para mostrar pop-up con mensajes
+    //Metodo para mostrar pop-up con mensajes
     private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
         Alert alerta = new Alert(tipo); //ventana del tipo que pasemos informacion, advertencia... lo que queramos
         //Textos de la ventana
@@ -465,8 +493,8 @@ public class CrianzaController implements Initializable {
         alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
     }
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
 
         // Mostrar entrenador actual
 
@@ -485,6 +513,6 @@ public class CrianzaController implements Initializable {
         for (Pokemon p : hembrasDisponibles) {
             System.out.println(p.getNombrePokemon());
         }
-		
-	}
+        
+    }
 }
