@@ -39,7 +39,7 @@ public class SeleccionCombateController implements Initializable {
 	// --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ACCESO LIGA
 	// ---------------
 	@FXML
-	private void aumentarTamañoBoaumentarTamanoBotonAccesoLigatonAccesoLiga(MouseEvent event) {
+	private void aumentarTamanoBotonAccesoLiga(MouseEvent event) {
 		botonAccesoLiga.setScaleX(botonAccesoLiga.getScaleX() + 0.2);
 		botonAccesoLiga.setScaleY(botonAccesoLiga.getScaleY() + 0.2);
 	}
@@ -53,13 +53,13 @@ public class SeleccionCombateController implements Initializable {
 	// --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ACCESO COMBATE
 	// ALEATORIO ---------------
 	@FXML
-	private void aumentarTamanoBotoncAccesoCombateAleatorio(MouseEvent event) {
+	private void aumentarTamanoBotonAccesoCombateAleatorio(MouseEvent event) {
 		botonAccesoCombateAleatorio.setScaleX(botonAccesoCombateAleatorio.getScaleX() + 0.2);
 		botonAccesoCombateAleatorio.setScaleY(botonAccesoCombateAleatorio.getScaleY() + 0.2);
 	}
 
 	@FXML
-	private void disminuirTamanoBotoncAccesoCombateAleatorio(MouseEvent event) {
+	private void disminuirTamanoBotonAccesoCombateAleatorio(MouseEvent event) {
 		botonAccesoCombateAleatorio.setScaleX(botonAccesoCombateAleatorio.getScaleX() - 0.2);
 		botonAccesoCombateAleatorio.setScaleY(botonAccesoCombateAleatorio.getScaleY() - 0.2);
 	}
