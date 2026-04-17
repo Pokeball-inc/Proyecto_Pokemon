@@ -66,7 +66,7 @@ public class SeleccionCombateController implements Initializable {
 
 	
 	
-	
+	// metodo para cambiar a la vista de la liga 
 	@FXML
 	private void clickAccesoLiga(MouseEvent event) {
 		// Por ahora lo dejamos vacío o con un log para probar que funciona
@@ -78,7 +78,7 @@ public class SeleccionCombateController implements Initializable {
 		 */
 	}
 
-	
+	// metodo para cambiar a la vista del combate aleatorio
 	@FXML
 	private void clickAccesoCombateAleatorio(MouseEvent event) {
 		// Por ahora lo dejamos vacío o con un log para probar que funciona
