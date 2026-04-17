@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SeleccionCombateController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="1024.0">
          <image>
@@ -17,12 +17,12 @@
             <Image url="@../../../imgs/combate/BotonAccesoLigaPokemon.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="botonAccesoComateAleatorio" fitHeight="63.0" fitWidth="200.0" layoutX="680.0" layoutY="501.0" onMouseClicked="#clickAccesoCombateAleatorio" onMouseEntered="#aumentarTamanoBotoncAccesoCombateAleatorio" onMouseExited="#disminuirTamanoBotoncAccesoCombateAleatorio" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonAccesoCombateAleatorio" fitHeight="63.0" fitWidth="200.0" layoutX="680.0" layoutY="501.0" onMouseClicked="#clickAccesoCombateAleatorio" onMouseEntered="#aumentarTamanoBotoncAccesoCombateAleatorio" onMouseExited="#disminuirTamanoBotoncAccesoCombateAleatorio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/combate/BotonAccesoCombateAleatorio.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="BotonSalirEleccionCombate" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="952.0" layoutY="529.0" onMouseClicked="#clickSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="botonSalirEleccionCombate" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="952.0" layoutY="529.0" onMouseClicked="#clickSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/Login/botonCerrarLoginV1.png" />
          </image>

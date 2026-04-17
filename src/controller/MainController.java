@@ -236,7 +236,7 @@ public class MainController implements Initializable {
         listaSecciones.add(new Seccion(1, "CAPTURA", "/imgs/Principal/vidrio_panel_captura.png", "/view/captura/captura.fxml", ""));
         listaSecciones.add(new Seccion(2, "CRIANZA", "/imgs/Principal/vidrio_panel_crianza.png", "/view/crianza/crianza.fxml", ""));
         listaSecciones.add(new Seccion(3, "EQUIPO", "/imgs/Principal/vidrio_panel_equipo.png", "/view/equipo/equipo.fxml", ""));
-        listaSecciones.add(new Seccion(4, "COMBATE", "/imgs/Principal/vidrio_panel_equipo.png", "/view/equipo/equipo.fxml", ""));
+        listaSecciones.add(new Seccion(4, "COMBATE", "/imgs/Principal/vidrio_panel_equipo.png", "/view/seleccionCombate/SeleccionCombate.fxml", ""));
         listaSecciones.add(new Seccion(5, "ENTRENAMIENTO", "/imgs/Principal/vidrio_panel_entrenamiento.png", "/crianza/entrenamiento/entrenamiento.fxml", ""));
         listaSecciones.add(new Seccion(6, "POKEDEX", "/imgs/Principal/vidrio_panel_pokedex.png", "/view/pokedex/pokedex.fxml", ""));
         listaSecciones.add(new Seccion(7, "CASINO", "/imgs/Principal/vidrio_panel_casino.png", "/view/casino/casino.fxml", ""));
@@ -261,7 +261,7 @@ public class MainController implements Initializable {
             } else if (principal.getNombre().equals("EQUIPO")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederEquipo);
             } else if (principal.getNombre().equals("COMBATE")) {
-                vidrioPrincipal.setOnMouseClicked(this::accederEquipo);
+                vidrioPrincipal.setOnMouseClicked(this::accederSeleccionCombate);
             } else if (principal.getNombre().equals("ENTRENAMIENTO")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederEntrenamiento);
             } else if (principal.getNombre().equals("POKEDEX")) {
@@ -504,6 +504,52 @@ public class MainController implements Initializable {
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
             primaryStage.setTitle("PokeINC - Equipo");
             primaryStage.setResizable(false);
+            // Cargar icono
+            File file = new File("imgs/Login/Login-icon.png");
+
+            if (file.exists()) {
+                String imagePath = file.toURI().toString();
+                primaryStage.getIcons().add(new Image(imagePath));
+            } else {
+                System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
+            }
+
+            // Cambiar la escena del login por la nueva
+            primaryStage.setScene(scene);
+
+            // Mostrar la escena
+
+            mediaPlayer.stop();
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error al cambiar de ventana - " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+ // --------------- CAPTURA ----------------
+
+    @FXML
+    public void accederSeleccionCombate(MouseEvent event) {
+        try {
+            System.out.println("Cargando la vista captura...");
+
+            // cargamos la vista principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/seleccionCombate/SeleccionCombate.fxml"));
+            Parent root = loader.load(); 
+
+            // Recibir el click
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+
+            // Recuperar la ventana
+            Stage primaryStage = (Stage) source.getScene().getWindow();
+            
+            Scene scene = new Scene(root);
+
+            // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
+            primaryStage.setTitle("PokeINC - Seleccion Combate");
+            primaryStage.setResizable(false);
+
             // Cargar icono
             File file = new File("imgs/Login/Login-icon.png");
 
