@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="607.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EquipoController">
+<AnchorPane prefHeight="607.0" prefWidth="1074.0" stylesheets="@equipo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EquipoController">
    <children>
       <ImageView fitHeight="607.0" fitWidth="1074.0" pickOnBounds="true">
          <image>
@@ -21,15 +23,6 @@
             <ImageView fitHeight="547.0" fitWidth="333.0" pickOnBounds="true">
                <image>
                   <Image url="@../../../imgs/Equipo/Vidrio_panel.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane layoutX="426.0" layoutY="80.0" prefHeight="448.0" prefWidth="611.0">
-         <children>
-            <ImageView fitHeight="424.0" fitWidth="599.0" layoutX="6.0" layoutY="12.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../../imgs/Equipo/Vidrio_panel_sinBorde.png" />
                </image>
             </ImageView>
          </children>
@@ -195,5 +188,15 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
+      <ImageView fitHeight="424.0" fitWidth="599.0" layoutX="431.0" layoutY="102.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../imgs/Equipo/Vidrio_panel_sinBorde.png" />
+         </image>
+      </ImageView>
+      <ScrollPane id="scroll-pane" layoutX="444.0" layoutY="114.0" prefHeight="403.0" prefWidth="577.0">
+         <content>
+            <TilePane id="tile-pane" fx:id="cajaPokemon" prefHeight="399.0" prefWidth="574.0" stylesheets="@equipo.css" />
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

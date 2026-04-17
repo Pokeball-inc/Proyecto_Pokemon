@@ -1,6 +1,8 @@
 package controller;
 
 
+import bd.ConexionBBDD;
+import dao.PokemonDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -22,21 +24,42 @@ import javafx.util.Duration;
 import model.Entrenador;
 import model.Seccion;
 import model.Sesion;
+import model.UbicacionPokemon;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
+import static model.Sesion.entrenadorLogueado;
 
 public class MainController implements Initializable {
-	
-	// Variable para guardar al usuario logueado
-    private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
 
-    // Método para recibir al entrenador desde el Login
+    // Variable para guardar al usuario logueado
+    private Entrenador entrenadorActual = entrenadorLogueado;
+    // Variable para la conexion de la BBDD
+    private Connection con;
+    // Método para recibir al entrenador desde el Login y de paso cargarlo de la base de datos para actualizar todo
+
     public void setEntrenador() {
-        System.out.println("Entrenador: " + entrenadorActual.getNombreEntrenador());
+        if (this.entrenadorActual != null) {
+            try {
+                // creamos conexion a bd
+                ConexionBBDD conector = new ConexionBBDD();
+                Connection con = conector.getConexion();
+
+                // llamamos al dao para rellenar el array de equipo del entrenador
+                PokemonDAO.obtenerPokemon(con, entrenadorActual, UbicacionPokemon.EQUIPO);
+
+                System.out.println("Entrenador: " + entrenadorActual.getNombreEntrenador());
+            } catch (SQLException ex) {
+                System.out.println("Se ha detectado un problema al cargar el entrenador desde la base de datos");
+            }
+        }
     }
 
     // MUSICA DE FONDO
@@ -395,14 +418,14 @@ public class MainController implements Initializable {
 
             // cargamos la vista principal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/captura/captura.fxml"));
-            Parent root = loader.load(); 
+            Parent root = loader.load();
 
             // Recibir el click
             javafx.scene.Node source = (javafx.scene.Node) event.getSource();
 
             // Recuperar la ventana
             Stage primaryStage = (Stage) source.getScene().getWindow();
-            
+
             Scene scene = new Scene(root);
 
             // Cargar el CSS
@@ -453,7 +476,7 @@ public class MainController implements Initializable {
             // Cargar la vista Principal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/crianza/crianza.fxml"));
             Parent root = loader.load();
-            
+
             Scene scene = new Scene(root);
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
@@ -700,7 +723,7 @@ public class MainController implements Initializable {
 
             // Cambiar la escena del login por la nueva
             primaryStage.setScene(scene);
-            primaryStage.sizeToScene();  
+            primaryStage.sizeToScene();
             primaryStage.centerOnScreen();
 
             // Mostrar la escena
