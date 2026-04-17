@@ -22,10 +22,12 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -476,6 +478,30 @@ public class CapturaController implements Initializable {
         
         //probabilidad 2/3 de captura
         if (r.nextInt(3) < 2) { 
+        	// input + logica mote, muestra el nombre dle atrapado y pide mote
+            TextInputDialog dialogMote = new TextInputDialog(pokemonActual.getNombrePokemon());
+            dialogMote.setTitle("¡Pokémon Atrapado!");
+            dialogMote.setHeaderText("¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!");
+            dialogMote.setContentText("Introduce un mote para tu Pokémon:");
+            
+           // obtenemos la ventana del dialogo para personalizarla
+            Stage stageMote = (Stage) dialogMote.getDialogPane().getScene().getWindow();
+            // añadimos el icono de la pokeball de Elyass xD
+            stageMote.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
+            
+            // css para el formato de las aletas
+            dialogMote.getDialogPane().getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+            // para evitar el NullPointerException uso esta clase lo tuve que buscar
+            Optional<String> resultado = dialogMote.showAndWait();
+            
+            // si el usuario escribe algo y da a OK, se pone el mote y si cancela o deja vacio se queda el original
+            if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
+                pokemonActual.setMotePokemon(resultado.get());
+            } else {
+                pokemonActual.setMotePokemon(pokemonActual.getNombrePokemon());
+            }
+        	
+        	
             // establecemos que no esta guardado en el equipo por defecto
             boolean guardadoEnEquipo = false;
             // obtenemos los pokemon del equipo
@@ -506,7 +532,9 @@ public class CapturaController implements Initializable {
             // guardamos en la bd usando el dao inicializado previamente con su metodo guardar pokemon
             capturaDao.guardarPokemon(this.con, pokemonActual, entrenadorActual.getIdEntrenador(), pokemonActual.getUbicacion().name());
             //System.out.println("¡Atrapado! " + pokemonActual.getNombrePokemon() + " enviado a " + pokemonActual.getUbicacion());
-            mostrarAlerta("¡Enhorabuena!","¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!", " enviado a " + pokemonActual.getUbicacion(),AlertType.INFORMATION);
+            String mensajeCuerpo = "¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!";
+            String mensajeDetalle = "Ahora tu " + pokemonActual.getNombrePokemon() + " se llama " + pokemonActual.getMotePokemon() + ".\nFue enviado a: " + pokemonActual.getUbicacion();
+            mostrarAlerta("¡Enhorabuena!", mensajeCuerpo, mensajeDetalle, AlertType.INFORMATION);
             
             // generamos otro encuento 
             generarEncuentro(); 
