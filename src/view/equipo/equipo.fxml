@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -195,7 +196,10 @@
       </ImageView>
       <ScrollPane id="scroll-pane" layoutX="444.0" layoutY="114.0" prefHeight="403.0" prefWidth="577.0">
          <content>
-            <TilePane id="tile-pane" fx:id="cajaPokemon" prefHeight="399.0" prefWidth="574.0" stylesheets="@equipo.css" />
+            <TilePane id="tile-pane" fx:id="cajaPokemon" alignment="TOP_CENTER" prefHeight="399.0" prefWidth="574.0" stylesheets="@equipo.css">
+               <padding>
+                  <Insets right="15.0" />
+               </padding></TilePane>
          </content>
       </ScrollPane>
    </children>
