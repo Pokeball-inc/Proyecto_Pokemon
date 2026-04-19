@@ -44,7 +44,7 @@ public class CrianzaController implements Initializable {
     private ImageView imgHuevo;
     
     @FXML 
-    private ImageView imgBebe; // Añadido para mostrar al hijo al eclosionar
+    private ImageView imgBebe; //Añadido para mostrar al hijo al eclosionar
     
     @FXML 
     private Text txtNombreMacho;
@@ -57,6 +57,20 @@ public class CrianzaController implements Initializable {
     
     @FXML 
     private Text txtFertilidadHembra;
+    
+    //Elementos de la Caja PC 
+    
+    @FXML 
+    private javafx.scene.layout.Pane panelSeleccion;
+    
+    @FXML 
+    private javafx.scene.layout.TilePane contenedorPokemons;
+    
+    @FXML 
+    private Text txtTituloSeleccion;
+    
+    @FXML
+    private ImageView btnCerrarSeleccion;
     
     //Botones
     @FXML
@@ -74,19 +88,22 @@ public class CrianzaController implements Initializable {
     //Variables
     private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
     private Connection con;
-    private CapturaDao capturaDao = new CapturaDao(); // Reutilizamos el DAO de captura para guardar al bebé
+    private CapturaDao capturaDao = new CapturaDao(); //Reutilizamos el DAO de captura para guardar al bebé
     
-    // Listas para separar a los Pokémon aptos para criar
+    //Listas para separar a los Pokémon aptos para criar
     private List<Pokemon> machosDisponibles = new ArrayList<>();
     private List<Pokemon> hembrasDisponibles = new ArrayList<>();
     
-    // Los padres seleccionados actualmente
+    //Los padres seleccionados actualmente
     private Pokemon machoElegido;
     private Pokemon hembraElegida;
     private Random rand = new Random();
+    
+    //Variable para saber si estamos eligiendo al padre o a la madre
+    private boolean seleccionandoMacho = true; 
 
 
-    // Metodo mostrar entrenadorActual
+    //Metodo mostrar entrenadorActual
     public void setEntrenador() {
 
         // Conectar a BD
@@ -94,17 +111,54 @@ public class CrianzaController implements Initializable {
         this.con = conector.getConexion();
 
 
-        // Ocultar al bebe al principio
+        //Ocultar al bebe al principio
         if (imgBebe != null) {
             imgBebe.setVisible(false);
         }
         
-        // Buscar candidatos para criar
+        //Buscar candidatos para criar
         cargarCandidatos();
         
-        // Mostrar los primeros candidatos por defecto (si hay)
-        clicCambiarMacho(null);
-        clicCambiarHembra(null);
+        //Mostrar los primeros candidatos por defecto al entrar a la pantalla 
+        if (!machosDisponibles.isEmpty()) {
+            machoElegido = machosDisponibles.get(rand.nextInt(machosDisponibles.size()));
+            
+            //Comprobamos mote del macho
+            String nombreMacho;
+            if (machoElegido.getMotePokemon() != null && !machoElegido.getMotePokemon().trim().isEmpty()) {
+                nombreMacho = machoElegido.getMotePokemon();
+            } else {
+                nombreMacho = machoElegido.getNombrePokemon();
+            }
+            
+            txtNombreMacho.setText(nombreMacho);
+            txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
+            String ruta = new File("imgs/Pokemons/" + machoElegido.getImgFrontalPokemon()).toURI().toString();
+            imgMacho.setImage(new Image(ruta));
+        } else {
+            txtNombreMacho.setText("No hay Machos");
+            imgMacho.setImage(null);
+        }
+
+        if (!hembrasDisponibles.isEmpty()) {
+            hembraElegida = hembrasDisponibles.get(rand.nextInt(hembrasDisponibles.size()));
+            
+            //Comprobamos mote de la hembra
+            String nombreHembra;
+            if (hembraElegida.getMotePokemon() != null && !hembraElegida.getMotePokemon().trim().isEmpty()) {
+                nombreHembra = hembraElegida.getMotePokemon();
+            } else {
+                nombreHembra = hembraElegida.getNombrePokemon();
+            }
+            
+            txtNombreHembra.setText(nombreHembra);
+            txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
+            String ruta = new File("imgs/Pokemons/" + hembraElegida.getImgFrontalPokemon()).toURI().toString();
+            imgHembra.setImage(new Image(ruta));
+        } else {
+            txtNombreHembra.setText("No hay Hembras");
+            imgHembra.setImage(null);
+        }
     }
 
 
@@ -112,17 +166,17 @@ public class CrianzaController implements Initializable {
         machosDisponibles.clear();
         hembrasDisponibles.clear();
         
-        // Juntamos todos los Pokémon del jugador (Equipo + Caja)
+        //Juntamos todos los Pokémon del jugador (Equipo + Caja)
         List<Pokemon> todosMisPokemon = new ArrayList<>();
         
-        // Añadir los del equipo (evitando los nulos)
+        //Añadir los del equipo 
         for (Pokemon p : entrenadorActual.getEquipoPokemon()) {
             if (p != null) todosMisPokemon.add(p);
         }
-        // Añadir los de la caja
+        //Añadir los de la caja
         todosMisPokemon.addAll(entrenadorActual.getCajaPokemon());
         
-        // Separarlos por sexo y comprobar que TENGAN FERTILIDAD (> 0)
+        //Separarlos por sexo y comprobar que TENGAN FERTILIDAD (> 0)
         for (Pokemon p : todosMisPokemon) {
             if (p.getFertilidad() > 0) {
                 if (p.getSexo() == Sexo.MACHO) {
@@ -188,25 +242,19 @@ public class CrianzaController implements Initializable {
         botonSalir.setScaleY(botonSalir.getScaleY() - 0.2);
     }
     
-    //Botones para cambiar padres (generando aleatorio de los capturados por el entrenador)
+    // --------------- LOGICA DE LA SELECCION DE PADRES (CAJA PC) ---------------
+    
+    //Botones para cambiar padres (abriendo el panel de seleccion)
     
     //Macho
     @FXML
     public void clicCambiarMacho(MouseEvent event) {
         if (!machosDisponibles.isEmpty()) {
-            // Elegir uno aleatorio de la lista
-            machoElegido = machosDisponibles.get(rand.nextInt(machosDisponibles.size()));
-            
-            // Actualizar vista
-            txtNombreMacho.setText(machoElegido.getNombrePokemon());
-            txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
-            
-            String ruta = new File("imgs/Pokemons/" + machoElegido.getImgFrontalPokemon()).toURI().toString();
-            imgMacho.setImage(new Image(ruta));
+            seleccionandoMacho = true;
+            txtTituloSeleccion.setText("Elige al Padre (Macho)");
+            abrirPanelSeleccion(machosDisponibles);
         } else {
-            txtNombreMacho.setText("No hay Machos");
-            imgMacho.setImage(null);
-            machoElegido = null;
+            mostrarAlerta("Sin Machos", "No hay candidatos", "No tienes ningún Pokémon macho con fertilidad disponible.", AlertType.WARNING);
         }
     }
 
@@ -214,19 +262,105 @@ public class CrianzaController implements Initializable {
     @FXML
     public void clicCambiarHembra(MouseEvent event) {
         if (!hembrasDisponibles.isEmpty()) {
-            hembraElegida = hembrasDisponibles.get(rand.nextInt(hembrasDisponibles.size()));
-            
-            txtNombreHembra.setText(hembraElegida.getNombrePokemon());
-            txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
-            
-            String ruta = new File("imgs/Pokemons/" + hembraElegida.getImgFrontalPokemon()).toURI().toString();
-            imgHembra.setImage(new Image(ruta));
+            seleccionandoMacho = false;
+            txtTituloSeleccion.setText("Elige a la Madre (Hembra)");
+            abrirPanelSeleccion(hembrasDisponibles);
         } else {
-            txtNombreHembra.setText("No hay Hembras");
-            imgHembra.setImage(null);
-            hembraElegida = null;
+            mostrarAlerta("Sin Hembras", "No hay candidatas", "No tienes ningún Pokémon hembra con fertilidad disponible.", AlertType.WARNING);
         }
     }
+
+    //Abre el panel y genera la lista visual de Pokemon
+    private void abrirPanelSeleccion(List<Pokemon> listaMostrar) {
+        //Vaciamos lo que hubiera de antes en la cuadricula
+        contenedorPokemons.getChildren().clear();
+
+        //Por cada Pokemon en la lista, creamos su miniatura
+        for (Pokemon p : listaMostrar) {
+            //Creamos una cajita vertical
+            javafx.scene.layout.VBox cajaPokemon = new javafx.scene.layout.VBox();
+            cajaPokemon.setAlignment(javafx.geometry.Pos.CENTER);
+            cajaPokemon.setSpacing(5);
+            //Efecto cristalizado para que parezca un boton
+            cajaPokemon.setStyle("-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 10; -fx-padding: 10; -fx-cursor: hand;");
+
+            //Creamos su imagen
+            ImageView imgPoke = new ImageView();
+            imgPoke.setFitHeight(80);
+            imgPoke.setFitWidth(80);
+            try {
+                String ruta = new File("imgs/Pokemons/" + p.getImgFrontalPokemon()).toURI().toString();
+                imgPoke.setImage(new Image(ruta));
+            } catch (Exception e) {}
+
+            //Comprobamos si tiene mote, si no, usamos el nombre de la especie
+            String nombreAMostrar;
+            if (p.getMotePokemon() != null && !p.getMotePokemon().trim().isEmpty()) {
+                nombreAMostrar = p.getMotePokemon();
+            } else {
+                nombreAMostrar = p.getNombrePokemon();
+            }
+
+            //Creamos su nombre y nivel
+            Text txtNombre = new Text(nombreAMostrar + " (Nv." + p.getNivel() + ")");
+            txtNombre.setFill(javafx.scene.paint.Color.WHITE);
+
+            //Lo metemos todo en la cajita
+            cajaPokemon.getChildren().addAll(imgPoke, txtNombre);
+
+            //Asignamos el evento de click a la cajita
+            cajaPokemon.setOnMouseClicked(event -> pokemonSeleccionado(p));
+
+            //Añadimos la cajita a la cuadricula general
+            contenedorPokemons.getChildren().add(cajaPokemon);
+        }
+
+        //Mostramos el panel gigante y lo traemos al frente
+        panelSeleccion.setVisible(true);
+        panelSeleccion.toFront(); 
+    }
+
+    //Se ejecuta al hacer clic en un Pokemon del panel
+    private void pokemonSeleccionado(Pokemon p) {
+        
+        //Comprobamos si el pokemon que acabamos de hacer clic tiene mote
+        String nombreAMostrar;
+        if (p.getMotePokemon() != null && !p.getMotePokemon().trim().isEmpty()) {
+            nombreAMostrar = p.getMotePokemon();
+        } else {
+            nombreAMostrar = p.getNombrePokemon();
+        }
+
+        if (seleccionandoMacho) {
+            //Guardamos el macho y actualizamos la vista principal
+            machoElegido = p;
+            txtNombreMacho.setText(nombreAMostrar); //Aqui ponemos mote
+            txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
+            try {
+                imgMacho.setImage(new Image(new File("imgs/Pokemons/" + machoElegido.getImgFrontalPokemon()).toURI().toString()));
+            } catch (Exception e) {}
+            
+        } else {
+            //Guardamos la hembra y actualizamos la vista principal
+            hembraElegida = p;
+            txtNombreHembra.setText(nombreAMostrar); //Aqui ponemos mote
+            txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
+            try {
+                imgHembra.setImage(new Image(new File("imgs/Pokemons/" + hembraElegida.getImgFrontalPokemon()).toURI().toString()));
+            } catch (Exception e) {}
+        }
+
+        //Cerramos el panel tras elegir
+        cerrarSeleccion(null);
+    }
+
+    //Boton para cerrar la caja PC sin elegir nada
+    @FXML
+    public void cerrarSeleccion(MouseEvent event) {
+        panelSeleccion.setVisible(false);
+    }
+
+    // --------------- FIN LOGICA DE LA SELECCION DE PADRES ---------------
 
     //Boton de criar
     @FXML
@@ -237,7 +371,7 @@ public class CrianzaController implements Initializable {
             return;
         }
 
-        // Si la imagen del bebe de la crianza anterior estaba visible, la ocultamos
+        //Si la imagen del bebe de la crianza anterior estaba visible, la ocultamos
         if (imgBebe != null) imgBebe.setVisible(false);
 
         //Si devuelve true se ha pulsado abrir y se abre el huevo
@@ -296,19 +430,41 @@ public class CrianzaController implements Initializable {
         bebe.setNumPokedex(hembraElegida.getNumPokedex());
         bebe.setImgFrontalPokemon(hembraElegida.getImgFrontalPokemon());
         bebe.setImgPosteriorPokemon(hembraElegida.getImgPosteriorPokemon());
-        bebe.setNivel(1); // El bebé nace a nivel 1
+        bebe.setNivel(1); //El bebé nace a nivel 1
         bebe.setExperiencia(0);
-        bebe.setFertilidad(5); // Fertilidad máxima al nacer
-        bebe.setSexo(rand.nextBoolean() ? Sexo.MACHO : Sexo.HEMBRA ); // Sexo aleatorio
+        bebe.setFertilidad(5); //Fertilidad máxima al nacer
+        
+        //Sexo aleatorio
+        if (rand.nextBoolean()) {
+            bebe.setSexo(Sexo.MACHO);
+        } else {
+            bebe.setSexo(Sexo.HEMBRA);
+        }
         
         //Mezclar el mote (Mitad madre, mitad padre, orden aleatorio)
-        String moteP = machoElegido.getMotePokemon() != null ? machoElegido.getMotePokemon() : machoElegido.getNombrePokemon();
-        String moteM = hembraElegida.getMotePokemon() != null ? hembraElegida.getMotePokemon() : hembraElegida.getNombrePokemon();
+        String moteP;
+        if (machoElegido.getMotePokemon() != null && !machoElegido.getMotePokemon().trim().isEmpty()) {
+            moteP = machoElegido.getMotePokemon();
+        } else {
+            moteP = machoElegido.getNombrePokemon();
+        }
+        
+        String moteM;
+        if (hembraElegida.getMotePokemon() != null && !hembraElegida.getMotePokemon().trim().isEmpty()) {
+            moteM = hembraElegida.getMotePokemon();
+        } else {
+            moteM = hembraElegida.getNombrePokemon();
+        }
         
         String mitadPadre = moteP.substring(0, Math.max(1, moteP.length() / 2));
         String mitadMadre = moteM.substring(Math.max(0, Math.max(1, moteM.length() / 2)));
         
-        String moteBebe = rand.nextBoolean() ? (mitadPadre + mitadMadre) : (mitadMadre + mitadPadre);
+        String moteBebe;
+        if (rand.nextBoolean()) {
+            moteBebe = mitadPadre + mitadMadre;
+        } else {
+            moteBebe = mitadMadre + mitadPadre;
+        }
         bebe.setMotePokemon(moteBebe);
 
         //Heredar las mejores estadisticas
@@ -390,8 +546,6 @@ public class CrianzaController implements Initializable {
 
                 imgBebe.setLayoutX(403);
                 imgBebe.setLayoutY(278);
-
-
             }
 
         } catch (Exception e) {
@@ -401,8 +555,8 @@ public class CrianzaController implements Initializable {
 
         //Recargar candidatos (Por si alguno se quedó con 0 de fertilidad)
         cargarCandidatos();
-        clicCambiarMacho(null);
-        clicCambiarHembra(null);
+        //Refrescar los padres actuales por si se quedaron vacios tras la crianza
+        setEntrenador();
     }
 
     //Boton de salir

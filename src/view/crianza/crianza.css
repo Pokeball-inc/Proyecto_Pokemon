@@ -1,0 +1,32 @@
+/*ESTILOS PARA LA BARRA DE DESPLAZAMIENTO (SCROLLBAR) */
+
+/*Hace que el fondo general de la barra sea transparente y más finita */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12; 
+}
+
+/*El "carril" por donde baja la barra */
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(0, 0, 0, 0.3); /* Negro muy transparente */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+/*La "píldora" que tú arrastras con el ratón */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.4); /* Blanco semi-transparente */
+    -fx-background-radius: 10;
+}
+
+/*Efecto chulo al pasar el ratón por encima de la píldora */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.8); /* Se vuelve más blanca */
+}
+
+/*Ocultar los botoncitos feos de las flechas arriba y abajo */
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0;
+}
