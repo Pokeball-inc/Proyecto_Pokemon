@@ -378,6 +378,14 @@ public class Pokemon{
   public void setColor(Color color) {
     this.color = color;
   }
+  
+  public int getVitalidadMaxima() {
+	return vitalidadMaxima;
+  }
+
+  public void setVitalidadMaxima(int vitalidadMaxima) {
+	this.vitalidadMaxima = vitalidadMaxima;
+  }
 
   //
   // Other methods
@@ -388,6 +396,24 @@ public class Pokemon{
    */
   public void subirNivel()
   {
+	  this.setNivel(this.getNivel() + 1);
+	    Random r = new Random();
+
+	    // calculamos lo que aumenta cada stat 
+	    int aumentoVit = r.nextInt(5) + 1;
+	    
+	    // actualizamos la Vitalidad Maxima
+	    this.setVitalidadMaxima(this.getVitalidadMaxima() + aumentoVit);
+	    
+	    // al subir de nivel el pokemon se cura
+	    this.setVitalidad(this.getVitalidadMaxima());
+
+	    // actualizamos el resto de stats
+	    this.setAtaque(this.getAtaque() + r.nextInt(5) + 1);
+	    this.setDefensa(this.getDefensa() + r.nextInt(5) + 1);
+	    this.setAtaqueEspecial(this.getAtaqueEspecial() + r.nextInt(5) + 1);
+	    this.setDefensaEspecial(this.getDefensaEspecial() + r.nextInt(5) + 1);
+	    this.setVelocidad(this.getVelocidad() + r.nextInt(5) + 1);
   }
 
 
@@ -471,14 +497,6 @@ public class Pokemon{
     } else {
       setColor(Color.BLACK);
     }
-  }
-
-  public int getVitalidadMaxima() {
-	return vitalidadMaxima;
-  }
-
-  public void setVitalidadMaxima(int vitalidadMaxima) {
-	this.vitalidadMaxima = vitalidadMaxima;
   }
 
 

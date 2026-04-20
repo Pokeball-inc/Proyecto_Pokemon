@@ -410,8 +410,8 @@ public class CapturaController implements Initializable {
 
                     // CAMBIAR EL TEXTO DE VIDA A LA GENERADA AUTOMÁTICAMENTE
 
-                    if (this.pokemonActual.getVitalidad() != 0) {
-                        vidaCaptura.setText("HP / "+this.pokemonActual.getVitalidad());
+                    if (this.pokemonActual.getVitalidadMaxima() != 0) {
+                        vidaCaptura.setText("HP / "+this.pokemonActual.getVitalidadMaxima());
                     }
 
                     // CAMBIAR EL COLOR DE LAS PARTICULAS EN PANTALLA EN FUNCION DEL POKEMON QUE HA SALIDO

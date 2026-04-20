@@ -23,6 +23,7 @@ public class PokemonDAO {
 	            + "P.ID_POKEMON, "
 	            + "P.MOTE, "
 	            + "P.VITALIDAD, "
+	            + "P.VITALIDAD_MAXIMA, "
 	            + "P.ATAQUE, "
 	            + "P.DEFENSA, "
 	            + "P.ATAQUE_SP, "
@@ -78,6 +79,7 @@ public class PokemonDAO {
 			p.setNombrePokemon(rs.getString("NOM_POKEMON"));
 			p.setMotePokemon(rs.getString("MOTE"));
 			p.setVitalidad(rs.getInt("VITALIDAD"));
+			p.setVitalidadMaxima(rs.getInt("VITALIDAD_MAXIMA"));
 			p.setAtaque(rs.getInt("ATAQUE"));
 			p.setDefensa(rs.getInt("DEFENSA"));
 			p.setAtaqueEspecial(rs.getInt("ATAQUE_SP"));
@@ -141,7 +143,6 @@ public class PokemonDAO {
 	    
 	}
 	
-	//Metodo para restar fertilidad despues de la crianza
 	//Metodo para restar fertilidad despues de la crianza
 		public static void actualizarFertilidadBD(Connection con, Pokemon p) {
 		    String sql = "UPDATE POKEMON SET FERTILIDAD = ? WHERE ID_POKEMON = ?";

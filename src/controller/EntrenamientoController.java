@@ -397,7 +397,7 @@ public class EntrenamientoController implements Initializable {
         
         //Vitalidad (HP)
         if (txtHpPokemon != null) {
-            txtHpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidad()));
+            txtHpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidadMaxima()));
         }
         
         //Ataque

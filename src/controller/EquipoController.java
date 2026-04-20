@@ -237,7 +237,7 @@ public class EquipoController implements Initializable {
             // Cambiar el texto de las estadisticas
             atkPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaque()));
             atkPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getAtaqueEspecial()));
-            hpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidad()));
+            hpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidadMaxima()));
             defensaPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensa()));
             defensaPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getDefensaEspecial()));
             velocidadPokemon.setText(String.valueOf(pokemonSeleccionado.getVelocidad()));

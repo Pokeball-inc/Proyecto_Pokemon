@@ -468,7 +468,7 @@ public class CrianzaController implements Initializable {
         bebe.setMotePokemon(moteBebe);
 
         //Heredar las mejores estadisticas
-        bebe.setVitalidad(Math.max(machoElegido.getVitalidad(), hembraElegida.getVitalidad()));
+        bebe.setVitalidadMaxima(Math.max(machoElegido.getVitalidadMaxima(), hembraElegida.getVitalidadMaxima()));
         bebe.setAtaque(Math.max(machoElegido.getAtaque(), hembraElegida.getAtaque()));
         bebe.setDefensa(Math.max(machoElegido.getDefensa(), hembraElegida.getDefensa()));
         bebe.setAtaqueEspecial(Math.max(machoElegido.getAtaqueEspecial(), hembraElegida.getAtaqueEspecial()));
