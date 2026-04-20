@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Estados;
@@ -14,6 +15,11 @@ import model.TiposMovimiento;
 public class MovimientoDAO implements IMovimientoDAO {
 
 	private Connection connection;
+	
+	// cosntructor
+	public MovimientoDAO(Connection connection) {
+	    this.connection = connection;
+	}
 	
 	@Override
 	// metodo para obtener un movimiento por su ID
@@ -142,15 +148,43 @@ public class MovimientoDAO implements IMovimientoDAO {
 
 
 	@Override
+	// metodo para listar todos los movimientos
 	public List<Movimiento> listarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Movimiento> movimientos = new ArrayList<>();
+	    String sql = "SELECT * FROM MOVIMIENTO";
+	    // preparamos el trycatch
+	    try (PreparedStatement ps = connection.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+	    	// recorremos todos los movimientos y los añadimos a la lista
+	        while (rs.next()) {
+	            movimientos.add(obtenerMovimiento(rs));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return movimientos;
 	}
 
 	@Override
+	// metodo para filtrar por el tipo de ataque respecto al tipo del pokemon
 	public List<Movimiento> listarPorTipo(Tipos tipo) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Movimiento> lista = new ArrayList<>();
+	    // Buscamos en la tabla MOVIMIENTO por la columna TIPO_ELEMENTAL
+	    String sql = "SELECT * FROM MOVIMIENTO WHERE TIPO_ELEMENTAL = ?";
+	    
+	    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+	        // el enum se pasa a String para la consulta SQL
+	        ps.setString(1, tipo.toString());
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	            //añadimos a la lista los movimientos
+	            lista.add(obtenerMovimiento(rs));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return lista;
 	}
 
 }
