@@ -176,5 +176,11 @@ public class Movimiento {
   {
   }
 
+	// metodo apra reducir lso movimientos
+	public void reducirUso() {
+		if (this.cantidadMovimientos > 0) {
+			this.cantidadMovimientos--;
+		}
+	}
 
 }
