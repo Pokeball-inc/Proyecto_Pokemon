@@ -2,16 +2,6 @@
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
     <libelement value="jar://C:/MySQL/mysql-connector-j-9.6.0.jar!/" />
-<<<<<<< Updated upstream
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.base.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.controls.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.fxml.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.graphics.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.media.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.swing.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.web.jar!/" />
-    <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx-swt.jar!/" />
-=======
     <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.base.jar!/" />
     <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.controls.jar!/" />
     <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.fxml.jar!/" />
@@ -20,7 +10,6 @@
     <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.swing.jar!/" />
     <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.web.jar!/" />
     <libelement value="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx-swt.jar!/" />
->>>>>>> Stashed changes
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
       <src_folder value="file://$MODULE_DIR$/imgs" expected_position="1" />
@@ -44,15 +33,10 @@
       </library>
     </orderEntry>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="JavaFX" level="project" />
     <orderEntry type="module-library">
       <library name="javafx.base.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.base.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.base.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -61,11 +45,7 @@
     <orderEntry type="module-library">
       <library name="javafx.controls.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.controls.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.controls.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -74,11 +54,7 @@
     <orderEntry type="module-library">
       <library name="javafx.fxml.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.fxml.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.fxml.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -87,11 +63,7 @@
     <orderEntry type="module-library">
       <library name="javafx.graphics.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.graphics.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.graphics.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -100,11 +72,7 @@
     <orderEntry type="module-library">
       <library name="javafx.media.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.media.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.media.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -113,11 +81,7 @@
     <orderEntry type="module-library">
       <library name="javafx.swing.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.swing.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.swing.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -126,11 +90,7 @@
     <orderEntry type="module-library">
       <library name="javafx.web.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx.web.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx.web.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -139,15 +99,12 @@
     <orderEntry type="module-library">
       <library name="javafx-swt.jar">
         <CLASSES>
-<<<<<<< Updated upstream
-          <root url="jar://C:/JavaFX/javafx-sdk-21.0.2/lib/javafx-swt.jar!/" />
-=======
           <root url="jar://C:/JavaFX/javafx-sdk-21.0.10/lib/javafx-swt.jar!/" />
->>>>>>> Stashed changes
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="JavaFX" level="project" />
   </component>
 </module>

@@ -48,7 +48,7 @@ public class CapturaDao {
 
 					// Le asignamos un color al pokemon en funcion de su tipo
 
-					cambiarColor(p);
+					p.cambiarColor();
 
 
 	            }
@@ -95,49 +95,6 @@ public class CapturaDao {
 	    }
 	}
 
-	public void cambiarColor(Pokemon p){
-		String tipo1 = p.getTipoPrincipal().toString();
-		if (tipo1.equals("ACERO")) {
-			p.setColor(Color.SILVER);
-		} else if (tipo1.equals("AGUA")) {
-			p.setColor(Color.BLUE);
-		} else if (tipo1.equals("BICHO")) {
-			p.setColor(Color.YELLOWGREEN);
-		} else if (tipo1.equals("DRAGÓN")) {
-			p.setColor(Color.INDIGO);
-		} else if (tipo1.equals("ELÉCTRICO")) {
-			p.setColor(Color.YELLOW);
-		} else if (tipo1.equals("FANTASMA")) {
-			p.setColor(Color.PURPLE);
-		} else if (tipo1.equals("FUEGO")) {
-			p.setColor(Color.RED);
-		} else if (tipo1.equals("HADA")) {
-			p.setColor(Color.PINK);
-		} else if (tipo1.equals("HIELO")) {
-			p.setColor(Color.CYAN);
-		} else if (tipo1.equals("LUCHA")) {
-			p.setColor(Color.BROWN);
-		} else if (tipo1.equals("NORMAL")) {
-			p.setColor(Color.LIGHTGRAY);
-		} else if (tipo1.equals("PLANTA")) {
-			p.setColor(Color.GREEN);
-		} else if (tipo1.equals("PSÍQUICO")) {
-			p.setColor(Color.MAGENTA);
-		} else if (tipo1.equals("ROCA")) {
-			p.setColor(Color.TAN);
-		} else if (tipo1.equals("SINIESTRO")) {
-			p.setColor(Color.DARKSLATEGRAY);
-		} else if (tipo1.equals("TIERRA")) {
-			p.setColor(Color.CHOCOLATE);
-		} else if (tipo1.equals("VENENO")) {
-			p.setColor(Color.VIOLET);
-		} else if (tipo1.equals("VOLADOR")) {
-			p.setColor(Color.SKYBLUE);
-		} else {
-			p.setColor(Color.BLACK);
-		}
-	}
-	
 	
 	// metodo para guardar el pokemon capturado en la base de datos
 	public void guardarPokemon(Connection con, Pokemon p, int idEntrenador, String ubicacion) {

@@ -255,7 +255,7 @@ public class MainController implements Initializable {
         listaSecciones.add(new Seccion(1, "CAPTURA", "/imgs/Principal/vidrio_panel_captura.png", "/view/captura/captura.fxml", ""));
         listaSecciones.add(new Seccion(2, "CRIANZA", "/imgs/Principal/vidrio_panel_crianza.png", "/view/crianza/crianza.fxml", ""));
         listaSecciones.add(new Seccion(3, "EQUIPO", "/imgs/Principal/vidrio_panel_equipo.png", "/view/equipo/equipo.fxml", ""));
-        listaSecciones.add(new Seccion(4, "COMBATE", "/imgs/Principal/vidrio_panel_equipo.png", "/view/seleccionCombate/SeleccionCombate.fxml", ""));
+        listaSecciones.add(new Seccion(4, "COMBATE", "/imgs/Principal/vidrio_panel_combate.png", "/view/seleccionCombate/SeleccionCombate.fxml", ""));
         listaSecciones.add(new Seccion(5, "ENTRENAMIENTO", "/imgs/Principal/vidrio_panel_entrenamiento.png", "/crianza/entrenamiento/entrenamiento.fxml", ""));
         listaSecciones.add(new Seccion(6, "POKEDEX", "/imgs/Principal/vidrio_panel_pokedex.png", "/view/pokedex/pokedex.fxml", ""));
         listaSecciones.add(new Seccion(7, "CASINO", "/imgs/Principal/vidrio_panel_casino.png", "/view/casino/casino.fxml", ""));

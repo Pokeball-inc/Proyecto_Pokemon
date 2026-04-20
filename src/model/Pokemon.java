@@ -407,5 +407,52 @@ public class Pokemon{
   {
   }
 
+  // Metodo para cambiar de color
+
+
+  public void cambiarColor() {
+    String tipo1 = getTipoPrincipal().toString();
+    if (tipo1.equals("ACERO")) {
+      setColor(Color.SILVER);
+    } else if (tipo1.equals("AGUA")) {
+      setColor(Color.BLUE);
+    } else if (tipo1.equals("BICHO")) {
+      setColor(Color.YELLOWGREEN);
+    } else if (tipo1.equals("DRAGÓN")) {
+      setColor(Color.INDIGO);
+    } else if (tipo1.equals("ELÉCTRICO")) {
+      setColor(Color.YELLOW);
+    } else if (tipo1.equals("FANTASMA")) {
+      setColor(Color.PURPLE);
+    } else if (tipo1.equals("FUEGO")) {
+      setColor(Color.RED);
+    } else if (tipo1.equals("HADA")) {
+      setColor(Color.PINK);
+    } else if (tipo1.equals("HIELO")) {
+      setColor(Color.CYAN);
+    } else if (tipo1.equals("LUCHA")) {
+      setColor(Color.BROWN);
+    } else if (tipo1.equals("NORMAL")) {
+      setColor(Color.LIGHTGRAY);
+    } else if (tipo1.equals("PLANTA")) {
+      setColor(Color.GREEN);
+    } else if (tipo1.equals("PSÍQUICO")) {
+      setColor(Color.MAGENTA);
+    } else if (tipo1.equals("ROCA")) {
+      setColor(Color.TAN);
+    } else if (tipo1.equals("SINIESTRO")) {
+      setColor(Color.DARKSLATEGRAY);
+    } else if (tipo1.equals("TIERRA")) {
+      setColor(Color.CHOCOLATE);
+    } else if (tipo1.equals("VENENO")) {
+      setColor(Color.VIOLET);
+    } else if (tipo1.equals("VOLADOR")) {
+      setColor(Color.SKYBLUE);
+    } else {
+      setColor(Color.BLACK);
+    }
+  }
+
+
 
 }
