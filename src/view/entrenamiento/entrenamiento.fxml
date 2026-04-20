@@ -11,10 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane fx:id="fondoPokemon" prefHeight="600.0" prefWidth="1074.0" stylesheets="@entrenamiento.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EntrenamientoController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="1074.0">
+      <ImageView fx:id="imgFondoPantalla" fitHeight="600.0" fitWidth="1074.0">
          <image>
             <Image url="@../../../imgs/Entrenamiento/FondoEntrenamientoFuncional.png" />
          </image>
@@ -139,7 +138,7 @@
                         <Font name="Consolas" size="18.0" />
                      </font>
                   </Text>
-                  <ImageView fx:id="botonEntrenamientoPesado" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoPesado" onMouseExited="#disminuirTamañoBotonEntrenamientoPesado" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="botonEntrenamientoPesado" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseClicked="#clicEntrenamientoPesado" onMouseEntered="#aumentarTamañoBotonEntrenamientoPesado" onMouseExited="#disminuirTamañoBotonEntrenamientoPesado" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_pesado.png" />
                      </image>
@@ -170,7 +169,7 @@
                         <Font name="Consolas" size="18.0" />
                      </font>
                   </Text>
-                  <ImageView fx:id="botonEntrenamientoFurioso" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoFurioso" onMouseExited="#disminuirTamañoBotonEntrenamientoFurioso" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="botonEntrenamientoFurioso" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseClicked="#clicEntrenamientoFurioso" onMouseEntered="#aumentarTamañoBotonEntrenamientoFurioso" onMouseExited="#disminuirTamañoBotonEntrenamientoFurioso" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_furioso.png" />
                      </image>
@@ -201,7 +200,7 @@
                         <Font name="Consolas" size="18.0" />
                      </font>
                   </Text>
-                  <ImageView fx:id="botonEntrenamientoFuncional" fitHeight="52.0" fitWidth="148.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoFuncional" onMouseExited="#disminuirTamañoBotonEntrenamientoFuncional" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="botonEntrenamientoFuncional" fitHeight="52.0" fitWidth="148.0" layoutX="58.0" layoutY="166.0" onMouseClicked="#clicEntrenamientoFuncional" onMouseEntered="#aumentarTamañoBotonEntrenamientoFuncional" onMouseExited="#disminuirTamañoBotonEntrenamientoFuncional" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_funcional.png" />
                      </image>
@@ -232,7 +231,7 @@
                         <Font name="Consolas" size="18.0" />
                      </font>
                   </Text>
-                  <ImageView fx:id="botonEntrenamientoOnirico" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoOnirico" onMouseExited="#disminuirTamañoBotonEntrenamientoOnirico" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="botonEntrenamientoOnirico" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseClicked="#clicEntrenamientoOnirico" onMouseEntered="#aumentarTamañoBotonEntrenamientoOnirico" onMouseExited="#disminuirTamañoBotonEntrenamientoOnirico" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_onírico.png" />
                      </image>
@@ -281,5 +280,10 @@
             <Image url="@../../../imgs/Entrenamiento/Botones/iconoSalir.png" />
          </image>
       </ImageView>
+      <Text fx:id="txtPokedollares" fill="#109ce2" layoutX="219.0" layoutY="547.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pokedollares">
+         <font>
+            <Font name="Consolas" size="26.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

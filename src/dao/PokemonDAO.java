@@ -51,9 +51,7 @@ public class PokemonDAO {
 		/*
 		 * + "		O.ID_OBJETO,\r\n" + "		O.NOM_OBJETO,\r\n" +
 		 * "		O.DESCRIPCION\r\n"
-		 * 
-		 * 
-		 * + "LEFT JOIN OBJETO O \r\n" + "	ON	P.ID_OBJETO = O.ID_OBJETO\r\n"
+		 * * * + "LEFT JOIN OBJETO O \r\n" + "	ON	P.ID_OBJETO = O.ID_OBJETO\r\n"
 		 */
 
 		// preparamos la consulta
@@ -184,6 +182,31 @@ public class PokemonDAO {
 
 		} catch (Exception e) {
 			System.out.println("¡ERROR SQL AL ACTUALIZAR LA FERTILIDAD!");
+			e.printStackTrace();
+		}
+	}
+
+	// Metodo para actualizar estadisticas despues del entrenamiento
+	public static void actualizarStatsBD(Connection con, Pokemon p) {
+		// sentencia sql para modificar las estadisticas del pokemon
+		String sql = "UPDATE POKEMON SET VITALIDAD = ?, VITALIDAD_MAXIMA = ?, ATAQUE = ?, DEFENSA = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, VELOCIDAD = ? WHERE ID_POKEMON = ?";
+		try {
+			// preparamos la consulta
+			PreparedStatement ps = con.prepareStatement(sql);
+			// introducimos los values
+			ps.setInt(1, p.getVitalidad());
+			ps.setInt(2, p.getVitalidadMaxima());
+			ps.setInt(3, p.getAtaque());
+			ps.setInt(4, p.getDefensa());
+			ps.setInt(5, p.getAtaqueEspecial());
+			ps.setInt(6, p.getDefensaEspecial());
+			ps.setInt(7, p.getVelocidad());
+			ps.setInt(8, p.getIdPokemon());
+
+			// actualizamos en la bd
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// si hay error mostramos el trazado
 			e.printStackTrace();
 		}
 	}
