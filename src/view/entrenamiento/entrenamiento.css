@@ -1,0 +1,76 @@
+/*Fondo de la lista general (para la parte que sobra por debajo) */
+.list-view {
+    -fx-background-color: #2C2C2C; /* Gris oscuro sólido */
+    -fx-border-color: transparent;
+}
+
+/*Diseño normal de cada Pokémon (Fondo sólido) */
+.list-cell {
+    -fx-background-color: #2C2C2C;
+    -fx-border-color: #444444; /*Línea separadora gris oscura */
+    -fx-border-width: 0 0 1 0; /*Solo línea abajo */
+}
+
+/*Para las celdas vacías */
+.list-cell:empty {
+    -fx-background-color: #2C2C2C;
+    -fx-border-width: 0;
+}
+
+/*Cuando pasas el ratón por encima (Efecto Hover) */
+.list-cell:filled:hover {
+    -fx-background-color: #353535; /*más claro */
+    -fx-cursor: hand;
+}
+
+/*Cuando haces CLIC (Fondo más claro y franja roja a la izquierda) */
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #404040; 
+    -fx-border-color: transparent transparent transparent #E3352F; /*Rojo a la izquierda */
+    -fx-border-width: 0 0 0 5; /*5px de grosor en el borde izquierdo */
+}
+
+/*Eliminar barra horizontal*/
+.list-view .scroll-bar:horizontal {
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-opacity: 0;
+    visibility: hidden;
+}
+
+
+/*Personalizacion barra vertical*/
+/*El carril o fondo por donde se desliza la barra (Track) */
+.list-view .scroll-bar:vertical .track {
+    -fx-background-color: #2C2C2C; /*Mismo color que tu panel para que se fusione */
+    -fx-border-color: transparent;
+}
+
+/*La barrita que arrastras con el ratón (Thumb) */
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #555555; /*Gris medio */
+    -fx-background-radius: 8px; /*Bordes redondeados */
+    -fx-background-insets: 2; /*Margen interno para que no toque los bordes */
+}
+
+/*Efecto al pasar el ratón por encima de la barra (Hover) */
+.list-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #E3352F; /*Se pone roja como el diseño principal*/
+}
+
+/*Efecto al hacer clic y arrastrar la barra */
+.list-view .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #ff4d4d; /* Un rojo más brillante */
+}
+
+/*Ocultar los botones de las flechitas (Arriba/Abajo) */
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0; /* Las encogemos a 0 */
+}
+
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " "; /*Vaciamos la forma de la flecha para que no se dibuje */
+}

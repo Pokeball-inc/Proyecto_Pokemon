@@ -1,14 +1,285 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.EntrenamientoController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane fx:id="fondoPokemon" prefHeight="600.0" prefWidth="1074.0" stylesheets="@entrenamiento.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EntrenamientoController">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="1074.0">
+         <image>
+            <Image url="@../../../imgs/Entrenamiento/FondoEntrenamientoFuncional.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="206.0" layoutY="98.0" prefHeight="403.0" prefWidth="277.0" style="-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15;">
+         <children>
+            <Pane prefHeight="207.0" prefWidth="277.0">
+               <children>
+                  <ImageView fx:id="imgPokemonCentral" fitHeight="318.0" fitWidth="214.0" layoutX="40.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/6.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imgTipo1Pokemon" fitHeight="43.0" fitWidth="36.0" layoutX="126.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Equipo/Tipos/FUEGO.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imgTipo2Pokemon" fitHeight="24.0" fitWidth="23.0" layoutX="135.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../imgs/Equipo/Tipos/VOLADOR.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imgSexoPokemon" fitHeight="36.0" fitWidth="23.0" layoutX="242.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Equipo/sexo/Macho.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="43.0" layoutY="47.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="43.0" layoutY="85.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="43.0" layoutY="125.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="160.0" layoutY="47.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="160.0" layoutY="85.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="160.0" layoutY="125.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+                  <ImageView fitHeight="28.0" fitWidth="23.0" layoutX="53.0" layoutY="47.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Stats/ATK.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="txtAtkPokemon" fill="#56654b" layoutX="84.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtHpPokemon" fill="#56654b" layoutX="84.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtDefensaPokemon" fill="#56654b" layoutX="84.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtAtkSpPokemon" fill="#56654b" layoutX="200.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtVelocidadPokemon" fill="#56654b" layoutX="200.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtDefensaSpPokemon" fill="#56654b" layoutX="200.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="28.0" fitWidth="23.0" layoutX="53.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Stats/VIDA.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="55.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Stats/DEF.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="28.0" fitWidth="23.0" layoutX="170.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Equipo/Stats/ATK-ESPECIAL.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="19.0" layoutX="174.0" layoutY="88.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../imgs/Equipo/Stats/VELOCIDAD.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="28.0" fitWidth="23.0" layoutX="172.0" layoutY="124.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../imgs/Equipo/Stats/DEF-ESPECIAL.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <VBox layoutX="511.0" layoutY="40.0" prefHeight="244.0" prefWidth="255.0" style="-fx-background-color: rgba(255, 255, 255, 0.4);; -fx-background-radius: 15;">
+         <children>
+            <Pane prefHeight="245.0" prefWidth="255.0">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <children>
+                  <Text layoutX="53.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COSTE: 20*NIVEL">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="19.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+5 VITALIDAD, DEFENSA ">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="68.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y DEFENSA SP">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="botonEntrenamientoPesado" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoPesado" onMouseExited="#disminuirTamañoBotonEntrenamientoPesado" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_pesado.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <VBox layoutX="795.0" layoutY="40.0" prefHeight="244.0" prefWidth="255.0" style="-fx-background-color: rgba(255, 255, 255, 0.4);; -fx-background-radius: 15;">
+         <children>
+            <Pane prefHeight="245.0" prefWidth="255.0">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <children>
+                  <Text layoutX="53.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COSTE: 30*NIVEL">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="28.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+5 ATAQUE, ATAQUE SP">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="73.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y VELOCIDAD">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="botonEntrenamientoFurioso" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoFurioso" onMouseExited="#disminuirTamañoBotonEntrenamientoFurioso" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_furioso.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <VBox layoutX="511.0" layoutY="311.0" prefHeight="244.0" prefWidth="255.0" style="-fx-background-color: rgba(255, 255, 255, 0.4);; -fx-background-radius: 15;">
+         <children>
+            <Pane prefHeight="245.0" prefWidth="255.0">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <children>
+                  <Text layoutX="53.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COSTE: 40*NIVEL">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="29.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+5 VELOCIDAD, ATAQUE,">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="38.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEFENSA Y VITALIDAD">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="botonEntrenamientoFuncional" fitHeight="52.0" fitWidth="148.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoFuncional" onMouseExited="#disminuirTamañoBotonEntrenamientoFuncional" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_funcional.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <VBox layoutX="795.0" layoutY="311.0" prefHeight="244.0" prefWidth="255.0" style="-fx-background-color: rgba(255, 255, 255, 0.4);; -fx-background-radius: 15;">
+         <children>
+            <Pane prefHeight="245.0" prefWidth="255.0">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <children>
+                  <Text layoutX="53.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COSTE: 40*NIVEL">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="9.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+5 VELOCIDAD, ATAQUE SP,">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="19.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEFENSA SP Y VITALIDAD">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="botonEntrenamientoOnirico" fitHeight="45.0" fitWidth="188.0" layoutX="58.0" layoutY="166.0" onMouseEntered="#aumentarTamañoBotonEntrenamientoOnirico" onMouseExited="#disminuirTamañoBotonEntrenamientoOnirico" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/Botones/entrenamiento_onírico.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4760f5" height="30.0" layoutX="511.0" layoutY="40.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="255.0" />
+      <Text layoutX="540.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTRENAMIENTO PESADO">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#47f562" height="30.0" layoutX="511.0" layoutY="312.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="255.0" />
+      <Text layoutX="525.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTRENAMIENTO FUNCIONAL">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7413b1" height="30.0" layoutX="795.0" layoutY="312.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="255.0" />
+      <Text layoutX="819.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTRENAMIENTO ONIRICO">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b01313" height="30.0" layoutX="794.0" layoutY="40.0" opacity="0.45" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="255.0" />
+      <Text layoutX="819.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTRENAMIENTO FURIOSO">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Text>
+      <ListView fx:id="listaPokemon" opacity="0.5" prefHeight="600.0" prefWidth="176.0" />
+      <Text fx:id="txtNombreCentral" fill="#109ce2" layoutX="305.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Consolas" size="36.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtNivelCentral" fill="#109ce2" layoutX="325.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="botonSalir" fitHeight="32.0" fitWidth="36.0" layoutX="1021.0" layoutY="560.0" onMouseClicked="#entrenamientoSalir" onMouseEntered="#aumentarTamañoBotonSalir" onMouseExited="#disminuirTamañoBotonSalir" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Entrenamiento/Botones/iconoSalir.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>
