@@ -83,7 +83,7 @@ public class CapturaDao {
 	    p.setNivel(1);
 	    p.setExperiencia(0);
 	    p.setFertilidad(5); //fertilidad inicial a 5 
-	    p.setEstado(Estados.SANO);
+	    p.setEstadoActual(Estados.SANO);
 	    //Generar el sexo aleatorio
 	    int suerteSexo = r.nextInt(3);
 	    if (suerteSexo == 0) {
@@ -133,8 +133,8 @@ public class CapturaDao {
 	        ps.setInt(12, p.getExperiencia());
 	        ps.setInt(13, p.getFertilidad());
 	        //Si es nulo se le da estado SANO por defecto
-	        if (p.getEstado() != null) {
-	            ps.setString(14, p.getEstado().name()); 
+	        if (p.getEstadoActual() != null) {
+	            ps.setString(14, p.getEstadoActual().name()); 
 	        } else {
 	            ps.setString(14, "SANO");
 	        }

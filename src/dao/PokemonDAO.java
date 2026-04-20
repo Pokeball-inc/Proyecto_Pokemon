@@ -106,9 +106,9 @@ public class PokemonDAO {
             //Lectura del estado en caso de ser nulo
             String estadoBd = rs.getString("ESTADO");
             if (estadoBd != null) {
-                p.setEstado(Estados.valueOf(estadoBd.trim().toUpperCase()));
+                p.setEstadoActual(Estados.valueOf(estadoBd.trim().toUpperCase()));
             } else {
-                p.setEstado(Estados.SANO);
+                p.setEstadoActual(Estados.SANO);
             }
 			//TODO mirar para poner objects
 			p.setObjetoEquipado(null);

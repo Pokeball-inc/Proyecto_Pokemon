@@ -78,9 +78,68 @@ public class MovimientoDAO implements IMovimientoDAO {
     
     // metodo para revisar las descripciones de los movimientos y ver que estado aplican
     private Estados identificarEstado(String desc) {
-    	// TODO identificar que estado aplica cada movimiento
-    	return Estados.SANO;
-}
+    	if (desc.contains("paralizar") || desc.contains("paraliza")) {
+            return Estados.PARALIZADO;
+        }
+        if (desc.contains("quemar") || desc.contains("quema")) {
+            return Estados.QUEMADO;
+        }
+        if (desc.contains("envenenar") || desc.contains("envenena") || desc.contains("veneno")) {
+            if (desc.contains("gravemente")) {
+                return Estados.GRAVEMENTEENMVENEDADO;
+            } else {
+                return Estados.ENVENENADO;
+            }
+        }
+        if (desc.contains("dormir") || desc.contains("duerme") || desc.contains("sueño")) {
+            return Estados.DORMIDO;
+        }
+        if (desc.contains("congelar") || desc.contains("congela")) {
+            return Estados.CONGELADO;
+        }
+        if (desc.contains("helado")) {
+            return Estados.HELADO;
+        }
+        if (desc.contains("confundir") || desc.contains("confunde") || desc.contains("mareo")) {
+            return Estados.CONFUSO;
+        }
+        if (desc.contains("enamora") || desc.contains("atracción")) {
+            return Estados.ENAMORADO;
+        }
+        if (desc.contains("atrapa") || desc.contains("oprime") || desc.contains("apresa")) {
+            return Estados.APRESADO;
+        }
+        if (desc.contains("maldición") || desc.contains("maldice") || desc.contains("maldito")) {
+            return Estados.MALDITO;
+        }
+        if (desc.contains("huida imposible")) {
+            return Estados.HUIDAIMPOSIBLE;
+        }
+        if (desc.contains("drenadoras")) {
+            return Estados.DRENADORAS;
+        }
+        if (desc.contains("canto mortal")) {
+            return Estados.CANTOMORTAL;
+        }
+        if (desc.contains("amedrentar") || desc.contains("retroceder")) {
+            return Estados.AMEDENTRADO;
+        }
+        if (desc.contains("somnoliento")) {
+            return Estados.SOMNOLIENTO;
+        }
+        if (desc.contains("pokerus")) {
+            return Estados.POKERUS;
+        }
+        if (desc.contains("debilitado")) {
+            return Estados.DEBILITADO;
+        }
+        if (desc.contains("centro atención")) {
+            return Estados.CENTROATENCION;
+        }
+
+        return Estados.SANO;
+    }
+
 
 	@Override
 	public List<Movimiento> listarTodos() {

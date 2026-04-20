@@ -35,7 +35,12 @@ public class Pokemon{
    * vitalidad del Pokemon
    *    */
 
-  private int vitalidad;  /**
+  private int vitalidad;  
+  
+  // vida maxima del pokemon
+  private int vitalidadMaxima;
+  
+  /**
 
    * ataque del Pokemon
    *    */
@@ -73,8 +78,9 @@ public class Pokemon{
   /**
    * fertilidad del Pokemon
    */
-  private int fertilidad = 5;  /**
-
+  private int fertilidad = 5;  
+  
+  /**
    * sexo del Pokemon
    *    */
 
@@ -88,6 +94,10 @@ public class Pokemon{
    * estado del Pokemon
    */
   private Estados estadoActual = Estados.SANO;
+  
+  // turnos que quedan para que acabe el estado
+  private int turnosEstadoRestantes = 0; 
+  
   /**
    * objeto que puede o no llevar el Pokemon
    */
@@ -130,6 +140,8 @@ public class Pokemon{
    */
   private Color color;
   
+  
+ 
   //
   // Constructors
   //
@@ -271,13 +283,21 @@ public class Pokemon{
     return tipoSecundario;
   }
 
-  public void setEstado (Estados newVar) {
+  public void setEstadoActual (Estados newVar) {
     estadoActual = newVar;
   }
 
-  public Estados getEstado () {
+  public Estados getEstadoActual () {
     return estadoActual;
   }
+  
+  public void setTurnosEstadoRestantes(int t) { 
+	  this.turnosEstadoRestantes = t; 
+	  }
+  
+  public int getTurnosEstadoRestantes() {
+	  return turnosEstadoRestantes; 
+	  }
 
   public void setObjetoEquipado (Objeto newVar) {
     objetoEquipado = newVar;
@@ -451,6 +471,14 @@ public class Pokemon{
     } else {
       setColor(Color.BLACK);
     }
+  }
+
+  public int getVitalidadMaxima() {
+	return vitalidadMaxima;
+  }
+
+  public void setVitalidadMaxima(int vitalidadMaxima) {
+	this.vitalidadMaxima = vitalidadMaxima;
   }
 
 
