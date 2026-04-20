@@ -29,7 +29,13 @@
       <Line endX="198.0" endY="-263.0" layoutX="502.0" layoutY="856.0" startX="-130.0" startY="-263.0" stroke="#68f2ff" />
       <Pane fx:id="CajaImagenPokemon" layoutX="455.0" layoutY="108.0" prefHeight="165.0" prefWidth="164.0">
          <children>
-            <ImageView fx:id="imgPokemonActual" fitHeight="282.0" fitWidth="353.0" layoutX="-94.0" layoutY="-106.0" nodeOrientation="INHERIT" pickOnBounds="true">
+            <Text fx:id="txtNombre" fill="WHITE" layoutX="-55.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard" textAlignment="CENTER" wrappingWidth="274.4000244140625">
+               <font>
+                  <Font name="Consolas Bold" size="31.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="imgSexo" fitHeight="31.0" fitWidth="25.0" layoutX="171.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgPokemonActual" fitHeight="236.0" fitWidth="306.0" layoutX="-71.0" layoutY="-70.0" nodeOrientation="INHERIT" pickOnBounds="true">
                <image>
                   <Image url="@../../../imgs/Captura/pokemon/charizard.gif" />
                </image>
@@ -37,12 +43,6 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ImageView>
-            <Text fx:id="txtNombre" fill="WHITE" layoutX="-55.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard" textAlignment="CENTER" wrappingWidth="274.4000244140625">
-               <font>
-                  <Font name="Consolas Bold" size="31.0" />
-               </font>
-            </Text>
-            <ImageView fx:id="imgSexo" fitHeight="31.0" fitWidth="25.0" layoutX="171.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
       <Line endX="200.0" layoutX="483.0" layoutY="434.0" startX="-91.0" stroke="#68f2ff" />

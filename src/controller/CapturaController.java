@@ -396,10 +396,12 @@ public class CapturaController implements Initializable {
                     if (rutaImagenAdaptada != null) {
                         Image img = new Image(rutaImagenAdaptada);
                         imgPokemonActual.setImage(img);
-                        imgPokemonActual.setLayoutX(-94);
-                        imgPokemonActual.setLayoutY(-106);
-                        imgPokemonActual.setFitWidth(353);
-                        imgPokemonActual.setFitHeight(282);
+                        imgPokemonActual.setLayoutX(-62);
+                        imgPokemonActual.setLayoutY(-78);
+                        imgPokemonActual.setFitWidth(150);
+                        imgPokemonActual.setFitHeight(150);
+                        imgPokemonActual.setX(70);
+                        imgPokemonActual.setY(30);
                         imgPokemonActual.setPreserveRatio(false);
                     } else {
                         System.out.println(rutaImagen);

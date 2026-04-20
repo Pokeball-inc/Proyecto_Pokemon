@@ -133,8 +133,8 @@ public class EquipoController implements Initializable {
                 // Crear el ImageView
                 String rutaPokemon = new File("imgs/Pokemons/" + p.getImgFrontalPokemon()).toURI().toString();
                 ImageView vistaImagen = new ImageView(new Image(rutaPokemon));
-                vistaImagen.setFitWidth(132);
-                vistaImagen.setFitHeight(132);
+                vistaImagen.setFitWidth(100);
+                vistaImagen.setFitHeight(100);
                 vistaImagen.setPreserveRatio(true);
 
                 // Crear el label
@@ -207,6 +207,11 @@ public class EquipoController implements Initializable {
             String rutaImagen = "imgs/Pokemons/" + pokemonSeleccionado.getImgFrontalPokemon();
             String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
             fotoPokemon.setImage(new Image(rutaImagenAdaptada));
+            fotoPokemon.setFitWidth(180);
+            fotoPokemon.setFitHeight(190);
+            fotoPokemon.setX(55);
+            fotoPokemon.setY(30);
+            fotoPokemon.setPreserveRatio(true);
 
             // Lógica para el sexo
             if (pokemonSeleccionado.getSexo() == MACHO) {
