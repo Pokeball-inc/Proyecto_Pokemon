@@ -358,11 +358,7 @@ public class CapturaController implements Initializable {
 
                 // cargamos la imagen correspondiente al nombre del pokemon
                 try {
-                    // pasamos el nombre a minusculas y ponemos extension del sprite
-                    String nombreSprite = this.pokemonActual.getNombrePokemon().toLowerCase() + "                       ";
-
-                    // buscamos el archivo en tu carpeta de sprites
-                    String rutaImagen = "imgs/Pokemons/" + this.pokemonActual.getImgFrontalPokemon();
+                    String rutaImagen = this.pokemonActual.getImgFrontalPokemon();
                     String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
 
                     // ESTABLECE EL TEXTO DE TIPO1 AL DELPOKEMON ACTUAL
@@ -394,6 +390,7 @@ public class CapturaController implements Initializable {
                     // ESTABLECE LA IMAGEN DEL POKEMON Y FUERZA A QUE NO CAMBIE EL TAMAÑO DEL IMAGEVIEW
 
                     if (rutaImagenAdaptada != null) {
+                        System.out.println(rutaImagenAdaptada);
                         Image img = new Image(rutaImagenAdaptada);
                         imgPokemonActual.setImage(img);
                         imgPokemonActual.setLayoutX(-62);
@@ -405,7 +402,7 @@ public class CapturaController implements Initializable {
                         imgPokemonActual.setPreserveRatio(false);
                     } else {
                         System.out.println(rutaImagen);
-                        System.out.println("no se ha encontrado el archivo: " + nombreSprite);
+                        System.out.println("no se ha encontrado el archivo: " + pokemonActual.getNombrePokemon());
                     }
 
                     // CAMBIAR EL TEXTO DE VIDA A LA GENERADA AUTOMÁTICAMENTE

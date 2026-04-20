@@ -131,7 +131,7 @@ public class EquipoController implements Initializable {
                 );
 
                 // Crear el ImageView
-                String rutaPokemon = new File("imgs/Pokemons/" + p.getImgFrontalPokemon()).toURI().toString();
+                String rutaPokemon = new File(p.getImgFrontalPokemon()).toURI().toString();
                 ImageView vistaImagen = new ImageView(new Image(rutaPokemon));
                 vistaImagen.setFitWidth(100);
                 vistaImagen.setFitHeight(100);
@@ -204,7 +204,7 @@ public class EquipoController implements Initializable {
             pokemonSeleccionado.cambiarColor();
 
             // buscamos el archivo en tu carpeta de sprites
-            String rutaImagen = "imgs/Pokemons/" + pokemonSeleccionado.getImgFrontalPokemon();
+            String rutaImagen = pokemonSeleccionado.getImgFrontalPokemon();
             String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
             fotoPokemon.setImage(new Image(rutaImagenAdaptada));
             fotoPokemon.setFitWidth(180);

@@ -133,7 +133,7 @@ public class CrianzaController implements Initializable {
             
             txtNombreMacho.setText(nombreMacho);
             txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
-            String ruta = new File("imgs/Pokemons/" + machoElegido.getImgFrontalPokemon()).toURI().toString();
+            String ruta = new File(machoElegido.getImgFrontalPokemon()).toURI().toString();
             imgMacho.setImage(new Image(ruta));
         } else {
             txtNombreMacho.setText("No hay Machos");
@@ -153,7 +153,7 @@ public class CrianzaController implements Initializable {
             
             txtNombreHembra.setText(nombreHembra);
             txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
-            String ruta = new File("imgs/Pokemons/" + hembraElegida.getImgFrontalPokemon()).toURI().toString();
+            String ruta = new File(hembraElegida.getImgFrontalPokemon()).toURI().toString();
             imgHembra.setImage(new Image(ruta));
         } else {
             txtNombreHembra.setText("No hay Hembras");
@@ -289,7 +289,7 @@ public class CrianzaController implements Initializable {
             imgPoke.setFitHeight(80);
             imgPoke.setFitWidth(80);
             try {
-                String ruta = new File("imgs/Pokemons/" + p.getImgFrontalPokemon()).toURI().toString();
+                String ruta = new File(p.getImgFrontalPokemon()).toURI().toString();
                 imgPoke.setImage(new Image(ruta));
             } catch (Exception e) {}
 
@@ -337,7 +337,7 @@ public class CrianzaController implements Initializable {
             txtNombreMacho.setText(nombreAMostrar); //Aqui ponemos mote
             txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
             try {
-                imgMacho.setImage(new Image(new File("imgs/Pokemons/" + machoElegido.getImgFrontalPokemon()).toURI().toString()));
+                imgMacho.setImage(new Image(new File(machoElegido.getImgFrontalPokemon()).toURI().toString()));
             } catch (Exception e) {}
             
         } else {
@@ -346,7 +346,7 @@ public class CrianzaController implements Initializable {
             txtNombreHembra.setText(nombreAMostrar); //Aqui ponemos mote
             txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
             try {
-                imgHembra.setImage(new Image(new File("imgs/Pokemons/" + hembraElegida.getImgFrontalPokemon()).toURI().toString()));
+                imgHembra.setImage(new Image(new File(hembraElegida.getImgFrontalPokemon()).toURI().toString()));
             } catch (Exception e) {}
         }
 
@@ -515,7 +515,7 @@ public class CrianzaController implements Initializable {
             }
 
             if (imgBebe != null) {
-                String rutaBebe = new File("imgs/Pokemons/" + bebe.getImgFrontalPokemon()).toURI().toString();
+                String rutaBebe = new File(bebe.getImgFrontalPokemon()).toURI().toString();
                 imgBebe.setImage(new Image(rutaBebe));
                 imgBebe.setVisible(true); 
             }
