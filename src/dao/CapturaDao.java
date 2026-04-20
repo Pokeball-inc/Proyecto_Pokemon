@@ -3,11 +3,13 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Random;
 
 import bd.ConexionBBDD;
 import javafx.scene.paint.Color;
 import model.Estados;
+import model.Movimiento;
 import model.Pokemon;
 import model.Tipos;
 
@@ -150,6 +152,8 @@ public class CapturaDao {
                 int idGenerado = rs.getInt(1); //Extraemos el número
                 p.setIdPokemon(idGenerado);    //Se lo asignamos al objeto Java
                 
+                // asignamos un movimiento relacionado con el tipo dle pokemon
+                asignarMovimientoInicial(con, p);
                 //Chivato para comprobar 
                  System.out.println("¡Bebé/Captura guardado! Su ID real es: " + idGenerado);
             }
@@ -159,7 +163,40 @@ public class CapturaDao {
 	    }
 	}
 	
-	
+	// metodo apra poner un movimiento inicial a ccada poikemon capturado
+	private void asignarMovimientoInicial(Connection con, Pokemon p) {
+		// mediante el DAO buscamos en la bd
+	    MovimientoDAO movDAO = new MovimientoDAO(con);
+	    
+	    // obtenemos solo movimientos de su tipo que tengan POTENCIA > 0, para que pueda hacer daño
+	    List<Movimiento> compatibles = movDAO.listarPorTipoYOfensivo(p.getTipoPrincipal());
+
+	    if (!compatibles.isEmpty()) {
+	        // elegimos uno al azar de la lista de movimientos que hacen daño
+	        Random r = new Random();
+	        Movimiento inicial = compatibles.get(r.nextInt(compatibles.size()));
+
+	        // insertamos la relacion en la tabla SET_MOVIMIENTOS
+	        String sql = "INSERT INTO SET_MOVIMIENTOS (ID_POKEMON, ID_MOVIMIENTO, ES_ACTIVO, PP) VALUES (?, ?, 1, 20)";
+
+	        try (PreparedStatement ps = con.prepareStatement(sql)) {
+	        	// ID del Pokemon recien creado
+	            ps.setInt(1, p.getIdPokemon()); 
+	            // ID del movimiento elegido
+	            ps.setInt(2, inicial.getIdMovimiento()); 
+	            ps.executeUpdate();
+	            
+	            // lo guardamos en el objeto Pokemon para que el controlador lo use
+	            Movimiento[] iniciales = new model.Movimiento[4];
+	            iniciales[0] = inicial;
+	            p.setMovimientos(iniciales);
+	            
+	            System.out.println("LOG: Asignado movimiento ofensivo " + inicial.getNombreMovimiento() + " a " + p.getNombrePokemon());
+	        } catch (java.sql.SQLException e) {
+	            System.out.println("Error al asignar movimiento inicial: " + e.getMessage());
+	        }
+	    }
+	}
 	
 	
 	

@@ -190,4 +190,33 @@ public class MovimientoDAO implements IMovimientoDAO {
 	    return lista;
 	}
 
+	// mtodo para obtener movimientos que coincidan con el tipo del Pokemon y que hagan daño
+	public List<Movimiento> listarPorTipoYOfensivo(Tipos tipo) {
+	    // creamos una lista vacia
+	    List<Movimiento> lista = new ArrayList<>();
+	    
+	    //  preparamos la consulta SQL. 
+	    // Filtramos por el tipo elemental y usamos POTENCIA > 0 para descartar ataques de estado 
+	    String sql = "SELECT * FROM MOVIMIENTO WHERE TIPO_ELEMENTAL = ? AND POTENCIA > 0";
+	    
+	    // abrimos el try-with-resources para gestionar la consulta de forma segura.
+	    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+	        
+	        // sustituimos el ? por el nombre del tipo del Pokemon
+	        ps.setString(1, tipo.toString());
+	        
+	        // ejecutamos la consulta en la bd
+	        ResultSet rs = ps.executeQuery();
+	        
+	        // mientras la base de datos encuentre filas que cumplan los requisitos lo añadimos a la lista, buscando por id
+	        while (rs.next()) {
+	            lista.add(buscarPorId(rs.getInt("ID_MOVIMIENTO")));
+	        }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
 }
