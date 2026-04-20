@@ -140,6 +140,8 @@ public class Pokemon{
    */
   private Color color;
   
+  //sera  "Físico" o "Especial" para saber qeu ataque o defensa usar si la especial o la normal
+  private String categoriaDano; 
   
  
   //
@@ -291,6 +293,14 @@ public class Pokemon{
     return estadoActual;
   }
   
+  public String getCategoriaDano() {
+	return categoriaDano;
+}
+
+  public void setCategoriaDano(String categoriaDano) {
+	this.categoriaDano = categoriaDano;
+  }
+
   public void setTurnosEstadoRestantes(int t) { 
 	  this.turnosEstadoRestantes = t; 
 	  }
