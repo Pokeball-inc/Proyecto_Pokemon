@@ -75,6 +75,7 @@ public class MovimientoDAO implements IMovimientoDAO {
             // si la descripcion dice que es fisico o especial, lo tratamos directamente como un ataque de daño
             mov.setTipoMovimiento(TiposMovimiento.ATAQUE);
             
+            // para que se pueda establecer si es ata o def normal o especial
             mov.setCategoriaDano(categoriaBD);
             // algunos ataques de daño también pueden meter estados secundarios
             mov.setEstadoAplicado(identificarEstado(desc));
