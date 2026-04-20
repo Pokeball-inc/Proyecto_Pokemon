@@ -179,7 +179,12 @@ public class Pokemon{
   }
 
   public void setVitalidad (int newVar) {
-    vitalidad = newVar;
+	// Si intentamos curar más del máximo, se queda en el máximo
+	    if (newVar > this.vitalidadMaxima) {
+	        this.vitalidad = this.vitalidadMaxima;
+	    } else {
+	        this.vitalidad = newVar;
+	    }
   }
 
   public int getVitalidad () {

@@ -73,7 +73,7 @@ public class CapturaDao {
 
 	    Random r = new Random();
 	    // para cada stat genera un numero aleatorio
-	    p.setVitalidad(r.nextInt(50) + 50);       // 50-100
+	    p.setVitalidadMaxima(r.nextInt(50) + 50);       // 50-100
 	    p.setAtaque(r.nextInt(20) + 10);          // 10-30
 	    p.setDefensa(r.nextInt(20) + 10);	      // 10-30
 	    p.setAtaqueEspecial(r.nextInt(20) + 10);  // 10-30
@@ -101,7 +101,7 @@ public class CapturaDao {
 		
 		// preparamos la sentencia sql de insercion
 		// ponemos un "?" por cada columna para que java rellene los huecos luego
-		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD_MAXIMA, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try {
 	    	// preparamos la conexión para enviar esta consulta
@@ -123,7 +123,7 @@ public class CapturaDao {
 	            ps.setString(4, "NEUTRO");
 	        }
 	        
-	        ps.setInt(5, p.getVitalidad());
+	        ps.setInt(5, p.getVitalidadMaxima());
 	        ps.setInt(6, p.getAtaque());
 	        ps.setInt(7, p.getDefensa());
 	        ps.setInt(8, p.getVelocidad());
