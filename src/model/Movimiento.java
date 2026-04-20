@@ -56,6 +56,10 @@ public class Movimiento {
    */
   private String animacionMovimiento;
   
+  //sera  "Físico" o "Especial" para saber qeu ataque o defensa usar si la especial o la normal
+  private String categoriaDano; 
+  
+  
   //
   // Constructors
   //
@@ -146,6 +150,14 @@ public class Movimiento {
     return animacionMovimiento;
   }
 
+  public String getCategoriaDano() {
+	return categoriaDano;
+}
+
+  public void setCategoriaDano(String categoriaDano) {
+	this.categoriaDano = categoriaDano;
+  }
+  
   //
   // Other methods
   //
