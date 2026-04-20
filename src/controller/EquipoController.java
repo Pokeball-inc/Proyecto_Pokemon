@@ -21,10 +21,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Entrenador;
 import model.Pokemon;
 import model.Sesion;
+import model.Sexo;
+
+import static model.Sexo.MACHO;
 
 
 public class EquipoController implements Initializable {
@@ -37,29 +44,77 @@ public class EquipoController implements Initializable {
     @FXML
     private ScrollPane cajaPokemonScroll;
 
-    private List<Pokemon> ListaPokemon =  new ArrayList<>();
+    @FXML
+    private ImageView fotoPokemon;
+    @FXML
+    private Text motePokemon;
+    @FXML
+    private Text nombrePokemon;
+    @FXML
+    private ImageView tipo1Pokemon;
+    @FXML
+    private ImageView tipo2Pokemon;
+    @FXML
+    private ImageView sexoPokemon;
+    @FXML
+    private ImageView infoPokemon;
+    @FXML
+    private Text atkPokemon;
+    @FXML
+    private Text hpPokemon;
+    @FXML
+    private Text atkPokemonEspecial;
+    @FXML
+    private Text defensaPokemon;
+    @FXML
+    private Text defensaPokemonEspecial;
+    @FXML
+    private Text shinyPokemon;
+    @FXML
+    private Text velocidadPokemon;
+    @FXML
+    private Text fertilidadPokemon;
+
+    private Pokemon pokemonSeleccionado;
+
+    private List<Pokemon> ListaPokemon = new ArrayList<>();
 
     public void initialize(URL location, ResourceBundle resources) {
 
         // Limpiar la lista, por si acaso (No paran de clonarse 🥀)
         ListaPokemon.clear();
 
-        // Añadir a la lista, los pokemons del equipo y de la caja
-        ListaPokemon.addAll(List.of(entrenadorActual.getEquipoPokemon()));
-        ListaPokemon.addAll((entrenadorActual.getCajaPokemon()));
+        // Añadir los pokemons del equipo y la caja a lista de pokemons totales
+        if (entrenadorActual != null) {
 
-        // Entrenador actual
+            if (entrenadorActual.getEquipoPokemon() != null) {
 
-        System.out.println("Equipo: Entrenador "+ entrenadorActual.getNombreEntrenador());
-        cargarInventario();
+                for (Pokemon p : entrenadorActual.getEquipoPokemon()) {
+                    if (p != null) ListaPokemon.add(p);
+                }
+            }
+
+            if (entrenadorActual.getCajaPokemon() != null) {
+                ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
+            }
+
+            if (!ListaPokemon.isEmpty()) {
+                System.out.println("Equipo cargado para: " + entrenadorActual.getNombreEntrenador());
+                cargarInventario();
+            } else {
+                System.out.println("El entrenador no tiene pokemons.");
+            }
+        }
     }
 
     // Caja
     private void cargarInventario() {
         // Limpiamos el TilePane antes de cargar para evitar duplicados visuales
         cajaPokemon.getChildren().clear();
+        pokemonSeleccionado = ListaPokemon.get(0);
 
         for (Pokemon p : ListaPokemon) {
+            pokemonSeleccionado = p;
             try {
                 // Crear una Celda Vbox con v: -2, para que el texto y la imagen no estén tan alejados
 
@@ -106,11 +161,18 @@ public class EquipoController implements Initializable {
                         celdaPokemon.setStyle("-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15; -fx-cursor: hand; -fx-padding: 10;")
                 );
 
+                // Al darle click, cargar el pokemon en el panel de visualizacion
                 celdaPokemon.setOnMouseClicked(e -> {
-                    System.out.println("Has seleccionado a: " + p.getNombrePokemon());
-                    System.out.println("Vitalidad: " + p.getVitalidad());
-                    System.out.println("Ataque: " + p.getAtaque());
-                    System.out.println("Tipo Principal: " + p.getTipoPrincipal());
+                    try {
+                        System.out.println("Has seleccionado a: " + p.getNombrePokemon());
+                        mostrarDetallesPokemon(p);
+
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+
+                    }
+
+
                 });
 
                 // Añadir el Tile al vbox
@@ -120,12 +182,87 @@ public class EquipoController implements Initializable {
                 cajaPokemon.setHgap(20);
                 cajaPokemon.setVgap(20);
 
+                // Mostrar el primer pokemon de la lista por defecto, para que no salga el charizard ese xd
+
+                mostrarDetallesPokemon(ListaPokemon.get(0));
+
 
             } catch (Exception e) {
                 System.out.println("Error cargando imagen de pokemon: " + e.getMessage());
             }
         }
     }
+
+    // Metodo para mostrar detalles de pokemons
+
+    private void mostrarDetallesPokemon(Pokemon p) {
+        if (p == null) return;
+
+        try {
+            // Actualizamos la referencia y nos aseguramos de que tenga color
+            pokemonSeleccionado = p;
+            pokemonSeleccionado.cambiarColor();
+
+            // buscamos el archivo en tu carpeta de sprites
+            String rutaImagen = "imgs/Pokemons/" + pokemonSeleccionado.getImgFrontalPokemon();
+            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+            fotoPokemon.setImage(new Image(rutaImagenAdaptada));
+
+            // Lógica para el sexo
+            if (pokemonSeleccionado.getSexo() == MACHO) {
+                String rutaIcono = "imgs/Captura/sexo/Macho.png";
+                sexoPokemon.setImage(new Image(new File(rutaIcono).toURI().toString()));
+            } else if (pokemonSeleccionado.getSexo() == Sexo.HEMBRA) {
+                String rutaIcono = "imgs/Captura/sexo/Hembra.png";
+                sexoPokemon.setImage(new Image(new File(rutaIcono).toURI().toString()));
+            } else {
+                String rutaIcono = "imgs/Captura/sexo/NEUTRO2.0.png";
+                sexoPokemon.setImage(new Image(new File(rutaIcono).toURI().toString()));
+            }
+
+            // Aplicamos nombre, mote y sus respectivos colores de tipo
+            nombrePokemon.setText(pokemonSeleccionado.getNombrePokemon());
+            nombrePokemon.setFill(pokemonSeleccionado.getColor());
+            nombrePokemon.setTextAlignment(TextAlignment.CENTER);
+
+            motePokemon.setText(pokemonSeleccionado.getMotePokemon());
+            motePokemon.setFill(pokemonSeleccionado.getColor());
+            motePokemon.setTextAlignment(TextAlignment.CENTER);
+
+            // Cambiar el texto de las estadisticas
+            atkPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaque()));
+            atkPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getAtaqueEspecial()));
+            hpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidad()));
+            defensaPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensa()));
+            defensaPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getDefensaEspecial()));
+            velocidadPokemon.setText(String.valueOf(pokemonSeleccionado.getVelocidad()));
+            fertilidadPokemon.setText(String.valueOf(pokemonSeleccionado.getFertilidad()));
+
+            // Revisar si es shiny
+            if (pokemonSeleccionado.getEsShiny()) {
+                shinyPokemon.setText("✅");
+            } else {
+                shinyPokemon.setText("❌");
+            }
+
+            // Cambiar la imagen del Tipo principal
+            String rutaTipo = "imgs/Equipo/Tipos/" + pokemonSeleccionado.getTipoPrincipal() + ".png";
+            tipo1Pokemon.setImage(new Image(new File(rutaTipo).toURI().toString()));
+
+            // Cambiar la imagen del Tipo secundario
+            if (pokemonSeleccionado.getTipoSecundario() != null) {
+                String rutaTipo2 = "imgs/Equipo/Tipos/" + pokemonSeleccionado.getTipoSecundario() + ".png";
+                tipo2Pokemon.setImage(new Image(new File(rutaTipo2).toURI().toString()));
+                tipo2Pokemon.setVisible(true); // Asegurarnos de que se vea
+            } else {
+                tipo2Pokemon.setVisible(false); // Ocultar si no tiene un tipo secundario
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     //Boton de salir
     @FXML
     public void equipoSalir(MouseEvent event) {

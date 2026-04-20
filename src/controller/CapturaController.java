@@ -317,7 +317,7 @@ public class CapturaController implements Initializable {
             // usamos el metodo del dao y guardamos el resultado en pokemonActual
             this.pokemonActual = capturaDao.crearPokemonAleatorio(con);
 
-            // comprovbamos que no sea null el pokemon
+            // comprobamos que no sea null el pokemon
             if (this.pokemonActual != null) {
             	
             		//Logica para elegir el sexo
@@ -413,7 +413,7 @@ public class CapturaController implements Initializable {
                     }
 
                     // CAMBIAR EL COLOR DE LAS PARTICULAS EN PANTALLA EN FUNCION DEL POKEMON QUE HA SALIDO
-
+                    pokemonActual.cambiarColor();
                     Color colorCambio = this.pokemonActual.getColor();
                     for (Node capturaParticulas : panelParticulas.getChildren()){
                         if (capturaParticulas instanceof Circle circle){
