@@ -219,4 +219,18 @@ public class MovimientoDAO implements IMovimientoDAO {
 
 	    return lista;
 	}
+	
+	// metodo para actualizar los pp de los pokemon al suar los ataques 
+	public void actualizarPPs(int idPokemon, int idMovimiento, int nuevosPP) {
+		String sql = "UPDATE SET_MOVIMIENTOS SET PP = ? WHERE ID_POKEMON = ? AND ID_MOVIMIENTO = ?";
+	    
+	    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+	        ps.setInt(1, nuevosPP);
+	        ps.setInt(2, idPokemon);
+	        ps.setInt(3, idMovimiento);
+	        ps.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 }
