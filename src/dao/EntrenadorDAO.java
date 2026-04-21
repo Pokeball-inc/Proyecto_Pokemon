@@ -226,5 +226,35 @@ public class EntrenadorDAO {
 			}
 		}
 	}
+	
+	/**
+	 * Metodo para actualizar victorias, derrotas y Pokedollares tras un combate
+	 */
+	public boolean actualizarEstadisticasPostCombate(Entrenador e) {
+	    ConexionBBDD conexion = new ConexionBBDD();
+	    Connection con = conexion.getConexion();
+
+	    // preparamos la consulta para actualizar los 3 valores a la vez respecto al ID
+	    String sql = "UPDATE ENTRENADOR SET VICTORIAS = ?, DERROTAS = ?, POKEDOLARES = ? WHERE ID_ENTRENADOR = ?";
+
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        
+	        // Obtenemos los datos actualizados del  Entrenador
+	        ps.setInt(1, e.getVictorias());
+	        ps.setInt(2, e.getDerrotas());
+	        ps.setInt(3, e.getPokedollares());
+	        ps.setInt(4, e.getIdEntrenador());
+
+	        int filas = ps.executeUpdate();
+	        return filas > 0;
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        return false;
+	    } finally {
+	        try { if (con != null) con.close(); } catch (SQLException ex) { ex.printStackTrace(); }
+	    }
+	}
 
 }
