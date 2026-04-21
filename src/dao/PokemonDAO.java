@@ -232,5 +232,43 @@ public class PokemonDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+     * Metodo para actualizar todala informacion del pokemon despues de cada combate
+     */
+    public static void actualizarPostCombate(Connection con, Pokemon p) {
+        String sql = "UPDATE POKEMON SET "
+                   + "NIVEL = ?, "
+                   + "EXPERIENCIA = ?, "
+                   + "VITALIDAD = ?, "
+                   + "VITALIDAD_MAXIMA = ?, "
+                   + "ATAQUE = ?, "
+                   + "DEFENSA = ?, "
+                   + "ATAQUE_SP = ?, "
+                   + "DEFENSA_SP = ?, "
+                   + "VELOCIDAD = ? "
+                   + "WHERE ID_POKEMON = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, p.getNivel());
+            ps.setInt(2, p.getExperiencia());
+            ps.setInt(3, p.getVitalidad());
+            ps.setInt(4, p.getVitalidadMaxima());
+            ps.setInt(5, p.getAtaque());
+            ps.setInt(6, p.getDefensa());
+            ps.setInt(7, p.getAtaqueEspecial());
+            ps.setInt(8, p.getDefensaEspecial());
+            ps.setInt(9, p.getVelocidad());
+            ps.setInt(10, p.getIdPokemon());
+
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+                System.out.println("LOG: " + p.getNombrePokemon() + " guardado correctamente (Nivel " + p.getNivel() + ").");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar Pokemon tras combate: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 }
