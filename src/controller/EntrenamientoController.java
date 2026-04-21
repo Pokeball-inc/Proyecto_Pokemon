@@ -305,44 +305,11 @@ public class EntrenamientoController implements Initializable {
             return;
         }
 
-        //lanzamos una alerta para confirmar si el jugador quiere gastar el dinero
-        boolean aceptaEntrenar;
-        
-        //si el entrenamiento sube HP y el pokemon ya tiene la vitalidad al maximo, le avisamos antes
-        if (subeHp > 0 && pokemonSeleccionado.getVitalidad() >= pokemonSeleccionado.getVitalidadMaxima()) {
-            aceptaEntrenar = mostrarConfirmacion("Vitalidad al límite", "¡Atención!", 
-                "La vitalidad de " + pokemonSeleccionado.getNombrePokemon() + " ya está al máximo.\n" +
-                "No subirá más, pero el resto de estadísticas sí.\n\n" +
-                "¿Quieres continuar con el entrenamiento por " + coste + " Pokedollars?");
-        } else {
-            //si la vida no esta al maximo, lanzamos la confirmacion normal
-            aceptaEntrenar = mostrarConfirmacion("Confirmar Entrenamiento", "Confirmación de pago", 
-                "El Entrenamiento " + nombreEntrenamiento + " cuesta " + coste + " Pokedollars.\n" +
-                "¿Deseas empezar el entrenamiento para " + pokemonSeleccionado.getNombrePokemon() + "?");
-        }
-        
-        //si pulsa cancelar en la ventana, salimos del metodo y no se cobra nada
-        if (!aceptaEntrenar) {
-            return;
-        }
-
         //restamos el dinero EN MEMORIA
         entrenadorActual.setPokedollares(entrenadorActual.getPokedollares() - coste);
         
-        //solo comprobamos el limite si el entrenamiento actual sube HP
-        if (subeHp > 0) {
-            int nuevaVitalidad = pokemonSeleccionado.getVitalidad() + subeHp;
-            
-            //si la suma supera o iguala a la máxima, la clavamos en el tope
-            if (nuevaVitalidad >= pokemonSeleccionado.getVitalidadMaxima()) {
-                pokemonSeleccionado.setVitalidad(pokemonSeleccionado.getVitalidadMaxima());
-            } else {
-                //si no se pasa del tope, sube normal
-                pokemonSeleccionado.setVitalidad(nuevaVitalidad);
-            }
-        }
-        
         //subimos el resto de estadisticas
+        pokemonSeleccionado.setVitalidadMaxima(pokemonSeleccionado.getVitalidadMaxima() + subeHp);
         pokemonSeleccionado.setAtaque(pokemonSeleccionado.getAtaque() + subeAtk);
         pokemonSeleccionado.setDefensa(pokemonSeleccionado.getDefensa() + subeDef);
         pokemonSeleccionado.setAtaqueEspecial(pokemonSeleccionado.getAtaqueEspecial() + subeAtkSp);
@@ -631,7 +598,7 @@ public class EntrenamientoController implements Initializable {
         
         //Vitalidad (HP)
         if (txtHpPokemon != null) {
-            txtHpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidad()));
+            txtHpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidadMaxima()));
         }
         
         //Ataque
