@@ -478,12 +478,32 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
 	  }
   }
 
+  /**
+   * metodo para comprobar si el entrenador tiene Pokemons vivos y puede luchar
+   */
+  public boolean puedeLuchar() {
+      if (equipoPokemon == null) return false;
+
+      for (Pokemon p : equipoPokemon) {
+          // verificamos que la posición no sea nula y que tenga vida
+          if (p != null && p.getVitalidad() > 0) {
+              return true; // en cuanto encuentra uno vivo, puede luchar
+          }
+      }
+      return false;
+  }
 
   /**
    * metodo para el comabte Pokemon
    */
-  public void combatir()
-  {
+  public void combatir(Entrenador rival){
+	  	// instanciamos la clase que controla la pelea
+	    Combate nuevoCombate = new Combate();
+	    
+	    // iniciamos el combate con los dos entrenadores
+	    nuevoCombate.empezarCombate(this, rival);
+
+	    System.out.println("Iniciando combate entre " + this.nombreEntrenador + " y " + rival.getNombreEntrenador());
   }
 
 
@@ -506,8 +526,7 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
   }
   
 
-  
-  
+
   
   
   

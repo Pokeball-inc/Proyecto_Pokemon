@@ -516,6 +516,24 @@ public class Pokemon {
 		}
 	}
 
+	  /**
+	   * metodo para limpiar todos los estados temporales que no siguen fuera del combate
+	   */
+	  public void limpiarEstadosTemporales() {
+	      if (this.estadoActual == Estados.CONFUSO || 
+	          this.estadoActual == Estados.AMEDENTRADO || 
+	          this.estadoActual == Estados.ENAMORADO ||
+	          this.estadoActual == Estados.APRESADO ||
+	          this.estadoActual == Estados.MALDITO ||
+	          this.estadoActual == Estados.DRENADORAS ||
+	          this.estadoActual == Estados.CANTOMORTAL ||
+	          this.estadoActual == Estados.CENTROATENCION ||
+	          this.estadoActual == Estados.SOMNOLIENTO) {
+	          
+	          this.setEstadoActual(Estados.SANO);
+	          this.setTurnosEstadoRestantes(0); // reseteo contadotr 
+	      }
+	  }
 	
 /**
  * Metodo para cambiar el color de fonde respecto al tipo del pokemon que aparece
