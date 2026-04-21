@@ -203,6 +203,10 @@ public class Pokemon {
 	}
 
 	public int getAtaque() {
+		// Quemado: su ataque se reduce a la mitad
+	    if (this.estadoActual == Estados.QUEMADO) {
+	        return this.ataque / 2;
+	    }
 		return ataque;
 	}
 
@@ -219,6 +223,10 @@ public class Pokemon {
 	}
 
 	public int getAtaqueEspecial() {
+		// Helado: su ataque especial se reduce a la mitad
+	    if (this.estadoActual == Estados.HELADO) {
+	        return this.ataqueEspecial / 2;
+	    }
 		return ataqueEspecial;
 	}
 
@@ -231,10 +239,15 @@ public class Pokemon {
 	}
 
 	public void setVelocidad(int newVar) {
+		
 		velocidad = newVar;
 	}
 
 	public int getVelocidad() {
+		// Paralizado: su velocidad se reduce a la mitad
+	    if (this.estadoActual == Estados.PARALIZADO) {
+	        return this.velocidad / 2;
+	    }
 		return velocidad;
 	}
 
