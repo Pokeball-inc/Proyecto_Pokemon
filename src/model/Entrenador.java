@@ -482,7 +482,9 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
    * metodo para comprobar si el entrenador tiene Pokemons vivos y puede luchar
    */
   public boolean puedeLuchar() {
-      if (equipoPokemon == null) return false;
+      if (equipoPokemon == null) {
+    	  return false;
+      }
 
       for (Pokemon p : equipoPokemon) {
           // verificamos que la posición no sea nula y que tenga vida
