@@ -27,6 +27,12 @@ import dao.CapturaDao;
 import dao.PokemonDAO;
 import model.*;
 
+/**
+ * Clase CrianzaController
+ * Controlador encargado de gestionar la logica y la vista del sistema de crianza.
+ * Permite seleccionar dos Pokemon (Macho y Hembra) para tener una cria, 
+ * gestionando la herencia de estadisticas, tipos y la eclosion del huevo.
+ */
 public class CrianzaController implements Initializable {
 
     //Elementos vista
@@ -102,14 +108,15 @@ public class CrianzaController implements Initializable {
     //Variable para saber si estamos eligiendo al padre o a la madre
     private boolean seleccionandoMacho = true; 
 
-
-    //Metodo mostrar entrenadorActual
+    /**
+     * Metodo que prepara la conexion a la base de datos, carga los candidatos a padres
+     * y muestra los primeros Pokemon disponibles en pantalla de forma predeterminada.
+     */
     public void setEntrenador() {
 
         // Conectar a BD
         ConexionBBDD conector = new ConexionBBDD();
         this.con = conector.getConexion();
-
 
         //Ocultar al bebe al principio
         if (imgBebe != null) {
@@ -161,7 +168,10 @@ public class CrianzaController implements Initializable {
         }
     }
 
-
+    /**
+     * Metodo que recorre todo el equipo y caja del entrenador, y separa
+     * a los Pokemon en listas de machos y hembras siempre que tengan fertilidad disponible.
+     */
     private void cargarCandidatos() {
         machosDisponibles.clear();
         hembrasDisponibles.clear();
@@ -191,12 +201,21 @@ public class CrianzaController implements Initializable {
     //Cambiar tamaño de botones (gracias Elyass XDDD)
     
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CAMBIAR MACHO AL PASAR EL CURSOR ---------------
+    
+    /**
+     * Aumenta el tamaño del boton de cambiar macho al pasar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void aumentarTamañoBotonCambiarMacho(MouseEvent event) {
         botonCambiarMacho.setScaleX(botonCambiarMacho.getScaleX() + 0.2);
         botonCambiarMacho.setScaleY(botonCambiarMacho.getScaleY() + 0.2);
     }
 
+    /**
+     * Disminuye el tamaño del boton de cambiar macho al apartar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void disminuirTamañoBotonCambiarMacho(MouseEvent event) {
         botonCambiarMacho.setScaleX(botonCambiarMacho.getScaleX() - 0.2);
@@ -204,12 +223,21 @@ public class CrianzaController implements Initializable {
     }
     
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CAMBIAR HEMBRA AL PASAR EL CURSOR ---------------
+    
+    /**
+     * Aumenta el tamaño del boton de cambiar hembra al pasar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void aumentarTamañoBotonCambiarHembra(MouseEvent event) {
         botonCambiarHembra.setScaleX(botonCambiarHembra.getScaleX() + 0.2);
         botonCambiarHembra.setScaleY(botonCambiarHembra.getScaleY() + 0.2);
     }
 
+    /**
+     * Disminuye el tamaño del boton de cambiar hembra al apartar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void disminuirTamañoBotonCambiarHembra(MouseEvent event) {
         botonCambiarHembra.setScaleX(botonCambiarHembra.getScaleX() - 0.2);
@@ -217,12 +245,21 @@ public class CrianzaController implements Initializable {
     }
 
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CRIAR AL PASAR EL CURSOR ---------------
+    
+    /**
+     * Aumenta el tamaño del boton de criar al pasar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void aumentarTamañoBotonCriar(MouseEvent event) {
         botonCriar.setScaleX(botonCriar.getScaleX() + 0.2);
         botonCriar.setScaleY(botonCriar.getScaleY() + 0.2);
     }
 
+    /**
+     * Disminuye el tamaño del boton de criar al apartar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void disminuirTamañoBotonCriar(MouseEvent event) {
         botonCriar.setScaleX(botonCriar.getScaleX() - 0.2);
@@ -230,12 +267,21 @@ public class CrianzaController implements Initializable {
     }
 
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON SALIR AL PASAR EL CURSOR ---------------
+    
+    /**
+     * Aumenta el tamaño del boton de salir al pasar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void aumentarTamañoBotonSalir(MouseEvent event) {
         botonSalir.setScaleX(botonSalir.getScaleX() + 0.2);
         botonSalir.setScaleY(botonSalir.getScaleY() + 0.2);
     }
 
+    /**
+     * Disminuye el tamaño del boton de salir al apartar el cursor.
+     * @param event El evento de raton
+     */
     @FXML
     private void disminuirTamañoBotonSalir(MouseEvent event) {
         botonSalir.setScaleX(botonSalir.getScaleX() - 0.2);
@@ -244,9 +290,10 @@ public class CrianzaController implements Initializable {
     
     // --------------- LOGICA DE LA SELECCION DE PADRES (CAJA PC) ---------------
     
-    //Botones para cambiar padres (abriendo el panel de seleccion)
-    
-    //Macho
+    /**
+     * Accion al hacer clic en el boton de cambiar el macho. Abre el panel de seleccion.
+     * @param event El evento de raton
+     */
     @FXML
     public void clicCambiarMacho(MouseEvent event) {
         if (!machosDisponibles.isEmpty()) {
@@ -258,7 +305,10 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    //Hembra
+    /**
+     * Accion al hacer clic en el boton de cambiar la hembra. Abre el panel de seleccion.
+     * @param event El evento de raton
+     */
     @FXML
     public void clicCambiarHembra(MouseEvent event) {
         if (!hembrasDisponibles.isEmpty()) {
@@ -270,7 +320,10 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    //Abre el panel y genera la lista visual de Pokemon
+    /**
+     * Abre el panel emergente y genera una cuadricula visual con los Pokemon pasados por parametro.
+     * @param listaMostrar La lista de Pokemon a renderizar en la vista.
+     */
     private void abrirPanelSeleccion(List<Pokemon> listaMostrar) {
         //Vaciamos lo que hubiera de antes en la cuadricula
         contenedorPokemons.getChildren().clear();
@@ -320,7 +373,10 @@ public class CrianzaController implements Initializable {
         panelSeleccion.toFront(); 
     }
 
-    //Se ejecuta al hacer clic en un Pokemon del panel
+    /**
+     * Metodo que se ejecuta al seleccionar un Pokemon concreto dentro del panel de seleccion.
+     * @param p El pokemon elegido por el jugador.
+     */
     private void pokemonSeleccionado(Pokemon p) {
         
         //Comprobamos si el pokemon que acabamos de hacer clic tiene mote
@@ -354,7 +410,10 @@ public class CrianzaController implements Initializable {
         cerrarSeleccion(null);
     }
 
-    //Boton para cerrar la caja PC sin elegir nada
+    /**
+     * Boton/Accion para cerrar la caja de seleccion sin haber elegido ningun Pokemon.
+     * @param event El evento de raton
+     */
     @FXML
     public void cerrarSeleccion(MouseEvent event) {
         panelSeleccion.setVisible(false);
@@ -362,7 +421,11 @@ public class CrianzaController implements Initializable {
 
     // --------------- FIN LOGICA DE LA SELECCION DE PADRES ---------------
 
-    //Boton de criar
+    /**
+     * Metodo que se activa al hacer clic en el boton "Criar". Comprueba que 
+     * existen los padres y lanza la ventana del huevo.
+     * @param event El evento de raton
+     */
     @FXML
     public void accionCriar(MouseEvent event) {
         //Comprobaciones de seguridad
@@ -380,7 +443,10 @@ public class CrianzaController implements Initializable {
         }
     }
     
-    //Metodo para la alerta del huevo 
+    /**
+     * Muestra una ventana de dialogo preguntando al jugador si desea abrir el huevo.
+     * @return true si el jugador decide abrirlo, false si decide dejarlo/cancelar.
+     */
     private boolean mostrarAlertaHuevo() {
         Alert alertaHuevo = new Alert(AlertType.INFORMATION);
         alertaHuevo.setTitle("¡Un Huevo Pokémon!");
@@ -423,6 +489,10 @@ public class CrianzaController implements Initializable {
         return resultado.isPresent() && resultado.get() == btnAbrir;
     }
 
+    /**
+     * Logica para crear al nuevo Pokemon bebe (cria). Genera sus stats base heredados,
+     * mezcla los motes, actualiza la fertilidad de los padres y guarda todo en base de datos.
+     */
     private void eclosionarHuevo() {
         //Crear al bebé (La especie base será la de la madre, regla común en Pokémon)
         Pokemon bebe = new Pokemon();
@@ -434,12 +504,8 @@ public class CrianzaController implements Initializable {
         bebe.setExperiencia(0);
         bebe.setFertilidad(5); //Fertilidad máxima al nacer
         
-        //Sexo aleatorio
-        if (rand.nextBoolean()) {
-            bebe.setSexo(Sexo.MACHO);
-        } else {
-            bebe.setSexo(Sexo.HEMBRA);
-        }
+        // Sexo realista basado en la especie
+        bebe.setSexo(Pokemon.generarSexoPokemon(bebe.getNumPokedex()));
         
         //Mezclar el mote (Mitad madre, mitad padre, orden aleatorio)
         String moteP;
@@ -469,6 +535,7 @@ public class CrianzaController implements Initializable {
 
         //Heredar las mejores estadisticas
         bebe.setVitalidadMaxima(Math.max(machoElegido.getVitalidadMaxima(), hembraElegida.getVitalidadMaxima()));
+        bebe.setVitalidad(bebe.getVitalidadMaxima());
         bebe.setAtaque(Math.max(machoElegido.getAtaque(), hembraElegida.getAtaque()));
         bebe.setDefensa(Math.max(machoElegido.getDefensa(), hembraElegida.getDefensa()));
         bebe.setAtaqueEspecial(Math.max(machoElegido.getAtaqueEspecial(), hembraElegida.getAtaqueEspecial()));
@@ -559,7 +626,10 @@ public class CrianzaController implements Initializable {
         setEntrenador();
     }
 
-    //Boton de salir
+    /**
+     * Metodo para volver a la pantalla del menu principal.
+     * @param event El evento de raton
+     */
     @FXML
     public void crianzaSalir(MouseEvent event) {
         try {
@@ -575,7 +645,6 @@ public class CrianzaController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-
 
             // Cargar el CSS
             String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
@@ -606,7 +675,13 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    //Metodo para mostrar pop-up con mensajes
+    /**
+     * Metodo de utilidad para lanzar y mostrar alertas de informacion en pantalla.
+     * @param titulo El texto superior de la ventana.
+     * @param cabecera El texto principal en negrita.
+     * @param contenido La descripcion detallada del mensaje.
+     * @param tipo El tipo de alerta (INFORMATION, WARNING, ERROR).
+     */
     private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
         Alert alerta = new Alert(tipo); //ventana del tipo que pasemos informacion, advertencia... lo que queramos
         //Textos de la ventana
@@ -646,6 +721,9 @@ public class CrianzaController implements Initializable {
         alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
     }
 
+    /**
+     * Metodo de inicializacion llamado automaticamente por JavaFX al cargar la vista FXML.
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 

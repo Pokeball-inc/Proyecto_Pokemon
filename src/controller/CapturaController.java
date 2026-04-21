@@ -320,20 +320,19 @@ public class CapturaController implements Initializable {
             // comprobamos que no sea null el pokemon
             if (this.pokemonActual != null) {
             	
-            		//Logica para elegir el sexo
-                Random r = new Random();
-                int suerte = r.nextInt(3); 
+            		
+            		// logica para elegir el sexo realista basado en la Pokedex
+                model.Sexo sexoRealista = Pokemon.generarSexoPokemon(this.pokemonActual.getNumPokedex());
+                this.pokemonActual.setSexo(sexoRealista);
                 
                 String rutaIcono = "";
                 
-                if (suerte == 0) {
-                    this.pokemonActual.setSexo(model.Sexo.MACHO);
+                // asignamos el icono dependiendo del sexo que nos haya devuelto el metodo
+                if (sexoRealista == model.Sexo.MACHO) {
                     rutaIcono = "imgs/Captura/sexo/Macho.png"; 
-                } else if (suerte == 1) {
-                    this.pokemonActual.setSexo(model.Sexo.HEMBRA);
+                } else if (sexoRealista == model.Sexo.HEMBRA) {
                     rutaIcono = "imgs/Captura/sexo/Hembra.png";
                 } else {
-                    
                     rutaIcono = "imgs/Captura/sexo/Neutro2.0.png";
                 }
 

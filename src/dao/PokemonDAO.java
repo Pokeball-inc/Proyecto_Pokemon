@@ -17,18 +17,20 @@ import model.Tipos;
 import model.UbicacionPokemon;
 
 /**
- * Clase de Pokemon Dao para extraer informacion de la bd o actualizara
- * */
+ * Clase PokemonDAO
+ * Encargada de gestionar todas las operaciones de acceso a datos (consultas, 
+ * actualizaciones, etc.) relacionadas con la entidad Pokemon en la base de datos MySQL.
+ */
 public class PokemonDAO {
 
 	/**
-	 * metodo para obtenrr un pokemon completo de la bd y guardarlo en el objeto pokemon con los datos extraidos
-	 * @param recive una conexion a nuestra bd
-	 * @param y recibe el entrenador al que pertenece el pokemon 
-	 * @param por ultimo recibe la ubicacion del pokemon, si esta en el equipo o la caja
-	 * @exception se trata la clase Excepcion, osea todas
-	 * @throws puede lanzar la excepcion sql
-	 * */
+	 * Recupera la lista de Pokemon de la base de datos para un entrenador especifico
+	 * y segun su ubicacion (EQUIPO o CAJA), y los asigna al objeto Entrenador.
+	 * * @param conexion La conexion activa a la base de datos.
+	 * @param e El entrenador del cual queremos recuperar los Pokemon.
+	 * @param ubicacion La ubicacion de los Pokemon a recuperar (EQUIPO o CAJA).
+	 * @throws SQLException Si ocurre un error al ejecutar la consulta SQL.
+	 */
 	public static void obtenerPokemon(Connection conexion, Entrenador e, UbicacionPokemon ubicacion)
 			throws SQLException {
 		// select con la informacion del pokemon
@@ -79,7 +81,7 @@ public class PokemonDAO {
 
 		// creamos el pokemon y asignamos los valores respectivos a la bd
 		Pokemon p;
-		//instanciamos el DAO
+		//insanciamos el DAO
 		MovimientoDAO movDAO = new MovimientoDAO(conexion);
 		while (rs.next()) {
 			p = new Pokemon();
@@ -170,11 +172,10 @@ public class PokemonDAO {
 	}
 
 	/**
-	 * Metodo para actualizar la fertilidad despues de la crianza
-	 * @param recive una conexion a nuestra bd
-	 * @param y recibe el pokemon a actulizar sus crianza
-	 * @exception se trata la clase Excepcion, osea todas
-	 * @throws puede lanzar la excepcion sql
+	 * Actualiza el valor de fertilidad de un Pokemon en la base de datos, 
+	 * generalmente despues de que este haya participado en un proceso de crianza.
+	 * * @param con La conexion activa a la base de datos.
+	 * @param p El Pokemon cuya fertilidad se va a actualizar.
 	 */
 	public static void actualizarFertilidadBD(Connection con, Pokemon p) {
 		String sql = "UPDATE POKEMON SET FERTILIDAD = ? WHERE ID_POKEMON = ?";
@@ -202,16 +203,16 @@ public class PokemonDAO {
 			e.printStackTrace();
 		}
 	}
+
 	/**
-	 * Metodo para actualizar estadisticasen la bd despues del entrenamiento
-	 * @param recive una conexion a nuestra bd
-	 * @param y recibe el pokemon a actulizar sus stats
-	 * @exception se trata la clase Excepcion, osea todas
-	 * @throws puede lanzar la excepcion sql
+	 * Actualiza todas las estadisticas de combate de un Pokemon en la base de datos,
+	 * ademas de su nivel y experiencia, usualmente tras un entrenamiento o combate.
+	 * * @param con La conexion activa a la base de datos.
+	 * @param p El Pokemon con las nuevas estadisticas a guardar.
 	 */
 	public static void actualizarStatsBD(Connection con, Pokemon p) {
 		// sentencia sql para modificar las estadisticas del pokemon
-		String sql = "UPDATE POKEMON SET VITALIDAD = ?, VITALIDAD_MAXIMA = ?, ATAQUE = ?, DEFENSA = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, VELOCIDAD = ? WHERE ID_POKEMON = ?";
+		String sql = "UPDATE POKEMON SET VITALIDAD = ?, VITALIDAD_MAXIMA = ?, ATAQUE = ?, DEFENSA = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, VELOCIDAD = ?, NIVEL = ?, EXPERIENCIA = ? WHERE ID_POKEMON = ?";
 		try {
 			// preparamos la consulta
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -223,7 +224,9 @@ public class PokemonDAO {
 			ps.setInt(5, p.getAtaqueEspecial());
 			ps.setInt(6, p.getDefensaEspecial());
 			ps.setInt(7, p.getVelocidad());
-			ps.setInt(8, p.getIdPokemon());
+			ps.setInt(8, p.getNivel());
+			ps.setInt(9, p.getExperiencia());
+			ps.setInt(10, p.getIdPokemon());
 
 			// actualizamos en la bd
 			ps.executeUpdate();
@@ -232,43 +235,69 @@ public class PokemonDAO {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-     * Metodo para actualizar todala informacion del pokemon despues de cada combate
-     */
-    public static void actualizarPostCombate(Connection con, Pokemon p) {
-        String sql = "UPDATE POKEMON SET "
-                   + "NIVEL = ?, "
-                   + "EXPERIENCIA = ?, "
-                   + "VITALIDAD = ?, "
-                   + "VITALIDAD_MAXIMA = ?, "
-                   + "ATAQUE = ?, "
-                   + "DEFENSA = ?, "
-                   + "ATAQUE_SP = ?, "
-                   + "DEFENSA_SP = ?, "
-                   + "VELOCIDAD = ? "
-                   + "WHERE ID_POKEMON = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, p.getNivel());
-            ps.setInt(2, p.getExperiencia());
-            ps.setInt(3, p.getVitalidad());
-            ps.setInt(4, p.getVitalidadMaxima());
-            ps.setInt(5, p.getAtaque());
-            ps.setInt(6, p.getDefensa());
-            ps.setInt(7, p.getAtaqueEspecial());
-            ps.setInt(8, p.getDefensaEspecial());
-            ps.setInt(9, p.getVelocidad());
-            ps.setInt(10, p.getIdPokemon());
 
-            int filas = ps.executeUpdate();
-            if (filas > 0) {
-                System.out.println("LOG: " + p.getNombrePokemon() + " guardado correctamente (Nivel " + p.getNivel() + ").");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar Pokemon tras combate: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+	//Metodos evolucion
+	/**
+	 * Consulta la Pokedex para verificar si el Pokemon actual ha alcanzado o superado 
+	 * el nivel necesario para evolucionar.
+	 * * @param con La conexion activa a la base de datos.
+	 * @param p El Pokemon a evaluar.
+	 * @return El nombre de la especie a la que evoluciona, o null si no cumple los requisitos.
+	 */
+	public static String comprobarEvolucionDisponible(Connection con, Pokemon p) {
+		String sql = "SELECT NIVEL_EVOLUCION_1, EVOLUCIONA_A FROM POKEDEX WHERE NUM_POKEDEX = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, p.getNumPokedex());
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				int nivelReq = rs.getInt("NIVEL_EVOLUCION_1");
+				String evolucionaA = rs.getString("EVOLUCIONA_A");
+				
+				// si tiene nivel suficiente y tiene una evolucion asignada
+				if (nivelReq > 0 && p.getNivel() >= nivelReq && evolucionaA != null) {
+					return evolucionaA;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Ejecuta la transformacion de un Pokemon en la base de datos, actualizando 
+	 * su referencia (ID_POKEDEX) a la de su nueva evolucion.
+	 * * @param con La conexion activa a la base de datos.
+	 * @param p El Pokemon que va a evolucionar.
+	 * @param nombreNuevaEvolucion El nombre de la especie a la que se transforma.
+	 */
+	public static void ejecutarEvolucionBD(Connection con, Pokemon p, String nombreNuevaEvolucion) {
+		try {
+			// buscamos el id de la pokedex de la nueva evolucion
+			String sqlPokedex = "SELECT NUM_POKEDEX FROM POKEDEX WHERE NOM_POKEMON = ?";
+			PreparedStatement ps1 = con.prepareStatement(sqlPokedex);
+			ps1.setString(1, nombreNuevaEvolucion);
+			ResultSet rs = ps1.executeQuery();
+			
+			if (rs.next()) {
+				int nuevoNumPokedex = rs.getInt("NUM_POKEDEX");
+				
+				// actualizamos nuestro pokemon en la tabla
+				String sqlUpdate = "UPDATE POKEMON SET NUM_POKEDEX = ? WHERE ID_POKEMON = ?";
+				PreparedStatement ps2 = con.prepareStatement(sqlUpdate);
+				ps2.setInt(1, nuevoNumPokedex);
+				ps2.setInt(2, p.getIdPokemon());
+				ps2.executeUpdate();
+				
+				// actualizamos el objeto en memoria para que no haya que reiniciar
+				p.setNombrePokemon(nombreNuevaEvolucion);
+				p.setNumPokedex(nuevoNumPokedex);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

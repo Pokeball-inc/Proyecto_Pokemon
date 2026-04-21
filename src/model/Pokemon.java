@@ -593,5 +593,55 @@ public class Pokemon {
 			setColor(Color.BLACK);
 		}
 	}
+	
+	/**
+	 * Metodo que genera el sexo correcto para un Pokemon segun su numero de Pokedex.
+	 * Tiene en cuenta las especies que son 100% machos, 100% hembras o sin genero.
+	 * @param numPokedex El numero de la Pokedex del Pokemon a generar
+	 * @return El Sexo correspondiente (MACHO, HEMBRA o NEUTRO)
+	 */
+	public static Sexo generarSexoPokemon(int numPokedex) {
+		
+		// IDs de especies que SOLO pueden ser HEMBRAS
+		// (Nidoran F, Nidorina, Nidoqueen, Chansey, Kangaskhan, Jynx, Smoochum, Miltank, Blissey)
+		int[] soloHembras = {29, 30, 31, 113, 115, 124, 238, 241, 242};
+
+		// IDs de especies que SOLO pueden ser MACHOS
+		// (Nidoran M, Nidorino, Nidoking, Hitmonlee, Hitmonchan, Tauros, Tyrogue, Hitmontop)
+		int[] soloMachos = {32, 33, 34, 106, 107, 128, 236, 237};
+
+		// IDs de especies SIN GENERO (NEUTRO)
+		// (Magnemite, Magneton, Voltorb, Electrode, Staryu, Starmie, Ditto, Porygon, Porygon2, Unown y Legendarios)
+		int[] neutros = {81, 82, 100, 101, 120, 121, 132, 137, 233, 201, 144, 145, 146, 150, 151, 243, 244, 245, 249, 250, 251};
+
+		// comprobamos si el pokemon pertenece a la lista de Hembras
+		for (int id : soloHembras) {
+			if (numPokedex == id) {
+				return Sexo.HEMBRA;
+			}
+		}
+
+		// comprobamos si el pokemon pertenece a la lista de Machos
+		for (int id : soloMachos) {
+			if (numPokedex == id) {
+				return Sexo.MACHO;
+			}
+		}
+
+		// comprobamos si el pokemon pertenece a la lista de Neutros
+		for (int id : neutros) {
+			if (numPokedex == id) {
+				return Sexo.NEUTRO;
+			}
+		}
+
+		// Si no esta en ninguna lista especial, generamos Macho o Hembra al 50%
+		java.util.Random r = new java.util.Random();
+		if (r.nextBoolean()) {
+			return Sexo.MACHO;
+		} else {
+			return Sexo.HEMBRA;
+		}
+	}
 
 }

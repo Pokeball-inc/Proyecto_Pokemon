@@ -1,8 +1,11 @@
 package controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -11,16 +14,36 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import bd.ConexionBBDD;
+import dao.PokemonDAO;
 import model.Entrenador;
+import model.Pokemon;
 import model.Sesion;
 
+/**
+ * Clase SeleccionCombateController
+ * Controlador encargado de gestionar la vista del menu de seleccion de combate
+ * (Combate Aleatorio o Liga Pokemon).
+ */
 public class SeleccionCombateController implements Initializable {
 
+	/**
+	 * Entrenador logueado en la sesion actual.
+	 */
 	private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
+	
+	/**
+	 * Conexion a la base de datos MySQL.
+	 */
+	private Connection con;
+
 	@FXML
 	private ImageView botonSalirEleccionCombate;
 	@FXML
@@ -28,71 +51,92 @@ public class SeleccionCombateController implements Initializable {
 	@FXML
 	private ImageView botonAccesoCombateAleatorio;
 
+	/**
+	 * Metodo que inicializa el controlador al cargar la vista.
+	 * Establece la conexion a la base de datos y muestra datos de control en consola.
+	 */
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Inicializamos la conexion a la base de datos para futuras consultas
+		ConexionBBDD conector = new ConexionBBDD();
+		this.con = conector.getConexion();
 
-		// Entrenador actual
-
+		// Mostramos por consola el entrenador actual
 		System.out.println("Equipo: Entrenador " + entrenadorActual.getNombreEntrenador());
-
 	}
 
-	// --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ACCESO LIGA
-	// ---------------
+	// --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ACCESO LIGA ---------------
+	
+	/**
+	 * Aumenta el tamaño del boton de acceso a la Liga al pasar el cursor sobre el.
+	 * @param event El evento de raton
+	 */
 	@FXML
 	private void aumentarTamanoBotonAccesoLiga(MouseEvent event) {
 		botonAccesoLiga.setScaleX(botonAccesoLiga.getScaleX() + 0.2);
 		botonAccesoLiga.setScaleY(botonAccesoLiga.getScaleY() + 0.2);
 	}
 
+	/**
+	 * Disminuye el tamaño del boton de acceso a la Liga al apartar el cursor.
+	 * @param event El evento de raton
+	 */
 	@FXML
 	private void disminuirTamanoBotonAccesoLiga(MouseEvent event) {
 		botonAccesoLiga.setScaleX(botonAccesoLiga.getScaleX() - 0.2);
 		botonAccesoLiga.setScaleY(botonAccesoLiga.getScaleY() - 0.2);
 	}
 
-	// --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ACCESO COMBATE
-	// ALEATORIO ---------------
+	// --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ACCESO COMBATE ALEATORIO ---------------
+	
+	/**
+	 * Aumenta el tamaño del boton de acceso a combate aleatorio al pasar el cursor.
+	 * @param event El evento de raton
+	 */
 	@FXML
 	private void aumentarTamanoBotonAccesoCombateAleatorio(MouseEvent event) {
 		botonAccesoCombateAleatorio.setScaleX(botonAccesoCombateAleatorio.getScaleX() + 0.2);
 		botonAccesoCombateAleatorio.setScaleY(botonAccesoCombateAleatorio.getScaleY() + 0.2);
 	}
 
+	/**
+	 * Disminuye el tamaño del boton de acceso a combate aleatorio al apartar el cursor.
+	 * @param event El evento de raton
+	 */
 	@FXML
 	private void disminuirTamanoBotonAccesoCombateAleatorio(MouseEvent event) {
 		botonAccesoCombateAleatorio.setScaleX(botonAccesoCombateAleatorio.getScaleX() - 0.2);
 		botonAccesoCombateAleatorio.setScaleY(botonAccesoCombateAleatorio.getScaleY() - 0.2);
 	}
 
-	
-	
-	// metodo para cambiar a la vista de la liga 
+	/**
+	 * Metodo para gestionar la transicion a la vista de la Liga Pokemon.
+	 * @param event El evento de raton al hacer clic
+	 */
 	@FXML
 	private void clickAccesoLiga(MouseEvent event) {
-		// Por ahora lo dejamos vacío o con un log para probar que funciona
-		System.out.println("Clic detectado: Cambiando a la Liga (Próximamente)");
+		// Por ahora lo dejamos vacio o con un log para probar que funciona
+		System.out.println("Clic detectado: Cambiando a la Liga (Proximamente)");
 
-		/*
-		 * Aquí irá tu lógica de cambio de escena: FXMLLoader loader = new
-		 * FXMLLoader(getClass().getResource("/view/liga/Liga.fxml")); ...
-		 */
+		
 	}
 
-	// metodo para cambiar a la vista del combate aleatorio
+	/**
+	 * Metodo para gestionar la transicion a la vista de Combate Aleatorio.
+	 * @param event El evento de raton al hacer clic
+	 */
 	@FXML
 	private void clickAccesoCombateAleatorio(MouseEvent event) {
-		// Por ahora lo dejamos vacío o con un log para probar que funciona
-		System.out.println("Clic detectado: Cambiando a la Liga (Próximamente)");
+		// Por ahora lo dejamos vacio o con un log para probar que funciona
+		System.out.println("Clic detectado: Cambiando al combate Aleatorio (Proximamente)");
 
-		/*
-		 * Aquí irá tu lógica de cambio de escena: FXMLLoader loader = new
-		 * FXMLLoader(getClass().getResource("/view/liga/Liga.fxml")); ...
-		 */
+		
 	}
 
-	
-	
-	// Boton de salir
+	/**
+	 * Metodo para salir del menu de seleccion de combate y volver a la vista principal.
+	 * @param event El evento de raton al hacer clic en el boton de salir
+	 */
 	@FXML
 	public void seleccionCombateSalir(MouseEvent event) {
 		try {
@@ -124,10 +168,10 @@ public class SeleccionCombateController implements Initializable {
 				String imagePath = file.toURI().toString();
 				primaryStage.getIcons().add(new Image(imagePath));
 			} else {
-				System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
+				System.out.println("No se encontro el icono en: " + file.getAbsolutePath());
 			}
 
-			// Cambiar la escena del login por la nueva
+			// Cambiar la escena actual por la nueva
 			primaryStage.setScene(scene);
 
 			// Mostrar la escena
@@ -137,6 +181,129 @@ public class SeleccionCombateController implements Initializable {
 			System.out.println("Error al cambiar de ventana - " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	
+
+	/**
+	 * Metodo que comprueba si un Pokemon cumple los requisitos de nivel para evolucionar 
+	 * en la base de datos y lanza el proceso de transformacion si es asi.
+	 * @param pokemon El pokemon a evaluar tras ganar experiencia
+	 */
+	public void comprobarEvolucion(Pokemon pokemon) {
+		//preguntamos a la bd a quien evoluciona
+		String evolucionTarget = PokemonDAO.comprobarEvolucionDisponible(con, pokemon);
+
+		if (evolucionTarget != null) {
+
+			//comprobamos si es un pokemon con multiples evoluciones (como Eevee o Tyrogue)
+			if (evolucionTarget.equalsIgnoreCase("Varios")) {
+				if (pokemon.getNombrePokemon().equalsIgnoreCase("Eevee")) {
+					evolucionTarget = mostrarOpcionesEevee();
+				} else if (pokemon.getNombrePokemon().equalsIgnoreCase("Tyrogue")) {
+					evolucionTarget = mostrarOpcionesTyrogue();
+				}
+			}
+
+			//si el usuario no ha cancelado el dialogo y tenemos una evolucion valida
+			if (evolucionTarget != null && !evolucionTarget.trim().isEmpty()) {
+
+				//guardamos la nueva especie en la base de datos
+				PokemonDAO.ejecutarEvolucionBD(con, pokemon, evolucionTarget);
+
+				//mostramos el mensaje de enhorabuena
+				Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+				alerta.setTitle("¡Evolución completada!");
+				alerta.setHeaderText("¡Qué está pasando!");
+				alerta.setContentText("¡Felicidades! Tu Pokémon ha evolucionado a " + evolucionTarget + ".");
+
+				//intentamos aplicar el css de alertas
+				try {
+					alerta.getDialogPane().getStylesheets()
+							.add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+				} catch (Exception e) {
+					System.out.println("No se pudo cargar el CSS de las alertas.");
+				}
+
+				alerta.showAndWait();
+			}
+		}
+	}
+
+	/**
+	 * Ventana especial con desplegable (ChoiceDialog) para que el jugador 
+	 * elija libremente la evolucion de Eevee.
+	 * @return El nombre del Pokemon elegido como evolucion, o null si cancela.
+	 */
+	private String mostrarOpcionesEevee() {
+		List<String> opciones = new ArrayList<>();
+		opciones.add("Vaporeon");
+		opciones.add("Jolteon");
+		opciones.add("Flareon");
+		opciones.add("Espeon");
+		opciones.add("Umbreon");
+
+		//creamos un dialogo desplegable
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("Vaporeon", opciones);
+		dialog.setTitle("¡Eevee está evolucionando!");
+		dialog.setHeaderText("Tu Eevee está listo para dar el siguiente paso.");
+		dialog.setContentText("Elige la evolución que deseas:");
+
+		//aplicamos el estilo CSS a la ventana de eleccion
+		try {
+			dialog.getDialogPane().getStylesheets()
+					.add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+		} catch (Exception e) {
+			System.out.println("No se pudo cargar el CSS del ChoiceDialog.");
+		}
+
+		//esperamos la respuesta del usuario
+		Optional<String> result = dialog.showAndWait();
+
+		//si elige una opcion y pulsa en Aceptar, devolvemos el nombre seleccionado
+		if (result.isPresent()) {
+			return result.get();
+		}
+
+		//si cierra la ventana o pulsa en Cancelar, la evolucion no ocurre
+		return null;
+	}
+	
+	/**
+	 * Ventana especial con desplegable (ChoiceDialog) para que el jugador 
+	 * elija libremente la evolucion de Tyrogue.
+	 * @return El nombre del Pokemon elegido como evolucion, o null si cancela.
+	 */
+	private String mostrarOpcionesTyrogue() {
+		List<String> opciones = new ArrayList<>();
+		opciones.add("Hitmonlee");
+		opciones.add("Hitmonchan");
+		opciones.add("Hitmontop");
+
+		//creamos un dialogo desplegable
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("Hitmonlee", opciones);
+		dialog.setTitle("¡Tyrogue está evolucionando!");
+		dialog.setHeaderText("Tu Tyrogue está listo para dar el siguiente paso.");
+		dialog.setContentText("Elige la evolución que deseas:");
+
+		//aplicamos el estilo CSS a la ventana de eleccion
+		try {
+			dialog.getDialogPane().getStylesheets()
+					.add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+		} catch (Exception e) {
+			System.out.println("No se pudo cargar el CSS del ChoiceDialog.");
+		}
+
+		//esperamos la respuesta del usuario
+		Optional<String> result = dialog.showAndWait();
+
+		//si elige una opcion y pulsa en Aceptar, devolvemos el nombre seleccionado
+		if (result.isPresent()) {
+			return result.get();
+		}
+
+		//si cierra la ventana o pulsa en Cancelar, la evolucion no ocurre
+		return null;
 	}
 
 }
