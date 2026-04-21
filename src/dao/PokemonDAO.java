@@ -16,6 +16,9 @@ import model.Sexo;
 import model.Tipos;
 import model.UbicacionPokemon;
 
+/**
+ * Clase de Pokemon Dao para extraer informacion de la bd o actualizara
+ * */
 public class PokemonDAO {
 
 	/**
