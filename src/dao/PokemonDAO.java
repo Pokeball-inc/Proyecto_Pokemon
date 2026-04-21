@@ -16,8 +16,19 @@ import model.Sexo;
 import model.Tipos;
 import model.UbicacionPokemon;
 
+/**
+ * Clase de Pokemon Dao para extraer informacion de la bd o actualizara
+ * */
 public class PokemonDAO {
 
+	/**
+	 * metodo para obtenrr un pokemon completo de la bd y guardarlo en el objeto pokemon con los datos extraidos
+	 * @param recive una conexion a nuestra bd
+	 * @param y recibe el entrenador al que pertenece el pokemon 
+	 * @param por ultimo recibe la ubicacion del pokemon, si esta en el equipo o la caja
+	 * @exception se trata la clase Excepcion, osea todas
+	 * @throws puede lanzar la excepcion sql
+	 * */
 	public static void obtenerPokemon(Connection conexion, Entrenador e, UbicacionPokemon ubicacion)
 			throws SQLException {
 		// select con la informacion del pokemon
@@ -68,7 +79,7 @@ public class PokemonDAO {
 
 		// creamos el pokemon y asignamos los valores respectivos a la bd
 		Pokemon p;
-		//insanciamos el DAO
+		//instanciamos el DAO
 		MovimientoDAO movDAO = new MovimientoDAO(conexion);
 		while (rs.next()) {
 			p = new Pokemon();
@@ -158,7 +169,13 @@ public class PokemonDAO {
 
 	}
 
-	// Metodo para restar fertilidad despues de la crianza
+	/**
+	 * Metodo para actualizar la fertilidad despues de la crianza
+	 * @param recive una conexion a nuestra bd
+	 * @param y recibe el pokemon a actulizar sus crianza
+	 * @exception se trata la clase Excepcion, osea todas
+	 * @throws puede lanzar la excepcion sql
+	 */
 	public static void actualizarFertilidadBD(Connection con, Pokemon p) {
 		String sql = "UPDATE POKEMON SET FERTILIDAD = ? WHERE ID_POKEMON = ?";
 		try {
@@ -185,8 +202,13 @@ public class PokemonDAO {
 			e.printStackTrace();
 		}
 	}
-
-	// Metodo para actualizar estadisticas despues del entrenamiento
+	/**
+	 * Metodo para actualizar estadisticasen la bd despues del entrenamiento
+	 * @param recive una conexion a nuestra bd
+	 * @param y recibe el pokemon a actulizar sus stats
+	 * @exception se trata la clase Excepcion, osea todas
+	 * @throws puede lanzar la excepcion sql
+	 */
 	public static void actualizarStatsBD(Connection con, Pokemon p) {
 		// sentencia sql para modificar las estadisticas del pokemon
 		String sql = "UPDATE POKEMON SET VITALIDAD = ?, VITALIDAD_MAXIMA = ?, ATAQUE = ?, DEFENSA = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, VELOCIDAD = ? WHERE ID_POKEMON = ?";

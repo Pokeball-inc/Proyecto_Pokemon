@@ -16,7 +16,7 @@ public class Combate {
    */
   private int idCombate = 1;
   /**
-   * entrenador en la clase combate ( el jugador)
+   * entrenador en la clase combate (el jugador)
    */
   private Entrenador entrenador;
   /**

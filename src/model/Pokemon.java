@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import java.util.*;
 
 /**
+ * @author Elyass Douma Zouhairi
+ * @author Pablo Serrano Conesa
+ * @author Isaías Villarreal Méndez
  * Class Pokemon
  */
 public class Pokemon {
@@ -178,6 +181,10 @@ public class Pokemon {
 		return motePokemon;
 	}
 
+	/**
+	 * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad maxima en caso de curarse
+	 * 
+	 * */
 	public void setVitalidad(int newVar) {
 		// Si intentamos curar más del máximo, se queda en el máximo
 		if (newVar > this.vitalidadMaxima) {
@@ -394,8 +401,12 @@ public class Pokemon {
 	//
 	// Other methods
 	//
-
-	//metodo para ganar experiencia despues de cada combate
+	
+	/**
+	 * metodo para ganar experiencia despues de cada combate
+	 * va acumuladno la sobrante y establece el nuevo limite de experiencia necesaria para el siguiente nivel
+	 * @param recibe un nit con la cantidad de experiencia que gana
+	 */
 	public void ganarExperiencia(int puntos) {
 	    // sumamos la experiencia nueva a la que ya teniamos
 	    this.setExperiencia(this.getExperiencia() + puntos);
@@ -421,7 +432,7 @@ public class Pokemon {
 	}
 
 	/**
-	 * Metodo para subir nivel
+	 * Metodo para subir nivel, sube de nivel al pokemon y genera la subida de stats entre 1 y 5 por nivel
 	 */
 	public void subirNivel() {
 		this.setNivel(this.getNivel() + 1);
@@ -457,10 +468,10 @@ public class Pokemon {
 	 * y comprueba si el tipo de ataque es del mismo tipo que el pokemon que lo
 	 * realiza x1.5
 	 * 
-	 * @param movimiento
-	 * @param pokemon
+	 * @param movimiento recibe el movimiento de pokemon que va a realizar
+	 * @param pokemon recibe el pokemon que ataca y el que recibe el ataque
 	 */
-	public void atacar(Movimiento movimiento, Pokemon pokemon) {
+	public void atacar(Movimiento movimiento, Pokemon pokemonAtacante, Pokemon pokemonDefensor) {
 	}
 
 	/**
@@ -482,8 +493,9 @@ public class Pokemon {
 	}
 
 	/**
-	 * @param movimiento recibe un array de movimientos y puede aprender un ataque
-	 *                   cada 3 niveles
+	 * metodo para que el pokemon pueda aprender un movimiento cada 3 niveles
+	 * @param movimiento recibe un array de movimientos y puede aprender un ataque de entre todos los del array
+	 *                   
 	 * 
 	 */
 	public void aprenderMovimiento(Movimiento nuevoMovimiento) {
@@ -504,8 +516,10 @@ public class Pokemon {
 		}
 	}
 
-	// Metodo para cambiar de color
-
+	
+/**
+ * Metodo para cambiar el color de fonde respecto al tipo del pokemon que aparece
+ * */
 	public void cambiarColor() {
 		String tipo1 = getTipoPrincipal().toString();
 		if (tipo1.equals("ACERO")) {

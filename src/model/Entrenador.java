@@ -5,7 +5,7 @@ import java.util.*;
 
 
 /**
- * Class Entrenador
+ * Class Entrenador, clase entrenador, define a usuarios y contrincantes, 
  */
 public class Entrenador {
 
@@ -269,8 +269,8 @@ public class Entrenador {
   //
 
   /**
-   * para mover los Pokemon desde el equipo a la caja
-   * @param        pokemon
+   * metodo para mover los Pokemon desde el equipo a la caja
+   * @param  recibe el pokemon que se va a mover a la caja
    */
   public void moverPokemonACaja(Pokemon pokemon) {
       // 1. Buscamos el Pokémon dentro del equipo
@@ -294,8 +294,8 @@ public class Entrenador {
   }
 
   /**
-   * para mover los Pokemon desde la caja al equipo principal
-   * @param        pokemon
+   * metodo para mover los Pokemon desde la caja al equipo
+   * @param  recibe el pokemon que se va a mover al equipo
    */
   public void moverPokemonAEquipo(Pokemon pokemon) {
       // 1. Buscamos si hay un hueco libre en el equipo
@@ -337,8 +337,8 @@ public class Entrenador {
    * Entrenamiento on�rico: se gastan 40*NIVEL pok�dollars y se aumentan las
    * estad�sticas de velocidad, ataque especial, defensa especial y vitalidad en 5
    * puntos.
-   * @param        pokemon
-   * @param        tipoEntrenamiento
+   * @param pokemon, recibe el pokemon a entrenar
+   * @param tipoEntrenamiento, y el tipo de entrenamiento a realizar
    */
 public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento) {
       int coste = 0;
@@ -398,7 +398,11 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
       }
   }
 
-  //Metodo crear pokemon por rareza (CAPTURA)
+  /**
+   * metodo para crear un pokemon dependiendo de una rareza establecida por nosotros, no implementado
+   * @param rareza, recibe la rarezaz del pokemon
+   * @return devuelve el pokemon
+   */
   private Pokemon crearPokemonPorRareza(Rareza rareza) {
 	  Pokemon nuevo = new Pokemon();
 	  int nivel = 1;
@@ -434,7 +438,11 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
 	  
   }
 
-  //Metodo generar encuentro aleatorio (CAPTURA)
+  /**
+   * logica cambiada en el controller
+   * Metodo generar encuentro aleatorio (CAPTURA), genera un encuentro aleatorio por rareza
+   * @return devuelve el pokemon generado
+   */
   public Pokemon generarEncuentroAleatorio() {
 	  double ratio = Math.random()*100;
 	  if(ratio<60) {
@@ -450,9 +458,10 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
   }
   
   
-  /**
-   * metodo para capturar Pokemon
-   * @param        pokemon
+  /** logica cambiada en el controller
+   * metodo para capturar Pokemon (CAPTURA)
+   * @param pokemon, reibe el pokemon a capturar
+   * @param bolaLanzada, recibe el tipo de pokeball que se va a lanzar
    */
   public void capturarPokemon(Pokemon pokemonSalvaje, TipoPokeBall bolaLanzada)
   {
@@ -479,6 +488,7 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
 
 
   /**
+   * implementado en el controlador de crianza
    * metodo para criar pokemon, el Pokemon criado tendra :
    * Mote como mezcla (la mitad del mote ser� de la madre y la otra mitad del padre,
    * con el orden aleatorio).
@@ -488,8 +498,8 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
    * pudiendo tener ambos tipos del padre o de la madre, un tipo de cada o, en caso
    * de compartir tipos sus progenitores, el tipo que comparten ambos).
    * Las mejores caracter�sticas de cada progenitor.
-   * @param        pokemonMacho
-   * @param        pokemonHembra
+   * @param pokemonMacho recibe el pokemon macho
+   * @param pokemonHembra recibe el pokemon hembra
    */
   public void criarPokemon(Pokemon pokemonMacho, Pokemon pokemonHembra)
   {
