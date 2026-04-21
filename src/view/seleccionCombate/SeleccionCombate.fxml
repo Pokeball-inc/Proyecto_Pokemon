@@ -16,11 +16,17 @@
          <image>
             <Image url="@../../../imgs/combate/BotonAccesoLigaPokemon.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
       <ImageView fx:id="botonAccesoCombateAleatorio" fitHeight="63.0" fitWidth="200.0" layoutX="680.0" layoutY="501.0" onMouseClicked="#clickAccesoCombateAleatorio" onMouseEntered="#aumentarTamanoBotonAccesoCombateAleatorio" onMouseExited="#disminuirTamanoBotonAccesoCombateAleatorio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imgs/combate/BotonAccesoCombateAleatorio.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
       <ImageView fx:id="botonSalirEleccionCombate" fitHeight="57.0" fitWidth="74.0" focusTraversable="true" layoutX="952.0" layoutY="529.0" onMouseClicked="#seleccionCombateSalir" opacity="0.69" pickOnBounds="true" preserveRatio="true">
          <image>
