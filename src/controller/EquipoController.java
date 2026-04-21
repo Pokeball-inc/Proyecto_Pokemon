@@ -184,7 +184,7 @@ public class EquipoController implements Initializable {
 
                 // Mostrar el primer pokemon de la lista por defecto, para que no salga el charizard ese xd
 
-                mostrarDetallesPokemon(ListaPokemon.get(0));
+                mostrarDetallesPokemon(ListaPokemon.getFirst()); //Supongo que GetFirst es mejor que get(0)
 
 
             } catch (Exception e) {
@@ -214,6 +214,11 @@ public class EquipoController implements Initializable {
             fotoPokemon.setPreserveRatio(true);
 
             // Lógica para el sexo
+            /**
+             * Hola que tal
+             * esto es un comentario
+             * para JavaDOC
+             */
             if (pokemonSeleccionado.getSexo() == MACHO) {
                 String rutaIcono = "imgs/Captura/sexo/Macho.png";
                 sexoPokemon.setImage(new Image(new File(rutaIcono).toURI().toString()));
