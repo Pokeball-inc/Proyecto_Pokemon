@@ -162,6 +162,58 @@ public class CapturaDao {
 	        e.printStackTrace();
 	    }
 	}
+
+
+	// metodo para actualizar datos del pokemon en la base de datos
+	public void actualizarPokemon(Connection con, Pokemon p, int idEntrenador, String ubicacion) {
+
+		// preparamos la sentencia sql de actualizacion
+		// ponemos un "?" por cada columna para que java rellene los huecos luego
+		String sql = "UPDATE POKEMON SET ID_ENTRENADOR = ?, MOTE = ?, VITALIDAD_MAXIMA = ?, " +
+				"ATAQUE = ?, DEFENSA = ?, VELOCIDAD = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, " +
+				"NIVEL = ?, EXPERIENCIA = ?, FERTILIDAD = ?, ESTADO = ?, UBICACION = ? " +
+				"WHERE ID_POKEMON = ?";
+
+		try {
+			// preparamos la conexión para enviar esta consulta
+			PreparedStatement ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS); //Para que sql le diga el ID
+
+			// rellenamos los values
+			ps.setInt(1, idEntrenador);
+			//Para el mote si es crianza (mezcla padres) y salvaje (su especie)
+			if (p.getMotePokemon() != null && !p.getMotePokemon().isEmpty()) {
+				ps.setString(2, p.getMotePokemon());
+			} else {
+				ps.setString(2, p.getNombrePokemon());
+			}
+
+			ps.setInt(3, p.getVitalidadMaxima());
+			ps.setInt(4, p.getAtaque());
+			ps.setInt(5, p.getDefensa());
+			ps.setInt(6, p.getVelocidad());
+			ps.setInt(7, p.getAtaqueEspecial());
+			ps.setInt(8, p.getDefensaEspecial());
+			ps.setInt(9, p.getNivel());
+			ps.setInt(10, p.getExperiencia());
+			ps.setInt(11, p.getFertilidad());
+			//Si es nulo se le da estado SANO por defecto
+			if (p.getEstadoActual() != null) {
+				ps.setString(12, p.getEstadoActual().name());
+			} else {
+				ps.setString(12, "SANO");
+			}
+			ps.setString(13, ubicacion);
+
+			ps.setInt(14, p.getIdPokemon());
+
+			ps.executeUpdate();
+
+			System.out.println("¡Pokemon "+p.getNombrePokemon()+ " actualizado! Su ID real es: " + p.getIdPokemon());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// metodo apra poner un movimiento inicial a ccada poikemon capturado
 	private void asignarMovimientoInicial(Connection con, Pokemon p) {

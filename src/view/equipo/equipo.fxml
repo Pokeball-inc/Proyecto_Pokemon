@@ -153,8 +153,8 @@
             </ImageView>
             <Pane layoutX="79.0" layoutY="487.0" prefHeight="28.0" prefWidth="160.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="160.0" />
-                  <Text layoutX="3.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Añadir al equipo" textAlignment="CENTER" wrappingWidth="153.35546875">
+                  <Rectangle fx:id="rectMoverEquipo" arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="160.0" />
+                  <Text fx:id="textoMoverEquipo" layoutX="3.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Añadir al equipo" textAlignment="CENTER" wrappingWidth="153.35546875">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>

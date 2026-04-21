@@ -1,12 +1,16 @@
 package controller;
 
+import bd.ConexionBBDD;
+import dao.CapturaDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,35 +19,29 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.Entrenador;
-import model.Pokemon;
-import model.Sesion;
-import model.Sexo;
-
-import static model.Sexo.MACHO;
+import model.*;
 
 
 public class EquipoController implements Initializable {
 
+    private CapturaDao capturaDao = new CapturaDao();
+    private Connection con;
+
     private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
     @FXML
-    private ImageView botonSalir;
-    @FXML
     private TilePane cajaPokemon;
-    @FXML
-    private ScrollPane cajaPokemonScroll;
-
     @FXML
     private ImageView fotoPokemon;
     @FXML
@@ -74,6 +72,10 @@ public class EquipoController implements Initializable {
     private Text velocidadPokemon;
     @FXML
     private Text fertilidadPokemon;
+    @FXML
+    private Text textoMoverEquipo;
+    @FXML
+    private Rectangle rectMoverEquipo;
 
     private Pokemon pokemonSeleccionado;
 
@@ -86,6 +88,10 @@ public class EquipoController implements Initializable {
 
         // Añadir los pokemons del equipo y la caja a lista de pokemons totales
         if (entrenadorActual != null) {
+
+            //instanciamos la conexion
+            ConexionBBDD conexion = new ConexionBBDD();
+            this.con = conexion.getConexion();
 
             if (entrenadorActual.getEquipoPokemon() != null) {
 
@@ -111,14 +117,16 @@ public class EquipoController implements Initializable {
     private void cargarInventario() {
         // Limpiamos el TilePane antes de cargar para evitar duplicados visuales
         cajaPokemon.getChildren().clear();
-        pokemonSeleccionado = ListaPokemon.get(0);
 
         for (Pokemon p : ListaPokemon) {
             pokemonSeleccionado = p;
             try {
-                // Crear una Celda Vbox con v: -2, para que el texto y la imagen no estén tan alejados
+                // Crear una Celda Vbox con v: -2, para que el texto y la imagen no estén tan alejados -- Cambiado
 
-                VBox celdaPokemon = new VBox(-4);
+                // Crear un StackPane, los VBox apilan los elementos y no deja superponer "imágenes" entre sí, la marca
+                // de pokeball no va
+
+                VBox celdaPokemon = new VBox(-2);
                 // Alineamos la celda
                 celdaPokemon.setAlignment(Pos.CENTER);
 
@@ -130,18 +138,43 @@ public class EquipoController implements Initializable {
                                 "-fx-padding: 10;"
                 );
 
+                /**
+                 * Si el pokemon está dentro del Equipo, entonces le generamos un poequeño ImageView en la parte
+                 * superior derecha, de modo que se distingan claramente
+                 * del resto de pokemons de la caja */
+
+                boolean pokemonEnEquipo = Arrays.asList(entrenadorActual.getEquipoPokemon()).contains(pokemonSeleccionado);
+
+                if (pokemonEnEquipo) {
+                    File marcaEquipoArc = new File("imgs/Equipo/marcaEquipo.png");
+                    ImageView marcaEquipo = new ImageView(new Image(marcaEquipoArc.toURI().toString()));
+
+                    /**
+                     * Crear un HBox para meter la marca del Equipo, de esta forma sale arriba a la derecha, e ignora
+                     * las limitaciones del Vbox
+                     * */
+                    HBox contenedorMarcaEquipo = new HBox(marcaEquipo);
+                    contenedorMarcaEquipo.setAlignment(Pos.TOP_RIGHT);
+
+                    marcaEquipo.setFitWidth(15);
+                    marcaEquipo.setFitHeight(15);
+                    marcaEquipo.setPreserveRatio(true);
+
+                    celdaPokemon.getChildren().add(contenedorMarcaEquipo);
+                }
+
+
                 // Crear el ImageView
                 String rutaPokemon = new File(p.getImgFrontalPokemon()).toURI().toString();
                 ImageView vistaImagen = new ImageView(new Image(rutaPokemon));
-                vistaImagen.setFitWidth(100);
-                vistaImagen.setFitHeight(100);
-                vistaImagen.setPreserveRatio(true);
+                vistaImagen.setFitWidth(128);
+                vistaImagen.setFitHeight(128);
+                vistaImagen.setPreserveRatio(false);
 
-                // Crear el label
+                // Crear el label y colocarlo debajo de la imagen, el Vbox lo hacía solo, pero ahora con el StackPane no
                 if (p.getMotePokemon() != null) {
                     Label nombre = new Label(p.getMotePokemon() + " Nvl: " + p.getNivel());
                     nombre.setStyle("-fx-text-fill: black; -fx-font-weight: bold;");
-                    // Meter la imagen y el label
                     celdaPokemon.getChildren().addAll(vistaImagen, nombre);
                 } else {
                     Label nombre = new Label(p.getNombrePokemon() + " Nvl: " + p.getNivel());
@@ -160,6 +193,7 @@ public class EquipoController implements Initializable {
                 celdaPokemon.setOnMouseExited(e ->
                         celdaPokemon.setStyle("-fx-background-color: rgba(255, 255, 255, 0.4); -fx-background-radius: 15; -fx-cursor: hand; -fx-padding: 10;")
                 );
+
 
                 // Al darle click, cargar el pokemon en el panel de visualizacion
                 celdaPokemon.setOnMouseClicked(e -> {
@@ -211,15 +245,10 @@ public class EquipoController implements Initializable {
             fotoPokemon.setFitHeight(190);
             fotoPokemon.setX(55);
             fotoPokemon.setY(30);
-            fotoPokemon.setPreserveRatio(true);
+            fotoPokemon.setPreserveRatio(false);
 
             // Lógica para el sexo
-            /**
-             * Hola que tal
-             * esto es un comentario
-             * para JavaDOC
-             */
-            if (pokemonSeleccionado.getSexo() == MACHO) {
+            if (pokemonSeleccionado.getSexo() == Sexo.MACHO) {
                 String rutaIcono = "imgs/Captura/sexo/Macho.png";
                 sexoPokemon.setImage(new Image(new File(rutaIcono).toURI().toString()));
             } else if (pokemonSeleccionado.getSexo() == Sexo.HEMBRA) {
@@ -255,6 +284,7 @@ public class EquipoController implements Initializable {
                 shinyPokemon.setText("❌");
             }
 
+
             // Cambiar la imagen del Tipo principal
             String rutaTipo = "imgs/Equipo/Tipos/" + pokemonSeleccionado.getTipoPrincipal() + ".png";
             tipo1Pokemon.setImage(new Image(new File(rutaTipo).toURI().toString()));
@@ -267,6 +297,129 @@ public class EquipoController implements Initializable {
             } else {
                 tipo2Pokemon.setVisible(false); // Ocultar si no tiene un tipo secundario
             }
+
+            /**
+             * Aquí implemento la lógica para meter y sacar del equipo a los pokemons
+             *
+             * 1. Si el pokemon está dentro del equipo, que el icono de Añadir equipo salga como Sacar de equipo en rojo */
+
+            boolean pokemonEnEquipo = Arrays.asList(entrenadorActual.getEquipoPokemon()).contains(pokemonSeleccionado);
+
+            Pane paneMoverEquipo = (Pane) textoMoverEquipo.getParent();
+            if (pokemonEnEquipo) {
+                textoMoverEquipo.setText("Sacar del equipo");
+                rectMoverEquipo.setFill(Paint.valueOf("#ff4646"));
+
+                // Al darle click al boton, que saque al pokemon del equipo
+
+                paneMoverEquipo.setOnMouseClicked(event -> {
+                    // Crear un array Equipo que contenga el equipo del entrenador
+
+                    Pokemon[] equipo = entrenadorActual.getEquipoPokemon();
+                    int indiceBorrar = -1;
+
+                    // Un bucle que busque el índice donde está el pokemonSeleccionado en ese array
+                    // y guarde su índice para el posterior borrado
+
+                    for (int i = 0; i < equipo.length; i++) {
+                        if (equipo[i] != null && equipo[i].equals(pokemonSeleccionado)) {
+                            indiceBorrar = i;
+                            break;
+                        }
+                    }
+
+                    // Ahora añadir el pokemon a la caja antes de borrarlo del equipo
+
+                    if (indiceBorrar != -1) {
+                        entrenadorActual.getCajaPokemon().add(pokemonSeleccionado);
+                        pokemonSeleccionado.setUbicacion(UbicacionPokemon.CAJA);
+
+                        // Eliminar el pokemon del equipo desplazando todos los pokemons a partir de su indice
+                        // hacia atrás.
+
+                        for (int i = indiceBorrar; i < equipo.length - 1; i++) {
+                            equipo[i] = equipo[i + 1];
+                        }
+
+                        // El ultimo pokemon se duplica, lo pongo en null
+
+                        equipo[equipo.length - 1] = null;
+
+                    }
+
+                    // Ahora mandarlo a la caja y a la base de datos.
+
+                    capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
+
+
+                    // Actualizar todo
+
+                    ListaPokemon.clear();
+                    if (entrenadorActual.getEquipoPokemon() != null) {
+
+                        for (Pokemon poke : entrenadorActual.getEquipoPokemon()) {
+                            if (poke != null) ListaPokemon.add(poke);
+                        }
+                    }
+
+                    if (entrenadorActual.getCajaPokemon() != null) {
+                        ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
+                    }
+                    mostrarDetallesPokemon(pokemonSeleccionado);
+                    cargarInventario();
+
+
+                });
+            } else {
+                textoMoverEquipo.setText("Añadir al equipo");
+                rectMoverEquipo.setFill(Paint.valueOf("#59ee52"));
+
+
+                paneMoverEquipo.setOnMouseClicked(event -> {
+
+                    // Primero buscamos hueco libre
+
+                    int huecoLibre = -1;
+                    Pokemon[] equipo = entrenadorActual.getEquipoPokemon();
+
+                    for (int i = 0; i < equipo.length; i++) {
+                        if (equipo[i] == null) {
+                            huecoLibre = i;
+                        }
+                    }
+
+                    // Ahora que tenemos el hueco libre, metemos el pokemon ahi
+
+                    if (huecoLibre != -1) {
+
+                        // Lo sacamos de la caja
+
+                        entrenadorActual.getCajaPokemon().remove(pokemonSeleccionado);
+                        // Lo metemos en el equipo
+                        equipo[huecoLibre] = pokemonSeleccionado;
+                        pokemonSeleccionado.setUbicacion(UbicacionPokemon.EQUIPO);
+                    }
+                    // Actualizar todo
+
+                    ListaPokemon.clear();
+                    if (entrenadorActual.getEquipoPokemon() != null) {
+
+                        for (Pokemon poke : entrenadorActual.getEquipoPokemon()) {
+                            if (poke != null) ListaPokemon.add(poke);
+                        }
+                    }
+
+                    if (entrenadorActual.getCajaPokemon() != null) {
+                        ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
+                    }
+                    mostrarDetallesPokemon(pokemonSeleccionado);
+                    cargarInventario();
+
+
+                });
+            }
+
+
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
