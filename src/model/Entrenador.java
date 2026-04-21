@@ -524,7 +524,21 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
   
   
   
-  
+  /**
+   * incrementa en 1 el contador de victorias del entrenador
+   */
+  public void sumarVictoria() {
+      this.victorias++;
+      System.out.println("Estadísticas actualizadas: " + this.nombreEntrenador + " tiene " + this.victorias + " victorias.");
+  }
+
+  /**
+   * incrementa en 1 el contador de derrotas del entrenador
+   */
+  public void sumarDerrota() {
+      this.derrotas++;
+      System.out.println("Estadísticas actualizadas: " + this.nombreEntrenador + " tiene " + this.derrotas + " derrotas.");
+  }
   
   
   
