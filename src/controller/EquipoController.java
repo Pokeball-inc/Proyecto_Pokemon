@@ -437,6 +437,7 @@ public class EquipoController implements Initializable {
                         // Eliminar el pokemon del equipo desplazando todos los pokemons a partir de su indice
                         // hacia atrás.
 
+                        pokemonSeleccionado.setUbicacion(UbicacionPokemon.CAJA);
                         entrenadorActual.getCajaPokemon().add(pokemonSeleccionado);
 
                         for (int i = indiceBorrar; i < equipo.length - 1; i++) {
@@ -450,25 +451,11 @@ public class EquipoController implements Initializable {
                         // Y actualizo la bd
                         capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
 
+                        // Recargar todo
+                        recargarTodo();
+
 
                     }
-
-                    ListaPokemon.clear();
-                    if (entrenadorActual.getEquipoPokemon() != null) {
-
-                        for (Pokemon poke : entrenadorActual.getEquipoPokemon()) {
-                            if (poke != null) ListaPokemon.add(poke);
-                        }
-                    }
-
-                    if (entrenadorActual.getCajaPokemon() != null) {
-                        ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
-                    }
-                    capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
-                    mostrarDetallesPokemon(pokemonSeleccionado);
-                    cargarInventario();
-
-
                 });
             } else {
                 textoMoverEquipo.setText("Añadir al equipo");
@@ -496,30 +483,18 @@ public class EquipoController implements Initializable {
                         // Lo sacamos de la caja
 
                         entrenadorActual.getCajaPokemon().remove(pokemonSeleccionado);
+                        pokemonSeleccionado.setUbicacion(UbicacionPokemon.EQUIPO);
                         // Lo metemos en el equipo
                         equipo[huecoLibre] = pokemonSeleccionado;
-                        pokemonSeleccionado.setUbicacion(UbicacionPokemon.EQUIPO);
+
+                        // Guardar en la bases de datos
+
+                        capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), "EQUIPO");
+
+                        // recargar
+
+                        recargarTodo();
                     }
-                    // Actualizar todo
-
-                    ListaPokemon.clear();
-                    if (entrenadorActual.getEquipoPokemon() != null) {
-
-                        for (Pokemon poke : entrenadorActual.getEquipoPokemon()) {
-                            if (poke != null) ListaPokemon.add(poke);
-                        }
-                    }
-
-                    if (entrenadorActual.getCajaPokemon() != null) {
-                        ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
-                    }
-
-                    capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
-
-                    mostrarDetallesPokemon(pokemonSeleccionado);
-                    cargarInventario();
-
-
                 });
             }
 
@@ -527,6 +502,28 @@ public class EquipoController implements Initializable {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    // Metodo para recargar la informacion visual
+
+    private void recargarTodo() {
+        ListaPokemon.clear();
+
+        // Si hay pokemons en equipo, se añaden a la lista pokemon
+        if (entrenadorActual.getEquipoPokemon() != null) {
+            for (Pokemon poke : entrenadorActual.getEquipoPokemon()) {
+                if (poke != null) ListaPokemon.add(poke);
+            }
+        }
+
+        // Si hay pokemons en la caja, se añaden a la lista de pokemons
+
+        if (entrenadorActual.getCajaPokemon() != null) {
+            ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
+        }
+
+        cargarInventario();
+        mostrarDetallesPokemon(pokemonSeleccionado);
     }
 
     //Boton de salir

@@ -36,9 +36,9 @@ public class PokemonDAO {
 		// select con la informacion del pokemon
 		String sql = "SELECT " 
 				+ "P.ID_POKEMON, " 
-				+ "P.MOTE, " 
-				+ "P.VITALIDAD, " 
-				+ "P.VITALIDAD_MAXIMA, " 
+				+ "P.MOTE, "
+				+ "P.VITALIDAD_MAXIMA, "
+				+ "P.VITALIDAD, "
 				+ "P.ATAQUE, "
 				+ "P.DEFENSA, " 
 				+ "P.ATAQUE_SP, " 
@@ -98,8 +98,8 @@ public class PokemonDAO {
 			p.setNumPokedex(rs.getInt("NUM_POKEDEX"));
 			p.setNombrePokemon(rs.getString("NOM_POKEMON"));
 			p.setMotePokemon(rs.getString("MOTE"));
-			p.setVitalidad(rs.getInt("VITALIDAD"));
 			p.setVitalidadMaxima(rs.getInt("VITALIDAD_MAXIMA"));
+			p.setVitalidad(rs.getInt("VITALIDAD"));
 			p.setAtaque(rs.getInt("ATAQUE"));
 			p.setDefensa(rs.getInt("DEFENSA"));
 			p.setAtaqueEspecial(rs.getInt("ATAQUE_SP"));
