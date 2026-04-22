@@ -256,7 +256,7 @@ public class EquipoController implements Initializable {
             pokemonSeleccionado.cambiarColor();
 
             // buscamos el archivo en tu carpeta de sprites
-            // En función del Tipo de imagen que desee el usario
+            // En función del Tipo de imagen que desee el usuario
 
             String rutaImagen = "";
 

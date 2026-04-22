@@ -140,8 +140,21 @@ public class CrianzaController implements Initializable {
             
             txtNombreMacho.setText(nombreMacho);
             txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
-            String ruta = new File(machoElegido.getImgFrontalPokemon()).toURI().toString();
-            imgMacho.setImage(new Image(ruta));
+
+            // En función del Tipo de imagen que desee el usuario
+
+            String rutaImagen = "";
+
+            if (Sesion.vista2D) {
+
+                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.machoElegido.getImgFrontalPokemon();
+
+            } else {
+                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.machoElegido.getImgFrontalPokemon3D();
+            }
+
+            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+            imgMacho.setImage(new Image(rutaImagenAdaptada));
         } else {
             txtNombreMacho.setText("No hay Machos");
             imgMacho.setImage(null);
@@ -160,8 +173,21 @@ public class CrianzaController implements Initializable {
             
             txtNombreHembra.setText(nombreHembra);
             txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
-            String ruta = new File(hembraElegida.getImgFrontalPokemon()).toURI().toString();
-            imgHembra.setImage(new Image(ruta));
+
+            // En función del Tipo de imagen que desee el usuario
+
+            String rutaImagen = "";
+
+            if (Sesion.vista2D) {
+
+                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.hembraElegida.getImgFrontalPokemon();
+
+            } else {
+                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.hembraElegida.getImgFrontalPokemon3D();
+            }
+
+            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+            imgHembra.setImage(new Image(rutaImagenAdaptada));
         } else {
             txtNombreHembra.setText("No hay Hembras");
             imgHembra.setImage(null);
@@ -342,8 +368,20 @@ public class CrianzaController implements Initializable {
             imgPoke.setFitHeight(80);
             imgPoke.setFitWidth(80);
             try {
-                String ruta = new File(p.getImgFrontalPokemon()).toURI().toString();
-                imgPoke.setImage(new Image(ruta));
+                // En función del Tipo de imagen que desee el usuario
+
+                String rutaImagen = "";
+
+                if (Sesion.vista2D) {
+
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + p.getImgFrontalPokemon();
+
+                } else {
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + p.getImgFrontalPokemon3D();
+                }
+
+                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                imgPoke.setImage(new Image(rutaImagenAdaptada));
             } catch (Exception e) {}
 
             //Comprobamos si tiene mote, si no, usamos el nombre de la especie
@@ -393,7 +431,20 @@ public class CrianzaController implements Initializable {
             txtNombreMacho.setText(nombreAMostrar); //Aqui ponemos mote
             txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
             try {
-                imgMacho.setImage(new Image(new File(machoElegido.getImgFrontalPokemon()).toURI().toString()));
+                // En función del Tipo de imagen que desee el usuario
+
+                String rutaImagen = "";
+
+                if (Sesion.vista2D) {
+
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + machoElegido.getImgFrontalPokemon();
+
+                } else {
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + machoElegido.getImgFrontalPokemon3D();
+                }
+
+                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                imgMacho.setImage((new Image(rutaImagenAdaptada)));
             } catch (Exception e) {}
             
         } else {
@@ -402,7 +453,20 @@ public class CrianzaController implements Initializable {
             txtNombreHembra.setText(nombreAMostrar); //Aqui ponemos mote
             txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
             try {
-                imgHembra.setImage(new Image(new File(hembraElegida.getImgFrontalPokemon()).toURI().toString()));
+                // En función del Tipo de imagen que desee el usuario
+
+                String rutaImagen = "";
+
+                if (Sesion.vista2D) {
+
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + hembraElegida.getImgFrontalPokemon();
+
+                } else {
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + hembraElegida.getImgFrontalPokemon3D();
+                }
+
+                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                imgHembra.setImage((new Image(rutaImagenAdaptada)));
             } catch (Exception e) {}
         }
 
@@ -499,7 +563,9 @@ public class CrianzaController implements Initializable {
         bebe.setNombrePokemon(hembraElegida.getNombrePokemon());
         bebe.setNumPokedex(hembraElegida.getNumPokedex());
         bebe.setImgFrontalPokemon(hembraElegida.getImgFrontalPokemon());
+        bebe.setImgFrontalPokemon3D(hembraElegida.getImgFrontalPokemon3D());
         bebe.setImgPosteriorPokemon(hembraElegida.getImgPosteriorPokemon());
+        bebe.setImgFrontalPokemon3D(hembraElegida.getImgFrontalPokemon3D());
         bebe.setNivel(1); //El bebé nace a nivel 1
         bebe.setExperiencia(0);
         bebe.setFertilidad(5); //Fertilidad máxima al nacer
@@ -582,8 +648,21 @@ public class CrianzaController implements Initializable {
             }
 
             if (imgBebe != null) {
-                String rutaBebe = new File(bebe.getImgFrontalPokemon()).toURI().toString();
-                imgBebe.setImage(new Image(rutaBebe));
+
+                // En función del Tipo de imagen que desee el usuario
+
+                String rutaImagen = "";
+
+                if (Sesion.vista2D) {
+
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + bebe.getImgFrontalPokemon();
+
+                } else {
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + bebe.getImgFrontalPokemon3D();
+                }
+
+                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                imgBebe.setImage(new Image(rutaImagenAdaptada));
                 imgBebe.setVisible(true); 
             }
 
