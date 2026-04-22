@@ -645,7 +645,6 @@ public class MainController implements Initializable {
     public void accederInventario(MouseEvent event) {
         try {
             System.out.println("Cargando la vista Inventario...");
-
             // Recibir el click
             javafx.scene.Node source = (javafx.scene.Node) event.getSource();
 
