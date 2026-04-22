@@ -257,7 +257,7 @@ public class MainController implements Initializable {
         listaSecciones.add(new Seccion(3, "EQUIPO", "/imgs/Principal/vidrio_panel_equipo.png", "/view/equipo/equipo.fxml", ""));
         listaSecciones.add(new Seccion(4, "COMBATE", "/imgs/Principal/vidrio_panel_combate.png", "/view/seleccionCombate/SeleccionCombate.fxml", ""));
         listaSecciones.add(new Seccion(5, "ENTRENAMIENTO", "/imgs/Principal/vidrio_panel_entrenamiento.png", "/crianza/entrenamiento/entrenamiento.fxml", ""));
-        listaSecciones.add(new Seccion(6, "POKEDEX", "/imgs/Principal/vidrio_panel_pokedex.png", "/view/pokedex/pokedex.fxml", ""));
+        listaSecciones.add(new Seccion(6, "INVENTARIO", "/imgs/Principal/vidrio_panel_inventario.png", "/view/inventario/inventario.fxml", ""));
         listaSecciones.add(new Seccion(7, "CASINO", "/imgs/Principal/vidrio_panel_casino.png", "/view/casino/casino.fxml", ""));
         actualizarLista();
     }
@@ -283,8 +283,8 @@ public class MainController implements Initializable {
                 vidrioPrincipal.setOnMouseClicked(this::accederSeleccionCombate);
             } else if (principal.getNombre().equals("ENTRENAMIENTO")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederEntrenamiento);
-            } else if (principal.getNombre().equals("POKEDEX")) {
-                vidrioPrincipal.setOnMouseClicked(this::accederPokedex);
+            } else if (principal.getNombre().equals("INVENTARIO")) {
+                vidrioPrincipal.setOnMouseClicked(this::accederInventario);
             } else if (principal.getNombre().equals("CASINO")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederCasino);
             }
@@ -639,12 +639,12 @@ public class MainController implements Initializable {
     }
 
 
-    // --------------- POKEDEX ----------------
+    // --------------- INVENTARIO ----------------
 
     @FXML
-    public void accederPokedex(MouseEvent event) {
+    public void accederInventario(MouseEvent event) {
         try {
-            System.out.println("Cargando la vista Pokedex...");
+            System.out.println("Cargando la vista Inventario...");
 
             // Recibir el click
             javafx.scene.Node source = (javafx.scene.Node) event.getSource();
@@ -653,12 +653,12 @@ public class MainController implements Initializable {
             Stage primaryStage = (Stage) source.getScene().getWindow();
 
             // Cargar la vista Principal
-            Parent root = FXMLLoader.load(getClass().getResource("/view/pokedex/pokedex.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/inventario/inventario.fxml"));
             Scene scene = new Scene(root);
 
 
             // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
-            primaryStage.setTitle("PokeINC - Pokedex");
+            primaryStage.setTitle("PokeINC - Inventario");
             primaryStage.setResizable(false);
 
             // Cargar icono
