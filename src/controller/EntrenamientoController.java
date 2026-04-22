@@ -548,7 +548,7 @@ public class EntrenamientoController implements Initializable {
             } else if (pokemonSeleccionado.getSexo() == model.Sexo.HEMBRA) {
                 rutaSexo = "imgs/Entrenamiento/sexo/Hembra.png";
             } else {
-                rutaSexo = "imgs/Entrenamiento/sexo/Neutro.png";
+                rutaSexo = "imgs/Entrenamiento/sexo/Neutro2.0.png";
             }
             
             File archivoSexo = new File(rutaSexo);

@@ -50,7 +50,7 @@ public class Movimiento {
   /**
    * cantidad total de movimientos de cada moviento
    */
-  private int cantidadMovimientos = 5;
+  private int cantidadMovimientos = 10;
   /**
    * para la animacion del movimiento
    */
