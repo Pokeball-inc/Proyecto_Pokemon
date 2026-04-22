@@ -416,9 +416,33 @@ public class EntrenamientoController implements Initializable {
                     try {
                         String ruta;
                         if (pokemon.getEsShiny() != null && pokemon.getEsShiny() == true) {
-                            ruta = new File("/shiny/" + pokemon.getImgFrontalPokemon()).toURI().toString();
+                            // En función del Tipo de imagen que desee el usuario
+
+                            String rutaImagen = "";
+
+                            if (Sesion.vista2D) {
+
+                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/shiny/" + pokemon.getImgFrontalPokemon();
+
+                            } else {
+                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/3DAnimados/shiny/" + pokemon.getImgFrontalPokemon3D();
+                            }
+                            ruta = new File(rutaImagen).toURI().toString();
                         } else {
-                            ruta = new File(pokemon.getImgFrontalPokemon()).toURI().toString();
+
+                            // En función del Tipo de imagen que desee el usuario
+
+                            String rutaImagen = "";
+
+                            if (Sesion.vista2D) {
+
+                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemon.getImgFrontalPokemon();
+
+                            } else {
+                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemon.getImgFrontalPokemon3D();
+                            }
+
+                            ruta = new File(rutaImagen).toURI().toString();
                         }
                         img.setImage(new Image(ruta));
                     } catch (Exception e) {}
@@ -526,15 +550,41 @@ public class EntrenamientoController implements Initializable {
                     //mostramos el icono de Shiny
                     if (imgShiny != null) imgShiny.setVisible(true);
                     //cargamos la imagen desde la carpeta Shiny
-                    rutaImagen = new File("shiny/" + pokemonSeleccionado.getImgFrontalPokemon()).toURI().toString();
+
+                    // En función del Tipo de imagen que desee el usuario
+
+                    if (Sesion.vista2D) {
+
+                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/shiny/" + pokemonSeleccionado.getImgFrontalPokemon();
+
+                    } else {
+                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/shiny/" + pokemonSeleccionado.getImgFrontalPokemon3D();
+                    }
+
+                    String ruta = new File(rutaImagen).toURI().toString();
+                    imgPokemonCentral.setImage(new Image(ruta));
+
                 } else {
                     //ocultamos el icono de Shiny
                     if (imgShiny != null) imgShiny.setVisible(false);
-                    //cargamos la imagen normal
-                    rutaImagen = new File(pokemonSeleccionado.getImgFrontalPokemon()).toURI().toString();
+
+                    // En función del Tipo de imagen que desee el usuario
+
+                    if (Sesion.vista2D) {
+
+                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemonSeleccionado.getImgFrontalPokemon();
+
+                    } else {
+                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemonSeleccionado.getImgFrontalPokemon3D();
+                    }
+
+                    String ruta = new File(rutaImagen).toURI().toString();
+                    imgPokemonCentral.setImage(new Image(ruta));
+
                 }
-                
-                imgPokemonCentral.setImage(new Image(rutaImagen));
+                String ruta = new File(rutaImagen).toURI().toString();
+
+                imgPokemonCentral.setImage(new Image(ruta));
             } catch (Exception e) {
                 System.out.println("Error cargando imagen central: " + e.getMessage());
             }
