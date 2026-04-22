@@ -105,10 +105,10 @@ public class CombateController implements Initializable {
     private ImageView btnCambiarPokemon;
     
     @FXML 
-    private ImageView btnSonidoJugador;
+    private ImageView btnLuchar;
     
     @FXML 
-    private ImageView btnSonidoRival;
+    private ImageView btnMochila;
     
     @FXML 
     private ImageView btnHuir; //o rendirse
