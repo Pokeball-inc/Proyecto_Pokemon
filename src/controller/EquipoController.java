@@ -180,7 +180,6 @@ public class EquipoController implements Initializable {
 
                 } else {
                     rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon3D();
-                    System.out.println(pokemonSeleccionado.getImgFrontalPokemon3D());
                 }
 
                 String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
@@ -264,11 +263,9 @@ public class EquipoController implements Initializable {
             if (Sesion.vista2D) {
 
                 rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon();
-                System.out.println(rutaImagen.toString());
 
             } else {
                 rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon3D();
-                System.out.println(rutaImagen.toString());
             }
 
             String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();

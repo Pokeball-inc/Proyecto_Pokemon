@@ -372,7 +372,7 @@ public class CapturaController implements Initializable {
 
 
                     String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                    System.out.println(rutaImagenAdaptada);
+                    // System.out.println(rutaImagenAdaptada);
 
                     // ESTABLECE EL TEXTO DE TIPO1 AL DELPOKEMON ACTUAL
                     this.txtTipo1.setText(this.pokemonActual.getTipoPrincipal().toString());
