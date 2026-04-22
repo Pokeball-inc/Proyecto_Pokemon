@@ -77,6 +77,8 @@ public class EquipoController implements Initializable {
     private Text textoMoverEquipo;
     @FXML
     private Rectangle rectMoverEquipo;
+    @FXML
+    private Pane panelDetalles;
 
     private Pokemon pokemonSeleccionado;
 
@@ -110,6 +112,7 @@ public class EquipoController implements Initializable {
                 cargarInventario();
             } else {
                 System.out.println("El entrenador no tiene pokemons.");
+                panelDetalles.setDisable(true);
             }
         }
     }

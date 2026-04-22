@@ -70,12 +70,13 @@ public class CapturaDao {
 	}
 	
 	
-	// metodo para generar lso stats del pokemon atrapado
+	// metodo para generar los stats del pokemon atrapado
 	public void generarStats(Pokemon p) {
 
 	    Random r = new Random();
 	    // para cada stat genera un numero aleatorio
-	    p.setVitalidadMaxima(r.nextInt(50) + 50);       // 50-100
+	    p.setVitalidadMaxima(r.nextInt(50) + 50); // 50-100
+		p.setVitalidad(p.getVitalidadMaxima());
 	    p.setAtaque(r.nextInt(20) + 10);          // 10-30
 	    p.setDefensa(r.nextInt(20) + 10);	      // 10-30
 	    p.setAtaqueEspecial(r.nextInt(20) + 10);  // 10-30
@@ -103,7 +104,7 @@ public class CapturaDao {
 		
 		// preparamos la sentencia sql de insercion
 		// ponemos un "?" por cada columna para que java rellene los huecos luego
-		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD_MAXIMA, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD_MAXIMA, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION, VITALIDAD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try {
 	    	// preparamos la conexión para enviar esta consulta
@@ -141,6 +142,7 @@ public class CapturaDao {
 	            ps.setString(14, "SANO");
 	        }
 	        ps.setString(15, ubicacion);
+			ps.setInt(16, p.getVitalidad());
 
 	        
 	        //usamos el executeupdate para modificar la base de datos
@@ -171,7 +173,7 @@ public class CapturaDao {
 		// ponemos un "?" por cada columna para que java rellene los huecos luego
 		String sql = "UPDATE POKEMON SET ID_ENTRENADOR = ?, MOTE = ?, VITALIDAD_MAXIMA = ?, " +
 				"ATAQUE = ?, DEFENSA = ?, VELOCIDAD = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, " +
-				"NIVEL = ?, EXPERIENCIA = ?, FERTILIDAD = ?, ESTADO = ?, UBICACION = ? " +
+				"NIVEL = ?, EXPERIENCIA = ?, FERTILIDAD = ?, ESTADO = ?, UBICACION = ? , VITALIDAD = ?" +
 				"WHERE ID_POKEMON = ?";
 
 		try {
@@ -204,7 +206,8 @@ public class CapturaDao {
 			}
 			ps.setString(13, ubicacion);
 
-			ps.setInt(14, p.getIdPokemon());
+			ps.setInt(14, p.getVitalidad());
+			ps.setInt(15, p.getIdPokemon());
 
 			ps.executeUpdate();
 
