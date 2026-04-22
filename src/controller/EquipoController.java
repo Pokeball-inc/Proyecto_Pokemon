@@ -112,7 +112,7 @@ public class EquipoController implements Initializable {
                 cargarInventario();
             } else {
                 System.out.println("El entrenador no tiene pokemons.");
-                panelDetalles.setDisable(true);
+                panelDetalles.setVisible(false);
             }
         }
     }

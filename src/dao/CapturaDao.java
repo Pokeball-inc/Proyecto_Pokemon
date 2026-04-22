@@ -8,10 +8,7 @@ import java.util.Random;
 
 import bd.ConexionBBDD;
 import javafx.scene.paint.Color;
-import model.Estados;
-import model.Movimiento;
-import model.Pokemon;
-import model.Tipos;
+import model.*;
 
 public class CapturaDao {
 
@@ -68,8 +65,8 @@ public class CapturaDao {
 	    // devolvemos el pokemon
 	    return p;
 	}
-	
-	
+
+
 	// metodo para generar los stats del pokemon atrapado
 	public void generarStats(Pokemon p) {
 
@@ -173,7 +170,7 @@ public class CapturaDao {
 		// ponemos un "?" por cada columna para que java rellene los huecos luego
 		String sql = "UPDATE POKEMON SET ID_ENTRENADOR = ?, MOTE = ?, VITALIDAD_MAXIMA = ?, " +
 				"ATAQUE = ?, DEFENSA = ?, VELOCIDAD = ?, ATAQUE_SP = ?, DEFENSA_SP = ?, " +
-				"NIVEL = ?, EXPERIENCIA = ?, FERTILIDAD = ?, ESTADO = ?, UBICACION = ? , VITALIDAD = ?" +
+				"NIVEL = ?, EXPERIENCIA = ?, FERTILIDAD = ?, ESTADO = ?, UBICACION = ?, VITALIDAD = ? " +
 				"WHERE ID_POKEMON = ?";
 
 		try {
@@ -212,6 +209,7 @@ public class CapturaDao {
 			ps.executeUpdate();
 
 			System.out.println("¡Pokemon "+p.getNombrePokemon()+ " actualizado! Su ID real es: " + p.getIdPokemon());
+			System.out.println(p.getVitalidad());
 
 		} catch (Exception e) {
 			e.printStackTrace();
