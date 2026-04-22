@@ -156,6 +156,78 @@ public class CombateController implements Initializable {
         }
     }
 
+   //Cambiar tamaño de botones (gracias Elyass XDDD)
+    
+    // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ENTRENAR AL PASAR EL CURSOR ---------------
+    
+    //ENTRENAMIENTO PESADO
+    @FXML
+    private void aumentarTamañoBotonLuchar(MouseEvent event) {
+        if (btnLuchar != null) {
+        	btnLuchar.setScaleX(btnLuchar.getScaleX() + 0.2);
+        	btnLuchar.setScaleY(btnLuchar.getScaleY() + 0.2);
+        }
+    }
+
+    @FXML
+    private void disminuirTamañoBotonLuchar(MouseEvent event) {
+        if (btnLuchar != null) {
+        	btnLuchar.setScaleX(btnLuchar.getScaleX() - 0.2);
+        	btnLuchar.setScaleY(btnLuchar.getScaleY() - 0.2);
+        }
+    }
+    
+    //ENTRENAMIENTO FURIOSO
+    @FXML
+    private void aumentarTamañoBotonCambiarPokemon(MouseEvent event) {
+        if (btnCambiarPokemon != null) {
+        	btnCambiarPokemon.setScaleX(btnCambiarPokemon.getScaleX() + 0.2);
+        	btnCambiarPokemon.setScaleY(btnCambiarPokemon.getScaleY() + 0.2);
+        }
+    }
+
+    @FXML
+    private void disminuirTamañoBotonCambiarPokemon(MouseEvent event) {
+        if (btnCambiarPokemon != null) {
+        	btnCambiarPokemon.setScaleX(btnCambiarPokemon.getScaleX() - 0.2);
+        	btnCambiarPokemon.setScaleY(btnCambiarPokemon.getScaleY() - 0.2);
+        }
+    }
+    
+    //ENTRENAMIENTO FUNCIONAL
+    @FXML
+    private void aumentarTamañoBotonMochila(MouseEvent event) {
+        if (btnMochila != null) {
+        	btnMochila.setScaleX(btnMochila.getScaleX() + 0.2);
+        	btnMochila.setScaleY(btnMochila.getScaleY() + 0.2);
+        }
+    }
+
+    @FXML
+    private void disminuirTamañoBotonMochila(MouseEvent event) {
+        if (btnMochila != null) {
+        	btnMochila.setScaleX(btnMochila.getScaleX() - 0.2);
+        	btnMochila.setScaleY(btnMochila.getScaleY() - 0.2);
+        }
+    }
+    
+    //ENTRENAMIENTO ONIRICO
+    @FXML
+    private void aumentarTamañoBotonSalir(MouseEvent event) {
+        if (btnHuir != null) {
+        	btnHuir.setScaleX(btnHuir.getScaleX() + 0.2);
+        	btnHuir.setScaleY(btnHuir.getScaleY() + 0.2);
+        }
+    }
+
+    @FXML
+    private void disminuirTamañoBotonSalir(MouseEvent event) {
+        if (btnHuir != null) {
+        	btnHuir.setScaleX(btnHuir.getScaleX() - 0.2);
+        	btnHuir.setScaleY(btnHuir.getScaleY() - 0.2);
+        }
+    }
+    
     // ================= METODOS DE LOS BOTONES =================
 
     @FXML
