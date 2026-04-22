@@ -14,7 +14,7 @@
       </ImageView>
       <ImageView fx:id="botonAccesoLiga" fitHeight="63.0" fitWidth="200.0" layoutX="164.0" layoutY="501.0" onMouseClicked="#clickAccesoLiga" onMouseEntered="#aumentarTamanoBotonAccesoLiga" onMouseExited="#disminuirTamanoBotonAccesoLiga" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../imgs/combate/BotonAccesoLigaPokemon.png" />
+            <Image url="@../../../imgs/Combate/botones/BotonAccesoLigaPokemon.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -22,7 +22,7 @@
       </ImageView>
       <ImageView fx:id="botonAccesoCombateAleatorio" fitHeight="63.0" fitWidth="200.0" layoutX="680.0" layoutY="501.0" onMouseClicked="#clickAccesoCombateAleatorio" onMouseEntered="#aumentarTamanoBotonAccesoCombateAleatorio" onMouseExited="#disminuirTamanoBotonAccesoCombateAleatorio" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../imgs/combate/BotonAccesoCombateAleatorio.png" />
+            <Image url="@../../../imgs/Combate/botones/BotonAccesoCombateAleatorio.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

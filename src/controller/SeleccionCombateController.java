@@ -125,13 +125,55 @@ public class SeleccionCombateController implements Initializable {
 	 * Metodo para gestionar la transicion a la vista de Combate Aleatorio.
 	 * @param event El evento de raton al hacer clic
 	 */
-	@FXML
-	private void clickAccesoCombateAleatorio(MouseEvent event) {
-		// Por ahora lo dejamos vacio o con un log para probar que funciona
-		System.out.println("Clic detectado: Cambiando al combate Aleatorio (Proximamente)");
+		@FXML
+		private void clickAccesoCombateAleatorio(MouseEvent event) {
+			try {
+				System.out.println("Cargando la vista de combate...");
 
-		
-	}
+				// Recibir el click
+				Node source = (Node) event.getSource();
+
+				// Recuperar la ventana
+				Stage primaryStage = (Stage) source.getScene().getWindow();
+
+				// Cargar la vista de Combate
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/combateAleatorio/combateAleatorio.fxml"));
+				Parent root = loader.load();
+				Scene scene = new Scene(root);
+
+				// Cargar el CSS 
+				try {
+					String css = this.getClass().getResource("/view/combateAleatorio/combateAleatorio.css").toExternalForm();
+					scene.getStylesheets().add(css);
+				} catch (Exception e) {
+					System.out.println("No se encontró el CSS del combate, cargando sin estilos extra.");
+				}
+
+				// Titulo, forzar el tamaño de la ventana y bloquear cambio manual
+				primaryStage.setTitle("PokeINC - Combate Aleatorio");
+				primaryStage.setResizable(false);
+
+				// Cargar icono
+				File file = new File("imgs/Login/Login-icon.png");
+
+				if (file.exists()) {
+					String imagePath = file.toURI().toString();
+					primaryStage.getIcons().add(new Image(imagePath));
+				} else {
+					System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
+				}
+
+				// Cambiar la escena de seleccion por la del combate
+				primaryStage.setScene(scene);
+
+				// Mostrar la escena
+				primaryStage.show();
+
+			} catch (Exception e) {
+				System.out.println("Error al cambiar de ventana - " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 
 	/**
 	 * Metodo para salir del menu de seleccion de combate y volver a la vista principal.
