@@ -273,7 +273,7 @@ public class EquipoController implements Initializable {
             // Cambiar el texto de las estadisticas
             atkPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaque()));
             atkPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getAtaqueEspecial()));
-            hpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidad()+"/"+pokemonSeleccionado.getVitalidadMaxima()));
+            hpPokemon.setText(pokemonSeleccionado.getVitalidad() + "/" + pokemonSeleccionado.getVitalidadMaxima());
             defensaPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensa()));
             defensaPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getDefensaEspecial()));
             velocidadPokemon.setText(String.valueOf(pokemonSeleccionado.getVelocidad()));
@@ -300,23 +300,19 @@ public class EquipoController implements Initializable {
 
             // Vitalidad
 
-            Tooltip.install(hpPokemon, new Tooltip("Vitalidad actual y máxima;\n - Vitalidad actual: La vitalidad que tiene el pokemon actualmente" +
-                    "\n - Vitalidad máxima: La vitalidad máxima que puede tener el pokemon en las mejores condiciones"));
+            Tooltip.install(hpPokemon, new Tooltip("Vitalidad actual y máxima;\n - Vitalidad actual: La vitalidad que tiene el pokemon actualmente \n - Vitalidad máxima: La vitalidad máxima que puede tener el pokemon en las mejores condiciones"));
 
             // Defensa
 
-            Tooltip.install(defensaPokemon, new Tooltip("Defensa Normal;\n - Estadística que reduce el daño ocasionado" +
-                    "\n por el ataque normal."));
+            Tooltip.install(defensaPokemon, new Tooltip("Defensa Normal;\n - Estadística que reduce el daño ocasionado\n por el ataque normal."));
 
             // Defensa especial
 
-            Tooltip.install(defensaPokemonEspecial, new Tooltip("Defensa Especial;\n - Estadística que reduce el daño ocasionado" +
-                    "\n por el ataque especial."));
+            Tooltip.install(defensaPokemonEspecial, new Tooltip("Defensa Especial;\n - Estadística que reduce el daño ocasionado\n por el ataque especial."));
 
             // Velocidad
 
-            Tooltip.install(velocidadPokemon, new Tooltip("Velocidad;\n" + " - Estadística que aumenta la velocidad del pokemon" +
-                    "\n - En un combate el pokemon con más velocidad atacará primero."));
+            Tooltip.install(velocidadPokemon, new Tooltip("Velocidad;\n - Estadística que aumenta la velocidad del pokemon\n - En un combate el pokemon con más velocidad atacará primero."));
 
             // Fertilidad
 
@@ -329,7 +325,7 @@ public class EquipoController implements Initializable {
 
             // Hacer lo mismo con el icono de info
 
-            String shiny = "";
+            String shiny;
 
             if (pokemonSeleccionado.getEsShiny()) {
                 shiny = "Si";
@@ -360,32 +356,32 @@ public class EquipoController implements Initializable {
 
             Tooltip.install(infoPokemon, new Tooltip(
                     "===================================== INFORMACIÓN COMPLETA =====================================" +
-                        "\n================= Datos pokemon ================= " +
-                    "\n » ID: " + pokemonSeleccionado.getIdPokemon() +
-                    "\n » Número de pokedex: " + pokemonSeleccionado.getNumPokedex() +
-                    "\n » Nombre: " + pokemonSeleccionado.getNombrePokemon() +
-                    "\n » Tipo principal: " + pokemonSeleccionado.getTipoPrincipal() +
-                    "\n » Tipo secundario: " + tipo2 +
-                    "\n » Shiny: " + shiny+
-                    // "\n » Origen: " + pokemonSeleccionado.getOrigen() + Por ahora no 😡
-                    "\n » Mote: " + pokemonSeleccionado.getMotePokemon() +
-                    "\n » Nivel: " + pokemonSeleccionado.getNivel() +
-                    "\n » Experiencia: " + pokemonSeleccionado.getExperiencia() +
+                            "\n================= Datos pokemon ================= " +
+                            "\n » ID: " + pokemonSeleccionado.getIdPokemon() +
+                            "\n » Número de pokedex: " + pokemonSeleccionado.getNumPokedex() +
+                            "\n » Nombre: " + pokemonSeleccionado.getNombrePokemon() +
+                            "\n » Tipo principal: " + pokemonSeleccionado.getTipoPrincipal() +
+                            "\n » Tipo secundario: " + tipo2 +
+                            "\n » Shiny: " + shiny +
+                            // "\n » Origen: " + pokemonSeleccionado.getOrigen() + Por ahora no 😡
+                            "\n » Mote: " + pokemonSeleccionado.getMotePokemon() +
+                            "\n » Nivel: " + pokemonSeleccionado.getNivel() +
+                            "\n » Experiencia: " + pokemonSeleccionado.getExperiencia() +
                             "\n================= Estadísticas ================= " +
-                    "\n » Vitalidad Máxima: " + pokemonSeleccionado.getVitalidadMaxima() +
-                    "\n » Vitalidad Actual: " + pokemonSeleccionado.getVitalidad() +
-                    "\n » Ataque: " + pokemonSeleccionado.getAtaque() +
-                    "\n » Defensa: " + pokemonSeleccionado.getDefensa() +
-                    "\n » Ataque especial: " + pokemonSeleccionado.getAtaqueEspecial() +
-                    "\n » Defensa especial: " + pokemonSeleccionado.getDefensaEspecial() +
-                    "\n » Velocidad: " + pokemonSeleccionado.getVelocidad() +
-                    "\n » Fertilidad: " + pokemonSeleccionado.getFertilidad() +
+                            "\n » Vitalidad Máxima: " + pokemonSeleccionado.getVitalidadMaxima() +
+                            "\n » Vitalidad Actual: " + pokemonSeleccionado.getVitalidad() +
+                            "\n » Ataque: " + pokemonSeleccionado.getAtaque() +
+                            "\n » Defensa: " + pokemonSeleccionado.getDefensa() +
+                            "\n » Ataque especial: " + pokemonSeleccionado.getAtaqueEspecial() +
+                            "\n » Defensa especial: " + pokemonSeleccionado.getDefensaEspecial() +
+                            "\n » Velocidad: " + pokemonSeleccionado.getVelocidad() +
+                            "\n » Fertilidad: " + pokemonSeleccionado.getFertilidad() +
                             "\n================= Movimientos ================= " +
-                    "\n » Movimiento 1: " + mov1 +
-                    "\n » Movimiento 2: " + mov2 +
-                    "\n » Movimiento 3: " + mov3 +
-                    "\n » Movimiento 4: " + mov4 +
-                    "\n================================================================================================"));
+                            "\n » Movimiento 1: " + mov1 +
+                            "\n » Movimiento 2: " + mov2 +
+                            "\n » Movimiento 3: " + mov3 +
+                            "\n » Movimiento 4: " + mov4 +
+                            "\n================================================================================================"));
             // Cambiar la imagen del Tipo principal
             String rutaTipo = "imgs/Equipo/Tipos/" + pokemonSeleccionado.getTipoPrincipal() + ".png";
             tipo1Pokemon.setImage(new Image(new File(rutaTipo).toURI().toString()));
@@ -401,8 +397,8 @@ public class EquipoController implements Initializable {
 
             /**
              * Aquí implemento la lógica para meter y sacar del equipo a los pokemons
-             *
-             * 1. Si el pokemon está dentro del equipo, que el icono de Añadir equipo salga como Sacar de equipo en rojo */
+             * 1. Si el pokemon está dentro del equipo, que el icono de Añadir equipo salga como Sacar de equipo en rojo
+             * */
 
             boolean pokemonEnEquipo = Arrays.asList(entrenadorActual.getEquipoPokemon()).contains(pokemonSeleccionado);
 
@@ -523,7 +519,6 @@ public class EquipoController implements Initializable {
 
                 });
             }
-
 
 
         } catch (Exception ex) {
