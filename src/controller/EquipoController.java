@@ -352,6 +352,12 @@ public class EquipoController implements Initializable {
                 mov4 = pokemonSeleccionado.getMovimientos()[3].getNombreMovimiento();
             }
 
+            String tipo2 = "Sin tipo secundario";
+
+            if (pokemonSeleccionado.getTipoSecundario() != null) {
+                tipo2 = pokemonSeleccionado.getTipoSecundario().toString();
+            }
+
             Tooltip.install(infoPokemon, new Tooltip(
                     "===================================== INFORMACIÓN COMPLETA =====================================" +
                         "\n================= Datos pokemon ================= " +
@@ -359,9 +365,9 @@ public class EquipoController implements Initializable {
                     "\n » Número de pokedex: " + pokemonSeleccionado.getNumPokedex() +
                     "\n » Nombre: " + pokemonSeleccionado.getNombrePokemon() +
                     "\n » Tipo principal: " + pokemonSeleccionado.getTipoPrincipal() +
-                    "\n » Tipo secundario: " + pokemonSeleccionado.getTipoSecundario() +
+                    "\n » Tipo secundario: " + tipo2 +
                     "\n » Shiny: " + shiny+
-                    "\n » Origen: " + pokemonSeleccionado.getOrigen() +
+                    // "\n » Origen: " + pokemonSeleccionado.getOrigen() + Por ahora no 😡
                     "\n » Mote: " + pokemonSeleccionado.getMotePokemon() +
                     "\n » Nivel: " + pokemonSeleccionado.getNivel() +
                     "\n » Experiencia: " + pokemonSeleccionado.getExperiencia() +
@@ -480,6 +486,7 @@ public class EquipoController implements Initializable {
                     for (int i = 0; i < equipo.length; i++) {
                         if (equipo[i] == null) {
                             huecoLibre = i;
+                            break;
                         }
                     }
 
@@ -507,6 +514,9 @@ public class EquipoController implements Initializable {
                     if (entrenadorActual.getCajaPokemon() != null) {
                         ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
                     }
+
+                    capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
+
                     mostrarDetallesPokemon(pokemonSeleccionado);
                     cargarInventario();
 
