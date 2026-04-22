@@ -130,9 +130,17 @@ public class Pokemon {
 	 */
 	private String imgFrontalPokemon;
 	/**
+	 * el spray de la imagen frontal del pokemon en 3D
+	 */
+	private String imgFrontalPokemon3D;
+	/**
 	 * la imagen del spray del Pokemon por detras
 	 */
 	private String imgPosteriorPokemon;
+	/**
+	 * la imagen del spray del Pokemon por detras en 3D
+	 */
+	private String imgPosteriorPokemon3D;
 	/**
 	 * El nivel de que necesita el pokemon para evolucionar
 	 */
@@ -379,12 +387,28 @@ public class Pokemon {
 		return imgFrontalPokemon;
 	}
 
+	public void setImgFrontalPokemon3D(String newVar) {
+		imgFrontalPokemon3D = newVar;
+	}
+
+	public String getImgFrontalPokemon3D() {
+		return imgFrontalPokemon3D;
+	}
+
 	public void setImgPosteriorPokemon(String newVar) {
 		imgPosteriorPokemon = newVar;
 	}
 
 	public String getImgPosteriorPokemon() {
 		return imgPosteriorPokemon;
+	}
+
+	public void setImgPosteriorPokemon3D(String newVar) {
+		imgPosteriorPokemon3D = newVar;
+	}
+
+	public String getImgPosteriorPokemon3D() {
+		return imgPosteriorPokemon3D;
 	}
 
 	public void setNivelEvolucion(int newVar) {

@@ -157,6 +157,8 @@ public class PokemonDAO {
 			// p.setNivelEvolucion(rs.getInt("NIVEL_EVOLUCION"));
 			p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL"));
 			p.setImgPosteriorPokemon(rs.getString("IMG_TRASERA"));
+			p.setImgFrontalPokemon3D(rs.getString("IMG_FRONTAL3D"));
+			p.setImgPosteriorPokemon3D(rs.getString("IMG_TRASERA3D"));
 
 			// añadimos el pokemon a la lista auxiliar
 			listaAuxiliar.add(p);

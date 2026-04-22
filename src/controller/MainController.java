@@ -24,6 +24,8 @@ import model.Seccion;
 import model.Sesion;
 import model.UbicacionPokemon;
 import static model.Sesion.entrenadorLogueado;
+import static model.Sesion.vista2D;
+
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
@@ -62,10 +64,13 @@ public class MainController implements Initializable {
 
     @FXML
     private ImageView iconoMusica;
-
     private MediaPlayer mediaPlayer;
     private boolean musicaActiva = false;
 
+    // ALTERNAR DE 2D A 3D Y VICEVERSA
+
+    @FXML
+    private ImageView alternar2D;
 
     // PANEL PARTICULAS
 
@@ -100,6 +105,26 @@ public class MainController implements Initializable {
             mediaPlayer.play();
             musicaActiva = true;
         }
+
+        // Recuperar el tipo de vista y ponerlo
+
+        // -------------------------------------------------
+        String rutaImagen = "";
+
+        if  (vista2D) {
+            rutaImagen = "Alternar_2D.png";
+        } else {
+            rutaImagen = "Alternar_3D.png";
+        }
+
+        rutaImagen = "imgs/Principal/"+rutaImagen;
+
+        String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+
+        Image img = new Image(rutaImagenAdaptada);
+
+        alternar2D.setImage(img);
+        // -------------------------------------------------
     }
 
 
@@ -728,6 +753,36 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    // --------------- ALTERNAR 2D con 3D ----------------
+
+    @FXML
+    public void alternar2D(MouseEvent event) {
+        try {
+            // Alternar el valor
+            vista2D = !vista2D;
+
+            String rutaImagen = "";
+
+            if  (vista2D) {
+                rutaImagen = "Alternar_2D.png";
+            } else {
+                rutaImagen = "Alternar_3D.png";
+            }
+
+            rutaImagen = "imgs/Principal/"+rutaImagen;
+
+            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+
+            Image img = new Image(rutaImagenAdaptada);
+
+            alternar2D.setImage(img);
+
+
+        } catch (Exception e) {
+            System.out.println("Error al alternar a 2D/3D " + e.getMessage());
         }
     }
 

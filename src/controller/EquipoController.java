@@ -169,8 +169,23 @@ public class EquipoController implements Initializable {
 
 
                 // Crear el ImageView
-                String rutaPokemon = new File(p.getImgFrontalPokemon()).toURI().toString();
-                ImageView vistaImagen = new ImageView(new Image(rutaPokemon));
+
+                // En función del Tipo de imagen que desee el usario
+
+                String rutaImagen = "";
+
+                if (Sesion.vista2D) {
+
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon();
+
+                } else {
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon3D();
+                    System.out.println(pokemonSeleccionado.getImgFrontalPokemon3D());
+                }
+
+                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                ImageView vistaImagen = new ImageView(new Image(rutaImagenAdaptada));
+
                 vistaImagen.setFitWidth(128);
                 vistaImagen.setFitHeight(128);
                 vistaImagen.setPreserveRatio(false);
@@ -242,7 +257,20 @@ public class EquipoController implements Initializable {
             pokemonSeleccionado.cambiarColor();
 
             // buscamos el archivo en tu carpeta de sprites
-            String rutaImagen = pokemonSeleccionado.getImgFrontalPokemon();
+            // En función del Tipo de imagen que desee el usario
+
+            String rutaImagen = "";
+
+            if (Sesion.vista2D) {
+
+                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon();
+                System.out.println(rutaImagen.toString());
+
+            } else {
+                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon3D();
+                System.out.println(rutaImagen.toString());
+            }
+
             String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
             fotoPokemon.setImage(new Image(rutaImagenAdaptada));
             fotoPokemon.setFitWidth(180);

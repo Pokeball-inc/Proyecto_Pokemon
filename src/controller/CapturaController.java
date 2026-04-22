@@ -357,8 +357,22 @@ public class CapturaController implements Initializable {
 
                 // cargamos la imagen correspondiente al nombre del pokemon
                 try {
-                    String rutaImagen = this.pokemonActual.getImgFrontalPokemon();
+
+                    // En función del Tipo de imagen que desee el usario
+
+                    String rutaImagen = "";
+
+                    if (Sesion.vista2D) {
+
+                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonActual.getImgFrontalPokemon();
+
+                    } else {
+                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonActual.getImgFrontalPokemon3D();
+                    }
+
+
                     String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                    System.out.println(rutaImagenAdaptada);
 
                     // ESTABLECE EL TEXTO DE TIPO1 AL DELPOKEMON ACTUAL
                     this.txtTipo1.setText(this.pokemonActual.getTipoPrincipal().toString());
@@ -392,6 +406,7 @@ public class CapturaController implements Initializable {
                        // System.out.println(rutaImagenAdaptada);
                         Image img = new Image(rutaImagenAdaptada);
                         imgPokemonActual.setImage(img);
+                        imgPokemonActual.setVisible(true);
                         imgPokemonActual.setLayoutX(-62);
                         imgPokemonActual.setLayoutY(-78);
                         imgPokemonActual.setFitWidth(150);

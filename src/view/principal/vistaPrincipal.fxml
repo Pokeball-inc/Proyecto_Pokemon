@@ -23,6 +23,14 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
+            <ImageView fx:id="alternar2D" fitHeight="63.0" fitWidth="63.0" layoutX="21.0" layoutY="25.0" onMouseClicked="#alternar2D" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../imgs/Principal/Alternar_2D.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
          </children></Pane>
         <ImageView fx:id="iconoMusica" fitHeight="81.0" fitWidth="100.0" layoutX="983.0" onMouseClicked="#alternarMusica" pickOnBounds="true" preserveRatio="true">
             <image>

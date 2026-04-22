@@ -35,6 +35,7 @@ public class CapturaDao {
 	            p.setNumPokedex(rs.getInt("NUM_POKEDEX"));
 	            p.setNombrePokemon(rs.getString("NOM_POKEMON")); 
 	            p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL"));
+				p.setImgFrontalPokemon3D(rs.getString("IMG_FRONTAL3D"));
 	            p.setImgPosteriorPokemon(rs.getString("IMG_TRASERA"));
 
 				generarStats(p);
