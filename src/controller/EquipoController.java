@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -259,9 +260,10 @@ public class EquipoController implements Initializable {
                 sexoPokemon.setImage(new Image(new File(rutaIcono).toURI().toString()));
             }
 
-            // Aplicamos nombre, mote y sus respectivos colores de tipo
-            nombrePokemon.setText(pokemonSeleccionado.getNombrePokemon());
+            // Aplicamos nombre, nivel, mote y sus respectivos colores de tipo
+            nombrePokemon.setText(pokemonSeleccionado.getNombrePokemon() + " Nvl[" + pokemonSeleccionado.getNivel() + "]");
             nombrePokemon.setFill(pokemonSeleccionado.getColor());
+            nombrePokemon.setX(-30);
             nombrePokemon.setTextAlignment(TextAlignment.CENTER);
 
             motePokemon.setText(pokemonSeleccionado.getMotePokemon());
@@ -271,11 +273,12 @@ public class EquipoController implements Initializable {
             // Cambiar el texto de las estadisticas
             atkPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaque()));
             atkPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getAtaqueEspecial()));
-            hpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidadMaxima()));
+            hpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidad()+"/"+pokemonSeleccionado.getVitalidadMaxima()));
             defensaPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensa()));
             defensaPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getDefensaEspecial()));
             velocidadPokemon.setText(String.valueOf(pokemonSeleccionado.getVelocidad()));
             fertilidadPokemon.setText(String.valueOf(pokemonSeleccionado.getFertilidad()));
+
 
             // Revisar si es shiny
             if (pokemonSeleccionado.getEsShiny()) {
@@ -285,6 +288,98 @@ public class EquipoController implements Initializable {
             }
 
 
+            // Añadir descripciones al pasar el cursor
+
+            // Ataque
+
+            Tooltip.install(atkPokemon, new Tooltip("Ataque Normal;\n - Se contrarresta con Defensa Normal"));
+
+            // Ataque Especial
+
+            Tooltip.install(atkPokemonEspecial, new Tooltip("Ataque Especial;\n - Se contrarresta con Defensa Especial"));
+
+            // Vitalidad
+
+            Tooltip.install(hpPokemon, new Tooltip("Vitalidad actual y máxima;\n - Vitalidad actual: La vitalidad que tiene el pokemon actualmente" +
+                    "\n - Vitalidad máxima: La vitalidad máxima que puede tener el pokemon en las mejores condiciones"));
+
+            // Defensa
+
+            Tooltip.install(defensaPokemon, new Tooltip("Defensa Normal;\n - Estadística que reduce el daño ocasionado" +
+                    "\n por el ataque normal."));
+
+            // Defensa especial
+
+            Tooltip.install(defensaPokemonEspecial, new Tooltip("Defensa Especial;\n - Estadística que reduce el daño ocasionado" +
+                    "\n por el ataque especial."));
+
+            // Velocidad
+
+            Tooltip.install(velocidadPokemon, new Tooltip("Velocidad;\n" + " - Estadística que aumenta la velocidad del pokemon" +
+                    "\n - En un combate el pokemon con más velocidad atacará primero."));
+
+            // Fertilidad
+
+            Tooltip.install(fertilidadPokemon, new Tooltip("Fertilidad;\n - Estadística que define si un pokemon puede reproducirse en Crianza"));
+
+            // Shiny
+
+            Tooltip.install(shinyPokemon, new Tooltip("Shiny; \n Define si el pokemon tiene su apariencia normal o la especial"));
+
+
+            // Hacer lo mismo con el icono de info
+
+            String shiny = "";
+
+            if (pokemonSeleccionado.getEsShiny()) {
+                shiny = "Si";
+            } else {
+                shiny = "No";
+            }
+
+            String mov1 = "Sin movimiento";
+            String mov2 = "Sin movimiento";
+            String mov3 = "Sin movimiento";
+            String mov4 = "Sin movimiento";
+
+            if (pokemonSeleccionado.getMovimientos()[0] != null) {
+                mov1 = pokemonSeleccionado.getMovimientos()[0].getNombreMovimiento();
+            } else if (pokemonSeleccionado.getMovimientos()[1] != null) {
+                mov2 = pokemonSeleccionado.getMovimientos()[1].getNombreMovimiento();
+            } else if (pokemonSeleccionado.getMovimientos()[2] != null) {
+                mov3 = pokemonSeleccionado.getMovimientos()[2].getNombreMovimiento();
+            } else if (pokemonSeleccionado.getMovimientos()[3] != null) {
+                mov4 = pokemonSeleccionado.getMovimientos()[3].getNombreMovimiento();
+            }
+
+            Tooltip.install(infoPokemon, new Tooltip(
+                    "===================================== INFORMACIÓN COMPLETA =====================================" +
+                        "\n================= Datos pokemon ================= " +
+                    "\n » ID: " + pokemonSeleccionado.getIdPokemon() +
+                    "\n » Número de pokedex: " + pokemonSeleccionado.getNumPokedex() +
+                    "\n » Nombre: " + pokemonSeleccionado.getNombrePokemon() +
+                    "\n » Tipo principal: " + pokemonSeleccionado.getTipoPrincipal() +
+                    "\n » Tipo secundario: " + pokemonSeleccionado.getTipoSecundario() +
+                    "\n » Shiny: " + shiny+
+                    "\n » Origen: " + pokemonSeleccionado.getOrigen() +
+                    "\n » Mote: " + pokemonSeleccionado.getMotePokemon() +
+                    "\n » Nivel: " + pokemonSeleccionado.getNivel() +
+                    "\n » Experiencia: " + pokemonSeleccionado.getExperiencia() +
+                            "\n================= Estadísticas ================= " +
+                    "\n » Vitalidad Máxima: " + pokemonSeleccionado.getVitalidadMaxima() +
+                    "\n » Vitalidad Actual: " + pokemonSeleccionado.getVitalidad() +
+                    "\n » Ataque: " + pokemonSeleccionado.getAtaque() +
+                    "\n » Defensa: " + pokemonSeleccionado.getDefensa() +
+                    "\n » Ataque especial: " + pokemonSeleccionado.getAtaqueEspecial() +
+                    "\n » Defensa especial: " + pokemonSeleccionado.getDefensaEspecial() +
+                    "\n » Velocidad: " + pokemonSeleccionado.getVelocidad() +
+                    "\n » Fertilidad: " + pokemonSeleccionado.getFertilidad() +
+                            "\n================= Movimientos ================= " +
+                    "\n » Movimiento 1: " + mov1 +
+                    "\n » Movimiento 2: " + mov2 +
+                    "\n » Movimiento 3: " + mov3 +
+                    "\n » Movimiento 4: " + mov4 +
+                    "\n================================================================================================"));
             // Cambiar la imagen del Tipo principal
             String rutaTipo = "imgs/Equipo/Tipos/" + pokemonSeleccionado.getTipoPrincipal() + ".png";
             tipo1Pokemon.setImage(new Image(new File(rutaTipo).toURI().toString()));

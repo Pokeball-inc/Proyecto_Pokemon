@@ -50,14 +50,14 @@
                   <Font name="Consolas Bold" size="38.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="35.0" layoutY="328.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="35.0" layoutY="363.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="35.0" layoutY="431.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="181.0" layoutY="328.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="181.0" layoutY="363.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="181.0" layoutY="431.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="35.0" layoutY="397.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" layoutX="181.0" layoutY="397.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="81.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="34.0" layoutY="327.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="101.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="34.0" layoutY="362.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="99.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="34.0" layoutY="430.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="101.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="180.0" layoutY="327.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="101.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="182.0" layoutY="362.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="101.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="180.0" layoutY="430.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="103.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="30.0" layoutX="34.0" layoutY="396.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="101.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="32.0" layoutX="179.0" layoutY="395.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="105.0" />
             <ImageView fx:id="sexoPokemon" fitHeight="46.0" fitWidth="43.0" layoutX="256.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../imgs/Equipo/sexo/Macho.png" />
@@ -103,47 +103,47 @@
                   <Image url="@../../../imgs/Equipo/Stats/DEF-ESPECIAL.png" />
                </image>
             </ImageView>
-            <Text fx:id="defensaPokemon" fill="#56654b" layoutX="75.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
+            <Text fx:id="defensaPokemon" fill="#56654b" layoutX="86.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="defensaPokemonEspecial" fill="#56654b" layoutX="221.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
+            <Text fx:id="defensaPokemonEspecial" fill="#56654b" layoutX="230.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="atkPokemon" fill="#56654b" layoutX="75.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+            <Text fx:id="atkPokemon" fill="#56654b" layoutX="86.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="hpPokemon" fill="#56654b" layoutX="75.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
+            <Text fx:id="hpPokemon" fill="#56654b" layoutX="86.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="fertilidadPokemon" fill="#56654b" layoutX="78.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
+            <Text fx:id="fertilidadPokemon" fill="#56654b" layoutX="91.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="atkPokemonEspecial" fill="#56654b" layoutX="221.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
+            <Text fx:id="atkPokemonEspecial" fill="#56654b" layoutX="232.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="32">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="velocidadPokemon" fill="#56654b" layoutX="221.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
+            <Text fx:id="velocidadPokemon" fill="#56654b" layoutX="232.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="92">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <Text fx:id="shinyPokemon" fill="#56654b" layoutX="223.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="❌">
+            <Text fx:id="shinyPokemon" fill="#56654b" layoutX="233.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="❌">
                <font>
                   <Font size="21.0" />
                </font>
             </Text>
-            <ImageView fitHeight="43.0" fitWidth="36.0" layoutX="17.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="infoPokemon" fitHeight="43.0" fitWidth="36.0" layoutX="17.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../imgs/Equipo/Stats/INFO.png" />
                </image>
@@ -153,7 +153,7 @@
             </ImageView>
             <Pane layoutX="79.0" layoutY="487.0" prefHeight="28.0" prefWidth="160.0">
                <children>
-                  <Rectangle fx:id="rectMoverEquipo" arcHeight="5.0" arcWidth="5.0" fill="#f5a245" height="28.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="160.0" />
+                  <Rectangle fx:id="rectMoverEquipo" arcHeight="5.0" arcWidth="5.0" fill="#59ee52" height="28.0" stroke="BLACK" strokeType="OUTSIDE" style="-fx-arc-height: 100px; -fx-arc-width: 20px;" width="160.0" />
                   <Text fx:id="textoMoverEquipo" layoutX="3.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Añadir al equipo" textAlignment="CENTER" wrappingWidth="153.35546875">
                      <font>
                         <Font name="System Bold" size="17.0" />
