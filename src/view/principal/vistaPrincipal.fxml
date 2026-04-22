@@ -13,7 +13,17 @@
                 <Image url="@../../../imgs/Principal/fondo-principal.png" />
             </image>
         </ImageView>
-        <Pane fx:id="panelParticulas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Pane fx:id="panelParticulas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="botonLogOut" fitHeight="50.0" fitWidth="48.0" layoutX="1012.0" layoutY="545.0" onMouseClicked="#logOut" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../imgs/Principal/iconoLogOut.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children></Pane>
         <ImageView fx:id="iconoMusica" fitHeight="81.0" fitWidth="100.0" layoutX="983.0" onMouseClicked="#alternarMusica" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../imgs/Principal/musica-activa.png" />

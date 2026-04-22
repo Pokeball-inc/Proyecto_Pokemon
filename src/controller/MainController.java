@@ -731,4 +731,63 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    // --------------- LOGOUT ----------------
+
+    @FXML
+    public void logOut(MouseEvent event) {
+        try {
+            System.out.println("Cerrando sesión...");
+
+            // Limpiar datos de la sesion
+
+            Sesion.logOut();
+
+            // Recibir el click
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+
+            // Recuperar la ventana
+            Stage primaryStage = (Stage) source.getScene().getWindow();
+
+            // Cargar el login
+
+            Parent root = FXMLLoader.load(getClass().getResource("/view/login/login.fxml"));
+
+
+            Scene scene = new Scene(root);
+
+            // Cargar el CSS
+
+            String css = this.getClass().getResource("/view/login/login.css").toExternalForm();
+            scene.getStylesheets().add(css);
+
+            // Titulo, forzar el tamaño de la ventana y bloquear cambio manual
+            primaryStage.setTitle("PokeINC");
+            primaryStage.setResizable(false);
+            primaryStage.sizeToScene();
+
+            // Cargar icono
+            File file = new File("imgs/Login/Login-icon.png");
+
+            if (file.exists()) {
+                String imagePath = file.toURI().toString();
+                primaryStage.getIcons().add(new Image(imagePath));
+            } else {
+                System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
+            }
+
+            primaryStage.setScene(scene);
+
+            primaryStage.show();
+
+            // Mostrar la escena
+
+            mediaPlayer.stop();
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error al cambiar de ventana - " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

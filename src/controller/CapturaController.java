@@ -389,7 +389,7 @@ public class CapturaController implements Initializable {
                     // ESTABLECE LA IMAGEN DEL POKEMON Y FUERZA A QUE NO CAMBIE EL TAMAÑO DEL IMAGEVIEW
 
                     if (rutaImagenAdaptada != null) {
-                        System.out.println(rutaImagenAdaptada);
+                       // System.out.println(rutaImagenAdaptada);
                         Image img = new Image(rutaImagenAdaptada);
                         imgPokemonActual.setImage(img);
                         imgPokemonActual.setLayoutX(-62);
@@ -400,7 +400,7 @@ public class CapturaController implements Initializable {
                         imgPokemonActual.setY(30);
                         imgPokemonActual.setPreserveRatio(false);
                     } else {
-                        System.out.println(rutaImagen);
+                      //  System.out.println(rutaImagen);
                         System.out.println("no se ha encontrado el archivo: " + pokemonActual.getNombrePokemon());
                     }
 
