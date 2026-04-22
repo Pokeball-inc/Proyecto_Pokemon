@@ -205,6 +205,7 @@ public class CapturaDao {
 
 			ps.setInt(14, p.getVitalidad());
 			ps.setInt(15, p.getIdPokemon());
+			System.out.println(p.getVitalidad());
 
 			ps.executeUpdate();
 

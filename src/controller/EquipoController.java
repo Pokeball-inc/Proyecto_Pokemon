@@ -220,15 +220,15 @@ public class EquipoController implements Initializable {
                 cajaPokemon.setHgap(20);
                 cajaPokemon.setVgap(20);
 
-                // Mostrar el primer pokemon de la lista por defecto, para que no salga el charizard ese xd
-
-                mostrarDetallesPokemon(ListaPokemon.getFirst()); //Supongo que GetFirst es mejor que get(0)
 
 
             } catch (Exception e) {
                 System.out.println("Error cargando imagen de pokemon: " + e.getMessage());
             }
         }
+        // Mostrar el primer pokemon de la lista por defecto, para que no salga el charizard ese xd
+
+        mostrarDetallesPokemon(ListaPokemon.getFirst()); //Supongo que GetFirst es mejor que get(0)
     }
 
     // Metodo para mostrar detalles de pokemons
@@ -418,6 +418,7 @@ public class EquipoController implements Initializable {
                     Pokemon[] equipo = entrenadorActual.getEquipoPokemon();
                     int indiceBorrar = -1;
 
+
                     // Un bucle que busque el índice donde está el pokemonSeleccionado en ese array
                     // y guarde su índice para el posterior borrado
 
@@ -431,11 +432,12 @@ public class EquipoController implements Initializable {
                     // Ahora añadir el pokemon a la caja antes de borrarlo del equipo
 
                     if (indiceBorrar != -1) {
-                        entrenadorActual.getCajaPokemon().add(pokemonSeleccionado);
                         pokemonSeleccionado.setUbicacion(UbicacionPokemon.CAJA);
 
                         // Eliminar el pokemon del equipo desplazando todos los pokemons a partir de su indice
                         // hacia atrás.
+
+                        entrenadorActual.getCajaPokemon().add(pokemonSeleccionado);
 
                         for (int i = indiceBorrar; i < equipo.length - 1; i++) {
                             equipo[i] = equipo[i + 1];
@@ -445,14 +447,11 @@ public class EquipoController implements Initializable {
 
                         equipo[equipo.length - 1] = null;
 
+                        // Y actualizo la bd
+                        capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
+
+
                     }
-
-                    // Ahora mandarlo a la caja y a la base de datos.
-
-                    capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
-
-
-                    // Actualizar todo
 
                     ListaPokemon.clear();
                     if (entrenadorActual.getEquipoPokemon() != null) {
@@ -465,6 +464,7 @@ public class EquipoController implements Initializable {
                     if (entrenadorActual.getCajaPokemon() != null) {
                         ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
                     }
+                    capturaDao.actualizarPokemon(this.con, pokemonSeleccionado, entrenadorActual.getIdEntrenador(), pokemonSeleccionado.getUbicacion().name());
                     mostrarDetallesPokemon(pokemonSeleccionado);
                     cargarInventario();
 
