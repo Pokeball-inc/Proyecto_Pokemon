@@ -61,7 +61,7 @@ public class EntrenamientoController implements Initializable {
     private ImageView imgShiny;
     
     @FXML
-    private ImageView imgFondoPantalla; // para cambiar el fondo al pasar el cursor
+    private ImageView imgFondoPantalla; //para cambiar el fondo al pasar el cursor
     
     @FXML 
     private Text txtNombreCentral;
@@ -111,6 +111,7 @@ public class EntrenamientoController implements Initializable {
     private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
     private Connection con;
     private Pokemon pokemonSeleccionado; //Guarda el pokemon al que le hacemos clic en la lista
+    private boolean fondoBloqueado = false; //Bloquea el fondo para que el hover no lo quite durante la alerta
 
     // rutas de las imagenes de fondo
     private final String FONDO_DEFAULT = "imgs/Entrenamiento/FondoEntrenamientoPredeterminado.png";
@@ -151,7 +152,6 @@ public class EntrenamientoController implements Initializable {
             
             //comprobar ruta
             if (archivoFondo.exists()) {
-                //System.out.println("Imagen encontrada y cargada: " + archivoFondo.getAbsolutePath());
                 imgFondoPantalla.setImage(new Image(archivoFondo.toURI().toString()));
             } else {
                 System.out.println("LA RUTA ESTÁ MAL: No encuentro la imagen en -> " + archivoFondo.getAbsolutePath());
@@ -180,7 +180,7 @@ public class EntrenamientoController implements Initializable {
         if (botonEntrenamientoPesado != null) {
         	botonEntrenamientoPesado.setScaleX(botonEntrenamientoPesado.getScaleX() - 0.2);
         	botonEntrenamientoPesado.setScaleY(botonEntrenamientoPesado.getScaleY() - 0.2);
-            cambiarFondoPantalla(FONDO_DEFAULT);
+            if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
     
@@ -199,7 +199,7 @@ public class EntrenamientoController implements Initializable {
         if (botonEntrenamientoFurioso != null) {
         	botonEntrenamientoFurioso.setScaleX(botonEntrenamientoFurioso.getScaleX() - 0.2);
         	botonEntrenamientoFurioso.setScaleY(botonEntrenamientoFurioso.getScaleY() - 0.2);
-            cambiarFondoPantalla(FONDO_DEFAULT);
+            if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
     
@@ -218,7 +218,7 @@ public class EntrenamientoController implements Initializable {
         if (botonEntrenamientoFuncional != null) {
         	botonEntrenamientoFuncional.setScaleX(botonEntrenamientoFuncional.getScaleX() - 0.2);
         	botonEntrenamientoFuncional.setScaleY(botonEntrenamientoFuncional.getScaleY() - 0.2);
-            cambiarFondoPantalla(FONDO_DEFAULT);
+            if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
     
@@ -237,7 +237,7 @@ public class EntrenamientoController implements Initializable {
         if (botonEntrenamientoOnirico != null) {
         	botonEntrenamientoOnirico.setScaleX(botonEntrenamientoOnirico.getScaleX() - 0.2);
         	botonEntrenamientoOnirico.setScaleY(botonEntrenamientoOnirico.getScaleY() - 0.2);
-            cambiarFondoPantalla(FONDO_DEFAULT);
+            if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
 
@@ -287,9 +287,15 @@ public class EntrenamientoController implements Initializable {
     //Metodo general para comprobar dinero, restar y subir stats
     private void procesarEntrenamiento(String nombreEntrenamiento, int costeMultiplicador, int subeHp, int subeAtk, int subeDef, int subeAtkSp, int subeDefSp, int subeVel) {
         
+        //bloqueamos el fondo para que el hover del raton no lo quite
+        fondoBloqueado = true;
+        
         //comprobamos que haya un pokemon seleccionado
         if (pokemonSeleccionado == null) {
             mostrarAlerta("Error", "¡Falta Pokémon!", "Selecciona primero un Pokémon del menú lateral para entrenarlo.", AlertType.WARNING);
+            //Desbloqueamos y volvemos al fondo predeterminado
+            fondoBloqueado = false;
+            cambiarFondoPantalla(FONDO_DEFAULT);
             return;
         }
 
@@ -302,6 +308,9 @@ public class EntrenamientoController implements Initializable {
                 "El Entrenamiento " + nombreEntrenamiento + " para un Pokémon de Nvl " + pokemonSeleccionado.getNivel() + 
                 " cuesta " + coste + " Pokedollars.\nActualmente tienes: " + entrenadorActual.getPokedollares(), 
                 AlertType.WARNING);
+            //Desbloqueamos y volvemos al fondo predeterminado
+            fondoBloqueado = false;
+            cambiarFondoPantalla(FONDO_DEFAULT);
             return;
         }
 
@@ -341,7 +350,8 @@ public class EntrenamientoController implements Initializable {
             "Se han cobrado " + coste + " Pokedollars por los servicios.", 
             AlertType.INFORMATION);
 
-        //al cerrar el dialogo volvemos a poner el fondo normal
+        //al cerrar el dialogo volvemos a poner el fondo normal y desbloqueamos
+        fondoBloqueado = false;
         cambiarFondoPantalla(FONDO_DEFAULT);
     }
 
@@ -773,7 +783,7 @@ public class EntrenamientoController implements Initializable {
         // ponemos el fondo default al principio
         cambiarFondoPantalla(FONDO_DEFAULT);
 
-        // Preparamos el diseño visual del ListView ANTES de cargar los datos
+        // Preparamos el diseño visual del ListView antes de cargar los datos
         configurarDiseñoLista();
         
         // Conectamos BD y cargamos la info del entrenador (y selecciona el aleatorio)
