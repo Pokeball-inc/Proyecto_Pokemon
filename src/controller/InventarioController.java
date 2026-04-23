@@ -8,16 +8,51 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import model.Entrenador;
+import model.Sesion;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class InventarioController implements Initializable {
+
+    // Cargamos el entrenador logueado
+
+    private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
+
+
+    // Caja de objetos
+
+    @FXML
+    private TilePane cajaObjetos;
+
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    /**
+     * Method para generar las celdas de los objetos disponibles en la BBDD en la caja de objetos
+     * Considero que este metodo es mejor, puesto que en función de si tienes o no el objeto, se verá
+     * de una forma u de otra, además de que se tiene que ver el objeto y la cantidad de items, etc..,
+     * cosa que prefiero hacer directamente con el código */
+
+
+    public void cargarObjetos () {
+        try {
+            // Limpiar la caja por si tenia algo antes
+
+            cajaObjetos.getChildren().clear();
+
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 
     //Boton de salir

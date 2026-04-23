@@ -150,7 +150,7 @@
                 </ImageView>
                 <ScrollPane id="scroll-pane" layoutX="13.0" layoutY="12.0" prefHeight="403.0" prefWidth="577.0">
                     <content>
-                        <TilePane id="tile-pane" fx:id="listaObjetos" alignment="TOP_CENTER" prefHeight="399.0" prefWidth="574.0" stylesheets="@inventario.css" tileAlignment="CENTER_LEFT">
+                        <TilePane id="tile-pane" fx:id="cajaObjetos" alignment="TOP_CENTER" prefHeight="399.0" prefWidth="574.0" stylesheets="@inventario.css" tileAlignment="CENTER_LEFT">
                             <padding>
                                 <Insets right="15.0" />
                             </padding>
