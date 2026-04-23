@@ -23,7 +23,7 @@
             <Image url="@../../../imgs/combate/Entrenadores/Liga/Rojo.gif" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgPokemonJugador" fitHeight="364.0" fitWidth="368.0" layoutX="112.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgPokemonJugador" fitHeight="364.0" fitWidth="368.0" layoutX="112.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/back/4.png" />
          </image>
@@ -125,6 +125,11 @@
             </Pane>
          </children>
       </HBox>
+      <ImageView fx:id="imgEntrenadorJugador" fitHeight="209.0" fitWidth="241.0" layoutX="203.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Combate/Entrenadores/Jugador/Eco_espalda.png" />
+         </image>
+      </ImageView>
       
    </children>
 </AnchorPane>
