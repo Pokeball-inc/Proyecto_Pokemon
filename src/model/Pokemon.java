@@ -565,6 +565,23 @@ public class Pokemon {
 	    
 	    return "NEUTRO";
 	}
+	
+	
+	/**
+	 * metodo para obtener un movimiento aleatorio del pokemon para la "IA"
+	 * @return un objeto Movimiento aleatorio de entre los que conoce
+	 */
+	public Movimiento elegirMovimientoAleatorio() {
+	    List<Movimiento> validos = new ArrayList<>();
+	    for (Movimiento m : movimientos) {
+	        if (m != null) {
+	            validos.add(m);
+	        }
+	    }
+	    Random r = new Random();
+	    return validos.get(r.nextInt(validos.size()));
+	}
+	
 
 	/**
 	 * metodo para recuperar un procentajde de vida aleatorio en 10% un maximo de
