@@ -130,7 +130,7 @@ public class CombateController implements Initializable {
     private ImageView btnLuchar;
     
     @FXML 
-    private ImageView btnMochila;
+    private ImageView btnDescanso;
     
     @FXML 
     private ImageView btnHuir; //o rendirse
@@ -304,9 +304,9 @@ public class CombateController implements Initializable {
         if (controlesBloqueados == true) {
             return;
         }
-        if (btnMochila != null) {
-        	btnMochila.setScaleX(btnMochila.getScaleX() + 0.2);
-        	btnMochila.setScaleY(btnMochila.getScaleY() + 0.2);
+        if (btnDescanso != null) {
+        	btnDescanso.setScaleX(btnDescanso.getScaleX() + 0.2);
+        	btnDescanso.setScaleY(btnDescanso.getScaleY() + 0.2);
         }
     }
 
@@ -315,9 +315,9 @@ public class CombateController implements Initializable {
         if (controlesBloqueados == true) {
             return;
         }
-        if (btnMochila != null) {
-        	btnMochila.setScaleX(btnMochila.getScaleX() - 0.2);
-        	btnMochila.setScaleY(btnMochila.getScaleY() - 0.2);
+        if (btnDescanso != null) {
+        	btnDescanso.setScaleX(btnDescanso.getScaleX() - 0.2);
+        	btnDescanso.setScaleY(btnDescanso.getScaleY() - 0.2);
         }
     }
     
