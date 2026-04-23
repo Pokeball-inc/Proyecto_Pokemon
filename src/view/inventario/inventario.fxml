@@ -9,6 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -16,55 +20,116 @@
     <children>
         <ImageView fitHeight="607.0" fitWidth="1074.0" pickOnBounds="true">
             <image>
-                <Image url="@../../../imgs/Equipo/fondo-principal.png" />
+                <Image url="@../../../imgs/Inventario/fondoInventario.png" />
             </image>
         </ImageView>
-        <Pane layoutX="73.0" layoutY="30.0" prefHeight="547.0" prefWidth="333.0">
+        <Pane fx:id="panelDetalles" layoutX="64.0" layoutY="47.0" prefHeight="518.0" prefWidth="352.0">
             <children>
-                <ImageView fitHeight="547.0" fitWidth="333.0" pickOnBounds="true">
-                    <image>
-                        <Image url="@../../../imgs/Equipo/Vidrio_panel.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </Pane>
-        <Pane fx:id="panelDetalles" layoutX="83.0" layoutY="40.0" prefHeight="547.0" prefWidth="333.0">
-            <children>
-            <Group layoutX="13.0" layoutY="40.0">
-               <children>
-                      <ImageView fitHeight="114.0" fitWidth="97.0" layoutX="20.0" pickOnBounds="true" preserveRatio="true">
-                          <image>
-                              <Image url="@../../../imgs/Principal/Vidrio_panel.png" />
-                          </image>
-                      </ImageView>
-                      <ImageView fx:id="fotoObjeto" fitHeight="133.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
-                          <image>
-                              <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/6.png" />
-                          </image>
-                      </ImageView>
-               </children>
-            </Group>
-                <Text fx:id="nombreObjeto" fill="#f5000d" layoutX="53.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objeto" textAlignment="CENTER" wrappingWidth="333.0">
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebbf7e" height="464.0" layoutX="-25.0" layoutY="19.0" opacity="0.71" stroke="BLACK" strokeType="INSIDE" width="352.0" />
+                <Group layoutX="13.0" layoutY="40.0">
+                    <children>
+                        <ImageView fx:id="fotoObjeto" fitHeight="139.0" fitWidth="132.0" layoutX="-4.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/6.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="133.0" fitWidth="120.0" layoutX="2.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@../../../imgs/Inventario/marcoFotoObjeto.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </Group>
+                <Text fx:id="nombreObjeto" fill="#070303" layoutX="53.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objeto" textAlignment="CENTER" wrappingWidth="333.0">
                     <font>
                         <Font name="Consolas Bold" size="38.0" />
                     </font>
                 </Text>
-                <Pane layoutX="79.0" layoutY="487.0" prefHeight="28.0" prefWidth="160.0" />
-                <Text fx:id="cantidadObjeto" fill="#f55845" layoutX="253.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x20">
+                <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#f2b664" height="238.0" layoutX="5.0" layoutY="225.0" opacity="0.8" stroke="#ffffff00" strokeType="OUTSIDE" style="border: 100px;" width="306.0" />
+                <Text fx:id="cantidadObjeto" fill="#6b00ff" layoutX="253.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x20">
                     <font>
                         <Font name="Consolas Bold" size="17.0" />
                     </font>
                 </Text>
-            <ImageView fitHeight="269.0" fitWidth="284.0" layoutX="17.0" layoutY="232.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../../imgs/Equipo/Vidrio_panel_sinBorde.png" />
-               </image>
-            </ImageView>
-            <Text fill="#f5000d" layoutX="17.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objeto" textAlignment="CENTER" wrappingWidth="187.0">
-               <font>
-                  <Font name="Consolas Bold" size="38.0" />
-               </font>
-            </Text>
+                <Text fill="#110a0b" layoutX="-8.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" textAlignment="CENTER" wrappingWidth="187.0">
+                    <font>
+                        <Font name="Consolas Bold" size="26.0" />
+                    </font>
+                </Text>
+                <Text fx:id="descObjeto" fill="#110a0b" layoutX="16.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aquí va lo que hace el objeto en cuestión" wrappingWidth="284.0">
+                    <font>
+                        <Font name="Consolas" size="17.0" />
+                    </font>
+                </Text>
+                <Pane fx:id="usarObjeto" layoutX="142.0" layoutY="404.0" prefHeight="37.0" prefWidth="151.0">
+                    <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4ffdc" height="37.0" layoutX="9.0" strokeType="INSIDE" style="-fx-arc-width: 40px; -fx-arc-height: 40px;" width="133.0">
+                            <stroke>
+                                <LinearGradient endX="1.0" endY="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </stroke>
+                        </Rectangle>
+                        <Text fill="#0a0900" layoutX="9.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AÑADIR/QUITAR" textAlignment="CENTER" wrappingWidth="133.0">
+                            <font>
+                                <Font name="Consolas Bold Italic" size="14.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </Pane>
+                <Pane fx:id="comprarObjeto" layoutX="33.0" layoutY="404.0">
+                    <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2bf535" height="37.0" strokeType="INSIDE" style="-fx-arc-width: 40px; -fx-arc-height: 40px;" width="102.0">
+                            <stroke>
+                                <LinearGradient endX="1.0" endY="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </stroke>
+                        </Rectangle>
+                        <Text fill="#0a0900" layoutX="15.0" layoutY="13.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comprar x1" textAlignment="CENTER" wrappingWidth="75.0">
+                            <font>
+                                <Font name="Consolas Bold Italic" size="14.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </Pane>
+                <Text fill="#110a0b" layoutX="146.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio:" wrappingWidth="75.0">
+                    <font>
+                        <Font name="Consolas Bold" size="19.0" />
+                    </font>
+                </Text>
+                <Text fx:id="precioObjeto" fill="WHITE" layoutX="180.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000 pd" wrappingWidth="110.0">
+                    <font>
+                        <Font name="Verdana Bold" size="17.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="583.0" fitWidth="435.0" layoutX="-63.0" layoutY="-32.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../../../imgs/Inventario/marcoInfoObjeto.png" />
+                    </image>
+                </ImageView>
             </children>
         </Pane>
         <ImageView fx:id="botonSalir" fitHeight="43.0" fitWidth="36.0" layoutX="1030.0" layoutY="563.0" onMouseClicked="#inventarioSalir" pickOnBounds="true" preserveRatio="true">
@@ -75,18 +140,24 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fitHeight="424.0" fitWidth="599.0" layoutX="431.0" layoutY="102.0" pickOnBounds="true">
-            <image>
-                <Image url="@../../../imgs/Equipo/Vidrio_panel_sinBorde.png" />
-            </image>
-        </ImageView>
-        <ScrollPane id="scroll-pane" layoutX="444.0" layoutY="114.0" prefHeight="403.0" prefWidth="577.0">
-            <content>
-                <TilePane id="tile-pane" fx:id="cajaPokemon" alignment="TOP_CENTER" prefHeight="399.0" prefWidth="574.0" stylesheets="@equipo.css" tileAlignment="CENTER_LEFT">
-                    <padding>
-                        <Insets right="15.0" />
-                    </padding></TilePane>
-            </content>
-        </ScrollPane>
+        <Pane layoutX="431.0" layoutY="102.0">
+            <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebbf7e" height="384.0" layoutX="28.0" layoutY="27.0" opacity="0.71" stroke="BLACK" strokeType="INSIDE" width="548.0" />
+                <ImageView fitHeight="424.0" fitWidth="599.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../../../imgs/Inventario/marcoCaja.png" />
+                    </image>
+                </ImageView>
+                <ScrollPane id="scroll-pane" layoutX="13.0" layoutY="12.0" prefHeight="403.0" prefWidth="577.0">
+                    <content>
+                        <TilePane id="tile-pane" fx:id="listaObjetos" alignment="TOP_CENTER" prefHeight="399.0" prefWidth="574.0" stylesheets="@inventario.css" tileAlignment="CENTER_LEFT">
+                            <padding>
+                                <Insets right="15.0" />
+                            </padding>
+                        </TilePane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
