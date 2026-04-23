@@ -1,0 +1,25 @@
+/* Quitar el fondo y el borde del scrollbar en la caja*/
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/*Hacer invisible el scroll pane, sin afectar al contenido*/
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Esconder las barras*/
+.scroll-pane > .scroll-bar:vertical,
+.scroll-pane > .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}
+
+/* Esconder el cuadrado blanco que sale en la esquina inferior*/
+.scroll-pane .corner {
+    -fx-background-color: transparent;
+}
