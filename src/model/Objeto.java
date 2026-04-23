@@ -26,15 +26,60 @@ public class Objeto {
    */
   private String descripcionObjeto;
   /**
+   * precio del objeto
+   */
+  private int precio;
+  /**
+   * buffs del objeto
+   */
+  private int statsBonus;
+  /**
+   * nerfs del objeto
+   */
+  private int statsMalus;
+  /**
+   * porcentaje del bonus/buff
+   */
+  private int porcentajeBonus;
+  /**
+   * porcentaje del malus/nerf
+   */
+  private int porcentajeMalus;
+  /**
    * la imagen del objeto
    */
   private String imgObjeto;
   
   //
-  // Constructors
+  // Constructor por defecto
   //
-  public Objeto () { };
-  
+  public Objeto () {
+    this.idObjeto = 1;
+    this.nombreObjeto = "";
+    this.descripcionObjeto = "";
+    this.precio = 0;
+    this.statsBonus = 0;
+    this.statsMalus = 0;
+    this.porcentajeBonus = 0;
+    this.porcentajeMalus = 0;
+    this.imgObjeto = "";
+  };
+
+
+  /**
+   * Constructor parametrizado
+   * */
+  public Objeto(int idObjeto, String nombreObjeto, String descripcionObjeto, int precio, int statsBonus, int statsMalus, int porcentajeBonus, int porcentajeMalus, String imgObjeto) {
+    this.idObjeto = idObjeto;
+    this.nombreObjeto = nombreObjeto;
+    this.descripcionObjeto = descripcionObjeto;
+    this.precio = precio;
+    this.statsBonus = statsBonus;
+    this.statsMalus = statsMalus;
+    this.porcentajeBonus = porcentajeBonus;
+    this.porcentajeMalus = porcentajeMalus;
+    this.imgObjeto = imgObjeto;
+  }
   //
   // Methods
   //
