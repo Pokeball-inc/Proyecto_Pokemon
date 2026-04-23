@@ -411,7 +411,7 @@ public boolean puedeAtacarEsteTurno(Pokemon p) {
   /**
    * metodo para retirarse del combate
    */
-  public void retirarse(){System.out.println("--- EL JUGADOR SE HA RETIRADO ---");
+  public void retirarse(){System.out.println("EL JUGADOR SE HA RETIRADO");
   
   // sumamos la derrota al marcador
   this.getEntrenador().sumarDerrota();
