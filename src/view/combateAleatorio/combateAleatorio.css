@@ -1,0 +1,10 @@
+#txtLogCombate {
+    -fx-text-fill: white;
+    -fx-font-size: 26px; 
+    -fx-font-weight: bold;
+    -fx-font-family: 'monospace';
+    -fx-alignment: CENTER; /*centra el texto perfectamente en el medio*/
+    -fx-text-alignment: CENTER;
+    -fx-background-color: transparent;
+	-fx-wrap-text: true;
+}

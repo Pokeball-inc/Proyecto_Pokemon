@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -24,6 +25,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import javafx.animation.ParallelTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
+import java.util.LinkedList;
+import java.util.Queue;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.ScaleTransition;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
@@ -67,7 +79,7 @@ public class CombateController implements Initializable {
     private ImageView imgPokemonRival;
     
     @FXML 
-    private ImageView imgPkmnEntrenadorRival;
+    private ImageView imgEntrenadorRival;
     
     @FXML 
     private Text txtNombrePkmnRival;
@@ -115,7 +127,7 @@ public class CombateController implements Initializable {
 
     //Historial del Combate
     @FXML 
-    private TextArea txtLogCombate; //ventana de texto para narrar los turnos
+    private Label txtLogCombate; //ventana de texto para narrar los turnos
 
     //Variables
 
@@ -124,6 +136,10 @@ public class CombateController implements Initializable {
     private Entrenador rival;
     
     private int numeroTurno = 1; //contador de turnos
+    
+    //Variables para la animación del texto
+    private Queue<String> colaMensajes = new LinkedList<>();
+    private boolean escribiendoMensaje = false;
 
 
     /**
@@ -135,6 +151,7 @@ public class CombateController implements Initializable {
         //instanciar el combate
         combateActual = new Combate();
         
+        animacionEntrada();//animacion inicial 
      
     }
 
@@ -367,10 +384,71 @@ public class CombateController implements Initializable {
     }
 
     /**
-     * Añade un nuevo mensaje a la caja de texto narrativo del combate y hace autoscroll.
+     * Añade un mensaje a la cola de texto para que aparezca animado.
      */
     private void escribirLog(String mensaje) {
-        txtLogCombate.appendText("Turno " + numeroTurno + ": " + mensaje + "\n");
+        //lo ponemos a la cola
+        colaMensajes.add(mensaje);
+        //le decimos a la máquina que empiece a procesar la cola
+        procesarColaMensajes();
+    }
+
+    /**
+     * Máquina de escribir: Coge el primer mensaje de la cola, limpia la pantalla 
+     * y lo escribe letra a letra.
+     */
+    private void procesarColaMensajes() {
+        //si ya hay un mensaje escribiendose en pantalla, o no hay nada en la cola, paramos.
+        if (escribiendoMensaje || colaMensajes.isEmpty()) {
+            return;
+        }
+
+        escribiendoMensaje = true; //para que no se pisen los textos
+        String mensajeActual = colaMensajes.poll(); //sacamos el primer mensaje de la fila
+
+        if (txtLogCombate != null) {
+            txtLogCombate.setText(""); //esto vacia el texto anterior
+
+            // Un contador para saber por que letra vamos
+            final int[] indiceLetra = {0}; 
+            
+            //creamos la animacion que se repetira por cada letra
+            Timeline animacionTexto = new Timeline();
+            
+            KeyFrame frame = new KeyFrame(
+                //velocidad letras: 30 milisegundos
+                Duration.millis(30), 
+                evento -> {
+                    //escribimos la letra exacta en la que estamos
+                	String textoActual = txtLogCombate.getText();
+                    txtLogCombate.setText(textoActual + mensajeActual.charAt(indiceLetra[0]));
+                    indiceLetra[0]++;
+                }
+            );
+
+            animacionTexto.getKeyFrames().add(frame);
+            animacionTexto.setCycleCount(mensajeActual.length()); //repetir tantas veces como letras 
+
+            //se termina de escribir la frase
+            animacionTexto.setOnFinished(e -> {
+                //esperamos 1.5s para que el jugador lo lea
+                PauseTransition pausaLectura = new PauseTransition(Duration.seconds(1.5));
+                pausaLectura.setOnFinished(eventoPausa -> {
+                    //desbloqueamos y llamamos al siguiente mensaje
+                    escribiendoMensaje = false;
+                    procesarColaMensajes(); 
+                });
+                pausaLectura.play();
+            });
+
+            animacionTexto.play(); //iniciar la animacion
+            
+        } else {
+            //log de seguridad por consola
+            System.out.println(mensajeActual);
+            escribiendoMensaje = false;
+            procesarColaMensajes();
+        }
     }
     
   //Boton de salir
@@ -422,5 +500,102 @@ public class CombateController implements Initializable {
             System.out.println("Error al cambiar de ventana - " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Realiza la animacion de entrada de los entrenadores estilo RPG clasico.
+     * Los entrenadores entran, hacen su pose (GIF), se retiran y aparecen los Pokemon.
+     */
+    private void animacionEntrada() {
+        //pokemon ocultos y entrenadores visibles
+        imgPokemonJugador.setVisible(false);
+        imgPokemonRival.setVisible(false);
+        imgEntrenadorJugador.setVisible(true);
+        imgEntrenadorRival.setVisible(true);
+
+        //desplazamos entrenadores fuera para que vengan de ahi
+        imgEntrenadorJugador.setTranslateX(-400); //izquierda
+        imgEntrenadorRival.setTranslateX(400);    //derecha
+
+        //ENTRADA
+        //movemos el jugador hacia la posición 0  en 1 segundo
+        TranslateTransition entradaJugador = new TranslateTransition(Duration.seconds(1), imgEntrenadorJugador);
+        entradaJugador.setToX(0);
+
+        //movemos el rival hacia la posición 0 en 1 segundo
+        TranslateTransition entradaRival = new TranslateTransition(Duration.seconds(1), imgEntrenadorRival);
+        entradaRival.setToX(0);
+
+        //ParallelTransition agrupa animaciones para que ocurran a la vez 
+        ParallelTransition entrada = new ParallelTransition(entradaJugador, entradaRival);
+
+        //pausa gif entrenador rival
+        //le damos 1.5 segundos para que termine el gesto
+        PauseTransition pausaGif = new PauseTransition(Duration.seconds(1.5));
+
+        //SALIDA
+        //el jugador se va hacia atrás por la izquierda (-400 px)
+        TranslateTransition salidaJugador = new TranslateTransition(Duration.seconds(1), imgEntrenadorJugador);
+        salidaJugador.setToX(-400); 
+
+        //el rival se va hacia atrás por la derecha (+400 px)
+        TranslateTransition salidaRival = new TranslateTransition(Duration.seconds(1), imgEntrenadorRival);
+        salidaRival.setToX(400);
+
+        ParallelTransition salida = new ParallelTransition(salidaJugador, salidaRival);
+
+        //terminan de salir por pantalla
+        salida.setOnFinished(evento -> {
+            //escondemos a los entrenadores
+            imgEntrenadorJugador.setVisible(false);
+            imgEntrenadorRival.setVisible(false);
+
+            //hacemos a los pokemon enanos antes de sacarlos (efecto pokeball)
+            imgPokemonJugador.setScaleX(0);
+            imgPokemonJugador.setScaleY(0);
+            imgPokemonRival.setScaleX(0);
+            imgPokemonRival.setScaleY(0);
+
+            //ahora los hacemos visibles 
+            imgPokemonJugador.setVisible(true);
+            imgPokemonRival.setVisible(true);
+
+            //animacion como salir de pokeball
+            ScaleTransition scaleJugador = new ScaleTransition(Duration.seconds(0.5), imgPokemonJugador);
+            scaleJugador.setToX(1);
+            scaleJugador.setToY(1);
+
+            ScaleTransition scaleRival = new ScaleTransition(Duration.seconds(0.5), imgPokemonRival);
+            scaleRival.setToX(1);
+            scaleRival.setToY(1);
+
+            //agrupamos para que ambos crezcan a la vez
+            ParallelTransition aparicionPokemons = new ParallelTransition(scaleJugador, scaleRival);
+
+            // Cuando terminan lanzamos los textos a la cola
+            aparicionPokemons.setOnFinished(eventoPokemons -> {
+                escribirLog("¡Un combate aleatorio ha comenzado!");
+                escribirLog("¡Nos enfrentamos a MisCojones no podemos fallar!"); // XD
+                
+                if (combateActual.getPokemonActualRival() != null) {
+                    escribirLog("¡El rival saca a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
+                } else {
+                    escribirLog("ERROR: ¡El rival no tiene Pokémon en su equipo!");
+                }
+                
+                if (combateActual.getPokemonActualJugador() != null) {
+                    escribirLog("¡Ve, " + combateActual.getPokemonActualJugador().getNombrePokemon() + "!");
+                } else {
+                    escribirLog("ERROR: ¡No tienes Pokémon sanos en tu equipo!");
+                }
+            });
+
+            //arrancamos la animacion de crecimiento de pokeball
+            aparicionPokemons.play();
+        });
+
+        //juntarlo todo (Entrada -> Pausa -> Salida)
+        SequentialTransition animacionCompleta = new SequentialTransition(entrada, pausaGif, salida);
+        animacionCompleta.play(); 
     }
 }
