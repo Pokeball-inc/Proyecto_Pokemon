@@ -29,6 +29,9 @@ public class Turno {
    */
   private String accionEntrenadorRival;
   
+  // para saber el estado de salud en el momento del log
+  private String estadoPokemon1; // "OK" o "KO"
+  private String estadoPokemon2; // "OK" o "KO"
   //
   // Constructors
   //
@@ -60,6 +63,22 @@ public class Turno {
 
   public String getAccionEntrenadorRival () {
     return accionEntrenadorRival;
+  }
+
+  public String getEstadoPokemon1() {
+	return estadoPokemon1;
+  }
+
+  public void setEstadoPokemon1(String estadoPokemon1) {
+	this.estadoPokemon1 = estadoPokemon1;
+  }
+
+  public String getEstadoPokemon2() {
+	return estadoPokemon2;
+  }
+
+  public void setEstadoPokemon2(String estadoPokemon2) {
+	this.estadoPokemon2 = estadoPokemon2;
   }
 
   //

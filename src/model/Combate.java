@@ -403,6 +403,20 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
         turnoActual.setAccionEntrenadorRival(res1);
     }
     
+ // Comprobamos el estado del Pokemon del jugador para el log
+    if (this.getPokemonActualJugador().getVitalidad() > 0) {
+        turnoActual.setEstadoPokemon1("OK");
+    } else {
+        turnoActual.setEstadoPokemon1("KO");
+    }
+
+    // Comprobamos el estado del Pokemon del rival para el log
+    if (this.getPokemonActualRival().getVitalidad() > 0) {
+        turnoActual.setEstadoPokemon2("OK");
+    } else {
+        turnoActual.setEstadoPokemon2("KO");
+    }
+    
     this.añadirTurno(turnoActual);
 }
 
@@ -430,25 +444,14 @@ private String ejecutarAccion(Pokemon atacante, Pokemon objetivo, Movimiento mov
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * metodo para obtener el ultimo turno registrado en el historial
+ * @return el Turno mas reciente
+ */
+public Turno obtenerUltimoTurno() {
+    if (historialTurnos.isEmpty()) return null;
+    return historialTurnos.get(historialTurnos.size() - 1);
+}
   
   /**
    * metodo para tras la muerte de un pokemon  preparar el cambio.
