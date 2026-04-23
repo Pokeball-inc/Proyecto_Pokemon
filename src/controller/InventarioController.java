@@ -1,21 +1,32 @@
 package controller;
 
+import bd.ConexionBBDD;
+import dao.InventarioDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Entrenador;
+import model.Objeto;
+import model.ObjetosTotales;
 import model.Sesion;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
+
+import static dao.InventarioDAO.cargarObjetosTotales;
 
 public class InventarioController implements Initializable {
 
@@ -29,7 +40,13 @@ public class InventarioController implements Initializable {
     @FXML
     private TilePane cajaObjetos;
 
+    private Connection con;
+
     public void initialize(URL location, ResourceBundle resources) {
+
+        // Cargar objetos al entrar
+
+        cargarObjetos();
 
     }
 
@@ -45,6 +62,78 @@ public class InventarioController implements Initializable {
             // Limpiar la caja por si tenia algo antes
 
             cajaObjetos.getChildren().clear();
+
+
+
+            // Instanciamos la conexion con la BBDD
+
+            ConexionBBDD conexion = new ConexionBBDD();
+
+            this.con = conexion.getConexion();
+            cargarObjetosTotales(con);
+
+            cajaObjetos.setAlignment(Pos.TOP_LEFT);
+            cajaObjetos.setPadding(new Insets(50, 40, 30, 60));
+
+
+
+            for (Objeto o : ObjetosTotales.todosLosObjetos) {
+                try {
+
+                    /**
+                     * Crear un Vbox para el objeto, donde estará dentro su imagen */
+
+                    VBox celdaObjeto = new VBox(-2);
+
+                    // Darle estilo a la celda:
+                    celdaObjeto.setStyle(
+                            "-fx-background-color: rgba(255, 255, 255, 0.4);" +
+                                    "-fx-background-radius: 15;" +
+                                    "-fx-cursor: hand;" +
+                                    "-fx-padding: 10;" +
+                                    "-fx-border-insets: 5px;" +
+                                    "-fx-background-insets: 5px;"
+                    );
+
+                    /**
+                     * Si la imagen es nula, entonces poner una imagen por defecto
+                     * */
+
+                    if (o.getImgObjeto().equals("vacio")){
+                        System.out.println("Se ha generado un VBOX, pero la imagen es nula");
+                    }
+
+                    /**
+                     * Caso contrario, se carga su imagen
+                     * */
+
+
+                    String rutaImagen = "";
+
+                    rutaImagen = "imgs/Inventario/objetos/" + o.getImgObjeto();
+                    System.out.println(rutaImagen);
+
+                    String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                    ImageView vistaImagen = new ImageView(new Image(rutaImagenAdaptada));
+
+                    vistaImagen.setFitWidth(96);
+                    vistaImagen.setFitHeight(96);
+                    vistaImagen.setPreserveRatio(false);
+
+                    // Ahora añadir la vistaImagen a la celda
+
+                    celdaObjeto.getChildren().add(vistaImagen);
+
+                    // Y añadir la celda a la caja de Objetos
+
+                    cajaObjetos.getChildren().addAll(celdaObjeto);
+
+                    
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                }
 
 
 

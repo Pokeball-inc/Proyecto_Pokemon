@@ -62,7 +62,7 @@ public class Objeto {
     this.statsMalus = 0;
     this.porcentajeBonus = 0;
     this.porcentajeMalus = 0;
-    this.imgObjeto = "";
+    this.imgObjeto = "Null";
   };
 
 

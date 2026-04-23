@@ -15,7 +15,7 @@ public class InventarioDAO {
      * Method para recuperar todos los objetos que existen en la base de datos
      */
 
-    private static void cargarObjetos(Connection con) {
+    public static void cargarObjetosTotales(Connection con) {
         // buscamos el id mas alto en la tabla
         String sql = "SELECT * FROM OBJETO";
         try {
