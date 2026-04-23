@@ -128,7 +128,6 @@ public class InventarioController implements Initializable {
 
                     cajaObjetos.getChildren().addAll(celdaObjeto);
 
-                    
 
                 } catch (Exception e) {
                     System.out.println(e.getMessage());

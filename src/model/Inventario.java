@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class Inventario
@@ -12,29 +14,54 @@ public class Inventario {
   //
 
   /**
+   * Id del entrenador */
+  private int idEntrenador;
+
+  /**
    * todos los objetos que tiene el entrenador disponible
    */
-  private Objeto objetoInventario;
+  private List<ObjetoInventario> listaObjetos;
   
   //
   // Constructors
   //
-  public Inventario () { };
-  
+  public Inventario (int idEntrenador) {
+    this.idEntrenador = idEntrenador;
+    listaObjetos = new ArrayList<>();
+  };
+
+
+  // Getters y Setters
+
+  public int getIdEntrenador() {
+    return idEntrenador;
+  }
+
+  public void setIdEntrenador(int idEntrenador) {
+    this.idEntrenador = idEntrenador;
+  }
+
+  public List<ObjetoInventario> getListaObjetos() {
+    return listaObjetos;
+  }
+
+  public void setListaObjetos(List<ObjetoInventario> listaObjetos) {
+    this.listaObjetos = listaObjetos;
+  }
+
+
   //
   // Methods
   //
 
-  public void setObjetoInventario (Objeto newVar) {
-    objetoInventario = newVar;
+  /**
+   * Method para añadir objetos al inventario, y su
+   * */
+  public void añadirObjeto(Objeto objeto, int cantidad) {
+    listaObjetos.add(new ObjetoInventario(objeto, cantidad));
   }
 
-  public Objeto getObjetoInventario () {
-    return objetoInventario;
-  }
 
-  //
-  // Other methods
-  //
+
 
 }
