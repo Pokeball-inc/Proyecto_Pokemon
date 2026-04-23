@@ -347,6 +347,108 @@ public boolean puedeAtacarEsteTurno(Pokemon p) {
     }
     return true;
 }
+
+
+
+/**
+ * metodo para procesar un turno completo de combate decidiendo quien ataca primero en base a la  velocidad
+ *  validacion de estados, ejecucion de daño y registro en el log
+ * @param movJugador el movimiento elegido por el usuario
+ * @param movRival el movimiento elegido por la "IA"
+ */
+public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
+    // creamos el Turno para registrar lo que pasara
+    Turno turnoActual = new Turno();
+    turnoActual.setNumeroTurnoActual(this.getHistorialTurnos().size() + 1);
+
+    // decidimos el orden de actuacion segun la velocidad de los pokemon
+    Pokemon primero, segundo;
+    Movimiento movPrimero, movSegundo;
+    
+    boolean jugadorVaPrimero = this.getPokemonActualJugador().getVelocidad() >= this.getPokemonActualRival().getVelocidad();
+
+    if (jugadorVaPrimero) {
+        primero = this.getPokemonActualJugador();
+        movPrimero = movJugador;
+        segundo = this.getPokemonActualRival();
+        movSegundo = movRival;
+    } else {
+        primero = this.getPokemonActualRival();
+        movPrimero = movRival;
+        segundo = this.getPokemonActualJugador();
+        movSegundo = movJugador;
+    }
+
+    // el primer pokemon intenta atacar
+    String res1 = ejecutarAccion(primero, segundo, movPrimero);
+    
+    // el segundo pokemon intenta atacar solo si sigue vivo tras el primer movimiento
+    String res2 = "";
+    if (segundo.getVitalidad() > 0) {
+        res2 = ejecutarAccion(segundo, primero, movSegundo);
+    } else {
+        res2 = segundo.getNombrePokemon() + " se encuentra debilitado.";
+    }
+
+    // aplicamos los efectos de estados al final del turno
+    aplicarEfectosFinalDeTurno(this.getPokemonActualJugador(), this.getPokemonActualRival());
+    aplicarEfectosFinalDeTurno(this.getPokemonActualRival(), this.getPokemonActualJugador());
+
+    // guardamos los logs en el objeto turnoActual para el historial
+    if (jugadorVaPrimero) {
+        turnoActual.setAccionEntrenador(res1);
+        turnoActual.setAccionEntrenadorRival(res2);
+    } else {
+        turnoActual.setAccionEntrenador(res2);
+        turnoActual.setAccionEntrenadorRival(res1);
+    }
+    
+    this.añadirTurno(turnoActual);
+}
+
+
+
+/**
+ * metodo para validar estados antes de atacar y ejecutar el daño
+ * @param atacante pokemon que intenta realizar el movimiento
+ * @param objetivo pokemon que recibe el posible impacto
+ * @param mov movimiento a realizar
+ * @return el mensaje de texto de lo ocurrido para el historial
+ */
+private String ejecutarAccion(Pokemon atacante, Pokemon objetivo, Movimiento mov) {
+    // comprobamos si puede atacar
+    if (this.puedeAtacarEsteTurno(atacante)) {
+        // si puede atacar, realizamos el daño y obtenemos la eficacia 
+        String eficacia = atacante.atacar(mov, objetivo);
+        return atacante.getNombrePokemon() + " usó " + mov.getNombreMovimiento() + " (" + eficacia + ")";
+    } else {
+        // si no puede atacar, devolvemos el motivo para el log del turno
+        return atacante.getNombrePokemon() + " no pudo atacar debido a su estado: " + atacante.getEstadoActual();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   /**
    * metodo para tras la muerte de un pokemon  preparar el cambio.
