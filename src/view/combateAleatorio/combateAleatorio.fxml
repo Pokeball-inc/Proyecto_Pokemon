@@ -38,22 +38,22 @@
                <children>
                   <ImageView fx:id="btnLuchar" fitHeight="37.0" fitWidth="145.0" layoutX="10.0" layoutY="14.0" onMouseEntered="#aumentarTamañoBotonLuchar" onMouseExited="#disminuirTamañoBotonLuchar" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../imgs/Combate/botones/BotonLucha.png" />
+                        <Image url="@../../../imgs/combate/botones/BotonLucha.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="btnCambiarPokemon" fitHeight="37.0" fitWidth="145.0" layoutX="136.0" layoutY="14.0" onMouseEntered="#aumentarTamañoBotonCambiarPokemon" onMouseExited="#disminuirTamañoBotonCambiarPokemon" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../imgs/Combate/botones/BotonPokemon.png" />
+                        <Image url="@../../../imgs/combate/botones/BotonPokemon.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="btnMochila" fitHeight="37.0" fitWidth="145.0" layoutX="10.0" layoutY="78.0" onMouseEntered="#aumentarTamañoBotonMochila" onMouseExited="#disminuirTamañoBotonMochila" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../imgs/Combate/botones/BotonMochila.png" />
+                        <Image url="@../../../imgs/combate/botones/BotonMochila.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="btnHuir" fitHeight="37.0" fitWidth="145.0" layoutX="135.0" layoutY="78.0" onMouseClicked="#combateSalir" onMouseEntered="#aumentarTamañoBotonSalir" onMouseExited="#disminuirTamañoBotonSalir" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../imgs/Combate/botones/BotonSalir.png" />
+                        <Image url="@../../../imgs/combate/botones/BotonSalir.png" />
                      </image>
                   </ImageView>
                </children>

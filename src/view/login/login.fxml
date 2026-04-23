@@ -41,12 +41,12 @@
             <Font name="Nirmala Text Bold" size="22.0" />
          </font>
       </Text>
-      <Button id="botonAccederLogin" fx:id="loginentrar" onMouseClicked="#accionAcceder" contentDisplay="CENTER" defaultButton="true" layoutX="71.0" layoutY="345.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" text="Acceder" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+      <Button id="botonAccederLogin" fx:id="loginentrar" contentDisplay="CENTER" defaultButton="true" layoutX="71.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#accionAcceder" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-acceso" text="Acceder" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
       </Button>
-      <Button id="botonRegistroLogin" fx:id="loginentrar2" defaultButton="true" layoutX="71.0" layoutY="398.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-registro" text="Registrarse" textFill="WHITE" textOverrun="CLIP">
+      <Button id="botonCreditosLogin" fx:id="creditosLogin" defaultButton="true" layoutX="71.0" layoutY="398.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-creditos" text="Créditos" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font name="Microsoft Tai Le Bold" size="16.0" />
          </font>
