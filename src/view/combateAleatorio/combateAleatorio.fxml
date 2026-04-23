@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
@@ -39,9 +40,9 @@
             <Rectangle arcHeight="30.0" arcWidth="30.0" height="137.0" width="272.0" />
          </clip>
          <children>
-            <Pane prefHeight="129.0" prefWidth="276.0">
+            <Pane fx:id="panelMenuPrincipal" prefHeight="129.0" prefWidth="276.0">
                <children>
-                  <ImageView fx:id="btnLuchar" fitHeight="37.0" fitWidth="145.0" layoutX="10.0" layoutY="14.0" onMouseEntered="#aumentarTamañoBotonLuchar" onMouseExited="#disminuirTamañoBotonLuchar" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnLuchar" fitHeight="37.0" fitWidth="145.0" layoutX="10.0" layoutY="14.0" onMouseClicked="#accionLuchar" onMouseEntered="#aumentarTamañoBotonLuchar" onMouseExited="#disminuirTamañoBotonLuchar" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/combate/botones/BotonLucha.png" />
                      </image>
@@ -51,7 +52,7 @@
                         <Image url="@../../../imgs/combate/botones/BotonPokemon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="btnDescanso" fitHeight="43.0" fitWidth="118.0" layoutX="10.0" layoutY="78.0" onMouseEntered="#aumentarTamañoBotonMochila" onMouseExited="#disminuirTamañoBotonMochila" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnDescanso" fitHeight="43.0" fitWidth="118.0" layoutX="10.0" layoutY="78.0" onMouseClicked="#accionDescansar" onMouseEntered="#aumentarTamañoBotonDescansar" onMouseExited="#disminuirTamañoBotonDescansar" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/Combate/botones/BotonDescanso.png" />
                      </image>
@@ -138,6 +139,35 @@
             <Image url="@../../../imgs/Combate/Entrenadores/Jugador/Eco_espalda.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="btnSalirMenuAtaque" fitHeight="24.0" fitWidth="24.0" layoutX="1035.0" layoutY="564.0" onMouseClicked="#clicVolverMenu" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../imgs/Combate/botones/iconoSalir.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="panelMenuAtaques" layoutX="763.0" layoutY="439.0" prefHeight="137.0" prefWidth="272.0" style="-fx-background-color: black;" visible="false">
+         <children>
+            <Button fx:id="btnAtaque1" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 1">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAtaque2" layoutX="136.0" layoutY="8.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 2">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAtaque3" layoutX="8.0" layoutY="69.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 3">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAtaque4" layoutX="136.0" layoutY="69.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 4">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
       
    </children>
 </AnchorPane>
