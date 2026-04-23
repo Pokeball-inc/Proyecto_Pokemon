@@ -40,6 +40,7 @@ import javafx.animation.ScaleTransition;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
+import dao.PokemonDAO;
 import model.Combate;
 import model.Entrenador;
 import model.Movimiento;
@@ -155,16 +156,25 @@ public class CombateController implements Initializable {
     
 
     /**
-     * Inicializa la pantalla de combate. 
-     * Aquí cargas los datos del jugador, generas al rival y llamas a actualizarVista().
-     */
+     * inicializa la pantalla de combate. 
+     * */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //instanciar el combate
         combateActual = new Combate();
         
-        animacionEntrada(); //animacion inicial 
-     
+        //cargamos el jugador
+        jugador = Sesion.entrenadorLogueado;
+        
+        //creamos el rival aleatorio 
+        rival = generarRivalAleatorio();
+        
+        //empezamos el combate 
+        
+        combateActual.empezarCombate(jugador, rival);
+        
+        //arrancamos la animacion
+        animacionEntrada(); 
     }
 
     /**
@@ -456,6 +466,134 @@ public class CombateController implements Initializable {
         //aumentar el contador de turnos y actualizar la pantalla visual
         numeroTurno++;
         actualizarVista();
+    }
+    
+    //metodo para generar un rival aleatorio conectando con la bd
+    private Entrenador generarRivalAleatorio() {
+        Entrenador rivalGenerado = new Entrenador();
+        Random r = new Random();
+
+        //generar nombre aleatorio con la lista epica
+        String[] nombresPosibles = {
+            "Cazabichos Paco", "Joven Chano", "Campista Ana", "Mister Pro",
+            "Perico Palotes", "Pichote", "Manolo Lama", "LuisReApruebameXfa",
+            "Paco el del Bar", "Cuñao Experto", "ElBicho SIUUU", "GigaChad",
+            "Dominguero Furioso", "Becario Explotado", "Señora de los Gatos",
+            "Otaku Sudoroso", "El Xokas", "Vegetta777", "Ibai Llanos",
+            "Juan Cuesta", "Amador Rivas", "Cani de Poligono", "Abuela con Chancla"
+        };
+        String nombreElegido = nombresPosibles[r.nextInt(nombresPosibles.length)];
+        rivalGenerado.setNombreEntrenador(nombreElegido);
+
+        //cargar imagen aleatoria desde la carpeta
+        try {
+            //ojo cambia esta ruta por la ruta real donde tengas tus imagenes de rivales
+            File carpeta = new File("imgs/Combate/Entrenadores/Aleatorio"); 
+            
+            //filtramos para que solo lea archivos png
+            File[] archivosPng = carpeta.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));
+
+            if (archivosPng != null && archivosPng.length > 0) {
+                //elegimos un archivo al azar de la lista
+                File imagenElegida = archivosPng[r.nextInt(archivosPng.length)];
+                
+                //ponemos la imagen directamente en el imageview 
+                imgEntrenadorRival.setImage(new Image(imagenElegida.toURI().toString()));
+            } else {
+                System.out.println("ERROR: no se han encontrado imagenes png en la carpeta del rival.");
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR al cargar la carpeta de imagenes: " + e.getMessage());
+        }
+
+        //calcular el nivel mas alto de nuestro equipo para balancear al rival
+        int nivelBaseJugador = 5; //nivel por defecto si hay algun error
+        if (jugador != null && jugador.getEquipoPokemon() != null) {
+            for (Pokemon miPokemon : jugador.getEquipoPokemon()) {
+                //comprobamos que el hueco no este vacio y buscamos el nivel mayor
+                if (miPokemon != null && miPokemon.getNivel() > nivelBaseJugador) {
+                    nivelBaseJugador = miPokemon.getNivel();
+                }
+            }
+        }
+
+        //generar equipo pokemon conectando a la base de datos
+        Pokemon[] equipoRival = new Pokemon[6];
+
+        for (int i = 0; i < 6; i++) {
+            Pokemon p = null;
+            
+            try {
+                //generamos un id aleatorio (
+                int idAleatorioPkmn = r.nextInt(251) + 1;
+                
+                //sacamos el pokemon por su id
+                p = PokemonDAO.obtenerPokemon(idAleatorioPkmn);
+            } catch (Exception e) {
+                System.out.println("ERROR sacando pokemon de la bd " + e.getMessage());
+            }
+            
+            //si falla la bd o devuelve null creamos uno de repuesto para que no explote
+            if (p == null) {
+                p = new Pokemon();
+                p.setNombrePokemon("Rata Aleatoria " + (i + 1));
+            }
+            
+            //le ponemos el nivel balanceado
+            p.setNivel(nivelBaseJugador + r.nextInt(6)); 
+            
+            //llamamos al metodo para generar estadisticas aleatorias
+            generarEstadisticasAleatorias(p);
+
+            //generar 4 movimientos aleatorios desde la bd
+            Movimiento[] movimientos = new Movimiento[4];
+            for (int j = 0; j < 4; j++) {
+                Movimiento mov = null;
+                
+                try {
+                    //generamos un id de movimiento aleatorio
+                    int idAleatorioMov = r.nextInt(251) + 1;
+                    
+                    //sacamos el movimiento por su id
+                    mov = dao.MovimientoDAO.obtenerMovimiento(idAleatorioMov);
+                } catch (Exception e) {
+                    System.out.println("ERROR sacando movimiento de la bd");
+                }
+                
+                //repuesto si falla la consulta
+                if (mov == null) {
+                    mov = new Movimiento();
+                    mov.setNombreMovimiento("Placaje Letal");
+                }
+                
+                movimientos[j] = mov;
+            }
+            p.setMovimientos(movimientos);
+
+            //guardamos el pokemon en el hueco del equipo
+            equipoRival[i] = p;
+        }
+
+        //le damos el equipo al rival
+        rivalGenerado.setEquipoPokemon(equipoRival);
+
+        return rivalGenerado;
+    }
+
+    //metodo auxiliar para generar estadisticas aleatorias escaladas por nivel
+    private void generarEstadisticasAleatorias(Pokemon p) {
+        Random r = new Random();
+        int nivel = p.getNivel();
+        
+        //formula estadistica base mas extra aleatorio escalado con el nivel
+        p.setVitalidadMaxima((nivel * 3) + r.nextInt(20) + 10);
+        p.setVitalidad(p.getVitalidadMaxima());
+        p.setAtaque((nivel * 2) + r.nextInt(15) + 5);
+        p.setDefensa((nivel * 2) + r.nextInt(15) + 5);
+        p.setAtaqueEspecial((nivel * 2) + r.nextInt(15) + 5);
+        p.setDefensaEspecial((nivel * 2) + r.nextInt(15) + 5);
+        p.setVelocidad((nivel * 2) + r.nextInt(15) + 5);
+        p.setEstadoActual(model.Estados.SANO);
     }
 
     /**
