@@ -497,6 +497,19 @@ public class Pokemon {
 			System.out.println("¡" + this.nombrePokemon + " puede aprender un nuevo movimiento!");
 		}
 	}
+	
+	/**
+	 * Comprueba si el Pokemon ha alcanzado el nivel necesario para evolucionar.
+	 * @return true si evoluciona, false en caso contrario.
+	 */
+	public boolean comprobarEvolucion() {
+	    if (this.nivelEvolucion > 0 && this.nivel >= this.nivelEvolucion) {
+	        System.out.println("¡Atención! " + this.nombrePokemon + " está evolucionando...");
+	        return true;
+	    }
+	    return false;
+	}
+	
 
 	/**
 	 * metodo atacar del Pokemon con salida (CONSTANTES): NEUTRO = VENTAJA X2
@@ -505,10 +518,52 @@ public class Pokemon {
 	 * y comprueba si el tipo de ataque es del mismo tipo que el pokemon que lo
 	 * realiza x1.5
 	 * 
-	 * @param movimiento recibe el movimiento de pokemon que va a realizar
-	 * @param pokemon recibe el pokemon que ataca y el que recibe el ataque
+	 * @param movimiento recibe el movimiento que se va a realizar
+	 * @param pokemon recibe el pokemon que recibe el ataque
+	 * @return String: NEUTRO, VENTAJA, DOBLE_VENTAJA o DESVENTAJA
 	 */
-	public void atacar(Movimiento movimiento, Pokemon pokemonAtacante, Pokemon pokemonDefensor) {
+	public String atacar(Movimiento movimiento, Pokemon pokemonDefensor) {
+	    
+	    // obtenemos efectividad de la TablaTipos 
+	    double m1 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoPrincipal());
+	    double m2 = 1.0;
+	    
+	    if (pokemonDefensor.getTipoSecundario() != null) {
+	        m2 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario());
+	    }
+	    
+	    double multiplicadorTipos = m1 * m2;
+
+	    // aplicamos mismo tipo - x1.5
+	    double potenciaFinal = movimiento.getPotencia();
+	    if (movimiento.getTipo() == this.getTipoPrincipal() || movimiento.getTipo() == this.getTipoSecundario()) {
+	        potenciaFinal *= 1.5; 
+	    }
+
+	    // calculamos daño base segun categoria
+	    double danioBase;
+	    if (movimiento.getCategoriaDano().equalsIgnoreCase("Fisico")) {
+	        danioBase = (this.getAtaque() * potenciaFinal) / (double) pokemonDefensor.getDefensa();
+	    } else {
+	        danioBase = (this.getAtaqueEspecial() * potenciaFinal) / (double) pokemonDefensor.getDefensaEspecial();
+	    }
+
+	    // aplicamos daño final con los multiplicadores 
+	    int danioFinal = (int) (danioBase * multiplicadorTipos);
+	    pokemonDefensor.setVitalidad(pokemonDefensor.getVitalidad() - danioFinal);
+
+	    // salida segun los multiplicadores
+	    if (multiplicadorTipos >= 4.0) {
+	    	return "DOBLE_VENTAJA"; 
+	    }
+	    if (multiplicadorTipos >= 2.0) {
+	    	return "VENTAJA";
+	    }
+	    if (multiplicadorTipos < 1.0 && multiplicadorTipos > 0) {
+	    	return "DESVENTAJA";
+	    }
+	    
+	    return "NEUTRO";
 	}
 
 	/**
@@ -569,6 +624,11 @@ public class Pokemon {
 	          
 	          this.setEstadoActual(Estados.SANO);
 	          this.setTurnosEstadoRestantes(0); // reseteo contadotr 
+	          
+	          // se limpia el estado actual antes pero si tiene uno permantente se le pone
+	          if (this.estadoActual == Estados.SANO && this.estadoPermanente != Estados.SANO) {
+	              this.estadoActual = this.estadoPermanente;
+	          }
 	      }
 	  }
 	
