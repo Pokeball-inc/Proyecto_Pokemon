@@ -56,21 +56,21 @@ public class InventarioDAO {
      */
 
 
-   public static void cargarInventario(int idEntrenador, Connection con) {
+    public static void cargarInventario(int idEntrenador, Connection con) {
 
         ///  Instanciar un nuevo Inventario
         Inventario inventario = new Inventario();
 
         /// Un select multitabla que sacará everything sobre los objetos y su cantidad que estén en el inventario
-       /// del entrenador
+        /// del entrenador
 
-        String sql ="SELECT o.*, i.CANTIDAD FROM inventario i " +
-               "JOIN objeto o ON i.ID_OBJETO = o.ID_OBJETO " +
-               "WHERE i.ID_ENTRENADOR = ?";
+        String sql = "SELECT o.*, i.CANTIDAD FROM inventario i " +
+                "JOIN objeto o ON i.ID_OBJETO = o.ID_OBJETO " +
+                "WHERE i.ID_ENTRENADOR = ?";
         try {
 
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1,idEntrenador);
+            ps.setInt(1, idEntrenador);
             ResultSet rs = ps.executeQuery();
 
 
@@ -99,45 +99,46 @@ public class InventarioDAO {
 
         } catch (SQLException ex) {
             System.err.println("Error al cargar los objetos: " + ex.getMessage());
-        }}
+        }
+    }
 
 
-       /**
-        * Method para actualizar el inventario del Entrenador
-        */
+    /**
+     * Method para actualizar el inventario del Entrenador
+     */
 
 
-        public static void actualizarInventario(Connection con) {
+    public static void actualizarInventario(Connection con) {
 
-           ///  Recuperar la lista de objetos del entrenador
+        ///  Recuperar la lista de objetos del entrenador
 
-            List<ObjetoInventario> listaMochila = Sesion.entrenadorLogueado.getInventario().getListaObjetos();
+        List<ObjetoInventario> listaMochila = Sesion.entrenadorLogueado.getInventario().getListaObjetos();
 
-           /// Un update que actualizará en la tabla Inventario los datos del entrenador
+        /// Un update que actualizará en la tabla Inventario los datos del entrenador
 
-            String sql = "INSERT INTO inventario (ID_ENTRENADOR, ID_OBJETO, CANTIDAD) VALUES (?, ?, ?) " +
-                    "ON DUPLICATE KEY UPDATE CANTIDAD = VALUES(CANTIDAD)";
+        String sql = "INSERT INTO inventario (ID_ENTRENADOR, ID_OBJETO, CANTIDAD) VALUES (?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE CANTIDAD = VALUES(CANTIDAD)";
 
-           try {
+        try {
 
-               PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
 
-               for (ObjetoInventario objeto : listaMochila) {
-                   ps.setInt(1, Sesion.entrenadorLogueado.getIdEntrenador());
-                   ps.setInt(2, objeto.getObjeto().getIdObjeto());
-                   ps.setInt(3, objeto.getCantidad());
+            for (ObjetoInventario objeto : listaMochila) {
+                ps.setInt(1, Sesion.entrenadorLogueado.getIdEntrenador());
+                ps.setInt(2, objeto.getObjeto().getIdObjeto());
+                ps.setInt(3, objeto.getCantidad());
 
-                   ps.addBatch();
-               }
+                ps.addBatch();
+            }
 
-               ps.executeBatch();
+            ps.executeBatch();
 
-           } catch (SQLException ex) {
-               System.err.println("Error al actualizar los objetos: " + ex.getMessage());
-           }
+        } catch (SQLException ex) {
+            System.err.println("Error al actualizar los objetos: " + ex.getMessage());
+        }
 
 
-       }
+    }
 }
 
 
