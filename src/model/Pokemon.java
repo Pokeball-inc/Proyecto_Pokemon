@@ -540,7 +540,9 @@ public class Pokemon {
 		this.setVitalidadMaxima(this.getVitalidadMaxima() + aumentoVit);
 
 		// al subir de nivel el pokemon se cura
+		if (this.estadoActual != Estados.DEBILITADO) {
 		this.setVitalidad(this.getVitalidadMaxima());
+		}
 
 		// actualizamos el resto de stats
 		this.setAtaque(this.getAtaque() + r.nextInt(5) + 1);

@@ -491,7 +491,7 @@ public Turno obtenerUltimoTurno() {
       Pokemon[] equipo = this.getEntrenador().getEquipoPokemon();
       // recorremos el equipo y por cada pokemon
       for (Pokemon p : equipo) {
-          if (p != null) {
+          if (p != null && p.getVitalidad() > 0) {
               // formula del enunciado :D
               int expGanada = (p.getNivel() + (rivalDerrotado.getNivel() * 10)) / 4;
 

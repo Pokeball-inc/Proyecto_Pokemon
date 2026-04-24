@@ -821,6 +821,14 @@ public class CombateController implements Initializable {
         	pRival.setEstadoActual(Estados.DEBILITADO);
             escribirLog("¡El " + pRival.getNombrePokemon() + " enemigo se ha debilitado!");
             
+            // mostrar xp ganada
+            for (Pokemon miPkmn : jugador.getEquipoPokemon()) {
+                if (miPkmn != null) {
+                    int expGanada = (miPkmn.getNivel() + (pRival.getNivel() * 10)) / 4;
+                    escribirLog(miPkmn.getNombrePokemon() + " ha ganado " + expGanada + " puntos de EXP.");
+                }
+            }
+            
             registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
             // ---------------------------
             
