@@ -7,18 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import model.Entrenador;
-import model.Estados;
-import model.Movimiento;
-import model.Objeto;
-import model.Pokemon;
-import model.Sexo;
-import model.Tipos;
-import model.UbicacionPokemon;
+import model.*;
 
 /**
  * Clase PokemonDAO
- * Encargada de gestionar todas las operaciones de acceso a datos (consultas, 
+ * Encargada de gestionar todas las operaciones de acceso a datos (consultas,
  * actualizaciones, etc.) relacionadas con la entidad Pokemon en la base de datos MySQL.
  */
 public class PokemonDAO {
@@ -34,37 +27,38 @@ public class PokemonDAO {
 	public static void obtenerPokemon(Connection conexion, Entrenador e, UbicacionPokemon ubicacion)
 			throws SQLException {
 		// select con la informacion del pokemon
-		String sql = "SELECT " 
-				+ "P.ID_POKEMON, " 
+		String sql = "SELECT "
+				+ "P.ID_POKEMON, "
 				+ "P.MOTE, "
 				+ "P.VITALIDAD_MAXIMA, "
 				+ "P.VITALIDAD, "
 				+ "P.ATAQUE, "
-				+ "P.DEFENSA, " 
-				+ "P.ATAQUE_SP, " 
-				+ "P.DEFENSA_SP, " 
-				+ "P.VELOCIDAD, " 
-				+ "P.NIVEL, " 
+				+ "P.DEFENSA, "
+				+ "P.ATAQUE_SP, "
+				+ "P.DEFENSA_SP, "
+				+ "P.VELOCIDAD, "
+				+ "P.NIVEL, "
 				+ "P.EXPERIENCIA, "
-				+ "P.FERTILIDAD, " 
-				+ "P.SEXO," 
-				+ "P.ESTADO," 
-				+ "P.ES_SHINY, " 
-				+ "PX.NUM_POKEDEX, " 
+				+ "P.FERTILIDAD, "
+				+ "P.SEXO,"
+				+ "P.ESTADO,"
+				+ "P.ES_SHINY, "
+				+ "PX.NUM_POKEDEX, "
 				+ "PX.NOM_POKEMON, "
-				+ "PX.TIPO1, " 
+				+ "PX.TIPO1, "
 				+ "PX.TIPO2, "
-				+ "PX.EVOLUCION_1, " 
+				+ "PX.EVOLUCION_1, "
 				+ "PX.NIVEL_EVOLUCION_1, "
 				+ "PX.EVOLUCIONA_A,"
-				+ "PX.IMG_FRONTAL, " 
+				+ "PX.IMG_FRONTAL, "
 				+ "PX.IMG_TRASERA, "
-				+ "PX.IMG_FRONTAL3D, " 
+				+ "PX.IMG_FRONTAL3D, "
 				+ "PX.IMG_TRASERA3D, "
-				+ "PX.IMG_SHINY_FRONTAL, " 
+				+ "PX.IMG_SHINY_FRONTAL, "
 				+ "PX.IMG_SHINY_TRASERA, "
-				+ "PX.IMG_SHINY_FRONTAL3D, " 
-				+ "PX.IMG_SHINY_TRASERA3D "
+				+ "PX.IMG_SHINY_FRONTAL3D, "
+				+ "PX.IMG_SHINY_TRASERA3D, "
+				+ "P.ID_OBJETO "
 				+ "FROM POKEMON P "
 				+ "INNER JOIN POKEDEX PX ON PX.NUM_POKEDEX = P.NUM_POKEDEX "
 				+ "WHERE P.ID_ENTRENADOR = ? AND P.UBICACION = ?";
@@ -160,6 +154,27 @@ public class PokemonDAO {
 			p.setImgFrontalPokemon3D(rs.getString("IMG_FRONTAL3D"));
 			p.setImgPosteriorPokemon3D(rs.getString("IMG_TRASERA3D"));
 
+
+			///  Logica para recuperar el objeto, mientras no sea 0 o nulo
+
+			InventarioDAO.cargarObjetosTotales(conexion);
+
+			int idObj = rs.getInt("ID_OBJETO");
+			if (idObj > 0) {
+				Objeto equipado = ObjetosTotales.todosLosObjetos.stream().filter(obj -> obj.getIdObjeto() == idObj).findFirst().orElse(null);
+				p.setObjetoEquipado(equipado);
+
+				System.out.println(p.getObjetoEquipado().getIdObjeto());
+
+				if (equipado == null) {
+					System.out.println("No se encontro el objeto equipado con ID: " + idObj );
+				} else {
+					System.out.println("Objeto equipado con ID: " + idObj);
+				}
+			} else {
+				p.setObjetoEquipado(null);
+			}
+
 			// añadimos el pokemon a la lista auxiliar
 			listaAuxiliar.add(p);
 
@@ -183,7 +198,7 @@ public class PokemonDAO {
 	}
 
 	/**
-	 * Actualiza el valor de fertilidad de un Pokemon en la base de datos, 
+	 * Actualiza el valor de fertilidad de un Pokemon en la base de datos,
 	 * generalmente despues de que este haya participado en un proceso de crianza.
 	 * * @param con La conexion activa a la base de datos.
 	 * @param p El Pokemon cuya fertilidad se va a actualizar.
@@ -249,7 +264,7 @@ public class PokemonDAO {
 
 	//Metodos evolucion
 	/**
-	 * Consulta la Pokedex para verificar si el Pokemon actual ha alcanzado o superado 
+	 * Consulta la Pokedex para verificar si el Pokemon actual ha alcanzado o superado
 	 * el nivel necesario para evolucionar.
 	 * * @param con La conexion activa a la base de datos.
 	 * @param p El Pokemon a evaluar.
@@ -261,11 +276,11 @@ public class PokemonDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, p.getNumPokedex());
 			ResultSet rs = ps.executeQuery();
-			
+
 			if (rs.next()) {
 				int nivelReq = rs.getInt("NIVEL_EVOLUCION_1");
 				String evolucionaA = rs.getString("EVOLUCIONA_A");
-				
+
 				// si tiene nivel suficiente y tiene una evolucion asignada
 				if (nivelReq > 0 && p.getNivel() >= nivelReq && evolucionaA != null) {
 					return evolucionaA;
@@ -278,7 +293,7 @@ public class PokemonDAO {
 	}
 
 	/**
-	 * Ejecuta la transformacion de un Pokemon en la base de datos, actualizando 
+	 * Ejecuta la transformacion de un Pokemon en la base de datos, actualizando
 	 * su referencia (ID_POKEDEX) a la de su nueva evolucion.
 	 * * @param con La conexion activa a la base de datos.
 	 * @param p El Pokemon que va a evolucionar.
@@ -291,17 +306,17 @@ public class PokemonDAO {
 			PreparedStatement ps1 = con.prepareStatement(sqlPokedex);
 			ps1.setString(1, nombreNuevaEvolucion);
 			ResultSet rs = ps1.executeQuery();
-			
+
 			if (rs.next()) {
 				int nuevoNumPokedex = rs.getInt("NUM_POKEDEX");
-				
+
 				// actualizamos nuestro pokemon en la tabla
 				String sqlUpdate = "UPDATE POKEMON SET NUM_POKEDEX = ? WHERE ID_POKEMON = ?";
 				PreparedStatement ps2 = con.prepareStatement(sqlUpdate);
 				ps2.setInt(1, nuevoNumPokedex);
 				ps2.setInt(2, p.getIdPokemon());
 				ps2.executeUpdate();
-				
+
 				// actualizamos el objeto en memoria para que no haya que reiniciar
 				p.setNombrePokemon(nombreNuevaEvolucion);
 				p.setNumPokedex(nuevoNumPokedex);
@@ -310,7 +325,31 @@ public class PokemonDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	///  Metodo para actualizar el objeto que tiene equipado el pokemon
+
+		public static void actualizarObjetoPokemon(Connection con, Pokemon p, Objeto objeto) {
+
+			String sql = "UPDATE POKEMON SET ID_OBJETO = ? WHERE ID_POKEMON = ?";
+
+			try {
+				PreparedStatement ps = con.prepareStatement(sql);
+				///  Si el objeto no es nulo, entonces se almacena, si no, se marca como nulo en la base de datos
+				if (objeto != null) {
+					ps.setInt(1, objeto.getIdObjeto());
+				} else {
+					ps.setNull(1, java.sql.Types.INTEGER);
+				}
+
+				ps.setInt(2, p.getIdPokemon());
+				ps.executeUpdate();
+
+				p.setObjetoEquipado(objeto);
+
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+
 	//metodo para recuperar un pokemon base directamente de la pokedex
 		public static Pokemon obtenerPokemonDesdePokedex(Connection con, int numPokedex) {
 			Pokemon p = new Pokemon();
@@ -319,24 +358,24 @@ public class PokemonDAO {
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, numPokedex);
 				ResultSet rs = ps.executeQuery();
-				
+
 				if (rs.next()) {
 					p.setNumPokedex(rs.getInt("NUM_POKEDEX"));
 					p.setNombrePokemon(rs.getString("NOM_POKEMON"));
-					
+
 					//leemos los tipos de la pokedex
 					p.setTipoPrincipal(Tipos.valueOf(rs.getString("TIPO1").trim().toUpperCase()));
 					String tipo2Bd = rs.getString("TIPO2");
 					if (tipo2Bd != null) {
 						p.setTipoSecundario(Tipos.valueOf(tipo2Bd.trim().toUpperCase()));
 					}
-					
+
 					//leemos las imagenes 2d y 3d
 					p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL"));
 					p.setImgPosteriorPokemon(rs.getString("IMG_TRASERA"));
 					p.setImgFrontalPokemon3D(rs.getString("IMG_FRONTAL3D"));
 					p.setImgPosteriorPokemon3D(rs.getString("IMG_TRASERA3D"));
-					
+
 					//shiny
 					p.setImgShinyFrontal(rs.getString("IMG_SHINY_FRONTAL"));
 					p.setImgShinyPosterior(rs.getString("IMG_SHINY_TRASERA"));
