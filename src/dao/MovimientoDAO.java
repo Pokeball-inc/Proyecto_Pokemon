@@ -253,4 +253,18 @@ public class MovimientoDAO implements IMovimientoDAO {
             System.out.println("Error al cambiar movimiento en BD: " + e.getMessage());
         }
     }
+    
+    /**
+     * restaura todos los PP de los movimientos de un pokemon al maximo
+     */
+    public void restaurarPPsCompletos(int idPokemon) {
+        String sql = "UPDATE SET_MOVIMIENTOS SET PP = 15 WHERE ID_POKEMON = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, idPokemon);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar PPs en BD: " + e.getMessage());
+        }
+    }
 }
