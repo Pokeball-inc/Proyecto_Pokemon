@@ -83,6 +83,9 @@ public class EquipoController implements Initializable {
     private Pane panelDetalles;
 
     private Pokemon pokemonSeleccionado;
+    @FXML
+    private ImageView curarEquipo;
+    
 
     private List<Pokemon> ListaPokemon = new ArrayList<>();
 
@@ -553,6 +556,19 @@ public class EquipoController implements Initializable {
         mostrarDetallesPokemon(pokemonSeleccionado);
     }
     
+    
+    //BOTON curar
+    @FXML
+    private void aumentarTamanoBotonCurarEquipo(MouseEvent event) {
+    	curarEquipo.setScaleX(curarEquipo.getScaleX() + 0.2);
+        curarEquipo.setScaleY(curarEquipo.getScaleY() + 0.2);
+    }
+    
+    @FXML
+    private void disminuirTamanoBotonCurarEquipo(MouseEvent event) {
+    	curarEquipo.setScaleX(curarEquipo.getScaleX() - 0.2);
+        curarEquipo.setScaleY(curarEquipo.getScaleY() - 0.2);
+    }
     
     @FXML
     // voton curar pokemon
