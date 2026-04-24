@@ -37,3 +37,32 @@
     -fx-text-fill: #000000; /*letras negras*/
     -fx-translate-y: 2px; /*hace que el botón parezca hundirse hacia abajo*/
 }
+
+/*estilo base para los botones del equipo pokemon*/
+.boton-pokemon {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    -fx-border-color: #8c8c8c;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 5px 10px 5px 10px;
+}
+
+/*efecto cuando pasas el raton por encima (se ilumina en azulito)*/
+.boton-pokemon:hover {
+    -fx-background-color: linear-gradient(to bottom, #e6f2ff, #b3d9ff);
+    -fx-border-color: #4da6ff;
+}
+
+/*efecto cuando el pokemon esta debilitado o ya esta luchando*/
+.boton-pokemon:disabled {
+    -fx-background-color: #cccccc;
+    -fx-border-color: #a6a6a6;
+    -fx-text-fill: #808080;
+    -fx-opacity: 0.7;
+}
