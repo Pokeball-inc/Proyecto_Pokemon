@@ -2,6 +2,7 @@ package controller;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
+import dao.MovimientoDAO;
 import dao.PokemonDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -574,18 +575,20 @@ public class EquipoController implements Initializable {
     // voton curar pokemon
     public void clickCurarPokemon(MouseEvent event) {
         Entrenador jugador = Sesion.entrenadorLogueado;
+        MovimientoDAO movDao = new MovimientoDAO(con);
         
         // curamos todo el equipo
         jugador.curarEquipoCompleto();
         
         // sincronizamos la curacion con la bd
         try {
-            ConexionBBDD conector = new bd.ConexionBBDD();
+            ConexionBBDD conector = new ConexionBBDD();
             Connection con = conector.getConexion();
             
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
                     PokemonDAO.actualizarStatsBD(con, p);
+                    movDao.restaurarPPsCompletos(p.getIdPokemon());
                 }
             }
             con.close();
@@ -598,7 +601,7 @@ public class EquipoController implements Initializable {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Curación Pokémon");
         alerta.setHeaderText(null);
-        alerta.setContentText("¡Tus Pokémon han recuperado toda su energía!");
+        alerta.setContentText("¡Tus Pokémon han recuperado toda su energía y sus PPs!");
         alerta.showAndWait();
         
         recargarTodo();
