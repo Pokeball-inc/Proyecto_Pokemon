@@ -136,6 +136,26 @@ public class CombateController implements Initializable {
     
     @FXML 
     private ImageView btnHuir; //o rendirse
+    
+    //menu de cambio de pokemon
+    @FXML 
+    private Pane panelCambioPokemon;
+    
+    @FXML 
+    private Button btnPokemon1;
+    @FXML 
+    private Button btnPokemon2;
+    @FXML 
+    private Button btnPokemon3;
+    @FXML 
+    private Button btnPokemon4;
+    @FXML 
+    private Button btnPokemon5;
+    @FXML 
+    private Button btnPokemon6;
+    
+    @FXML 
+    private Button btnVolverCambio; //boton para cancelar el cambio
 
     //Historial del Combate
     @FXML 
@@ -433,8 +453,98 @@ public class CombateController implements Initializable {
         if (controlesBloqueados == true) {
             return;
         }
-        //recuperar estamina y saltar turno (todo: adaptar a logica de turnos nueva)
-        escribirLog("¡Tu " + combateActual.getPokemonActualJugador().getNombrePokemon() + " decide descansar para recuperar estamina!");
+        
+        //ocultamos menus para que no pueda pulsar nada mas
+        panelMenuAtaques.setVisible(false);
+        panelMenuPrincipal.setVisible(true);
+        btnSalirMenuAtaque.setVisible(false);
+        
+        Pokemon pJugador = combateActual.getPokemonActualJugador();
+        Pokemon pRival = combateActual.getPokemonActualRival();
+        
+        //el jugador descansa
+        pJugador.descansar();
+        escribirLog("¡Tu " + pJugador.getNombrePokemon() + " se echa una siesta y recupera vitalidad!");
+        
+        //pasa turno y ataca el rival
+        Movimiento movRival = elegirAtaqueRival();
+        escribirLog("¡El " + pRival.getNombrePokemon() + " rival aprovecha y usa " + movRival.getNombreMovimiento() + "!");
+        
+        //usamos el metodo atacar para calcular y restar el daño
+        pRival.atacar(movRival, pJugador);
+        
+        //comprobamos si el rival nos ha debilitado 
+        verificarMuertesYContinuar();
+        
+        //pasamos de turno y refrescamos las barras de vida de la pantalla
+        numeroTurno++;
+        actualizarVista();
+    }
+    
+    @FXML
+    public void clicPkmn1(MouseEvent event) {
+    		 realizarCambio(0); }
+
+    @FXML
+    public void clicPkmn2(MouseEvent event) {
+    		realizarCambio(1); }
+
+    @FXML
+    public void clicPkmn3(MouseEvent event) { 
+    		realizarCambio(2); }
+
+    @FXML
+    public void clicPkmn4(MouseEvent event) { 
+    		realizarCambio(3); }
+
+    @FXML
+    public void clicPkmn5(MouseEvent event) { 
+    		realizarCambio(4); }
+
+    @FXML
+    public void clicPkmn6(MouseEvent event) { 
+    		realizarCambio(5); }
+    
+    //metodo central que ejecuta el cambio en la logica
+    private void realizarCambio(int indiceEquipo) {
+        Pokemon antiguoPokemon = combateActual.getPokemonActualJugador();
+        
+        //intentamos hacer el cambio en el modelo pasandole el numero del hueco
+        boolean cambioExitoso = combateActual.cambiarPokemonJugador(indiceEquipo);
+        
+        //si la logica rechaza el cambio abortamos
+        if (cambioExitoso == false) {
+            return;
+        }
+        
+        //recuperamos al nuevo pokemon para usar su nombre en los textos
+        Pokemon nuevoPokemon = combateActual.getPokemonActualJugador();
+        
+        //si el pokemon anterior seguia vivo avisamos de que lo retiramos
+        if (antiguoPokemon.getVitalidad() > 0) {
+            escribirLog("¡Vuelve, " + antiguoPokemon.getNombrePokemon() + "!");
+        }
+        
+        escribirLog("¡Adelante, " + nuevoPokemon.getNombrePokemon() + "!");
+        
+        //ocultamos el panel de cambio y volvemos al combate
+        panelCambioPokemon.setVisible(false);
+        panelMenuPrincipal.setVisible(true);
+        
+        //si el boton de volver era visible significa que el cambio fue manual (gastamos el turno)
+        if (btnVolverCambio.isVisible() == true) {
+            Movimiento movRival = elegirAtaqueRival();
+            escribirLog("¡El " + combateActual.getPokemonActualRival().getNombrePokemon() + " rival aprovecha el cambio y usa " + movRival.getNombreMovimiento() + "!");
+            
+            //el rival nos ataca al nuevo pokemon que acaba de salir
+            combateActual.getPokemonActualRival().atacar(movRival, nuevoPokemon);
+            
+            //comprobamos si nos lo ha matado de un solo golpe al salir
+            verificarMuertesYContinuar();
+        }
+        
+        //actualizamos graficos
+        actualizarVista();
     }
 
     // ================= LÓGICA CENTRAL DEL COMBATE =================
@@ -482,7 +592,7 @@ public class CombateController implements Initializable {
         actualizarVista();
     }
     
-    //metodo para generar un rival aleatorio conectando con la bd
+  //metodo para generar un rival aleatorio conectando con la bd
     private Entrenador generarRivalAleatorio() {
         Entrenador rivalGenerado = new Entrenador();
         Random r = new Random();
@@ -501,20 +611,20 @@ public class CombateController implements Initializable {
 
         //cargar imagen aleatoria desde la carpeta
         try {
-            //ojo cambia esta ruta por la ruta real donde tengas tus imagenes de rivales
+            //ruta
             File carpeta = new File("imgs/Combate/Entrenadores/Aleatorio"); 
             
-            //filtramos para que solo lea archivos png
-            File[] archivosPng = carpeta.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));
+            //leemos todos los archivos de la carpeta 
+            File[] archivos = carpeta.listFiles();
 
-            if (archivosPng != null && archivosPng.length > 0) {
+            if (archivos != null && archivos.length > 0) {
                 //elegimos un archivo al azar de la lista
-                File imagenElegida = archivosPng[r.nextInt(archivosPng.length)];
+                File imagenElegida = archivos[r.nextInt(archivos.length)];
                 
                 //ponemos la imagen directamente en el imageview 
                 imgEntrenadorRival.setImage(new Image(imagenElegida.toURI().toString()));
             } else {
-                System.out.println("ERROR: no se han encontrado imagenes png en la carpeta del rival.");
+                System.out.println("ERROR: no se han encontrado imagenes en la carpeta del rival.");
             }
         } catch (Exception e) {
             System.out.println("ERROR al cargar la carpeta de imagenes: " + e.getMessage());
@@ -531,20 +641,34 @@ public class CombateController implements Initializable {
             }
         }
 
+        //abrimos conexion a la bd para sacar los datos 
+        Connection con = null;
+        dao.MovimientoDAO movDAO = null;
+        try {
+            bd.ConexionBBDD conector = new bd.ConexionBBDD();
+            con = conector.getConexion();
+            //instanciamos tu movimientodao que necesita la conexion por parametro
+            movDAO = new dao.MovimientoDAO(con);
+        } catch (Exception e) {
+            System.out.println("ERROR al conectar con la bd: " + e.getMessage());
+        }
+
         //generar equipo pokemon conectando a la base de datos
         Pokemon[] equipoRival = new Pokemon[6];
 
         for (int i = 0; i < 6; i++) {
             Pokemon p = null;
             
-            try {
-                //generamos un id aleatorio (
-                int idAleatorioPkmn = r.nextInt(251) + 1;
-                
-                //sacamos el pokemon por su id
-                p = PokemonDAO.obtenerPokemon(idAleatorioPkmn);
-            } catch (Exception e) {
-                System.out.println("ERROR sacando pokemon de la bd " + e.getMessage());
+            if (con != null) {
+                try {
+                    //generamos un id aleatorio 
+                    int idAleatorioPkmn = r.nextInt(251) + 1;
+                    
+                    //sacamos el pokemon por su id usando el nuevo metodo de la pokedex
+                    p = dao.PokemonDAO.obtenerPokemonDesdePokedex(con, idAleatorioPkmn);
+                } catch (Exception e) {
+                    System.out.println("error sacando pokemon de la bd " + e.getMessage());
+                }
             }
             
             //si falla la bd o devuelve null creamos uno de repuesto para que no explote
@@ -556,6 +680,13 @@ public class CombateController implements Initializable {
             //le ponemos el nivel balanceado
             p.setNivel(nivelBaseJugador + r.nextInt(6)); 
             
+            //probabilidad del 5% de que el pokemon del rival sea shiny 
+            if (r.nextInt(100) < 5) {
+                p.setEsShiny(true);
+            } else {
+                p.setEsShiny(false);
+            }
+            
             //llamamos al metodo para generar estadisticas aleatorias
             generarEstadisticasAleatorias(p);
 
@@ -564,14 +695,16 @@ public class CombateController implements Initializable {
             for (int j = 0; j < 4; j++) {
                 Movimiento mov = null;
                 
-                try {
-                    //generamos un id de movimiento aleatorio
-                    int idAleatorioMov = r.nextInt(251) + 1;
-                    
-                    //sacamos el movimiento por su id
-                    mov = dao.MovimientoDAO.obtenerMovimiento(idAleatorioMov);
-                } catch (Exception e) {
-                    System.out.println("ERROR sacando movimiento de la bd");
+                if (movDAO != null) {
+                    try {
+                        //respetamos el limite de 251 para los movimientos de tu compañero
+                        int idAleatorioMov = r.nextInt(251) + 1;
+                        
+                        //sacamos el movimiento por su id usando tu metodo buscarporid
+                        mov = movDAO.buscarPorId(idAleatorioMov);
+                    } catch (Exception e) {
+                        System.out.println("ERROR sacando movimiento de la bd");
+                    }
                 }
                 
                 //repuesto si falla la consulta
@@ -655,6 +788,8 @@ public class CombateController implements Initializable {
                 escribirLog("¡Te has quedado sin Pokémon! Has perdido...");
                 
                 registrarEventoEspecial("finPierdeCombate", "El entrenador ha perdido el combate");
+                //volvemos al menu despues de 4s
+                volverAlMenuPrincipal(4);
             }
         }
 
@@ -675,6 +810,8 @@ public class CombateController implements Initializable {
                 escribirLog("¡Has ganado el combate! No le quedan Pokémon al rival.");
                 
                 registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
+                //volvemos al menu despues de 4s
+                volverAlMenuPrincipal(4);
             }
         }
         actualizarVista();
@@ -774,56 +911,74 @@ public class CombateController implements Initializable {
         }
     }
     
-    //Boton de salir
+  //boton de salir
     @FXML
     public void combateSalir(MouseEvent event) {
         if (controlesBloqueados == true) {
             return;
         }
+
+        //bloqueamos los controles para que no haga clics compulsivos mientras huye
+        controlesBloqueados = true;
+
+        //ocultamos menus por si acaso
+        panelMenuAtaques.setVisible(false);
+        panelMenuPrincipal.setVisible(true);
+        btnSalirMenuAtaque.setVisible(false);
+
         try {
             //si el combate sigue en curso y el jugador sale, cuenta como retirada
             if (combateActual != null && combateActual.getPokemonKOEntrenador() < 6 && combateActual.getPokemonKORival() < 6) {
                 combateActual.retirarse(); //pierde 1/3 de su dinero
             }
 
-            System.out.println("Cargando la vista principal...");
+            //mandamos el mensaje a la pantalla
+            escribirLog("¡Has huido del combate! Pierdes algo de dinero por el panico...");
 
-            //Recibir el click
-            Node source = (Node) event.getSource();
+            //guardamos la referencia a la ventana actual antes de la pausa para luego continuar en el mismo sitio despues de la pausa
+            Stage ventanaActual = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            //Recuperar la ventana
-            Stage primaryStage = (Stage) source.getScene().getWindow();
+            //creamos una pausa de 3 segundos para que de tiempo a leer el texto de huida
+            PauseTransition pausaHuida = new PauseTransition(Duration.seconds(3));
+            pausaHuida.setOnFinished(e -> {
+                try {
+                    System.out.println("cargando la vista principal tras huir...");
 
-            //Cargar la vista Principal 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+                    //cargar la vista principal 
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
 
-            //Cargar el CSS
-            String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
-            scene.getStylesheets().add(css);
+                    //cargar el css
+                    String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
+                    scene.getStylesheets().add(css);
 
-            //Titulo, forzar el tamaño de la ventana y bloquear cambio manual
-            primaryStage.setTitle("PokeINC - Principal");
-            primaryStage.setResizable(false);
+                    //titulo, forzar el tamaño de la ventana y bloquear cambio manual
+                    ventanaActual.setTitle("PokeINC - Principal");
+                    ventanaActual.setResizable(false);
 
-            //Cargar icono
-            File file = new File("imgs/Login/Login-icon.png");
+                    //cargar icono
+                    File file = new File("imgs/Login/Login-icon.png");
+                    if (file.exists()) {
+                        String imagePath = file.toURI().toString();
+                        ventanaActual.getIcons().add(new Image(imagePath));
+                    }
 
-            if (file.exists()) {
-                String imagePath = file.toURI().toString();
-                primaryStage.getIcons().add(new Image(imagePath));
-            } else {
-                System.out.println("No se encontró el icono en: " + file.getAbsolutePath());
-            }
+                    //cambiar la escena 
+                    ventanaActual.setScene(scene);
+                    ventanaActual.show();
 
-            //Cambiar la escena 
-            primaryStage.setScene(scene);
+                } catch (Exception ex) {
+                    System.out.println("error al cambiar de ventana tras huir: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
+            
+            //arrancamos el temporizador
+            pausaHuida.play();
 
-            //Mostrar la escena
-            primaryStage.show();
         } catch (Exception e) {
-            System.out.println("Error al cambiar de ventana - " + e.getMessage());
+            System.out.println("error en la retirada: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -926,5 +1081,107 @@ public class CombateController implements Initializable {
         //juntarlo todo(Entrada -> Pausa -> Salida)
         SequentialTransition animacionCompleta = new SequentialTransition(entrada, pausaGif, salida);
         animacionCompleta.play(); 
+    }
+    
+    //metodo comodin para volver al menu principal con una pequeña pausa
+    private void volverAlMenuPrincipal(int segundosPausa) {
+        //bloqueamos controles para que el jugador no toque nada mientras sale
+        controlesBloqueados = true;
+        
+        //buscamos la ventana actual usando el panel principal como referencia
+        Stage ventanaActual = (Stage) panelMenuPrincipal.getScene().getWindow();
+
+        PauseTransition pausaSalida = new PauseTransition(Duration.seconds(segundosPausa));
+        pausaSalida.setOnFinished(e -> {
+            try {
+                //cargar la vista principal 
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+
+                //cargar el css
+                String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
+                scene.getStylesheets().add(css);
+
+                //titulo y bloquear tamaño
+                ventanaActual.setTitle("PokeINC - Principal");
+                ventanaActual.setResizable(false);
+
+                //cargar icono
+                File file = new File("imgs/Login/Login-icon.png");
+                if (file.exists()) {
+                    String imagePath = file.toURI().toString();
+                    ventanaActual.getIcons().add(new Image(imagePath));
+                }
+
+                //cambiar la escena 
+                ventanaActual.setScene(scene);
+                ventanaActual.show();
+
+            } catch (Exception ex) {
+                System.out.println("error al cambiar de ventana: " + ex.getMessage());
+            }
+        });
+        
+        pausaSalida.play();
+    }
+    
+    /**
+     * abre el menu para elegir a un nuevo pokemon.
+     * @param obligatorio true si nuestro pokemon ha muerto y no podemos cancelar el cambio
+     */
+    private void abrirMenuCambio(boolean obligatorio) {
+        //ocultamos los otros menus y mostramos este
+        panelMenuPrincipal.setVisible(false);
+        panelMenuAtaques.setVisible(false);
+        panelCambioPokemon.setVisible(true);
+        
+        //si es obligatorio cambiar porque nos han matado ocultamos el boton de volver
+        if (obligatorio == true) {
+            btnVolverCambio.setVisible(false);
+        } else {
+            btnVolverCambio.setVisible(true);
+        }
+        
+        //metemos los botones en un array para recorrerlos facil
+        Button[] botonesEquipo = {btnPokemon1, btnPokemon2, btnPokemon3, btnPokemon4, btnPokemon5, btnPokemon6};
+        Pokemon[] miEquipo = jugador.getEquipoPokemon();
+        
+        //recorremos los 6 huecos
+        for (int i = 0; i < 6; i++) {
+            if (miEquipo[i] != null) {
+                Pokemon p = miEquipo[i];
+                
+                //creamos la imagen en pequeñito
+                String rutaImagen = p.getImgFrontalPokemon();
+                if (rutaImagen != null) {
+                    File imgFile = new File(rutaImagen);
+                    if (imgFile.exists()) {
+                        ImageView icono = new ImageView(new Image(imgFile.toURI().toString()));
+                        //forzamos el tamaño para que sea un icono
+                        icono.setFitWidth(40); 
+                        icono.setFitHeight(40);
+                        icono.setPreserveRatio(true);
+                        
+                        //le ponemos la imagen al boton
+                        botonesEquipo[i].setGraphic(icono);
+                    }
+                }
+                
+                //escribimos el nombre y la vida separados por un salto de linea (\n)
+                botonesEquipo[i].setText(p.getNombrePokemon() + "\nPS: " + p.getVitalidad() + " / " + p.getVitalidadMaxima());
+                botonesEquipo[i].setVisible(true);
+                
+                //si esta debilitado o ya esta luchando deshabilitamos el boton
+                if (p.getVitalidad() <= 0 || p == combateActual.getPokemonActualJugador()) {
+                    botonesEquipo[i].setDisable(true);
+                } else {
+                    botonesEquipo[i].setDisable(false);
+                }
+            } else {
+                //si el hueco del equipo esta vacio ocultamos el boton
+                botonesEquipo[i].setVisible(false);
+            }
+        }
     }
 }
