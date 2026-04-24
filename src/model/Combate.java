@@ -274,80 +274,64 @@ public class Combate {
      }
   }
 
-/**
- * Comprueba si el estado actual del Pokémon le permite realizar un movimiento.
- * @param recibe el pokemon afectado cvomo parametro
- * @return true si puede atacar, false si el estado lo impide
- * */
-public boolean puedeAtacarEsteTurno(Pokemon p) {
-	Random r = new Random();
-    Estados estado = p.getEstadoActual();
+  /**
+   * Comprueba si el estado actual impide atacar y devuelve el mensaje para el log.
+   * @return El mensaje de la restricción, o NULL si el Pokémon puede atacar normalmente.
+   */
+  public String verificarRestriccionEstado(Pokemon p) {
+      Random r = new Random();
+      Estados estado = p.getEstadoActual();
 
-    switch (estado) {
-        case PARALIZADO:
-            // 12,5% de probabilidad de no atacar
-            if (r.nextDouble() < 0.125) {
-                System.out.println(p.getNombrePokemon() + " está paralizado y no puede moverse.");
-                return false;
-            }
-            break;
+      switch (estado) {
+          case PARALIZADO:
+              if (r.nextDouble() < 0.125) {
+                  return p.getNombrePokemon() + " está paralizado y no puede moverse.";
+              }
+              break;
 
-        case DORMIDO:
-            // no puede atacar mientras duerme
-            System.out.println(p.getNombrePokemon() + " está profundamente dormido...");
-            return false;
+          case DORMIDO:
+              return p.getNombrePokemon() + " está profundamente dormido...";
 
-        case CONGELADO:
-            // 20% de probabilidad de descongelarse
-            if (r.nextDouble() < 0.20) {
-                p.setEstadoActual(Estados.SANO);
-                System.out.println("¡" + p.getNombrePokemon() + " se ha descongelado!");
-                return true;
-            }
-            System.out.println(p.getNombrePokemon() + " está congelado y no puede atacar.");
-            return false;
+          case CONGELADO:
+              if (r.nextDouble() < 0.20) {
+                  p.setEstadoActual(Estados.SANO);
+                  return "¡" + p.getNombrePokemon() + " se ha descongelado!"; 
+                 
+              }
+              return p.getNombrePokemon() + " está congelado y no puede atacar.";
 
-        case AMEDENTRADO:
-            // no puede atacar este turno, luego se cura solo
-            System.out.println(p.getNombrePokemon() + " ha retrocedido y no puede atacar.");
-            p.setEstadoActual(Estados.SANO); 
-            return false;
+          case AMEDENTRADO:
+              p.setEstadoActual(Estados.SANO); 
+              return p.getNombrePokemon() + " ha retrocedido y no puede atacar.";
 
-        case SOMNOLIENTO:
-            // 50% de probabilidad de no atacar
-            if (r.nextDouble() < 0.50) {
-                System.out.println(p.getNombrePokemon() + " tiene mucho sueño y no puede atacar.");
-                return false;
-            }
-            break;
+          case SOMNOLIENTO:
+              if (r.nextDouble() < 0.50) {
+                  return p.getNombrePokemon() + " tiene mucho sueño y no puede atacar.";
+              }
+              break;
 
-        case CONFUSO:
-            // 1/3 de probabilidad de herirse a sí mismo
-            if (r.nextInt(3) == 0) {
-                int danio = p.getVitalidadMaxima() / 10; // Daño por confusión (10% vida max)
-                p.setVitalidad(p.getVitalidad() - danio);
-                System.out.println("¡" + p.getNombrePokemon() + " está tan confuso que se ha herido a sí mismo!");
-                return false;
-            }
-            break;
+          case CONFUSO:
+              if (r.nextInt(3) == 0) {
+                  int danio = p.getVitalidadMaxima() / 10;
+                  p.setVitalidad(p.getVitalidad() - danio);
+                  return "¡" + p.getNombrePokemon() + " está tan confuso que se ha herido a sí mismo!";
+              }
+              break;
 
-        case ENAMORADO:
-            // 1/4 de probabilidad de no atacar
-            if (r.nextInt(4) == 0) {
-                System.out.println(p.getNombrePokemon() + " está enamorado y no puede atacar.");
-                return false;
-            }
-            break;
+          case ENAMORADO:
+              if (r.nextInt(4) == 0) {
+                  return p.getNombrePokemon() + " está enamorado y no puede atacar.";
+              }
+              break;
 
-        case DEBILITADO:
-            return false;
-            
-        default:
-            return true;
-    }
-    return true;
-}
-
+          case DEBILITADO:
+              return p.getNombrePokemon() + " está debilitado.";
+              
+          default:
+              return null; //si es SANO o no entra en las probabilidades, devuelve null (puede atacar)
+      }
+      return null;
+  }
 
 
 /**
@@ -360,6 +344,8 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
     // creamos el Turno para registrar lo que pasara
     Turno turnoActual = new Turno();
     turnoActual.setNumeroTurnoActual(this.getHistorialTurnos().size() + 1);
+    
+    
 
     // decidimos el orden de actuacion segun la velocidad de los pokemon
     Pokemon primero, segundo;
@@ -430,15 +416,17 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
  * @return el mensaje de texto de lo ocurrido para el historial
  */
 private String ejecutarAccion(Pokemon atacante, Pokemon objetivo, Movimiento mov) {
-    // comprobamos si puede atacar
-    if (this.puedeAtacarEsteTurno(atacante)) {
-        // si puede atacar, realizamos el daño y obtenemos la eficacia 
-        String eficacia = atacante.atacar(mov, objetivo);
-        return atacante.getNombrePokemon() + " usó " + mov.getNombreMovimiento() + " (" + eficacia + ")";
-    } else {
-        // si no puede atacar, devolvemos el motivo para el log del turno
-        return atacante.getNombrePokemon() + " no pudo atacar debido a su estado: " + atacante.getEstadoActual();
+    //verificamos si hay alguna restricción de estado
+    String mensajeRestriccion = verificarRestriccionEstado(atacante);
+    
+    if (mensajeRestriccion != null) {
+        //si hay mensaje, devolvemos eso y no llamamos a atacar()
+        return mensajeRestriccion;
     }
+
+    //si no hay restricción (mensajeRestriccion == null), atacamos
+    String eficacia = atacante.atacar(mov, objetivo);
+    return atacante.getNombrePokemon() + " usó " + mov.getNombreMovimiento() + " (" + eficacia + ")";
 }
 
 
@@ -458,25 +446,25 @@ public Turno obtenerUltimoTurno() {
    * @param esJugador, true si el pokemon muerto es el nuestro
    * @return true, si al entrenador le quedan mas pokemon para seguir peleando
    */
-  public boolean puedeContinuar(boolean esJugador) {
-      if (esJugador) {
-          // aumentamos el contador de KOs del jugador
-          this.setPokemonKOEntrenador(this.getPokemonKOEntrenador() + 1);
-          
-          // comprobamos si queda alguien vivo en el equipo
-          return buscarPrimerPokemonVivo(this.getEntrenador()) != null;
-      } else {
-          // logica para el rival, que sacara el primero vivo
-          this.setPokemonKORival(this.getPokemonKORival() + 1);
-          Pokemon siguienteRival = buscarPrimerPokemonVivo(this.getEntrenadorRival());
-          
-          if (siguienteRival != null) {
-              this.setPokemonActualRival(siguienteRival);
-              return true;
-          }
-          return false;
-      }
-  }
+ public boolean puedeContinuar(boolean esJugador) {
+    if (esJugador) {
+        this.setPokemonKOEntrenador(this.getPokemonKOEntrenador() + 1);
+        return buscarPrimerPokemonVivo(this.getEntrenador()) != null;
+    } else {
+        // el rival ha perdido un pokemon
+        this.setPokemonKORival(this.getPokemonKORival() + 1);
+        
+        // repartimos experiencia justo ahora que acaba de morir uno
+        repartirExperienciaEquipo(this.getPokemonActualRival());
+        
+        Pokemon siguienteRival = buscarPrimerPokemonVivo(this.getEntrenadorRival());
+        if (siguienteRival != null) {
+            this.setPokemonActualRival(siguienteRival);
+            return true;
+        }
+        return false;
+    }
+}
 
   
   /**
