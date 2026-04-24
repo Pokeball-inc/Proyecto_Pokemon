@@ -377,13 +377,13 @@ public class InventarioController implements Initializable {
 
                    Objeto objetoAQuitar = p.getObjetoEquipado();
 
-                   if (objetoAQuitar == objeto) {
+                   if (objetoAQuitar.getIdObjeto() == objeto.getIdObjeto()) {
 
                        // Añadirlo al inventario del entrenador
 
                        entrenadorActual.getInventario().añadirObjeto(objetoAQuitar,  1);
 
-                       System.out.println("Se ha desequipado el objeto " + objeto.getNombreObjeto());
+                       System.out.println("Objeto "+ objeto.getNombreObjeto() + " Desequipado") ;
 
                        PokemonDAO.actualizarObjetoPokemon(con, p, null);
                    } else {
