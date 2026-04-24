@@ -163,7 +163,7 @@ public class PokemonDAO {
             if (idObj > 0) {
                 Objeto equipado = ObjetosTotales.todosLosObjetos.stream().filter(obj -> obj.getIdObjeto() == idObj).findFirst().orElse(null);
                 p.setObjetoEquipado(equipado);
-				
+
             } else {
                 p.setObjetoEquipado(null);
             }

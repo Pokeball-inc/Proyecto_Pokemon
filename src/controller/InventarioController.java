@@ -218,8 +218,6 @@ public class InventarioController implements Initializable {
 
         // Modificar botones de Comprar y Usar en función de la cantidad que poseas
 
-        if (cantidad > 0) {
-
 
             usarObjeto.setVisible(true);
 
@@ -234,27 +232,6 @@ public class InventarioController implements Initializable {
             rectComprar.setHeight(37);
             rectComprar.setLayoutX(0);
             rectComprar.setLayoutY(0);
-
-
-
-
-        } else {
-
-            usarObjeto.setVisible(false);
-
-            /// El botón de comprar centrado
-
-            Rectangle rectComprar = (Rectangle) comprarObjeto.getChildren().get(0);
-            comprarObjeto.setLayoutX(111);
-            comprarObjeto.setLayoutY(405);
-            comprarObjeto.setPrefHeight(37);
-            comprarObjeto.setPrefWidth(102);
-            rectComprar.setWidth(151);
-            rectComprar.setHeight(37);
-            rectComprar.setLayoutX(-26);
-            rectComprar.setLayoutY(0);
-
-        }
 
         ///  Evento de mouse para comprar
 
@@ -389,6 +366,83 @@ public class InventarioController implements Initializable {
 
             //Añadimos la cajita a la cuadricula general
             contenedorPokemons.getChildren().add(cajaPokemon);
+
+            // Lógica para añadir o quitar objetos en funcion
+
+            cajaPokemon.setOnMouseClicked(event -> {
+
+                // Si el pokemon ya tiene un objeto equipado, se desequipa
+
+               if (p.getObjetoEquipado() != null) {
+
+                   Objeto objetoAQuitar = p.getObjetoEquipado();
+
+                   if (objetoAQuitar == objeto) {
+
+                       // Añadirlo al inventario del entrenador
+
+                       entrenadorActual.getInventario().añadirObjeto(objetoAQuitar,  1);
+
+                       System.out.println("Se ha desequipado el objeto " + objeto.getNombreObjeto());
+
+                       PokemonDAO.actualizarObjetoPokemon(con, p, null);
+                   } else {
+
+                       // Añadirlo al inventario del entrenador
+
+                       entrenadorActual.getInventario().añadirObjeto(objetoAQuitar,  1);
+
+                       PokemonDAO.actualizarObjetoPokemon(con, p, null);
+
+                       // Recuperamos la cantidad de objetos disponibles
+
+                       int cantidadDisponible = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
+                               .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
+
+                       if (cantidadDisponible > 0) {
+                           entrenadorActual.getInventario().añadirObjeto(objeto, -1);
+                       } else {
+                           return;
+                       }
+
+                       // Y lo añadimos
+
+                       PokemonDAO.actualizarObjetoPokemon(con, p, objeto);
+
+
+                       System.out.println("Objeto "+ objeto.getNombreObjeto() + " Equipado.");
+
+                   }
+
+               } else {
+
+                   // Recuperamos la cantidad de objetos disponibles
+
+                   int cantidadDisponible = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
+                           .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
+
+                   if (cantidadDisponible > 0) {
+                       entrenadorActual.getInventario().añadirObjeto(objeto, -1);
+                   } else {
+                       return;
+                   }
+
+                   // Y lo añadimos
+
+                   PokemonDAO.actualizarObjetoPokemon(con, p, objeto);
+
+
+                   System.out.println("Objeto "+ objeto.getNombreObjeto() + " Equipado.");
+               }
+
+               InventarioDAO.actualizarInventario(con);
+
+               panelSeleccion.setVisible(false);
+
+               cargarObjetos();
+               cargarInfoObjeto(objeto);
+
+            });
         }
 
         //Mostramos el panel gigante y lo traemos al frente
