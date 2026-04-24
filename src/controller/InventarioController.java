@@ -22,6 +22,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -304,9 +306,9 @@ public class InventarioController implements Initializable {
         //Por cada Pokemon en la lista, creamos su miniatura
         for (Pokemon p : ListaPokemon) {
             //Creamos una cajita vertical
-            javafx.scene.layout.VBox cajaPokemon = new javafx.scene.layout.VBox();
+            javafx.scene.layout.StackPane cajaPokemon = new javafx.scene.layout.StackPane();
             cajaPokemon.setAlignment(javafx.geometry.Pos.CENTER);
-            cajaPokemon.setSpacing(5);
+            cajaPokemon.setPadding(new Insets(5));
             //Efecto cristalizado para que parezca un boton
             cajaPokemon.setStyle("-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 10; -fx-padding: 10; -fx-cursor: hand;");
 
@@ -361,11 +363,24 @@ public class InventarioController implements Initializable {
             Text txtNombre = new Text(nombreAMostrar + " (Nv." + p.getNivel() + ")");
             txtNombre.setFill(javafx.scene.paint.Color.WHITE);
 
+            cajaPokemon.setAlignment(txtNombre, Pos.BOTTOM_CENTER);
+
             //Lo metemos todo en la cajita
             cajaPokemon.getChildren().addAll(imgPoke, txtNombre);
 
+            /// Añadir imagen del objeto equipado del pokemon, si tiene
+
+            if (p.getObjetoEquipado() != null) {
+                ImageView objetoPokemon = cargarImagen(p.getObjetoEquipado().getImgObjeto());
+                objetoPokemon.setFitHeight(24);
+                objetoPokemon.setFitWidth(24);
+                cajaPokemon.setAlignment(objetoPokemon, Pos.TOP_RIGHT);
+                cajaPokemon.getChildren().addAll(objetoPokemon);
+            }
+
             //Añadimos la cajita a la cuadricula general
             contenedorPokemons.getChildren().add(cajaPokemon);
+
 
             // Lógica para añadir o quitar objetos en funcion
 
