@@ -258,40 +258,102 @@ public class Pokemon {
 		defensa = newVar;
 	}
 
+	/**
+	 * get con logica para tener encuenta los bonus de los objetos
+	 * @return defFinal, la defensa final
+	 */
 	public int getDefensa() {
-		return defensa;
+		int defFinal = this.defensa;
+        if (this.objetoEquipado != null) {
+            String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
+            // pesa o chaleco +20% Def
+            if (nombreObj.contains("pesa") || nombreObj.contains("chaleco")) {
+                defFinal += (this.defensa * 20 / 100);
+            } 
+            // pluma -20% Def
+            else if (nombreObj.contains("pluma")) {
+                defFinal -= (this.defensa * 20 / 100);
+            }
+        }
+        return defFinal;
 	}
 
 	public void setAtaqueEspecial(int newVar) {
 		ataqueEspecial = newVar;
 	}
-
+	/**
+	 * get con logica para tener encuenta los bonus de los objetos y estados
+	 * @return atqEspFinal, el ataque especial final
+	 */
 	public int getAtaqueEspecial() {
-		// Helado: su ataque especial se reduce a la mitad
+		int atqEspFinal = this.ataqueEspecial;
+        if (this.objetoEquipado != null) {
+            String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
+            // pilas +30% AtkEsp
+            if (nombreObj.contains("pilas")) {
+                atqEspFinal += (this.ataqueEspecial * 30 / 100);
+            }
+        }
+		// Helado, su ataque especial se reduce a la mitad
 		if (this.estadoActual == Estados.HELADO) {
-			return this.ataqueEspecial / 2;
+			return atqEspFinal / 2;
 		}
-		return ataqueEspecial;
+		return atqEspFinal;
 	}
 
 	public void setDefensaEspecial(int newVar) {
 		defensaEspecial = newVar;
 	}
-
+	/**
+	 * get con logica para tener encuenta los bonus de los objetos
+	 * @return defEspFinal, la defensa especial final
+	 */
 	public int getDefensaEspecial() {
-		return defensaEspecial;
+		int defEspFinal = this.defensaEspecial;
+        if (this.objetoEquipado != null) {
+            String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
+            // chaleco +20% DefEsp
+            if (nombreObj.contains("chaleco")) {
+                defEspFinal += (this.defensaEspecial * 20 / 100);
+            } 
+            // pluma o pilas -20% DefEsp
+            else if (nombreObj.contains("pluma") || nombreObj.contains("pilas")) {
+                defEspFinal -= (this.defensaEspecial * 20 / 100);
+            }
+        }
+        return defEspFinal;
 	}
 
 	public void setVelocidad(int newVar) {
 		velocidad = newVar;
 	}
-
+	/**
+	 * get con logica para tener encuenta los bonus de los objetos y estados
+	 * @return velFinal, la velocidad final
+	 */
 	public int getVelocidad() {
+		int velFinal = this.velocidad;
+        if (this.objetoEquipado != null) {
+            String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
+            // Pluma: +30% Spd
+            if (nombreObj.contains("pluma")) {
+                velFinal += (this.velocidad * 30 / 100);
+            } 
+            // pesa -20% Spd
+            else if (nombreObj.contains("pesa")) {
+                velFinal -= (this.velocidad * 20 / 100);
+            } 
+            // chaleco o baston -15% Spd
+            else if (nombreObj.contains("chaleco") || nombreObj.contains("bastón") || nombreObj.contains("baston")) {
+                velFinal -= (this.velocidad * 15 / 100);
+            }
+        }
+		
 		// Paralizado: su velocidad se reduce a la mitad
 		if (this.estadoActual == Estados.PARALIZADO) {
-			return this.velocidad / 2;
+			return velFinal / 2;
 		}
-		return velocidad;
+		return velFinal;
 	}
 
 	public void setNivel(int newVar) {
@@ -493,13 +555,33 @@ public class Pokemon {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
+	
+	/**
+	 * get con logica para tener encuenta los bonus de los objetos y estados
+	 * @return vitMaxFinal, la vitalidad maxima final
+	 */
 	public int getVitalidadMaxima() {
-		return vitalidadMaxima;
+		int vitMaxFinal = this.vitalidadMaxima;
+        if (this.objetoEquipado != null) {
+            String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
+            // baston +20% HP Máximo
+            if (nombreObj.contains("bastón") || nombreObj.contains("baston")) {
+                vitMaxFinal += (this.vitalidadMaxima * 20 / 100);
+            }
+        }
+        return vitMaxFinal;
 	}
 
 	public void setVitalidadMaxima(int vitalidadMaxima) {
 		this.vitalidadMaxima = vitalidadMaxima;
+	}
+	
+	public Movimiento getMovimientoPendiente() {
+		return movimientoPendiente;
+	}
+
+	public void setMovimientoPendiente(Movimiento movimientoPendiente) {
+		this.movimientoPendiente = movimientoPendiente;
 	}
 
 	//
@@ -900,12 +982,45 @@ public class Pokemon {
 		}
 	}
 
-	public Movimiento getMovimientoPendiente() {
-		return movimientoPendiente;
-	}
+	
+	
+	/**
+     * equipa un objeto al pokemon, sustituye si ya tiene uno
+     * @return el objeto que tenia equipado o null si no tenia
+     */
+    public Objeto equiparObjeto(Objeto nuevoObjeto) {
+    	// desequipammos objeto si tuviera
+        Objeto objetoViejo = this.desequiparObjeto(); 
 
-	public void setMovimientoPendiente(Movimiento movimientoPendiente) {
-		this.movimientoPendiente = movimientoPendiente;
-	}
+        // equipamos el objeto
+        this.objetoEquipado = nuevoObjeto;
+        System.out.println("¡" + this.nombrePokemon + " se ha equipado con " + nuevoObjeto.getNombreObjeto() + "!");
+
+        // Devolvemos el antiguo para devolverlo al inventario
+        return objetoViejo;
+    }
+
+    /**
+     * Desequipa el objeto actual y al ponerse null dfevuelve los stats normales al pokemon
+     * @return el objeto que teniaequipado o null si no tenia
+     */
+    public Objeto desequiparObjeto() {
+    	if (this.objetoEquipado != null) {
+            Objeto objetoViejo = this.objetoEquipado; 
+            
+            System.out.println("Se le ha quitado " + objetoViejo.getNombreObjeto() + " a " + this.nombrePokemon + ".");
+            this.objetoEquipado = null; // vaciamos el objeto equipado
+            
+            // para ajuste de la vida en caso 
+            if (this.vitalidad > this.getVitalidadMaxima()) {
+                this.vitalidad = this.getVitalidadMaxima();
+            }
+            
+            return objetoViejo; // devolvemos el objeto para que el Controlador lo guarde
+        }
+        
+        System.out.println(this.nombrePokemon + " no lleva ningún objeto equipado.");
+        return null;
+    }
 
 }
