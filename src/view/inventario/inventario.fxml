@@ -143,11 +143,6 @@
         <Pane layoutX="431.0" layoutY="102.0">
             <children>
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebbf7e" height="384.0" layoutX="28.0" layoutY="27.0" opacity="0.71" stroke="BLACK" strokeType="INSIDE" width="548.0" />
-                <ImageView fitHeight="424.0" fitWidth="599.0" pickOnBounds="true">
-                    <image>
-                        <Image url="@../../../imgs/Inventario/marcoCaja.png" />
-                    </image>
-                </ImageView>
                 <ScrollPane id="scroll-pane" layoutX="13.0" layoutY="12.0" prefHeight="403.0" prefWidth="577.0">
                     <content>
                         <TilePane id="tile-pane" fx:id="cajaObjetos" alignment="TOP_CENTER" prefHeight="399.0" prefWidth="574.0" stylesheets="@inventario.css" tileAlignment="CENTER_LEFT">
@@ -159,5 +154,10 @@
                 </ScrollPane>
             </children>
         </Pane>
+          <ImageView fx:id="marcoCaja" fitHeight="415.0" fitWidth="605.0" layoutX="432.0" layoutY="113.0" mouseTransparent="true" pickOnBounds="true">
+              <image>
+                  <Image url="@../../../imgs/Inventario/marcoCaja.png" />
+              </image>
+          </ImageView>
     </children>
 </AnchorPane>
