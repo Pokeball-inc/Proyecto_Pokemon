@@ -565,45 +565,75 @@ public class Pokemon {
 	 * @param pokemon recibe el pokemon que recibe el ataque
 	 * @return String: NEUTRO, VENTAJA, DOBLE_VENTAJA o DESVENTAJA
 	 */
+	/**
+	 * Ejecuta el ataque, aplica estados, calcula daño físico/especial y devuelve la eficacia.
+	 */
 	public String atacar(Movimiento movimiento, Pokemon pokemonDefensor) {
 		
-		// obtenemos efectividad de la TablaTipos 
-		double m1 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoPrincipal());
-		double m2 = 1.0;
+		String categoria = movimiento.getCategoriaDano();
 		
-		if (pokemonDefensor.getTipoSecundario() != null) {
-			m2 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario());
+		//aplicar estados
+		if (movimiento.getEstadoAplicado() != null && movimiento.getEstadoAplicado() != Estados.SANO) {
+			if (pokemonDefensor.getEstadoActual() == Estados.SANO) {
+				pokemonDefensor.setEstadoActual(movimiento.getEstadoAplicado());
+				
+				Random r = new Random();
+				if (movimiento.getEstadoAplicado() == Estados.DORMIDO) {
+					pokemonDefensor.setTurnosEstadoRestantes(r.nextInt(3) + 1); // 1-3 turnos
+				} else {
+					pokemonDefensor.setTurnosEstadoRestantes(0); 
+				}
+				System.out.println("¡Oh no! " + pokemonDefensor.getNombrePokemon() + " ahora está " + movimiento.getEstadoAplicado());
+			}
 		}
+		
+		//filtro movimientos estado (sin potencia)
+		if (categoria == null || categoria.equalsIgnoreCase("Estado") || movimiento.getPotencia() <= 0) {
+			return "NEUTRO"; 
+		}
+		
+		//calculo multiplicaciones tipo
+		double m1 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoPrincipal());
+		double m2 = (pokemonDefensor.getTipoSecundario() != null) 
+					? TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario()) 
+					: 1.0;
 		
 		double multiplicadorTipos = m1 * m2;
 
-		// aplicamos mismo tipo - x1.5
+		//bonus por mismo tipo (STAB x1.5)
 		double potenciaFinal = movimiento.getPotencia();
 		if (movimiento.getTipo() == this.getTipoPrincipal() || movimiento.getTipo() == this.getTipoSecundario()) {
 			potenciaFinal *= 1.5; 
 		}
 
-		// calculamos daño base segun categoria
-		double danioBase;
-		if (movimiento.getCategoriaDano().equalsIgnoreCase("Fisico")) {
+		//calculo daño base (fisico vs especial)
+		double danioBase = 0;
+		if (categoria.equalsIgnoreCase("Fisico")) {
 			danioBase = (this.getAtaque() * potenciaFinal) / (double) pokemonDefensor.getDefensa();
 		} else {
+			//por defecto tratamos como especial si no es fisico
 			danioBase = (this.getAtaqueEspecial() * potenciaFinal) / (double) pokemonDefensor.getDefensaEspecial();
 		}
 
-		// aplicamos daño final con los multiplicadores 
+		//daño final
 		int danioFinal = (int) (danioBase * multiplicadorTipos);
+		
+		// Si no es inmune (x0), siempre debe quitar al menos 1 PS
+		if (danioFinal < 1 && multiplicadorTipos > 0) {
+			danioFinal = 1;
+		}
+
 		pokemonDefensor.setVitalidad(pokemonDefensor.getVitalidad() - danioFinal);
 
-		// salida segun los multiplicadores
-		if (multiplicadorTipos >= 4.0) {
-			return "DOBLE_VENTAJA"; 
-		}
+		//retorno eficacia (Para los textos del Log)
 		if (multiplicadorTipos >= 2.0) {
-			return "VENTAJA";
+			return "VENTAJA"; //el controlador pondrá "¡Es muy eficaz!"
 		}
-		if (multiplicadorTipos < 1.0 && multiplicadorTipos > 0) {
-			return "DESVENTAJA";
+		if (multiplicadorTipos > 0 && multiplicadorTipos < 1.0) {
+			return "DESVENTAJA"; //el controlador pondrá "No es muy eficaz..."
+		}
+		if (multiplicadorTipos == 0) {
+			return "INMUNE"; //el controlador pondrá "No afecta a..."
 		}
 		
 		return "NEUTRO";
