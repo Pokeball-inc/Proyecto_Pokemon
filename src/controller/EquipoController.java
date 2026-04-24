@@ -2,6 +2,7 @@ package controller;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
+import dao.PokemonDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -549,6 +551,41 @@ public class EquipoController implements Initializable {
 
         cargarInventario();
         mostrarDetallesPokemon(pokemonSeleccionado);
+    }
+    
+    
+    @FXML
+    // voton curar pokemon
+    public void clickCurarPokemon(MouseEvent event) {
+        Entrenador jugador = Sesion.entrenadorLogueado;
+        
+        // curamos todo el equipo
+        jugador.curarEquipoCompleto();
+        
+        // sincronizamos la curacion con la bd
+        try {
+            ConexionBBDD conector = new bd.ConexionBBDD();
+            Connection con = conector.getConexion();
+            
+            for (Pokemon p : jugador.getEquipoPokemon()) {
+                if (p != null) {
+                    PokemonDAO.actualizarStatsBD(con, p);
+                }
+            }
+            con.close();
+            System.out.println("Curación guardada en la Base de Datos.");
+        } catch (Exception e) {
+            System.out.println("Error al guardar la cura en BD: " + e.getMessage());
+        }
+        
+        // mostramos alerta informando de la curacion
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Curación Pokémon");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¡Tus Pokémon han recuperado toda su energía!");
+        alerta.showAndWait();
+        
+        recargarTodo();
     }
 
     //Boton de salir
