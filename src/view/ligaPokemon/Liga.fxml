@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CombateController">
+   <children>
+      <ImageView fx:id="fondoCombateAleatorio" fitHeight="600.0" fitWidth="1074.0">
+         <image>
+            <Image url="@../../../imgs/combate/ImagenFondoCombateAleatorio.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgEntrenadorRival" fitHeight="191.0" fitWidth="193.0" layoutX="717.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/combate/Entrenadores/Liga/Rojo.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgPokemonJugador" fitHeight="364.0" fitWidth="368.0" layoutX="112.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/back/4.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgPokemonRival" fitHeight="229.0" fitWidth="245.0" layoutX="698.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../imgs/Pokemons/sprites/crystal/transparent/6.png" />
+         </image>
+      </ImageView>
+      
+      <HBox layoutX="763.0" layoutY="439.0" opacity="0.87" prefHeight="137.0" prefWidth="272.0" style="-fx-background-color: rgba(30, 30, 30, 0.75); -fx-background-radius: 15px; -fx-border-width: 4; -fx-border-color: rgba(255, 255, 255, 0.5);">
+         <clip>
+            <Rectangle arcHeight="30.0" arcWidth="30.0" height="137.0" width="272.0" />
+         </clip>
+         <children>
+            <Pane fx:id="panelMenuPrincipal" prefHeight="129.0" prefWidth="276.0">
+               <children>
+                  <ImageView fx:id="btnLuchar" fitHeight="37.0" fitWidth="145.0" layoutX="10.0" layoutY="14.0" onMouseClicked="#accionLuchar" onMouseEntered="#aumentarTamañoBotonLuchar" onMouseExited="#disminuirTamañoBotonLuchar" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/combate/botones/BotonLucha.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="btnCambiarPokemon" fitHeight="37.0" fitWidth="145.0" layoutX="136.0" layoutY="14.0" onMouseClicked="#accionCambiarPokemon" onMouseEntered="#aumentarTamañoBotonCambiarPokemon" onMouseExited="#disminuirTamañoBotonCambiarPokemon" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/combate/botones/BotonPokemon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="btnDescanso" fitHeight="43.0" fitWidth="118.0" layoutX="10.0" layoutY="78.0" onMouseClicked="#accionDescansar" onMouseEntered="#aumentarTamañoBotonDescansar" onMouseExited="#disminuirTamañoBotonDescansar" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Combate/botones/BotonDescanso.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="btnHuir" fitHeight="37.0" fitWidth="145.0" layoutX="135.0" layoutY="78.0" onMouseClicked="#combateSalir" onMouseEntered="#aumentarTamañoBotonSalir" onMouseExited="#disminuirTamañoBotonSalir" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/combate/botones/BotonSalir.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox layoutX="61.0" layoutY="48.0" opacity="0.87" prefHeight="105.0" prefWidth="272.0" style="-fx-background-color: rgba(30, 30, 30, 0.75); -fx-background-radius: 15px; -fx-border-width: 4; -fx-border-color: rgba(255, 255, 255, 0.5);">
+         <clip>
+            <Rectangle arcHeight="30.0" arcWidth="30.0" height="137.0" width="272.0" />
+         </clip>
+         <children>
+            <Pane prefHeight="95.0" prefWidth="264.0">
+               <children>
+                  <ProgressBar fx:id="barraVitalidadPkmnRival" layoutX="32.0" layoutY="44.0" prefHeight="10.0" prefWidth="200.0" progress="0.0" />
+                  <Text fx:id="txtNombrePkmnRival" fill="WHITE" layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charmander" wrappingWidth="165.51693725585938">
+                     <font>
+                        <Font name="Consolas Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtNivelPkmnRival" fill="WHITE" layoutX="182.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lvl50">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtVitalidadPkmnRival" fill="WHITE" layoutX="178.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100/100">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="imgSexoPkmnRival" fitHeight="18.0" fitWidth="17.0" layoutX="242.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/sexo/Macho.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox layoutX="61.0" layoutY="439.0" opacity="0.87" prefHeight="137.0" prefWidth="677.0" style="-fx-background-color: rgba(30, 30, 30, 0.75); -fx-background-radius: 15; -fx-border-width: 4; -fx-border-color: rgba(255, 255, 255, 0.5);">
+         <children>
+            <Label fx:id="txtLogCombate" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+         </children></HBox>
+      <HBox layoutX="763.0" layoutY="315.0" opacity="0.87" prefHeight="105.0" prefWidth="272.0" style="-fx-background-color: rgba(30, 30, 30, 0.75); -fx-background-radius: 15px; -fx-border-width: 4; -fx-border-color: rgba(255, 255, 255, 0.5);">
+         <clip>
+            <Rectangle arcHeight="30.0" arcWidth="30.0" height="137.0" width="272.0" />
+         </clip>
+         <children>
+            <Pane prefHeight="95.0" prefWidth="264.0">
+               <children>
+                  <ProgressBar fx:id="barraVitalidadPkmnJugador" layoutX="32.0" layoutY="44.0" prefHeight="10.0" prefWidth="200.0" progress="0.0" />
+                  <Text fx:id="txtNombrePkmnJugador" fill="WHITE" layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charmander" wrappingWidth="165.51693725585938">
+                     <font>
+                        <Font name="Consolas Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtNivelPkmnJugador" fill="WHITE" layoutX="182.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lvl50">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtVitalidadPkmnJugador" fill="WHITE" layoutX="178.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100/100">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="imgSexoPkmnJugador" fitHeight="18.0" fitWidth="17.0" layoutX="242.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../imgs/Entrenamiento/sexo/Macho.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <ImageView fx:id="imgEntrenadorJugador" fitHeight="209.0" fitWidth="241.0" layoutX="203.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/Combate/Entrenadores/Jugador/Eco_espalda.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnSalirMenuAtaque" fitHeight="24.0" fitWidth="24.0" layoutX="1035.0" layoutY="564.0" onMouseClicked="#clicVolverMenu" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../imgs/Combate/botones/iconoSalir.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="panelMenuAtaques" layoutX="763.0" layoutY="439.0" prefHeight="137.0" prefWidth="272.0" style="-fx-background-color: black;" visible="false">
+         <children>
+            <Button fx:id="btnAtaque1" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque1" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 1">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAtaque2" layoutX="136.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque2" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 2">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAtaque3" layoutX="8.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque3" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 3">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAtaque4" layoutX="136.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque4" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 4">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="panelCambioPokemon" layoutX="573.0" layoutY="314.0" prefHeight="263.0" prefWidth="461.0" style="-fx-background-color: rgba(30, 30, 30, 0.75);" visible="false">
+         <children>
+            <Button fx:id="btnPokemon1" layoutX="32.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#clicPkmn1" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn1" />
+            <Button fx:id="btnPokemon3" layoutX="32.0" layoutY="102.0" mnemonicParsing="false" onMouseClicked="#clicPkmn3" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn3" />
+            <Button fx:id="btnPokemon5" layoutX="32.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#clicPkmn5" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn5" />
+            <Button fx:id="btnPokemon2" layoutX="230.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#clicPkmn2" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn2" />
+            <Button fx:id="btnPokemon4" layoutX="230.0" layoutY="102.0" mnemonicParsing="false" onMouseClicked="#clicPkmn4" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn4" />
+            <Button fx:id="btnPokemon6" layoutX="230.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#clicPkmn6" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn6" />
+            <ImageView fx:id="btnVolverCambio" fitHeight="30.0" fitWidth="32.0" layoutX="428.0" layoutY="228.0" onMouseClicked="#accionCancelarCambio" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../imgs/Combate/botones/iconoSalir.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      
+   </children>
+</AnchorPane>
