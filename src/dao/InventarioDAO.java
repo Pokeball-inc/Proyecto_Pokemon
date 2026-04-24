@@ -1,11 +1,9 @@
 package dao;
 
-import model.Inventario;
-import model.Objeto;
-import model.ObjetosTotales;
-import model.Sesion;
+import model.*;
 
 import java.sql.*;
+import java.util.List;
 
 public class InventarioDAO {
 
@@ -101,8 +99,45 @@ public class InventarioDAO {
 
         } catch (SQLException ex) {
             System.err.println("Error al cargar los objetos: " + ex.getMessage());
-        }
-    }
+        }}
+
+
+       /**
+        * Method para actualizar el inventario del Entrenador
+        */
+
+
+        public static void actualizarInventario(Connection con) {
+
+           ///  Recuperar la lista de objetos del entrenador
+
+            List<ObjetoInventario> listaMochila = Sesion.entrenadorLogueado.getInventario().getListaObjetos();
+
+           /// Un update que actualizará en la tabla Inventario los datos del entrenador
+
+            String sql = "INSERT INTO inventario (ID_ENTRENADOR, ID_OBJETO, CANTIDAD) VALUES (?, ?, ?) " +
+                    "ON DUPLICATE KEY UPDATE CANTIDAD = VALUES(CANTIDAD)";
+
+           try {
+
+               PreparedStatement ps = con.prepareStatement(sql);
+
+               for (ObjetoInventario objeto : listaMochila) {
+                   ps.setInt(1, Sesion.entrenadorLogueado.getIdEntrenador());
+                   ps.setInt(2, objeto.getObjeto().getIdObjeto());
+                   ps.setInt(3, objeto.getCantidad());
+
+                   ps.addBatch();
+               }
+
+               ps.executeBatch();
+
+           } catch (SQLException ex) {
+               System.err.println("Error al actualizar los objetos: " + ex.getMessage());
+           }
+
+
+       }
 }
 
 
