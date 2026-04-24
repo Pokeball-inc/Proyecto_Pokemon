@@ -208,9 +208,22 @@ public class Pokemon {
 	 * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad maxima en caso de curarse
 	 * * */
 	public void setVitalidad(int newVar) {
+		// si esta debilitado no sube la vida
+        if (this.estadoActual == Estados.DEBILITADO && newVar > 0) {
+             // si esta DEBILITADO, se queda en 0
+             if(newVar == this.vitalidadMaxima) { // cura completa, tipo centro pokemon
+                 this.vitalidad = this.vitalidadMaxima;
+                 this.estadoActual = Estados.SANO;
+             } else {
+                 return; // No le dejamos curarse si esta muerto
+             }
+        }
 		// Si intentamos curar más del máximo, se queda en el máximo
 		if (newVar > this.vitalidadMaxima) {
 			this.vitalidad = this.vitalidadMaxima;
+		} else if (newVar <= 0) {
+			this.vitalidad = 0;
+            this.estadoActual = Estados.DEBILITADO;
 		} else {
 			this.vitalidad = newVar;
 		}

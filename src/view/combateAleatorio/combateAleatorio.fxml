@@ -47,7 +47,7 @@
                         <Image url="@../../../imgs/combate/botones/BotonLucha.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="btnCambiarPokemon" fitHeight="37.0" fitWidth="145.0" layoutX="136.0" layoutY="14.0" onMouseEntered="#aumentarTamañoBotonCambiarPokemon" onMouseExited="#disminuirTamañoBotonCambiarPokemon" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnCambiarPokemon" fitHeight="37.0" fitWidth="145.0" layoutX="136.0" layoutY="14.0" onMouseClicked="#accionCambiarPokemon" onMouseEntered="#aumentarTamañoBotonCambiarPokemon" onMouseExited="#disminuirTamañoBotonCambiarPokemon" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/combate/botones/BotonPokemon.png" />
                      </image>
@@ -146,22 +146,22 @@
       </ImageView>
       <Pane fx:id="panelMenuAtaques" layoutX="763.0" layoutY="439.0" prefHeight="137.0" prefWidth="272.0" style="-fx-background-color: black;" visible="false">
          <children>
-            <Button fx:id="btnAtaque1" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 1">
+            <Button fx:id="btnAtaque1" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque1" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 1">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnAtaque2" layoutX="136.0" layoutY="8.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 2">
+            <Button fx:id="btnAtaque2" layoutX="136.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque2" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 2">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnAtaque3" layoutX="8.0" layoutY="69.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 3">
+            <Button fx:id="btnAtaque3" layoutX="8.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque3" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 3">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnAtaque4" layoutX="136.0" layoutY="69.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 4">
+            <Button fx:id="btnAtaque4" layoutX="136.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque4" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 4">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
@@ -170,13 +170,13 @@
       </Pane>
       <Pane fx:id="panelCambioPokemon" layoutX="573.0" layoutY="314.0" prefHeight="263.0" prefWidth="461.0" style="-fx-background-color: rgba(30, 30, 30, 0.75);" visible="false">
          <children>
-            <Button fx:id="btnPokemon1" layoutX="32.0" layoutY="42.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn1" />
-            <Button fx:id="btnPokemon3" layoutX="32.0" layoutY="102.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn3" />
-            <Button fx:id="btnPokemon5" layoutX="32.0" layoutY="162.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn5" />
-            <Button fx:id="btnPokemon2" layoutX="230.0" layoutY="42.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn2" />
-            <Button fx:id="btnPokemon4" layoutX="230.0" layoutY="102.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn4" />
-            <Button fx:id="btnPokemon6" layoutX="230.0" layoutY="162.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn6" />
-            <ImageView fx:id="btnVolverCambio" fitHeight="30.0" fitWidth="32.0" layoutX="428.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="btnPokemon1" layoutX="32.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#clicPkmn1" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn1" />
+            <Button fx:id="btnPokemon3" layoutX="32.0" layoutY="102.0" mnemonicParsing="false" onMouseClicked="#clicPkmn3" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn3" />
+            <Button fx:id="btnPokemon5" layoutX="32.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#clicPkmn5" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn5" />
+            <Button fx:id="btnPokemon2" layoutX="230.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#clicPkmn2" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn2" />
+            <Button fx:id="btnPokemon4" layoutX="230.0" layoutY="102.0" mnemonicParsing="false" onMouseClicked="#clicPkmn4" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn4" />
+            <Button fx:id="btnPokemon6" layoutX="230.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#clicPkmn6" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn6" />
+            <ImageView fx:id="btnVolverCambio" fitHeight="30.0" fitWidth="32.0" layoutX="428.0" layoutY="228.0" onMouseClicked="#accionCancelarCambio" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../imgs/Combate/botones/iconoSalir.png" />
                </image>

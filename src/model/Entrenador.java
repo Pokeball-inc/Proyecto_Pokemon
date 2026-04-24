@@ -267,6 +267,21 @@ public class Entrenador {
   //
   // Other methods
   //
+  
+  /**
+   * Cura a todo el equipo del entrenador Vida al máximo y quita estados/debilitado
+   */
+  public void curarEquipoCompleto() {
+      // Recorremos los 6 huecos del equipo
+      for (Pokemon p : this.equipoPokemon) {
+          if (p != null) {
+              p.setVitalidad(p.getVitalidadMaxima());
+              p.setEstadoActual(model.Estados.SANO);
+              p.setTurnosEstadoRestantes(0);
+          }
+      }
+      System.out.println("¡Tu equipo ha sido curado por completo!");
+  }
 
   /**
    * metodo para mover los Pokemon desde el equipo a la caja

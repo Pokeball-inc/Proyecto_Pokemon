@@ -43,6 +43,7 @@ import dao.CapturaDao;
 import dao.PokemonDAO;
 import model.Combate;
 import model.Entrenador;
+import model.Estados;
 import model.Movimiento;
 import model.Pokemon;
 import model.Sesion;
@@ -482,11 +483,29 @@ public class CombateController implements Initializable {
     }
     
     @FXML
+    public void accionCambiarPokemon(MouseEvent event) {
+        if (controlesBloqueados == true) {
+            return;
+        }
+        // abrimos el menu de cambio  sin ser obligatorio el mismo
+        abrirMenuCambio(false);
+    }
+    
+    @FXML
+    public void accionCancelarCambio(MouseEvent event) {
+        // ocultamos el panel de equipo y volvemos al menu principal de lucha
+        panelCambioPokemon.setVisible(false);
+        panelMenuPrincipal.setVisible(true);
+    }
+    
+    @FXML
     public void clicPkmn1(MouseEvent event) {
+    	System.out.println("¡Hice clic en el Pkmn 1!");
     		 realizarCambio(0); }
 
     @FXML
     public void clicPkmn2(MouseEvent event) {
+    	System.out.println("¡Hice clic en el Pkmn 1!");
     		realizarCambio(1); }
 
     @FXML
@@ -774,14 +793,15 @@ public class CombateController implements Initializable {
         //comprobar si el jugador ha muerto tras el ataque
         if (pJugador.getVitalidad() <= 0) {
         	pJugador.setVitalidad(0);
+        	pJugador.setEstadoActual(Estados.DEBILITADO);
             escribirLog("¡Tu " + pJugador.getNombrePokemon() + " se ha debilitado!");
             
             registrarEventoEspecial("debilitado1", "El jugador ha perdido a " + pJugador.getNombrePokemon());
             
             //comprobamos si quedan vivos en el equipo
             if (combateActual.puedeContinuar(true)) {
-                //todo: abrir ventana para cambiar (bloquearemos el combate hasta que cambie)
                 escribirLog("¡Te toca elegir a tu siguiente Pokémon!");
+                abrirMenuCambio(true);
             } else {
                 //si no quedan perdemos
                 combateActual.finalizarCombate();
@@ -796,6 +816,7 @@ public class CombateController implements Initializable {
         //comprobar si el rival ha muerto (ko)
         if (pRival.getVitalidad() <= 0) {
         	pRival.setVitalidad(0);
+        	pRival.setEstadoActual(Estados.DEBILITADO);
             escribirLog("¡El " + pRival.getNombrePokemon() + " enemigo se ha debilitado!");
             
             registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
@@ -1056,7 +1077,7 @@ public class CombateController implements Initializable {
             //cuando terminan lanzamos los textos a la cola
             aparicionPokemons.setOnFinished(eventoPokemons -> {
                 escribirLog("¡Un combate aleatorio ha comenzado!");
-                escribirLog("¡Nos enfrentamos a MisCojones no podemos fallar!"); //xd
+                escribirLog("¡Nos enfrentamos a " + rival.getNombreEntrenador() + " no podemos fallar!"); // ahora no es Misco
                 
                 if (combateActual.getPokemonActualRival() != null) {
                     escribirLog("¡El rival saca a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
