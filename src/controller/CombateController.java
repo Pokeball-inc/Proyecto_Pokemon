@@ -308,8 +308,8 @@ public class CombateController implements Initializable {
             return;
         }
         if (btnLuchar != null) {
-        	btnLuchar.setScaleX(btnLuchar.getScaleX() + 0.2);
-        	btnLuchar.setScaleY(btnLuchar.getScaleY() + 0.2);
+        	btnLuchar.setScaleX(1.2);
+            btnLuchar.setScaleY(1.2);
         }
     }
 
@@ -319,8 +319,8 @@ public class CombateController implements Initializable {
             return;
         }
         if (btnLuchar != null) {
-        	btnLuchar.setScaleX(btnLuchar.getScaleX() - 0.2);
-        	btnLuchar.setScaleY(btnLuchar.getScaleY() - 0.2);
+        	btnLuchar.setScaleX(1.0); 
+            btnLuchar.setScaleY(1.0);
         }
     }
     
@@ -810,8 +810,11 @@ public class CombateController implements Initializable {
                 registrarEventoEspecial("finPierdeCombate", "El entrenador ha perdido el combate");
                 // actualizamos en bd
                 guardarProgresoBD();
+                // escondemos los paneles para que no ataque
+                panelMenuPrincipal.setVisible(false);
+                panelMenuAtaques.setVisible(false);
                 //volvemos al menu despues de 4s
-                volverAlMenuPrincipal(4);
+                volverAlMenuPrincipal(12);
             }
         }
 
@@ -843,8 +846,11 @@ public class CombateController implements Initializable {
                 registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
                 // actualizamos en bd
                 guardarProgresoBD();
+                // escondemos los paneles para que no ataque
+                panelMenuPrincipal.setVisible(false);
+                panelMenuAtaques.setVisible(false);
                 //volvemos al menu despues de 4s
-                volverAlMenuPrincipal(4);
+                volverAlMenuPrincipal(30);
             }
         }
         actualizarVista();
@@ -1130,15 +1136,21 @@ public class CombateController implements Initializable {
         pausaSalida.setOnFinished(e -> {
             try {
          
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
 
                 //cargamos su css 
-                String css = this.getClass().getResource("/view/SeleccionCombate.css").toExternalForm();
-                scene.getStylesheets().add(css);
+                URL urlCss = this.getClass().getResource("/view/principal/vistaPrincipal.css");
+                if (urlCss != null) {
+                    // si lo encuentra lo aplica
+                    scene.getStylesheets().add(urlCss.toExternalForm());
+                } else {
+                    // si no lo encuentra avisa 
+                    System.out.println("Aviso: No se encontró vistaPrincipal.css. Cargando pantalla sin estilos extra.");
+                }
 
-                ventanaActual.setTitle("PokeINC - Seleccion de Combate");
+                ventanaActual.setTitle("PokeINC - Principal");
                 ventanaActual.setResizable(false);
 
                 ventanaActual.setScene(scene);

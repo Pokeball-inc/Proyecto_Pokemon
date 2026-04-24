@@ -2,13 +2,16 @@ package model;
 
 import javafx.scene.paint.Color;
 
+import java.sql.Connection;
 import java.util.*;
+
+import bd.ConexionBBDD;
+import dao.MovimientoDAO;
 
 /**
  * @author Elyass Douma Zouhairi
  * @author Pablo Serrano Conesa
- * @author Isaías Villarreal Méndez
- * Class Pokemon
+ * @author Isaías Villarreal Méndez Class Pokemon
  */
 public class Pokemon {
 
@@ -122,7 +125,7 @@ public class Pokemon {
 	 * indica el origen del Pokemon, si es crianza o captura
 	 */
 	private String origen;
-	
+
 	/**
 	 * el spray de la imagen frontal del pokemon
 	 */
@@ -165,6 +168,11 @@ public class Pokemon {
 	 * El color del pokemon en funcion de su tipo
 	 */
 	private Color color;
+	
+	/**
+     * Movimiento que el Pokemon quiere aprender pero está esperando confirmación
+     */
+    private Movimiento movimientoPendiente = null;
 
 	//
 	// Constructors
@@ -205,25 +213,26 @@ public class Pokemon {
 	}
 
 	/**
-	 * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad maxima en caso de curarse
-	 * * */
+	 * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad
+	 * maxima en caso de curarse *
+	 */
 	public void setVitalidad(int newVar) {
 		// si esta debilitado no sube la vida
-        if (this.estadoActual == Estados.DEBILITADO && newVar > 0) {
-             // si esta DEBILITADO, se queda en 0
-             if(newVar == this.vitalidadMaxima) { // cura completa, tipo centro pokemon
-                 this.vitalidad = this.vitalidadMaxima;
-                 this.estadoActual = Estados.SANO;
-             } else {
-                 return; // No le dejamos curarse si esta muerto
-             }
-        }
+		if (this.estadoActual == Estados.DEBILITADO && newVar > 0) {
+			// si esta DEBILITADO, se queda en 0
+			if (newVar == this.vitalidadMaxima) { // cura completa, tipo centro pokemon
+				this.vitalidad = this.vitalidadMaxima;
+				this.estadoActual = Estados.SANO;
+			} else {
+				return; // No le dejamos curarse si esta muerto
+			}
+		}
 		// Si intentamos curar más del máximo, se queda en el máximo
 		if (newVar > this.vitalidadMaxima) {
 			this.vitalidad = this.vitalidadMaxima;
 		} else if (newVar <= 0) {
 			this.vitalidad = 0;
-            this.estadoActual = Estados.DEBILITADO;
+			this.estadoActual = Estados.DEBILITADO;
 		} else {
 			this.vitalidad = newVar;
 		}
@@ -496,10 +505,12 @@ public class Pokemon {
 	//
 	// Other methods
 	//
-	
+
 	/**
-	 * metodo para ganar experiencia despues de cada combate
-	 * va acumuladno la sobrante y establece el nuevo limite de experiencia necesaria para el siguiente nivel
+	 * metodo para ganar experiencia despues de cada combate va acumuladno la
+	 * sobrante y establece el nuevo limite de experiencia necesaria para el
+	 * siguiente nivel
+	 * 
 	 * @param recibe un nit con la cantidad de experiencia que gana
 	 */
 	public void ganarExperiencia(int puntos) {
@@ -510,24 +521,26 @@ public class Pokemon {
 		int expNecesaria = 10 * this.getNivel();
 
 		// comprobamos si ha llegado al limite para subir de nivel
-		// usamos un while por si gana tanta experiencia que sube varios niveles de golpe
+		// usamos un while por si gana tanta experiencia que sube varios niveles de
+		// golpe
 		while (this.getExperiencia() >= expNecesaria) {
-			
+
 			// restamos la experiencia consumida para subir este nivel
 			this.setExperiencia(this.getExperiencia() - expNecesaria);
-			
+
 			// llamamos al metodo que ya teniamos para aumentar los stats y el nivel
 			this.subirNivel();
-			
+
 			// actualizamos el nuevo limite de experiencia
 			expNecesaria = 10 * this.getNivel();
-			
+
 			System.out.println("¡Subida de nivel! Ahora eres nivel: " + this.getNivel());
 		}
 	}
 
 	/**
-	 * Metodo para subir nivel, sube de nivel al pokemon y genera la subida de stats entre 1 y 5 por nivel
+	 * Metodo para subir nivel, sube de nivel al pokemon y genera la subida de stats
+	 * entre 1 y 5 por nivel
 	 */
 	public void subirNivel() {
 		this.setNivel(this.getNivel() + 1);
@@ -541,7 +554,7 @@ public class Pokemon {
 
 		// al subir de nivel el pokemon se cura
 		if (this.estadoActual != Estados.DEBILITADO) {
-		this.setVitalidad(this.getVitalidadMaxima());
+			this.setVitalidad(this.getVitalidadMaxima());
 		}
 
 		// actualizamos el resto de stats
@@ -554,12 +567,48 @@ public class Pokemon {
 		// metodo para que aprenda ataques cada 3 niveles,
 		// TODO controlador para buscar lkos movimientos
 		if (this.nivel % 3 == 0) {
-			System.out.println("¡" + this.nombrePokemon + " puede aprender un nuevo movimiento!");
+			try {
+				// abrimos conexion a bd
+				ConexionBBDD conector = new ConexionBBDD();
+				Connection con = conector.getConexion();
+				MovimientoDAO movDao = new MovimientoDAO(con);
+
+				// buscamos todos los movimientos de su tipo principal
+				List<Movimiento> movimientosDisponibles = movDao.listarPorTipo(this.tipoPrincipal);
+
+				if (movimientosDisponibles != null && !movimientosDisponibles.isEmpty()) {
+					// elegimos uno al azar
+					Random rand = new Random();
+					Movimiento nuevoMov = movimientosDisponibles.get(rand.nextInt(movimientosDisponibles.size()));
+
+					// comprobamos que no lo tenga ya aprendido
+					boolean yaLoSabe = false;
+					for (Movimiento m : this.movimientos) {
+						if (m != null && m.getNombreMovimiento().equals(nuevoMov.getNombreMovimiento())) {
+							yaLoSabe = true;
+							break;
+						}
+					}
+
+					// si no lo sabe  llamamos aprenderMovimiento
+					if (!yaLoSabe) {
+						this.aprenderMovimiento(nuevoMov);
+					} else {
+						System.out.println(this.nombrePokemon + " ya conoce " + nuevoMov.getNombreMovimiento() + "...");
+					}
+				}
+				con.close();
+
+			} catch (Exception e) {
+				System.out.println(
+						"Error al intentar aprender movimiento en nivel " + this.nivel + ": " + e.getMessage());
+			}
 		}
 	}
-	
+
 	/**
 	 * Comprueba si el Pokemon ha alcanzado el nivel necesario para evolucionar.
+	 * 
 	 * @return true si evoluciona, false en caso contrario.
 	 */
 	public boolean comprobarEvolucion() {
@@ -569,70 +618,71 @@ public class Pokemon {
 		}
 		return false;
 	}
-	
 
 	/**
 	 * metodo atacar del Pokemon con salida (CONSTANTES): NEUTRO = VENTAJA X2
-	 * DOBLEVENTAJA x4 DESVENTAJA 1/2 DOBLEDESVENTAJA 1/4
-	 * * y comprueba si el tipo de ataque es del mismo tipo que el pokemon que lo
-	 * realiza x1.5
-	 * * @param movimiento recibe el movimiento que se va a realizar
+	 * DOBLEVENTAJA x4 DESVENTAJA 1/2 DOBLEDESVENTAJA 1/4 * y comprueba si el tipo
+	 * de ataque es del mismo tipo que el pokemon que lo realiza x1.5 * @param
+	 * movimiento recibe el movimiento que se va a realizar
+	 * 
 	 * @param pokemon recibe el pokemon que recibe el ataque
 	 * @return String: NEUTRO, VENTAJA, DOBLE_VENTAJA o DESVENTAJA
 	 */
 	/**
-	 * Ejecuta el ataque, aplica estados, calcula daño físico/especial y devuelve la eficacia.
+	 * Ejecuta el ataque, aplica estados, calcula daño físico/especial y devuelve la
+	 * eficacia.
 	 */
 	public String atacar(Movimiento movimiento, Pokemon pokemonDefensor) {
-		
+
 		String categoria = movimiento.getCategoriaDano();
-		
-		//aplicar estados
+
+		// aplicar estados
 		if (movimiento.getEstadoAplicado() != null && movimiento.getEstadoAplicado() != Estados.SANO) {
 			if (pokemonDefensor.getEstadoActual() == Estados.SANO) {
 				pokemonDefensor.setEstadoActual(movimiento.getEstadoAplicado());
-				
+
 				Random r = new Random();
 				if (movimiento.getEstadoAplicado() == Estados.DORMIDO) {
 					pokemonDefensor.setTurnosEstadoRestantes(r.nextInt(3) + 1); // 1-3 turnos
 				} else {
-					pokemonDefensor.setTurnosEstadoRestantes(0); 
+					pokemonDefensor.setTurnosEstadoRestantes(0);
 				}
-				System.out.println("¡Oh no! " + pokemonDefensor.getNombrePokemon() + " ahora está " + movimiento.getEstadoAplicado());
+				System.out.println("¡Oh no! " + pokemonDefensor.getNombrePokemon() + " ahora está "
+						+ movimiento.getEstadoAplicado());
 			}
 		}
-		
-		//filtro movimientos estado (sin potencia)
+
+		// filtro movimientos estado (sin potencia)
 		if (categoria == null || categoria.equalsIgnoreCase("Estado") || movimiento.getPotencia() <= 0) {
-			return "NEUTRO"; 
+			return "NEUTRO";
 		}
-		
-		//calculo multiplicaciones tipo
+
+		// calculo multiplicaciones tipo
 		double m1 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoPrincipal());
-		double m2 = (pokemonDefensor.getTipoSecundario() != null) 
-					? TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario()) 
-					: 1.0;
-		
+		double m2 = (pokemonDefensor.getTipoSecundario() != null)
+				? TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario())
+				: 1.0;
+
 		double multiplicadorTipos = m1 * m2;
 
-		//bonus por mismo tipo (STAB x1.5)
+		// bonus por mismo tipo (STAB x1.5)
 		double potenciaFinal = movimiento.getPotencia();
 		if (movimiento.getTipo() == this.getTipoPrincipal() || movimiento.getTipo() == this.getTipoSecundario()) {
-			potenciaFinal *= 1.5; 
+			potenciaFinal *= 1.5;
 		}
 
-		//calculo daño base (fisico vs especial)
+		// calculo daño base (fisico vs especial)
 		double danioBase = 0;
 		if (categoria.equalsIgnoreCase("Fisico")) {
 			danioBase = (this.getAtaque() * potenciaFinal) / (double) pokemonDefensor.getDefensa();
 		} else {
-			//por defecto tratamos como especial si no es fisico
+			// por defecto tratamos como especial si no es fisico
 			danioBase = (this.getAtaqueEspecial() * potenciaFinal) / (double) pokemonDefensor.getDefensaEspecial();
 		}
 
-		//daño final
+		// daño final
 		int danioFinal = (int) (danioBase * multiplicadorTipos);
-		
+
 		// Si no es inmune (x0), siempre debe quitar al menos 1 PS
 		if (danioFinal < 1 && multiplicadorTipos > 0) {
 			danioFinal = 1;
@@ -640,23 +690,23 @@ public class Pokemon {
 
 		pokemonDefensor.setVitalidad(pokemonDefensor.getVitalidad() - danioFinal);
 
-		//retorno eficacia (Para los textos del Log)
+		// retorno eficacia (Para los textos del Log)
 		if (multiplicadorTipos >= 2.0) {
-			return "VENTAJA"; //el controlador pondrá "¡Es muy eficaz!"
+			return "VENTAJA"; // el controlador pondrá "¡Es muy eficaz!"
 		}
 		if (multiplicadorTipos > 0 && multiplicadorTipos < 1.0) {
-			return "DESVENTAJA"; //el controlador pondrá "No es muy eficaz..."
+			return "DESVENTAJA"; // el controlador pondrá "No es muy eficaz..."
 		}
 		if (multiplicadorTipos == 0) {
-			return "INMUNE"; //el controlador pondrá "No afecta a..."
+			return "INMUNE"; // el controlador pondrá "No afecta a..."
 		}
-		
+
 		return "NEUTRO";
 	}
-	
-	
+
 	/**
 	 * metodo para obtener un movimiento aleatorio del pokemon para la "IA"
+	 * 
 	 * @return un objeto Movimiento aleatorio de entre los que conoce
 	 */
 	public Movimiento elegirMovimientoAleatorio() {
@@ -669,7 +719,6 @@ public class Pokemon {
 		Random r = new Random();
 		return validos.get(r.nextInt(validos.size()));
 	}
-	
 
 	/**
 	 * metodo para recuperar un procentajde de vida aleatorio en 10% un maximo de
@@ -691,8 +740,10 @@ public class Pokemon {
 
 	/**
 	 * metodo para que el pokemon pueda aprender un movimiento cada 3 niveles
-	 * @param movimiento recibe un array de movimientos y puede aprender un ataque de entre todos los del array
-	 * * */
+	 * 
+	 * @param movimiento recibe un array de movimientos y puede aprender un ataque
+	 *                   de entre todos los del array *
+	 */
 	public void aprenderMovimiento(Movimiento nuevoMovimiento) {
 		// comprobamos si hay hueco en el array de 4 movimientos y si hay lo añadimos
 		boolean aprendido = false;
@@ -705,39 +756,51 @@ public class Pokemon {
 			}
 		}
 
-		if (!aprendido) {
-			// si queremos cambiarlo por alguno de los que tenemos
-			System.out.println("INFO: El Pokémon ya conoce 4 movimientos. Debes olvidar uno.");
-		}
+		// Si no hay hueco, lo guardamos en la recámara para que la interfaz pregunte
+        if (!aprendido) {
+            this.movimientoPendiente = nuevoMovimiento;
+            System.out.println("INFO: " + nombrePokemon + " quiere aprender " + nuevoMovimiento.getNombreMovimiento() + ", pero debe olvidar uno.");
+        }
 	}
+	
+	/**
+	 * metodo apra reemplazar un movcimiento existente por uno nuevo
+	 * @param incideNuevo, donde ira el nuevo movimiento
+	 *  @param el nuevo movimiento a aprender
+	 */
+	public void reemplazarMovimiento(int indiceNuevo, Movimiento nuevoMovimiento) {
+        if (indiceNuevo >= 0 && indiceNuevo < 4) {
+            System.out.println(this.nombrePokemon + " olvidó " + movimientos[indiceNuevo].getNombreMovimiento() + " y aprendió " + nuevoMovimiento.getNombreMovimiento());
+            this.movimientos[indiceNuevo] = nuevoMovimiento;
+            this.movimientoPendiente = null; // vaciamos el pendeinte
+        }
+    }
 
 	/**
-	 * metodo para limpiar todos los estados temporales que no siguen fuera del combate
+	 * metodo para limpiar todos los estados temporales que no siguen fuera del
+	 * combate
 	 */
 	public void limpiarEstadosTemporales() {
-		if (this.estadoActual == Estados.CONFUSO || 
-			this.estadoActual == Estados.AMEDENTRADO || 
-			this.estadoActual == Estados.ENAMORADO ||
-			this.estadoActual == Estados.APRESADO ||
-			this.estadoActual == Estados.MALDITO ||
-			this.estadoActual == Estados.DRENADORAS ||
-			this.estadoActual == Estados.CANTOMORTAL ||
-			this.estadoActual == Estados.CENTROATENCION ||
-			this.estadoActual == Estados.SOMNOLIENTO) {
-			
+		if (this.estadoActual == Estados.CONFUSO || this.estadoActual == Estados.AMEDENTRADO
+				|| this.estadoActual == Estados.ENAMORADO || this.estadoActual == Estados.APRESADO
+				|| this.estadoActual == Estados.MALDITO || this.estadoActual == Estados.DRENADORAS
+				|| this.estadoActual == Estados.CANTOMORTAL || this.estadoActual == Estados.CENTROATENCION
+				|| this.estadoActual == Estados.SOMNOLIENTO) {
+
 			this.setEstadoActual(Estados.SANO);
-			this.setTurnosEstadoRestantes(0); // reseteo contadotr 
-			
+			this.setTurnosEstadoRestantes(0); // reseteo contadotr
+
 			// se limpia el estado actual antes pero si tiene uno permantente se le pone
 			if (this.estadoActual == Estados.SANO && this.estadoPermanente != Estados.SANO) {
 				this.estadoActual = this.estadoPermanente;
 			}
 		}
 	}
-	
-/**
- * Metodo para cambiar el color de fonde respecto al tipo del pokemon que aparece
- * */
+
+	/**
+	 * Metodo para cambiar el color de fonde respecto al tipo del pokemon que
+	 * aparece
+	 */
 	public void cambiarColor() {
 		String tipo1 = getTipoPrincipal().toString();
 		if (tipo1.equals("ACERO")) {
@@ -780,26 +843,32 @@ public class Pokemon {
 			setColor(Color.BLACK);
 		}
 	}
-	
+
 	/**
-	 * Metodo que genera el sexo correcto para un Pokemon segun su numero de Pokedex.
-	 * Tiene en cuenta las especies que son 100% machos, 100% hembras o sin genero.
+	 * Metodo que genera el sexo correcto para un Pokemon segun su numero de
+	 * Pokedex. Tiene en cuenta las especies que son 100% machos, 100% hembras o sin
+	 * genero.
+	 * 
 	 * @param numPokedex El numero de la Pokedex del Pokemon a generar
 	 * @return El Sexo correspondiente (MACHO, HEMBRA o NEUTRO)
 	 */
 	public static Sexo generarSexoPokemon(int numPokedex) {
-		
+
 		// IDs de especies que SOLO pueden ser HEMBRAS
-		// (Nidoran F, Nidorina, Nidoqueen, Chansey, Kangaskhan, Jynx, Smoochum, Miltank, Blissey)
-		int[] soloHembras = {29, 30, 31, 113, 115, 124, 238, 241, 242};
+		// (Nidoran F, Nidorina, Nidoqueen, Chansey, Kangaskhan, Jynx, Smoochum,
+		// Miltank, Blissey)
+		int[] soloHembras = { 29, 30, 31, 113, 115, 124, 238, 241, 242 };
 
 		// IDs de especies que SOLO pueden ser MACHOS
-		// (Nidoran M, Nidorino, Nidoking, Hitmonlee, Hitmonchan, Tauros, Tyrogue, Hitmontop)
-		int[] soloMachos = {32, 33, 34, 106, 107, 128, 236, 237};
+		// (Nidoran M, Nidorino, Nidoking, Hitmonlee, Hitmonchan, Tauros, Tyrogue,
+		// Hitmontop)
+		int[] soloMachos = { 32, 33, 34, 106, 107, 128, 236, 237 };
 
 		// IDs de especies SIN GENERO (NEUTRO)
-		// (Magnemite, Magneton, Voltorb, Electrode, Staryu, Starmie, Ditto, Porygon, Porygon2, Unown y Legendarios)
-		int[] neutros = {81, 82, 100, 101, 120, 121, 132, 137, 233, 201, 144, 145, 146, 150, 151, 243, 244, 245, 249, 250, 251};
+		// (Magnemite, Magneton, Voltorb, Electrode, Staryu, Starmie, Ditto, Porygon,
+		// Porygon2, Unown y Legendarios)
+		int[] neutros = { 81, 82, 100, 101, 120, 121, 132, 137, 233, 201, 144, 145, 146, 150, 151, 243, 244, 245, 249,
+				250, 251 };
 
 		// comprobamos si el pokemon pertenece a la lista de Hembras
 		for (int id : soloHembras) {
@@ -829,6 +898,14 @@ public class Pokemon {
 		} else {
 			return Sexo.HEMBRA;
 		}
+	}
+
+	public Movimiento getMovimientoPendiente() {
+		return movimientoPendiente;
+	}
+
+	public void setMovimientoPendiente(Movimiento movimientoPendiente) {
+		this.movimientoPendiente = movimientoPendiente;
 	}
 
 }
