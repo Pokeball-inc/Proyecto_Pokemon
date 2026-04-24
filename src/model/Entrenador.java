@@ -64,7 +64,7 @@ public class Entrenador {
   /**
    * mochila con los objetos del entrenador
    */
-  private Objeto[] inventario;
+  private Inventario inventario;
   /**
    * para saber si es entrenador del juego o de un jugador
    */
@@ -94,14 +94,14 @@ public class Entrenador {
 	  this.cajaPokemon = new ArrayList<>();
 	  this.victorias = 0;
 	  this.derrotas = 0;
-	  this.inventario = new Objeto[50];
+	  this.inventario = new Inventario();
 	  this.esNPC = false;
 	  this.imgFrontalEntrenador = "";
 	  this.imgPosteriorEntrenador = "";
   };
   
   //Constructor todos los parametros
-  public Entrenador (int idEntrenador, String nombreEntrenador, String contrasena, Generos genero, String ciudadOrigen, long tiempoJuego, int pokedollares, Pokemon[] equipoPokemon, ArrayList<Pokemon> cajaPokemon, int victorias, int derrotas, Objeto[] inventario, boolean esNPC, String imgFrontalEntrenador, String imgPosteriorEntrenador) {
+  public Entrenador (int idEntrenador, String nombreEntrenador, String contrasena, Generos genero, String ciudadOrigen, long tiempoJuego, int pokedollares, Pokemon[] equipoPokemon, ArrayList<Pokemon> cajaPokemon, int victorias, int derrotas, Inventario inventario, boolean esNPC, String imgFrontalEntrenador, String imgPosteriorEntrenador) {
 	  super();
 	  this.idEntrenador = idEntrenador;
 	  this.nombreEntrenador = nombreEntrenador;
@@ -133,7 +133,7 @@ public class Entrenador {
 	  this.cajaPokemon = new ArrayList<>(e.cajaPokemon);
 	  this.victorias = e.victorias;
 	  this.derrotas = e.derrotas;
-	  this.inventario = e.inventario.clone();
+	  this.inventario = e.inventario;
 	  this.esNPC = e.esNPC;
 	  this.imgFrontalEntrenador = e.imgFrontalEntrenador;
 	  this.imgPosteriorEntrenador = e.imgPosteriorEntrenador;
@@ -232,11 +232,11 @@ public class Entrenador {
     return derrotas;
   }
 
-  public void setInventario (Objeto[] newVar) {
+  public void setInventario (Inventario newVar) {
     inventario = newVar;
   }
 
-  public Objeto[] getInventario () {
+  public Inventario getInventario () {
     return inventario;
   }
 
@@ -270,7 +270,7 @@ public class Entrenador {
 
   /**
    * metodo para mover los Pokemon desde el equipo a la caja
-   * @param  recibe el pokemon que se va a mover a la caja
+   * @param *recibe el pokemon que se va a mover a la caja
    */
   public void moverPokemonACaja(Pokemon pokemon) {
       // 1. Buscamos el Pokémon dentro del equipo
@@ -295,7 +295,7 @@ public class Entrenador {
 
   /**
    * metodo para mover los Pokemon desde la caja al equipo
-   * @param  recibe el pokemon que se va a mover al equipo
+   * @param  *recibe el pokemon que se va a mover al equipo
    */
   public void moverPokemonAEquipo(Pokemon pokemon) {
       // 1. Buscamos si hay un hueco libre en el equipo
@@ -460,7 +460,7 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
   
   /** logica cambiada en el controller
    * metodo para capturar Pokemon (CAPTURA)
-   * @param pokemon, reibe el pokemon a capturar
+   * @param *pokemon, reibe el pokemon a capturar
    * @param bolaLanzada, recibe el tipo de pokeball que se va a lanzar
    */
   public void capturarPokemon(Pokemon pokemonSalvaje, TipoPokeBall bolaLanzada)

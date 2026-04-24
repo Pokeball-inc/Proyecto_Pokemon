@@ -29,4 +29,13 @@ public class ObjetoInventario {
         this.cantidad = cantidad;
     }
 
+    // toString
+
+    @Override
+    public String toString() {
+        return "ObjetoInventario{" +
+                "objeto=" + objeto.getNombreObjeto() +
+                ", cantidad=" + cantidad +
+                '}';
+    }
 }

@@ -1,7 +1,6 @@
 package controller;
 
 import bd.ConexionBBDD;
-import dao.InventarioDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,18 +14,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
+import model.Entrenador;
+import model.Objeto;
+import model.ObjetosTotales;
+import model.Sesion;
 
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import static dao.InventarioDAO.cargarInventario;
 import static dao.InventarioDAO.cargarObjetosTotales;
 
 public class InventarioController implements Initializable {
@@ -57,24 +57,24 @@ public class InventarioController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Cargar objetos al entrar
-
         cargarObjetos();
 
+        cargarObjetosEntrenador();
     }
 
     /**
      * Method para generar las celdas de los objetos disponibles en la BBDD en la caja de objetos
      * Considero que este metodo es mejor, puesto que en función de si tienes o no el objeto, se verá
      * de una forma u de otra, además de que se tiene que ver el objeto y la cantidad de items, etc..,
-     * cosa que prefiero hacer directamente con el código */
+     * cosa que prefiero hacer directamente con el código
+     */
 
 
-    public void cargarObjetos () {
+    public void cargarObjetos() {
         try {
             // Limpiar la caja por si tenia algo antes
 
             cajaObjetos.getChildren().clear();
-
 
 
             // Instanciamos la conexion con la BBDD
@@ -83,10 +83,9 @@ public class InventarioController implements Initializable {
 
             this.con = conexion.getConexion();
             cargarObjetosTotales(con);
-
+            cargarInventario(entrenadorActual.getIdEntrenador(), con);
             cajaObjetos.setAlignment(Pos.TOP_LEFT);
             cajaObjetos.setPadding(new Insets(50, 40, 30, 60));
-
 
 
             for (Objeto o : ObjetosTotales.todosLosObjetos) {
@@ -107,32 +106,7 @@ public class InventarioController implements Initializable {
                                     "-fx-background-insets: 5px;"
                     );
 
-                    /**
-                     * Si la imagen es nula, entonces poner una imagen por defecto
-                     * */
-
-                    if (o.getImgObjeto().equals("vacio")){
-
-                        ImageView img = cargarImagen("vacio.png");
-                        celdaObjeto.setAlignment(Pos.CENTER);
-
-                        // Ahora añadir la vistaImagen a la celda
-
-                        celdaObjeto.getChildren().add(img);
-
-                        // Y añadir la celda a la caja de Objetos
-
-                        cajaObjetos.getChildren().addAll(celdaObjeto);
-
-                        continue;
-                    }
-
-                    /**
-                     * Caso contrario, se carga su imagen
-                     * */
-
                     ImageView img = cargarImagen(o.getImgObjeto());
-
 
                     // Ahora añadir la vistaImagen a la celda
 
@@ -140,14 +114,14 @@ public class InventarioController implements Initializable {
 
                     celdaObjeto.setOnMouseClicked(event -> {
                         try {
-                            System.out.println("Se ha clickeado en el objeto "+ o.getNombreObjeto());
+                            System.out.println("Se ha clickeado en el objeto " + o.getNombreObjeto());
 
                             // Method para cargar la información del objeto
 
                             cargarInfoObjeto(o);
 
                         } catch (Exception e) {
-                            System.out.println("Error al dar click en InventarioController: " +e.getMessage());
+                            System.out.println("Error al dar click en InventarioController: " + e.getMessage());
                         }
                     });
 
@@ -156,12 +130,12 @@ public class InventarioController implements Initializable {
                     cajaObjetos.getChildren().addAll(celdaObjeto);
 
 
-
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                }
+            }
 
+            cargarInfoObjeto(ObjetosTotales.todosLosObjetos.get(0));
 
 
         } catch (Exception e) {
@@ -169,9 +143,19 @@ public class InventarioController implements Initializable {
         }
     }
 
+    // Method para cargar la lista de objetos del entrenador
+
+    public void cargarObjetosEntrenador() {
+        try {
+            System.out.println(entrenadorActual.getInventario().toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     // Method para cargar la info del objeto clickeado en el panel
 
-    public void cargarInfoObjeto(Objeto objeto){
+    public void cargarInfoObjeto(Objeto objeto) {
 
         // Cambiar la imagen del ImageView al del objeto
 
@@ -196,15 +180,17 @@ public class InventarioController implements Initializable {
 
         // Luego pongo la cantidad, me falta conectar eso
 
-
-
     }
 
     // Method para cargar la imagen de un objeto, si ya me canse de repetir codigo xd
 
-    public ImageView cargarImagen(String rutaImagen){
+    public ImageView cargarImagen(String rutaImagen) {
 
+        if (rutaImagen.equals("vacio") || rutaImagen.equals("")) {
+            rutaImagen = "vacio.png";
+        }
         rutaImagen = "imgs/Inventario/objetos/" + rutaImagen;
+
 
         String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
         ImageView vistaImagen = new ImageView(new Image(rutaImagenAdaptada));

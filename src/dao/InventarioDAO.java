@@ -1,12 +1,11 @@
 package dao;
 
-import bd.ConexionBBDD;
-import model.Entrenador;
+import model.Inventario;
 import model.Objeto;
 import model.ObjetosTotales;
+import model.Sesion;
 
 import java.sql.*;
-import java.util.Random;
 
 public class InventarioDAO {
 
@@ -51,6 +50,61 @@ public class InventarioDAO {
         } catch (SQLException ex) {
             System.err.println("Error al cargar los objetos: " + ex.getMessage());
         }
+
     }
 
+    /**
+     * Method para cargar el inventario del Entrenador
+     */
+
+
+   public static void cargarInventario(int idEntrenador, Connection con) {
+
+        ///  Instanciar un nuevo Inventario
+        Inventario inventario = new Inventario();
+
+        /// Un select multitabla que sacará everything sobre los objetos y su cantidad que estén en el inventario
+       /// del entrenador
+
+        String sql ="SELECT o.*, i.CANTIDAD FROM inventario i " +
+               "JOIN objeto o ON i.ID_OBJETO = o.ID_OBJETO " +
+               "WHERE i.ID_ENTRENADOR = ?";
+        try {
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1,idEntrenador);
+            ResultSet rs = ps.executeQuery();
+
+
+            /// Ahora creamos objetos usando los resultados del select anterior, donde nos devolvía everything sobre
+            /// los objetos
+
+            while (rs.next()) {
+
+                Objeto obj = new Objeto(
+                        rs.getInt("ID_OBJETO"),
+                        rs.getString("NOM_OBJETO"),
+                        rs.getString("DESCRIPCION"),
+                        rs.getInt("PRECIO"),
+                        rs.getInt("STATS_BONUS"),
+                        rs.getInt("STATS_MALUS"),
+                        rs.getInt("PORCENTAJE_BONUS"),
+                        rs.getInt("PORCENTAJE_MALUS"),
+                        rs.getString("RUTAIMAGEN")
+                );
+                inventario.añadirObjeto(obj, rs.getInt("CANTIDAD"));
+            }
+
+            // Y aplicarselo al entrenador
+
+            Sesion.entrenadorLogueado.setInventario(inventario);
+
+        } catch (SQLException ex) {
+            System.err.println("Error al cargar los objetos: " + ex.getMessage());
+        }
+    }
 }
+
+
+
+
