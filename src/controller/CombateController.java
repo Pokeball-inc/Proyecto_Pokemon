@@ -155,7 +155,7 @@ public class CombateController implements Initializable {
     private Button btnPokemon6;
     
     @FXML 
-    private Button btnVolverCambio; //boton para cancelar el cambio
+    private ImageView btnVolverCambio; //boton para cancelar el cambio
 
     //Historial del Combate
     @FXML 
@@ -1083,43 +1083,34 @@ public class CombateController implements Initializable {
         animacionCompleta.play(); 
     }
     
-    //metodo comodin para volver al menu principal con una pequeña pausa
+    //metodo para volver a la pantalla de seleccion 
     private void volverAlMenuPrincipal(int segundosPausa) {
-        //bloqueamos controles para que el jugador no toque nada mientras sale
         controlesBloqueados = true;
         
-        //buscamos la ventana actual usando el panel principal como referencia
+        //usamos el panel principal para encontrar la ventana
         Stage ventanaActual = (Stage) panelMenuPrincipal.getScene().getWindow();
 
         PauseTransition pausaSalida = new PauseTransition(Duration.seconds(segundosPausa));
         pausaSalida.setOnFinished(e -> {
             try {
-                //cargar la vista principal 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+         
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
 
-                //cargar el css
-                String css = this.getClass().getResource("/view/principal/vistaPrincipal.css").toExternalForm();
+                //cargamos su css 
+                String css = this.getClass().getResource("/view/SeleccionCombate.css").toExternalForm();
                 scene.getStylesheets().add(css);
 
-                //titulo y bloquear tamaño
-                ventanaActual.setTitle("PokeINC - Principal");
+                ventanaActual.setTitle("PokeINC - Seleccion de Combate");
                 ventanaActual.setResizable(false);
 
-                //cargar icono
-                File file = new File("imgs/Login/Login-icon.png");
-                if (file.exists()) {
-                    String imagePath = file.toURI().toString();
-                    ventanaActual.getIcons().add(new Image(imagePath));
-                }
-
-                //cambiar la escena 
                 ventanaActual.setScene(scene);
                 ventanaActual.show();
 
             } catch (Exception ex) {
-                System.out.println("error al cambiar de ventana: " + ex.getMessage());
+                System.out.println("ERROR al volver a la seleccion: " + ex.getMessage());
+                ex.printStackTrace();
             }
         });
         
