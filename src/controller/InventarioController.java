@@ -3,6 +3,7 @@ package controller;
 import bd.ConexionBBDD;
 import dao.EntrenadorDAO;
 import dao.InventarioDAO;
+import dao.PokemonDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,9 +30,12 @@ import model.*;
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import static dao.InventarioDAO.*;
+import static dao.InventarioDAO.cargarInventario;
+import static dao.InventarioDAO.cargarObjetosTotales;
 
 public class InventarioController implements Initializable {
 
@@ -61,11 +64,27 @@ public class InventarioController implements Initializable {
     private Pane comprarObjeto;
     @FXML
     private Text textSaldo;
+    @FXML
+    private Pane panelDetalles;
+    @FXML
+    private javafx.scene.layout.Pane panelSeleccion;
+    @FXML
+    private javafx.scene.layout.TilePane contenedorPokemons;
+
 
     private Connection con;
+    private List<Pokemon> ListaPokemon = new ArrayList<>();
 
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        ConexionBBDD conexion = new ConexionBBDD();
+
+        this.con = conexion.getConexion();
+
+        // cargar los objetosTotales
+
+        cargarObjetosTotales(con);
 
         // Cargar objetos al entrar
         cargarObjetos();
@@ -87,15 +106,16 @@ public class InventarioController implements Initializable {
 
             cajaObjetos.getChildren().clear();
 
+
             textSaldo.setText(String.valueOf("Disponibles: " + entrenadorActual.getPokedollares()) + " Pd");
 
 
-            // Instanciamos la conexion con la BBDD
+            // Cargar los datos de los pokemons actualizados
 
-            ConexionBBDD conexion = new ConexionBBDD();
-
-            this.con = conexion.getConexion();
             cargarObjetosTotales(con);
+            PokemonDAO.obtenerPokemon(con, entrenadorActual, UbicacionPokemon.CAJA);
+            PokemonDAO.obtenerPokemon(con, entrenadorActual, UbicacionPokemon.EQUIPO);
+
             cargarInventario(entrenadorActual.getIdEntrenador(), con);
             cajaObjetos.setAlignment(Pos.TOP_LEFT);
             cajaObjetos.setPadding(new Insets(50, 40, 30, 60));
@@ -264,16 +284,129 @@ public class InventarioController implements Initializable {
 
                 mostrarAlerta("¡Error al comprar objeto!", "No tienes suficiente saldo para realizar esta compra",
                         "Saldo necesario: "+ String.valueOf(objeto.getPrecio()) + "\nTu saldo: " + String.valueOf(entrenadorActual.getPokedollares()), Alert.AlertType.WARNING );
-
-                /// Y mostrarlo
-
-
-
-
             }
         });
 
+
+        /// Evento de Mouse para equipar o desequipar un objeto
+
+        usarObjeto.setOnMouseClicked(event -> {
+           abrirPanelSeleccion(ListaPokemon, objeto);
+        });
+
+
+
+
     }
+
+
+
+
+
+
+    ///  Method para cargar un Panel donde salgan todos los pokemons
+    private void abrirPanelSeleccion(List<Pokemon> listaMostrar, Objeto objeto) {
+
+        // Cargar todos los pokemons
+
+        ListaPokemon.clear();
+        if (entrenadorActual.getEquipoPokemon() != null) {
+            for (Pokemon p : entrenadorActual.getEquipoPokemon()) {
+                if (p != null) ListaPokemon.add(p);
+            }
+        }
+        if (entrenadorActual.getCajaPokemon() != null) {
+            ListaPokemon.addAll(entrenadorActual.getCajaPokemon());
+        }
+
+        contenedorPokemons.getChildren().clear();
+
+        //Vaciamos lo que hubiera de antes en la cuadricula
+        contenedorPokemons.getChildren().clear();
+
+        //Por cada Pokemon en la lista, creamos su miniatura
+        for (Pokemon p : ListaPokemon) {
+            //Creamos una cajita vertical
+            javafx.scene.layout.VBox cajaPokemon = new javafx.scene.layout.VBox();
+            cajaPokemon.setAlignment(javafx.geometry.Pos.CENTER);
+            cajaPokemon.setSpacing(5);
+            //Efecto cristalizado para que parezca un boton
+            cajaPokemon.setStyle("-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 10; -fx-padding: 10; -fx-cursor: hand;");
+
+            //Creamos su imagen
+            ImageView imgPoke = new ImageView();
+            imgPoke.setFitHeight(80);
+            imgPoke.setFitWidth(80);
+            try {
+                // En función del Tipo de imagen que desee el usuario
+
+                String rutaImagen = "";
+
+                if (Sesion.vista2D) {
+
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + p.getImgFrontalPokemon();
+
+                } else {
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + p.getImgFrontalPokemon3D();
+                }
+
+                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                imgPoke.setImage(new Image(rutaImagenAdaptada));
+
+
+                ///  Ahora añadir que al darle click, se equipe o desequipe el objeto en cuestion
+
+                cajaPokemon.setOnMouseClicked(event -> {
+
+                    System.out.println("Has seleccionado a "+ p.getMotePokemon());
+
+                    if (p.getObjetoEquipado() != null) {
+                        System.out.println("Tiene equipado -> " + p.getObjetoEquipado().getNombreObjeto());
+                    } else {
+                        System.out.println("Objeto nulo");
+                    }
+
+                });
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            //Comprobamos si tiene mote, si no, usamos el nombre de la especie
+            String nombreAMostrar;
+            if (p.getMotePokemon() != null && !p.getMotePokemon().trim().isEmpty()) {
+                nombreAMostrar = p.getMotePokemon();
+            } else {
+                nombreAMostrar = p.getNombrePokemon();
+            }
+
+            //Creamos su nombre y nivel
+            Text txtNombre = new Text(nombreAMostrar + " (Nv." + p.getNivel() + ")");
+            txtNombre.setFill(javafx.scene.paint.Color.WHITE);
+
+            //Lo metemos todo en la cajita
+            cajaPokemon.getChildren().addAll(imgPoke, txtNombre);
+
+            //Añadimos la cajita a la cuadricula general
+            contenedorPokemons.getChildren().add(cajaPokemon);
+        }
+
+        //Mostramos el panel gigante y lo traemos al frente
+        panelSeleccion.setVisible(true);
+        panelSeleccion.toFront();
+    }
+
+
+    /**
+     * Boton/Accion para cerrar la caja de seleccion sin haber elegido ningun Pokemon.
+     * @param event El evento de raton
+     */
+    @FXML
+    public void cerrarSeleccion(MouseEvent event) {
+        panelSeleccion.setVisible(false);
+    }
+
+
 
     // Method para cargar la imagen de un objeto, si ya me canse de repetir codigo xd
 
@@ -295,7 +428,6 @@ public class InventarioController implements Initializable {
 
         return vistaImagen;
     }
-
 
     //Metodo para mostrar pop-up con mensajes
 
