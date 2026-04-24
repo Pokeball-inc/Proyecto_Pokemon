@@ -15,15 +15,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Entrenador;
-import model.Objeto;
-import model.ObjetosTotales;
-import model.Sesion;
+import model.*;
 
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static dao.InventarioDAO.cargarObjetosTotales;
@@ -39,8 +40,19 @@ public class InventarioController implements Initializable {
 
     @FXML
     private TilePane cajaObjetos;
+    @FXML
+    private ImageView fotoObjeto;
+    @FXML
+    private Text txtnombreObjeto;
+    @FXML
+    private Text txtcantidadObjeto;
+    @FXML
+    private Text txtPrecioObjeto;
+    @FXML
+    private Text txtDescObjeto;
 
     private Connection con;
+
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -100,33 +112,49 @@ public class InventarioController implements Initializable {
                      * */
 
                     if (o.getImgObjeto().equals("vacio")){
-                        System.out.println("Se ha generado un VBOX, pero la imagen es nula");
+
+                        ImageView img = cargarImagen("vacio.png");
+                        celdaObjeto.setAlignment(Pos.CENTER);
+
+                        // Ahora añadir la vistaImagen a la celda
+
+                        celdaObjeto.getChildren().add(img);
+
+                        // Y añadir la celda a la caja de Objetos
+
+                        cajaObjetos.getChildren().addAll(celdaObjeto);
+
+                        continue;
                     }
 
                     /**
                      * Caso contrario, se carga su imagen
                      * */
 
+                    ImageView img = cargarImagen(o.getImgObjeto());
 
-                    String rutaImagen = "";
-
-                    rutaImagen = "imgs/Inventario/objetos/" + o.getImgObjeto();
-                    System.out.println(rutaImagen);
-
-                    String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                    ImageView vistaImagen = new ImageView(new Image(rutaImagenAdaptada));
-
-                    vistaImagen.setFitWidth(96);
-                    vistaImagen.setFitHeight(96);
-                    vistaImagen.setPreserveRatio(false);
 
                     // Ahora añadir la vistaImagen a la celda
 
-                    celdaObjeto.getChildren().add(vistaImagen);
+                    celdaObjeto.getChildren().add(img);
+
+                    celdaObjeto.setOnMouseClicked(event -> {
+                        try {
+                            System.out.println("Se ha clickeado en el objeto "+ o.getNombreObjeto());
+
+                            // Method para cargar la información del objeto
+
+                            cargarInfoObjeto(o);
+
+                        } catch (Exception e) {
+                            System.out.println("Error al dar click en InventarioController: " +e.getMessage());
+                        }
+                    });
 
                     // Y añadir la celda a la caja de Objetos
 
                     cajaObjetos.getChildren().addAll(celdaObjeto);
+
 
 
                 } catch (Exception e) {
@@ -141,6 +169,53 @@ public class InventarioController implements Initializable {
         }
     }
 
+    // Method para cargar la info del objeto clickeado en el panel
+
+    public void cargarInfoObjeto(Objeto objeto){
+
+        // Cambiar la imagen del ImageView al del objeto
+
+        fotoObjeto.setImage(cargarImagen(objeto.getImgObjeto()).getImage());
+        fotoObjeto.setPreserveRatio(true);
+        fotoObjeto.setFitHeight(80);
+        fotoObjeto.setFitWidth(80);
+
+        // Ahora el nombre del objeto
+
+        txtnombreObjeto.setText(objeto.getNombreObjeto());
+
+        txtnombreObjeto.autosize();
+
+        // Ahora el precio del objeto
+
+        txtPrecioObjeto.setText(String.valueOf(objeto.getPrecio()));
+
+        // Ahora la descripción
+
+        txtDescObjeto.setText(objeto.getDescripcionObjeto());
+
+        // Luego pongo la cantidad, me falta conectar eso
+
+
+
+    }
+
+    // Method para cargar la imagen de un objeto, si ya me canse de repetir codigo xd
+
+    public ImageView cargarImagen(String rutaImagen){
+
+        rutaImagen = "imgs/Inventario/objetos/" + rutaImagen;
+
+        String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+        ImageView vistaImagen = new ImageView(new Image(rutaImagenAdaptada));
+
+        vistaImagen.setFitWidth(96);
+        vistaImagen.setFitHeight(96);
+        vistaImagen.setPreserveRatio(false);
+
+
+        return vistaImagen;
+    }
 
 
     //Boton de salir

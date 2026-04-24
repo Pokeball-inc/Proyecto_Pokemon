@@ -80,40 +80,80 @@ public class Objeto {
     this.porcentajeMalus = porcentajeMalus;
     this.imgObjeto = imgObjeto;
   }
-  //
-  // Methods
-  //
 
-  public void setIdObjeto (int newVar) {
-    idObjeto = newVar;
-  }
-
-  public int getIdObjeto () {
+  /**
+   * Getters y Setters
+   * */
+  public int getIdObjeto() {
     return idObjeto;
   }
 
-  public void setNombreObjeto (String newVar) {
-    nombreObjeto = newVar;
+  public void setIdObjeto(int idObjeto) {
+    this.idObjeto = idObjeto;
   }
 
-  public String getNombreObjeto () {
+  public String getNombreObjeto() {
     return nombreObjeto;
   }
 
-  public void setDescripcionObjeto (String newVar) {
-    descripcionObjeto = newVar;
+  public void setNombreObjeto(String nombreObjeto) {
+    this.nombreObjeto = nombreObjeto;
   }
 
-  public String getDescripcionObjeto () {
+  public String getDescripcionObjeto() {
     return descripcionObjeto;
   }
 
-  public void setImgObjeto (String newVar) {
-    imgObjeto = newVar;
+  public void setDescripcionObjeto(String descripcionObjeto) {
+    this.descripcionObjeto = descripcionObjeto;
   }
 
-  public String getImgObjeto () {
+  public int getPrecio() {
+    return precio;
+  }
+
+  public void setPrecio(int precio) {
+    this.precio = precio;
+  }
+
+  public int getStatsBonus() {
+    return statsBonus;
+  }
+
+  public void setStatsBonus(int statsBonus) {
+    this.statsBonus = statsBonus;
+  }
+
+  public int getStatsMalus() {
+    return statsMalus;
+  }
+
+  public void setStatsMalus(int statsMalus) {
+    this.statsMalus = statsMalus;
+  }
+
+  public int getPorcentajeBonus() {
+    return porcentajeBonus;
+  }
+
+  public void setPorcentajeBonus(int porcentajeBonus) {
+    this.porcentajeBonus = porcentajeBonus;
+  }
+
+  public int getPorcentajeMalus() {
+    return porcentajeMalus;
+  }
+
+  public void setPorcentajeMalus(int porcentajeMalus) {
+    this.porcentajeMalus = porcentajeMalus;
+  }
+
+  public String getImgObjeto() {
     return imgObjeto;
+  }
+
+  public void setImgObjeto(String imgObjeto) {
+    this.imgObjeto = imgObjeto;
   }
 
   //
@@ -129,5 +169,18 @@ public class Objeto {
   {
   }
 
-
+  @Override
+  public String toString() {
+    return "Objeto{" +
+            "idObjeto=" + idObjeto +
+            ", nombreObjeto='" + nombreObjeto + '\'' +
+            ", descripcionObjeto='" + descripcionObjeto + '\'' +
+            ", precio=" + precio +
+            ", statsBonus=" + statsBonus +
+            ", statsMalus=" + statsMalus +
+            ", porcentajeBonus=" + porcentajeBonus +
+            ", porcentajeMalus=" + porcentajeMalus +
+            ", imgObjeto='" + imgObjeto + '\'' +
+            '}';
+  }
 }
