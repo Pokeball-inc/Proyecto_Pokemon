@@ -168,7 +168,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="panelCambioPokemon" layoutX="573.0" layoutY="314.0" prefHeight="263.0" prefWidth="461.0" style="-fx-background-color: rgba(30, 30, 30, 0.75);">
+      <Pane fx:id="panelCambioPokemon" layoutX="573.0" layoutY="314.0" prefHeight="263.0" prefWidth="461.0" style="-fx-background-color: rgba(30, 30, 30, 0.75);" visible="false">
          <children>
             <Button fx:id="btnPokemon1" layoutX="32.0" layoutY="42.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn1" />
             <Button fx:id="btnPokemon3" layoutX="32.0" layoutY="102.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="boton-pokemon" text="pkmn3" />
