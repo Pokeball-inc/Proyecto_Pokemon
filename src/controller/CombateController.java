@@ -57,9 +57,9 @@ import model.Turno;
 public class CombateController implements Initializable {
 
     //Elementos vista
-	
-	@FXML
-	private ImageView fondoCombateAleatorio;
+    
+    @FXML
+    private ImageView fondoCombateAleatorio;
 
     //Pokemon del Jugador
     @FXML 
@@ -143,6 +143,12 @@ public class CombateController implements Initializable {
     @FXML 
     private ImageView btnHuir; //o rendirse
     
+    @FXML 
+    private ImageView estadoPokemonJugador;
+    
+    @FXML 
+    private ImageView estadoPokemonRival;
+    
     //menu de cambio de pokemon
     @FXML 
     private Pane panelCambioPokemon;
@@ -181,6 +187,10 @@ public class CombateController implements Initializable {
     
     private boolean controlesBloqueados = true; //bloquear botones 
     
+    ///Variables que Bloquean la vista para que no se adelante a la memoria de Java
+    private boolean vistaJugadorBloqueada = false;
+    private boolean vistaRivalBloqueada = false;
+    
 
     /**
      * inicializa la pantalla de combate. 
@@ -197,92 +207,112 @@ public class CombateController implements Initializable {
         rival = generarRivalAleatorio();
         
         //empezamos el combate 
-        
         combateActual.empezarCombate(jugador, rival);
+        
+        /// Obligamos a los menus a estar arriba del todo asi aunque el texto o las imagenes crezcan nunca tapan
+        if (panelMenuPrincipal != null) panelMenuPrincipal.toFront();
+        if (panelMenuAtaques != null) panelMenuAtaques.toFront();
+        if (panelCambioPokemon != null) panelCambioPokemon.toFront();
+        
+        ///hacemos invisibles al raton las imagenes para que nada tape los botones
+        if (imgPokemonJugador != null) imgPokemonJugador.setMouseTransparent(true);
+        if (imgPokemonRival != null) imgPokemonRival.setMouseTransparent(true);
+        if (txtLogCombate != null) txtLogCombate.setMouseTransparent(true);
+        if (estadoPokemonJugador != null) estadoPokemonJugador.setMouseTransparent(true);
+        if (estadoPokemonRival != null) estadoPokemonRival.setMouseTransparent(true);
+        if (imgSexoPkmnJugador != null) imgSexoPkmnJugador.setMouseTransparent(true);
+        if (imgSexoPkmnRival != null) imgSexoPkmnRival.setMouseTransparent(true);
         
         //arrancamos la animacion
         animacionEntrada(); 
-    }
-
+    } 
+    
     /**
-     * Refresca todos los textos, imágenes y barras de vida/estamina de la pantalla
-     * leyendo los datos actuales del modelo.
+     * Refresca todos los textos, imagenes y barras de vida de la pantalla
+     * leyendo los datos actuales del modelo. 
      */
     private void actualizarVista() {
-        Pokemon pJugador = combateActual.getPokemonActualJugador();
-        Pokemon pRival = combateActual.getPokemonActualRival();
-
-        //actualizar pantalla del jugador
-        if (pJugador != null) {
-            txtNombrePkmnJugador.setText(pJugador.getNombrePokemon());
-            txtNivelPkmnJugador.setText("Lv" + pJugador.getNivel());
-            txtVitalidadPkmnJugador.setText(pJugador.getVitalidad() + " / " + pJugador.getVitalidadMaxima());
-
-            double porcentajeVidaJugador = (double) pJugador.getVitalidad() / pJugador.getVitalidadMaxima();
-            if (porcentajeVidaJugador < 0) {
-                porcentajeVidaJugador = 0; 
-               
-            }
+        try {
+            Pokemon pJugador = combateActual.getPokemonActualJugador();
+            Pokemon pRival = combateActual.getPokemonActualRival();
             
-            String rutaJ = Sesion.vista2D ? pJugador.getImgPosteriorPokemon() : pJugador.getImgPosteriorPokemon3D();
-            if (rutaJ != null) {
-                File fileJ = new File(rutaJ);
-                if (fileJ.exists()) {
-                    imgPokemonJugador.setImage(new Image(fileJ.toURI().toString()));
+            ///Actualizar pantalla del jugador (Solo si no está bloqueada)
+            if (pJugador != null && vistaJugadorBloqueada == false) {
+                txtNombrePkmnJugador.setText(pJugador.getNombrePokemon());
+                txtNivelPkmnJugador.setText("Lv" + pJugador.getNivel());
+                txtVitalidadPkmnJugador.setText(pJugador.getVitalidad() + " / " + pJugador.getVitalidadMaxima());
+
+                double porcentajeVidaJugador = (double) pJugador.getVitalidad() / pJugador.getVitalidadMaxima();
+                if (porcentajeVidaJugador < 0) {
+                    porcentajeVidaJugador = 0; 
                 }
-            }
-            
-            barraVitalidadPkmnJugador.setProgress(porcentajeVidaJugador);
-            cambiarColorBarra(barraVitalidadPkmnJugador, porcentajeVidaJugador);
-
-            Movimiento[] ataques = pJugador.getMovimientos();
-            
-            if (ataques[0] != null) {
-                btnAtaque1.setText(ataques[0].getNombreMovimiento());
-            } else {
-                btnAtaque1.setText("-");
-            }
-            
-            if (ataques[1] != null) {
-                btnAtaque2.setText(ataques[1].getNombreMovimiento());
-            } else {
-                btnAtaque2.setText("-");
-            }
-            
-            if (ataques[2] != null) {
-                btnAtaque3.setText(ataques[2].getNombreMovimiento());
-            } else {
-                btnAtaque3.setText("-");
-            }
-            
-            if (ataques[3] != null) {
-                btnAtaque4.setText(ataques[3].getNombreMovimiento());
-            } else {
-                btnAtaque4.setText("-");
-            }
-        }
-
-        //actualizar pantalla del rival
-        if (pRival != null) {
-            txtNombrePkmnRival.setText(pRival.getNombrePokemon());
-            txtNivelPkmnRival.setText("Lv" + pRival.getNivel());
-            txtVitalidadPkmnRival.setText(pRival.getVitalidad() + " / " + pRival.getVitalidadMaxima());
-
-            double porcentajeVidaRival = (double) pRival.getVitalidad() / pRival.getVitalidadMaxima();
-            if (porcentajeVidaRival < 0) {
-                porcentajeVidaRival = 0;
-            }
-            
-            String rutaR = Sesion.vista2D ? pRival.getImgFrontalPokemon() : pRival.getImgFrontalPokemon3D();
-            if (rutaR != null) {
-                File fileR = new File(rutaR);
-                if (fileR.exists()) {
-                    imgPokemonRival.setImage(new Image(fileR.toURI().toString()));
+                
+                ///obtenemos la ruta de la base de datos segun la vista elegida
+                String rutaJ = "";
+                if (Sesion.vista2D == true) {
+                    rutaJ = pJugador.getImgPosteriorPokemon();
+                } else {
+                    rutaJ = pJugador.getImgPosteriorPokemon3D();
                 }
+                
+                ///cargamos la imagen del jugador con el prefijo base
+                if (rutaJ != null) {
+                    String prefijoBase = "imgs/Pokemons/sprites/crystal/transparent/";
+                    String rutaCompletaJ = prefijoBase + rutaJ;
+                    File fileJ = new File(rutaCompletaJ);
+                    
+                    if (fileJ.exists() == true) {
+                        imgPokemonJugador.setImage(new Image(fileJ.toURI().toString()));
+                    }
+                }
+                
+                barraVitalidadPkmnJugador.setProgress(porcentajeVidaJugador);
+                cambiarColorBarra(barraVitalidadPkmnJugador, porcentajeVidaJugador);
+
+                ///actualizamos los textos de los botones de ataque
+                Movimiento[] ataques = pJugador.getMovimientos();
+                
+                if (ataques[0] != null) { btnAtaque1.setText(ataques[0].getNombreMovimiento()); } else { btnAtaque1.setText("-"); }
+                if (ataques[1] != null) { btnAtaque2.setText(ataques[1].getNombreMovimiento()); } else { btnAtaque2.setText("-"); }
+                if (ataques[2] != null) { btnAtaque3.setText(ataques[2].getNombreMovimiento()); } else { btnAtaque3.setText("-"); }
+                if (ataques[3] != null) { btnAtaque4.setText(ataques[3].getNombreMovimiento()); } else { btnAtaque4.setText("-"); }
             }
-            
-            barraVitalidadPkmnRival.setProgress(porcentajeVidaRival);
-            cambiarColorBarra(barraVitalidadPkmnRival, porcentajeVidaRival);
+
+            ///Actualizar pantalla del rival (Solo si no está bloqueada)
+            if (pRival != null && vistaRivalBloqueada == false) {
+                txtNombrePkmnRival.setText(pRival.getNombrePokemon());
+                txtNivelPkmnRival.setText("Lv" + pRival.getNivel());
+                txtVitalidadPkmnRival.setText(pRival.getVitalidad() + " / " + pRival.getVitalidadMaxima());
+
+                double porcentajeVidaRival = (double) pRival.getVitalidad() / pRival.getVitalidadMaxima();
+                if (porcentajeVidaRival < 0) {
+                    porcentajeVidaRival = 0;
+                }
+                
+                ///obtenemos la ruta del rival segun la vista elegida
+                String rutaR = "";
+                if (Sesion.vista2D == true) {
+                    rutaR = pRival.getImgFrontalPokemon();
+                } else {
+                    rutaR = pRival.getImgFrontalPokemon3D();
+                }
+                
+                ///cargamos la imagen del rival con el prefijo base
+                if (rutaR != null) {
+                    String prefijoBase = "imgs/Pokemons/sprites/crystal/transparent/";
+                    String rutaCompletaR = prefijoBase + rutaR;
+                    File fileR = new File(rutaCompletaR);
+                    
+                    if (fileR.exists() == true) {
+                        imgPokemonRival.setImage(new Image(fileR.toURI().toString()));
+                    }
+                }
+                
+                barraVitalidadPkmnRival.setProgress(porcentajeVidaRival);
+                cambiarColorBarra(barraVitalidadPkmnRival, porcentajeVidaRival);
+            }
+        } catch (Exception e) {
+            System.out.println("Error silencioso en actualizarVista esquivado: " + e.getMessage());
         }
     }
 
@@ -313,18 +343,15 @@ public class CombateController implements Initializable {
             return;
         }
         if (btnLuchar != null) {
-        	btnLuchar.setScaleX(1.2);
+            btnLuchar.setScaleX(1.2);
             btnLuchar.setScaleY(1.2);
         }
     }
 
     @FXML
     private void disminuirTamañoBotonLuchar(MouseEvent event) {
-        if (controlesBloqueados == true) {
-            return;
-        }
         if (btnLuchar != null) {
-        	btnLuchar.setScaleX(1.0); 
+            btnLuchar.setScaleX(1.0); 
             btnLuchar.setScaleY(1.0);
         }
     }
@@ -336,42 +363,33 @@ public class CombateController implements Initializable {
             return;
         }
         if (btnCambiarPokemon != null) {
-        	btnCambiarPokemon.setScaleX(btnCambiarPokemon.getScaleX() + 0.2);
-        	btnCambiarPokemon.setScaleY(btnCambiarPokemon.getScaleY() + 0.2);
+            btnCambiarPokemon.setScaleX(btnCambiarPokemon.getScaleX() + 0.2);
+            btnCambiarPokemon.setScaleY(btnCambiarPokemon.getScaleY() + 0.2);
         }
     }
 
     @FXML
     private void disminuirTamañoBotonCambiarPokemon(MouseEvent event) {
-        if (controlesBloqueados == true) {
-            return;
-        }
         if (btnCambiarPokemon != null) {
-        	btnCambiarPokemon.setScaleX(btnCambiarPokemon.getScaleX() - 0.2);
-        	btnCambiarPokemon.setScaleY(btnCambiarPokemon.getScaleY() - 0.2);
+            btnCambiarPokemon.setScaleX(1.0);
+            btnCambiarPokemon.setScaleY(1.0);
         }
     }
     
-    //BOTON DESCANSAR
+  //BOTON DESCANSAR
     @FXML
     private void aumentarTamañoBotonDescansar(MouseEvent event) {
-        if (controlesBloqueados == true) {
-            return;
-        }
-        if (btnDescanso != null) {
-        	btnDescanso.setScaleX(btnDescanso.getScaleX() + 0.2);
-        	btnDescanso.setScaleY(btnDescanso.getScaleY() + 0.2);
+        if (controlesBloqueados == false && btnDescanso != null) {
+            btnDescanso.setScaleX(1.2); 
+            btnDescanso.setScaleY(1.2);
         }
     }
 
     @FXML
     private void disminuirTamañoBotonDescansar(MouseEvent event) {
-        if (controlesBloqueados == true) {
-            return;
-        }
         if (btnDescanso != null) {
-        	btnDescanso.setScaleX(btnDescanso.getScaleX() - 0.2);
-        	btnDescanso.setScaleY(btnDescanso.getScaleY() - 0.2);
+            btnDescanso.setScaleX(1.0); 
+            btnDescanso.setScaleY(1.0);
         }
     }
     
@@ -382,19 +400,16 @@ public class CombateController implements Initializable {
             return;
         }
         if (btnHuir != null) {
-        	btnHuir.setScaleX(btnHuir.getScaleX() + 0.2);
-        	btnHuir.setScaleY(btnHuir.getScaleY() + 0.2);
+            btnHuir.setScaleX(btnHuir.getScaleX() + 0.2);
+            btnHuir.setScaleY(btnHuir.getScaleY() + 0.2);
         }
     }
 
     @FXML
     private void disminuirTamañoBotonSalir(MouseEvent event) {
-        if (controlesBloqueados == true) {
-            return;
-        }
         if (btnHuir != null) {
-        	btnHuir.setScaleX(btnHuir.getScaleX() - 0.2);
-        	btnHuir.setScaleY(btnHuir.getScaleY() - 0.2);
+            btnHuir.setScaleX(1.0);
+            btnHuir.setScaleY(1.0);
         }
     }
     
@@ -456,11 +471,12 @@ public class CombateController implements Initializable {
 
     @FXML
     public void accionDescansar(MouseEvent event) {
+        
         if (controlesBloqueados == true) {
             return;
         }
         
-        //ocultamos menus para que no pueda pulsar nada mas
+        ///ocultamos menus para que no pueda pulsar nada mas mientras se cura
         panelMenuAtaques.setVisible(false);
         panelMenuPrincipal.setVisible(true);
         btnSalirMenuAtaque.setVisible(false);
@@ -468,23 +484,26 @@ public class CombateController implements Initializable {
         Pokemon pJugador = combateActual.getPokemonActualJugador();
         Pokemon pRival = combateActual.getPokemonActualRival();
         
-        //el jugador descansa
+        ///el jugador descansa
         pJugador.descansar();
         escribirLog("¡Tu " + pJugador.getNombrePokemon() + " se echa una siesta y recupera vitalidad!");
+        escribirLog("@UPDATE_VISTA@"); ///la barra sube para curarse justo despues del texto
         
-        //pasa turno y ataca el rival
+        ///el rival ataca en ese mismo turno
         Movimiento movRival = elegirAtaqueRival();
         escribirLog("¡El " + pRival.getNombrePokemon() + " rival aprovecha y usa " + movRival.getNombreMovimiento() + "!");
         
-        //usamos el metodo atacar para calcular y restar el daño
+        ///usamos el metodo atacar para calcular y restar el daño
         pRival.atacar(movRival, pJugador);
         
-        //comprobamos si el rival nos ha debilitado 
+        escribirLog("@UPDATE_VISTA@"); ///la barra vuelve a bajar por el daño del ataque
+        
+        ///comprobamos si el rival nos ha debilitado de ese golpe
         verificarMuertesYContinuar();
         
-        //pasamos de turno y refrescamos las barras de vida de la pantalla
-        numeroTurno++;
-        actualizarVista();
+        //pasamos de turno
+        numeroTurno = numeroTurno + 1;
+        
     }
     
     @FXML
@@ -504,119 +523,147 @@ public class CombateController implements Initializable {
     }
     
     @FXML
-    public void clicPkmn1(MouseEvent event) {
-    	System.out.println("¡Hice clic en el Pkmn 1!");
-    		 realizarCambio(0); }
+    public void clicPkmn1(MouseEvent event) { realizarCambio(0); }
 
     @FXML
-    public void clicPkmn2(MouseEvent event) {
-    	System.out.println("¡Hice clic en el Pkmn 1!");
-    		realizarCambio(1); }
+    public void clicPkmn2(MouseEvent event) { realizarCambio(1); }
 
     @FXML
-    public void clicPkmn3(MouseEvent event) { 
-    		realizarCambio(2); }
+    public void clicPkmn3(MouseEvent event) { realizarCambio(2); }
 
     @FXML
-    public void clicPkmn4(MouseEvent event) { 
-    		realizarCambio(3); }
+    public void clicPkmn4(MouseEvent event) { realizarCambio(3); }
 
     @FXML
-    public void clicPkmn5(MouseEvent event) { 
-    		realizarCambio(4); }
+    public void clicPkmn5(MouseEvent event) { realizarCambio(4); }
 
     @FXML
-    public void clicPkmn6(MouseEvent event) { 
-    		realizarCambio(5); }
+    public void clicPkmn6(MouseEvent event) { realizarCambio(5); }
     
-    //metodo central que ejecuta el cambio en la logica
+    /**
+     * Metodo central que ejecuta el cambio de Pokemon.
+     */
     private void realizarCambio(int indiceEquipo) {
+        
         Pokemon antiguoPokemon = combateActual.getPokemonActualJugador();
         
-        //intentamos hacer el cambio en el modelo pasandole el numero del hueco
+        /// Bajamos el telón del jugador
+        vistaJugadorBloqueada = true;
+        
+        ///intentamos hacer el cambio en el modelo pasandole el numero del hueco
         boolean cambioExitoso = combateActual.cambiarPokemonJugador(indiceEquipo);
         
-        //si la logica rechaza el cambio abortamos
+        ///si la logica rechaza el cambio abortamos
         if (cambioExitoso == false) {
+            vistaJugadorBloqueada = false;
             return;
         }
         
-        //recuperamos al nuevo pokemon para usar su nombre en los textos
+        ///recuperamos al nuevo Pokemon para usar su nombre en los textos
         Pokemon nuevoPokemon = combateActual.getPokemonActualJugador();
         
-        //si el pokemon anterior seguia vivo avisamos de que lo retiramos
+        ///si el Pokemon anterior seguia vivo avisamos de que lo retiramos
         if (antiguoPokemon.getVitalidad() > 0) {
             escribirLog("¡Vuelve, " + antiguoPokemon.getNombrePokemon() + "!");
+            escribirLog("@ANIM_JUGADOR_OUT@"); ///el Pokemon viejo se encoge
         }
         
         escribirLog("¡Adelante, " + nuevoPokemon.getNombrePokemon() + "!");
+        ///usamos el nuevo comando que sube el telon
+        escribirLog("@MOSTRAR_NUEVO_JUGADOR@"); 
         
-        //ocultamos el panel de cambio y volvemos al combate
+        ///ocultamos el panel de cambio y volvemos al combate
         panelCambioPokemon.setVisible(false);
         panelMenuPrincipal.setVisible(true);
         
-        //si el boton de volver era visible significa que el cambio fue manual (gastamos el turno)
+        ///si el bot0n de volver era visible significa que el cambio fue manual (gastamos el turno)
         if (btnVolverCambio.isVisible() == true) {
+            
             Movimiento movRival = elegirAtaqueRival();
             escribirLog("¡El " + combateActual.getPokemonActualRival().getNombrePokemon() + " rival aprovecha el cambio y usa " + movRival.getNombreMovimiento() + "!");
             
-            //el rival nos ataca al nuevo pokemon que acaba de salir
+            ///el rival nos ataca al nuevo pokemon que acaba de salir
             combateActual.getPokemonActualRival().atacar(movRival, nuevoPokemon);
             
-            //comprobamos si nos lo ha matado de un solo golpe al salir
+            escribirLog("@UPDATE_VISTA@"); //ordenamos que baje nuestra vida por el ataque recibido
+            
+            ///comprobamos si nos lo ha matado de un solo golpe al salir
             verificarMuertesYContinuar();
         }
-        
-        //actualizamos graficos
-        actualizarVista();
     }
 
     // ================= LÓGICA CENTRAL DEL COMBATE =================
 
     /**
-     * el corazon del combate. recibe el ataque elegido por el jugador,
-     * manda los ataques al modelo de combate y lee los resultados para la vista.
-     * @param indiceAtaque el numero del boton pulsado (del 1 al 4)
+     * El corazon del combate en la interfaz.
      */
     private void ejecutarTurno(int indiceAtaque) {
-        //volvemos a ocultar el panel de ataques automaticamente al elegir uno
+        
+        ///ocultamos el panel de ataques para que el jugador no pulse dos veces
         panelMenuAtaques.setVisible(false);
         panelMenuPrincipal.setVisible(true);
         btnSalirMenuAtaque.setVisible(false);
         
         Pokemon pJugador = combateActual.getPokemonActualJugador();
         
-        //le restamos 1 al numero que le pasamos para coger el ataque del array 
+        ///le restamos 1 para el indice del array
         Movimiento movJugador = pJugador.getMovimientos()[indiceAtaque - 1];
-
-        //validacion extra de seguridad por si el hueco del ataque esta vacio
+        
+        ///si no hay ataque en ese boton se aborta
         if (movJugador == null) {
             return; 
         }
 
-        //la ia elige su ataque aleatorio
+        ///el rival elige su ataque con la IA basica
         Movimiento movRival = elegirAtaqueRival();
-
-        // calculamos velocidad, estados, daño y llenaráa la lista de turnos
+        
+        ///averiguamos quien ataca primero para saber el orden de los textos
+        boolean jugadorVaPrimero = false;
+        if (pJugador.getVelocidad() >= combateActual.getPokemonActualRival().getVelocidad()) {
+            jugadorVaPrimero = true;
+        }
+        
+        ///clase Combate hace todos los calculos
         combateActual.procesarTurno(movJugador, movRival);
-
-        // leemos lo que ha pasado del historial 
+        
+        ///recuperamos el resultado
         Turno ultimo = combateActual.obtenerUltimoTurno();
+
+        ///metemos textos y animaciones en cola de mensajes
         if (ultimo != null) {
-            // añadimos a la cola de mensajes animados
-            escribirLog(ultimo.getAccionEntrenador());
-            escribirLog(ultimo.getAccionEntrenadorRival());
+            if (jugadorVaPrimero == true) {
+                if (ultimo.getAccionEntrenador() != null) {
+                    escribirLog(ultimo.getAccionEntrenador());
+                    escribirLog("@UPDATE_VISTA@"); 
+                }
+                
+                if (ultimo.getEstadoPokemon2() != null && !ultimo.getEstadoPokemon2().equals("KO") && 
+                    ultimo.getAccionEntrenadorRival() != null && !ultimo.getAccionEntrenadorRival().contains("debilitado")) {
+                    escribirLog(ultimo.getAccionEntrenadorRival());
+                    escribirLog("@UPDATE_VISTA@"); 
+                }
+            } else {
+                if (ultimo.getAccionEntrenadorRival() != null) {
+                    escribirLog(ultimo.getAccionEntrenadorRival());
+                    escribirLog("@UPDATE_VISTA@"); 
+                }
+                
+                if (ultimo.getEstadoPokemon1() != null && !ultimo.getEstadoPokemon1().equals("KO") && 
+                    ultimo.getAccionEntrenador() != null && !ultimo.getAccionEntrenador().contains("debilitado")) {
+                    escribirLog(ultimo.getAccionEntrenador());
+                    escribirLog("@UPDATE_VISTA@");
+                }
+            }
         }
 
-        //comprobamos si alguien ha caido debilitado tras el cruce
+        ///comprobamos si hay muertes para sacar al siguiente Pokemon
         verificarMuertesYContinuar();
-
-        //aumentar el contador de turnos y actualizar la pantalla visual
-        numeroTurno++;
-        actualizarVista();
+        
+        ///sumamos un turno al contador global
+        numeroTurno = numeroTurno + 1;
     }
     
-  //metodo para generar un rival aleatorio conectando con la bd
+    //metodo para generar un rival aleatorio conectando con la bd
     private Entrenador generarRivalAleatorio() {
         Entrenador rivalGenerado = new Entrenador();
         Random r = new Random();
@@ -789,105 +836,124 @@ public class CombateController implements Initializable {
     }
 
     /**
-     * revisa si algun pokemon ha muerto en este turno y gestiona los cambios.
+     * Revisa si algun pokemon ha muerto en este turno y gestiona los cambios.
      */
     private void verificarMuertesYContinuar() {
         Pokemon pJugador = combateActual.getPokemonActualJugador();
         Pokemon pRival = combateActual.getPokemonActualRival();
 
-        //comprobar si el jugador ha muerto tras el ataque
+        ///CASO 1 el jugador muere
         if (pJugador.getVitalidad() <= 0) {
-        	pJugador.setVitalidad(0);
-        	pJugador.setEstadoActual(Estados.DEBILITADO);
+            pJugador.setVitalidad(0);
+            pJugador.setEstadoActual(Estados.DEBILITADO);
+            
             escribirLog("¡Tu " + pJugador.getNombrePokemon() + " se ha debilitado!");
+            escribirLog("@ANIM_JUGADOR_OUT@"); ///encoge y desaparece
+            escribirLog("@BARRA_CERO_JUGADOR@");///vaciamos la barra sin cambiar los datos del pokemon 
             
             registrarEventoEspecial("debilitado1", "El jugador ha perdido a " + pJugador.getNombrePokemon());
             
-            //comprobamos si quedan vivos en el equipo
-            if (combateActual.puedeContinuar(true)) {
+            vistaJugadorBloqueada = true;
+            boolean podemosContinuar = combateActual.puedeContinuar(true);
+            
+            ///comprobamos si quedan vivos en el equipo
+            if (podemosContinuar == true) {
                 escribirLog("¡Te toca elegir a tu siguiente Pokémon!");
-                abrirMenuCambio(true);
+                escribirLog("@ABRIR_MENU_CAMBIO@"); ///usamos el comando en vez de abrirlo de golpe
             } else {
-                //si no quedan perdemos
+                ///si no quedan perdemos
+                vistaJugadorBloqueada = false;
                 combateActual.finalizarCombate();
                 escribirLog("¡Te has quedado sin Pokémon! Has perdido...");
                 
                 registrarEventoEspecial("finPierdeCombate", "El entrenador ha perdido el combate");
-                // actualizamos en bd
-                guardarProgresoBD();
-                // escondemos los paneles para que no ataque
-                panelMenuPrincipal.setVisible(false);
-                panelMenuAtaques.setVisible(false);
-                //volvemos al menu despues de 4s
-                volverAlMenuPrincipal(12);
+                escribirLog("@FIN_COMBATE@"); //este comando guarda en BD y vuelve al combate seleccion al final del texto
             }
         }
 
-        //comprobar si el rival ha muerto (ko)
+        ///CASO 2 el rival ha muerto
         if (pRival.getVitalidad() <= 0) {
-        	pRival.setVitalidad(0);
-        	pRival.setEstadoActual(Estados.DEBILITADO);
-            escribirLog("¡El " + pRival.getNombrePokemon() + " enemigo se ha debilitado!");
+            pRival.setVitalidad(0);
+            pRival.setEstadoActual(Estados.DEBILITADO);
             
-            /// guardamos los niveles de los popkemon
+            escribirLog("¡El " + pRival.getNombrePokemon() + " enemigo se ha debilitado!");
+            escribirLog("@ANIM_RIVAL_OUT@"); ///el rival encoge y desaparece
+            escribirLog("@BARRA_CERO_RIVAL@");///vaciamos la barra sin cambiar los datos del pokemon
+            
+            ///guardamos los niveles de los pokemon
             int[] nivelesAntes = new int[6];
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i = i + 1) {
                 Pokemon p = jugador.getEquipoPokemon()[i];
                 if (p != null) {
                     nivelesAntes[i] = p.getNivel();
                 }
             }
             
-            // mostrar xp ganada
-            for (Pokemon miPkmn : jugador.getEquipoPokemon()) {
-                if (miPkmn != null && miPkmn.getVitalidad() > 0) {
-                    int expGanada = (miPkmn.getNivel() + (pRival.getNivel() * 10)) / 4;
-                    escribirLog(miPkmn.getNombrePokemon() + " ha ganado " + expGanada + " puntos de EXP.");
-                }
-            }
+            vistaRivalBloqueada = true;
             
-            registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
-            // ---------------------------
-            
-            // guardamos el resultado del boolean en una variable porque reparte la exp
-            boolean rivalTieneMas = combateActual.puedeContinuar(false);
-            
-            // comprobamos si suben de nivel y tiene ataques pendientes
-            for (int i = 0; i < 6; i++) {
-                Pokemon p = jugador.getEquipoPokemon()[i];
-                if (p != null && p.getNivel() > nivelesAntes[i]) {
-                    escribirLog("¡" + p.getNombrePokemon() + " ha subido al nivel " + p.getNivel() + "!");
-                    
-                    // si al subir de nivel se le ha quedado un ataque pendiente salta la ventana
-                    if (p.getMovimientoPendiente() != null) {
-                        gestionarAprendizajeMovimiento(p);
+            ///mostrar xp ganada
+            for (int i = 0; i < 6; i = i + 1) {
+                Pokemon miPkmn = jugador.getEquipoPokemon()[i];
+                if (miPkmn != null) {
+                    if (miPkmn.getVitalidad() > 0) {
+                        int expGanada = (miPkmn.getNivel() + (pRival.getNivel() * 10)) / 4;
+                        escribirLog(miPkmn.getNombrePokemon() + " ha ganado " + expGanada + " puntos de EXP.");
                     }
                 }
             }
             
-            //si muere, el rival saca otro (el metodo puedecontinuar ya suma el ko)
-            if (rivalTieneMas) {
-                escribirLog("¡El rival ha enviado a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
+            registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
+   
+            ///buscamos al siguiente pokemon sin decirle al programa que lo cambie todavia para que la vista antigua no se rompa
+            boolean rivalTieneMas = false;
+            Pokemon pokemonSiguiente = null; 
+            
+            for (int i = 0; i < 6; i = i + 1) {
+                Pokemon p = rival.getEquipoPokemon()[i];
+                if (p != null) {
+                    if (p.getVitalidad() > 0) {
+                        if (p != pRival) { ///ignoramos al que acaba de morir
+                            rivalTieneMas = true;
+                            pokemonSiguiente = p;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            ///comprobamos si suben de nivel y tiene ataques pendientes
+            for (int i = 0; i < 6; i = i + 1) {
+                Pokemon p = jugador.getEquipoPokemon()[i];
+                if (p != null) {
+                    if (p.getNivel() > nivelesAntes[i]) {
+                        escribirLog("¡" + p.getNombrePokemon() + " ha subido al nivel " + p.getNivel() + "!");
+                        
+                        ///si al subir de nivel se le ha quedado un ataque pendiente salta la ventana
+                        if (p.getMovimientoPendiente() != null) {
+                            gestionarAprendizajeMovimiento(p);
+                        }
+                    }
+                }
+            }
+          
+            ///si muere el rival saca otro
+            if (rivalTieneMas == true) {
+                escribirLog("¡El rival ha enviado a " + pokemonSiguiente.getNombrePokemon() + "!");
+                escribirLog("@MOSTRAR_NUEVO_RIVAL@"); 
             } else {
-                //si no le quedan ganamos (6 kos), finalizamos
+                vistaRivalBloqueada = false;
                 combateActual.finalizarCombate();
                 escribirLog("¡Has ganado el combate! No le quedan Pokémon al rival.");
                 
                 registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
-                // actualizamos en bd
-                guardarProgresoBD();
-                // escondemos los paneles para que no ataque
-                panelMenuPrincipal.setVisible(false);
-                panelMenuAtaques.setVisible(false);
-                //volvemos al menu despues de 4s
-                volverAlMenuPrincipal(30);
+                escribirLog("@FIN_COMBATE@"); //este comando guarda en BD y sale
             }
         }
-        actualizarVista();
+        
     }
     
     /**
-     *  metodo para registrar eventos que no son ataques (muertes, fin de combate) en el historial
+     * metodo para registrar eventos que no son ataques (muertes, fin de combate) en el historial
      */
     private void registrarEventoEspecial(String tipoEvento, String descripcion) {
         Turno evento = new Turno();
@@ -914,73 +980,223 @@ public class CombateController implements Initializable {
         procesarColaMensajes();
     }
 
+   
     /**
-     * Máquina de escribir: Coge el primer mensaje de la cola, limpia la pantalla 
-     * y lo escribe letra a letra.
+     * Máquina de escribir con comandos visuales.
      */
     private void procesarColaMensajes() {
-        //si ya hay un mensaje escribiendose en pantalla, paramos.
         if (escribiendoMensaje == true) {
             return;
         }
         
-        //si la fila de mensajes esta vacia la animacion ha acabado y devolvemos el control
         if (colaMensajes.isEmpty()) {
             controlesBloqueados = false; 
+            if (txtLogCombate != null) {
+                txtLogCombate.setText(""); 
+            }
             return;
         }
 
-        //si hay mensajes bloqueamos los controles y empezamos a escribir
         controlesBloqueados = true; 
         escribiendoMensaje = true; 
         String mensajeActual = colaMensajes.poll(); 
 
-        if (txtLogCombate != null) {
-            txtLogCombate.setText(""); //esto vacia el texto anterior
-
-            // Un contador para saber por que letra vamos
-            final int[] indiceLetra = {0}; 
-            
-            //creamos la animacion que se repetira por cada letra
-            Timeline animacionTexto = new Timeline();
-            
-            KeyFrame frame = new KeyFrame(
-                //velocidad letras: 30 milisegundos
-                Duration.millis(30), 
-                evento -> {
-                    //escribimos la letra exacta en la que estamos
-                	String textoActual = txtLogCombate.getText();
-                    txtLogCombate.setText(textoActual + mensajeActual.charAt(indiceLetra[0]));
-                    indiceLetra[0]++;
-                }
-            );
-
-            animacionTexto.getKeyFrames().add(frame);
-            animacionTexto.setCycleCount(mensajeActual.length()); //repetir tantas veces como letras 
-
-            //se termina de escribir la frase
-            animacionTexto.setOnFinished(e -> {
-                //esperamos 1.5s para que el jugador lo lea
-                PauseTransition pausaLectura = new PauseTransition(Duration.seconds(1.5));
-                pausaLectura.setOnFinished(eventoPausa -> {
-                    //desbloqueamos y llamamos al siguiente mensaje
-                    escribiendoMensaje = false;
-                    procesarColaMensajes(); 
-                });
-                pausaLectura.play();
-            });
-
-            animacionTexto.play(); //iniciar la animacion
-            
-        } else {
-            //log de seguridad por consola
-            System.out.println(mensajeActual);
+        ///si el mensaje esta vacio lo saltamos para no romper el reloj
+        if (mensajeActual == null || mensajeActual.trim().isEmpty() == true) {
             escribiendoMensaje = false;
+            procesarColaMensajes();
+            return;
+        }
+
+        try {
+            ///SISTEMA DE COMANDOS PARA SINCRONIZAR ANIMACIONES Y TEXTO
+            if (mensajeActual.startsWith("@")) {
+                
+                switch (mensajeActual) {
+                    
+                    case "@MOSTRAR_NUEVO_RIVAL@":
+                        try { combateActual.puedeContinuar(false); } catch (Exception ex) { } 
+                        vistaRivalBloqueada = false;
+                        actualizarVista();
+                        
+                        imgPokemonRival.setVisible(true); 
+                        imgPokemonRival.setScaleX(0); 
+                        imgPokemonRival.setScaleY(0);
+                        
+                        txtNombrePkmnRival.setVisible(true);
+                        txtNivelPkmnRival.setVisible(true);
+                        txtVitalidadPkmnRival.setVisible(true);
+                        barraVitalidadPkmnRival.setVisible(true);
+                        if (imgSexoPkmnRival != null) { imgSexoPkmnRival.setVisible(true); }
+                        
+                        ScaleTransition stInR = new ScaleTransition(Duration.seconds(0.5), imgPokemonRival);
+                        stInR.setToX(1); stInR.setToY(1);
+                        stInR.setOnFinished(e -> { 
+                            escribiendoMensaje = false; 
+                            procesarColaMensajes(); 
+                        });
+                        stInR.play();
+                        return;
+
+                    case "@MOSTRAR_NUEVO_JUGADOR@":
+                        vistaJugadorBloqueada = false;
+                        actualizarVista();
+                        
+                        imgPokemonJugador.setVisible(true); 
+                        imgPokemonJugador.setScaleX(0); 
+                        imgPokemonJugador.setScaleY(0);
+                        
+                        txtNombrePkmnJugador.setVisible(true);
+                        txtNivelPkmnJugador.setVisible(true);
+                        txtVitalidadPkmnJugador.setVisible(true);
+                        barraVitalidadPkmnJugador.setVisible(true);
+                        if (imgSexoPkmnJugador != null) { imgSexoPkmnJugador.setVisible(true); }
+                        
+                        ScaleTransition stInJ = new ScaleTransition(Duration.seconds(0.5), imgPokemonJugador);
+                        stInJ.setToX(1); stInJ.setToY(1);
+                        stInJ.setOnFinished(e -> { 
+                            escribiendoMensaje = false; 
+                            procesarColaMensajes(); 
+                        });
+                        stInJ.play();
+                        return;
+
+                    case "@UPDATE_VISTA@":
+                        actualizarVista();
+                        escribiendoMensaje = false; 
+                        procesarColaMensajes();
+                        return;   
+                    
+                    case "@ENTRENADORES_IN@":
+                        ///los entrenadores se mueven de los lados al centro
+                        TranslateTransition inJ = new TranslateTransition(Duration.seconds(1), imgEntrenadorJugador); 
+                        inJ.setToX(0);
+                        TranslateTransition inR = new TranslateTransition(Duration.seconds(1), imgEntrenadorRival); 
+                        inR.setToX(0);
+                        
+                        ParallelTransition entrada = new ParallelTransition(inJ, inR);
+                        entrada.setOnFinished(e -> {
+                            escribiendoMensaje = false; 
+                            procesarColaMensajes();
+                        });
+                        entrada.play();
+                        return;
+                        
+                    case "@ENTRENADORES_OUT@":
+                        TranslateTransition outJ = new TranslateTransition(Duration.seconds(1), imgEntrenadorJugador); 
+                        outJ.setToX(-400);
+                        TranslateTransition outR = new TranslateTransition(Duration.seconds(1), imgEntrenadorRival); 
+                        outR.setToX(400);
+                        
+                        ParallelTransition salida = new ParallelTransition(outJ, outR);
+                        salida.setOnFinished(e -> {
+                            imgEntrenadorJugador.setVisible(false); 
+                            imgEntrenadorRival.setVisible(false);
+                            escribiendoMensaje = false; 
+                            procesarColaMensajes();
+                        });
+                        salida.play();
+                        return;
+                        
+                    case "@ANIM_RIVAL_OUT@":
+                        ScaleTransition stOutR = new ScaleTransition(Duration.seconds(0.5), imgPokemonRival);
+                        stOutR.setToX(0); stOutR.setToY(0);
+                        stOutR.setOnFinished(e -> { 
+                            imgPokemonRival.setVisible(false); 
+                            escribiendoMensaje = false; 
+                            procesarColaMensajes(); 
+                        });
+                        stOutR.play();
+                        return;
+                        
+                    case "@ANIM_JUGADOR_OUT@":
+                        ScaleTransition stOutJ = new ScaleTransition(Duration.seconds(0.5), imgPokemonJugador);
+                        stOutJ.setToX(0); stOutJ.setToY(0);
+                        stOutJ.setOnFinished(e -> { 
+                            imgPokemonJugador.setVisible(false); 
+                            escribiendoMensaje = false; 
+                            procesarColaMensajes(); 
+                        });
+                        stOutJ.play();
+                        return;
+                        
+                    case "@BARRA_CERO_JUGADOR@":
+                        barraVitalidadPkmnJugador.setProgress(0);
+                        txtVitalidadPkmnJugador.setText("0");
+                        escribiendoMensaje = false; 
+                        procesarColaMensajes();
+                        return;
+                        
+                    case "@BARRA_CERO_RIVAL@":
+                        barraVitalidadPkmnRival.setProgress(0);
+                        txtVitalidadPkmnRival.setText("0");
+                        escribiendoMensaje = false; 
+                        procesarColaMensajes();
+                        return;
+                        
+                    case "@ABRIR_MENU_CAMBIO@":
+                        abrirMenuCambio(true);
+                        escribiendoMensaje = false; 
+                        procesarColaMensajes();
+                        return;
+                        
+                    case "@FIN_COMBATE@":
+                        guardarProgresoBD();
+                        panelMenuPrincipal.setVisible(false); 
+                        panelMenuAtaques.setVisible(false);
+                        volverAlMenuPrincipal(5);
+                        escribiendoMensaje = false;
+                        return;
+                }
+            }
+            
+            ///si no es un comando escribimos texto en la pantalla
+            if (txtLogCombate != null) {
+                
+                txtLogCombate.setText(""); //vaciamos el texto anterior
+                final int[] indiceLetra = {0}; 
+                
+                Timeline animacionTexto = new Timeline(); 
+                KeyFrame frame = new KeyFrame(  
+                    Duration.millis(30), 
+                    evento -> {
+                        try {
+                            String textoActual = txtLogCombate.getText();
+                            txtLogCombate.setText(textoActual + mensajeActual.charAt(indiceLetra[0]));
+                            indiceLetra[0] = indiceLetra[0] + 1; 
+                        } catch(Exception ex) {}
+                    }
+                );
+
+                animacionTexto.getKeyFrames().add(frame);
+                animacionTexto.setCycleCount(mensajeActual.length()); 
+
+                animacionTexto.setOnFinished(e -> {
+                    PauseTransition pausaLectura = new PauseTransition(Duration.seconds(1.5));
+                    pausaLectura.setOnFinished(eventoPausa -> {
+                        escribiendoMensaje = false;
+                        procesarColaMensajes(); 
+                    });
+                    pausaLectura.play();
+                });
+
+                animacionTexto.play(); 
+                
+            } else {
+                System.out.println(mensajeActual);
+                escribiendoMensaje = false;
+                procesarColaMensajes();
+            }
+        } catch (Exception e) {
+            System.out.println("Crasheo evitado en la maquina de comandos: " + e.getMessage());
+            escribiendoMensaje = false;
+            ///forzamos el desbloqueo si ocurre algun error interno
+            controlesBloqueados = false; 
             procesarColaMensajes();
         }
     }
     
-  //boton de salir
+  //boton de salir a seleccion combate 
     @FXML
     public void combateSalir(MouseEvent event) {
         if (controlesBloqueados == true) {
@@ -996,7 +1212,7 @@ public class CombateController implements Initializable {
         btnSalirMenuAtaque.setVisible(false);
 
         try {
-            //si el combate sigue en curso y el jugador sale, cuenta como retirada
+            //si el combate sigue en curso y el jugador sale cuenta como retirada
             if (combateActual != null && combateActual.getPokemonKOEntrenador() < 6 && combateActual.getPokemonKORival() < 6) {
                 combateActual.retirarse(); //pierde 1/3 de su dinero
                 
@@ -1007,7 +1223,7 @@ public class CombateController implements Initializable {
             //mandamos el mensaje a la pantalla
             escribirLog("¡Has huido del combate! Pierdes algo de dinero por el panico...");
 
-            //guardamos la referencia a la ventana actual antes de la pausa para luego continuar en el mismo sitio despues de la pausa
+            //guardamos la referencia a la ventana actual antes de la pausa
             Stage ventanaActual = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             //creamos una pausa de 3 segundos para que de tiempo a leer el texto de huida
@@ -1017,7 +1233,7 @@ public class CombateController implements Initializable {
                     System.out.println("cargando la vista principal tras huir...");
 
                     //cargar la vista principal 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate.fxml"));
                     Parent root = loader.load();
                     Scene scene = new Scene(root);
 
@@ -1056,103 +1272,62 @@ public class CombateController implements Initializable {
     }
     
     /**
-     * Realiza la animacion de entrada de los entrenadores estilo RPG clasico.
-     * Los entrenadores entran, hacen su pose (GIF), se retiran y aparecen los Pokemon.
+     * Orden de entrada tipo pokemon clasico sincronizado con el texto.
      */
     private void animacionEntrada() {
-        //pokemon ocultos y entrenadores visibles
+        
+        ///los pokemon empiezan invisibles y encogidos
         imgPokemonJugador.setVisible(false);
         imgPokemonRival.setVisible(false);
+        imgPokemonJugador.setScaleX(0);
+        imgPokemonJugador.setScaleY(0);
+        imgPokemonRival.setScaleX(0);
+        imgPokemonRival.setScaleY(0);
+        
+        ///ocultamos todos los elementos de las cajas de informacion
+        txtNombrePkmnJugador.setVisible(false);
+        txtNivelPkmnJugador.setVisible(false);
+        txtVitalidadPkmnJugador.setVisible(false);
+        barraVitalidadPkmnJugador.setVisible(false);
+        if (imgSexoPkmnJugador != null) { 
+        		imgSexoPkmnJugador.setVisible(false); 
+        	}
+
+        txtNombrePkmnRival.setVisible(false);
+        txtNivelPkmnRival.setVisible(false);
+        txtVitalidadPkmnRival.setVisible(false);
+        barraVitalidadPkmnRival.setVisible(false);
+        if (imgSexoPkmnRival != null) { 
+        		imgSexoPkmnRival.setVisible(false); 
+        	}
+
+        ///los entrenadores empiezan visibles fuera de la pantalla
         imgEntrenadorJugador.setVisible(true);
         imgEntrenadorRival.setVisible(true);
-
-        //desplazamos entrenadores fuera para que vengan de ahi
-        imgEntrenadorJugador.setTranslateX(-400); //izquierda
-        imgEntrenadorRival.setTranslateX(400);    //derecha
-
-        //ENTRADA
-        //movemos el jugador hacia la posición 0  en 1 segundo
-        TranslateTransition entradaJugador = new TranslateTransition(Duration.seconds(1), imgEntrenadorJugador);
-        entradaJugador.setToX(0);
-
-        //movemos el rival hacia la posición 0 en 1 segundo
-        TranslateTransition entradaRival = new TranslateTransition(Duration.seconds(1), imgEntrenadorRival);
-        entradaRival.setToX(0);
-
-        //ParallelTransition agrupa animaciones para que ocurran a la vez 
-        ParallelTransition entrada = new ParallelTransition(entradaJugador, entradaRival);
-
-        //pausa gif entrenador rival
-        //le damos 1.5 segundos para que termine el gesto
-        PauseTransition pausaGif = new PauseTransition(Duration.seconds(1.5));
-
-        //SALIDA
-        //el jugador se va hacia atrás por la izquierda (-400 px)
-        TranslateTransition salidaJugador = new TranslateTransition(Duration.seconds(1), imgEntrenadorJugador);
-        salidaJugador.setToX(-400); 
-
-        //el rival se va hacia atrás por la derecha (+400 px)
-        TranslateTransition salidaRival = new TranslateTransition(Duration.seconds(1), imgEntrenadorRival);
-        salidaRival.setToX(400);
-
-        ParallelTransition salida = new ParallelTransition(salidaJugador, salidaRival);
-
-        //terminan de salir por pantalla
-        salida.setOnFinished(evento -> {
-            //escondemos a los entrenadores
-            imgEntrenadorJugador.setVisible(false);
-            imgEntrenadorRival.setVisible(false);
-
-            //hacemos a los pokemon enanos antes de sacarlos (efecto pokeball)
-            imgPokemonJugador.setScaleX(0);
-            imgPokemonJugador.setScaleY(0);
-            imgPokemonRival.setScaleX(0);
-            imgPokemonRival.setScaleY(0);
-
-            //ahora los hacemos visibles 
-            imgPokemonJugador.setVisible(true);
-            imgPokemonRival.setVisible(true);
-
-            //animacion como salir de pokeball
-            ScaleTransition scaleJugador = new ScaleTransition(Duration.seconds(0.5), imgPokemonJugador);
-            scaleJugador.setToX(1);
-            scaleJugador.setToY(1);
-
-            ScaleTransition scaleRival = new ScaleTransition(Duration.seconds(0.5), imgPokemonRival);
-            scaleRival.setToX(1);
-            scaleRival.setToY(1);
-
-            //agrupamos para que ambos crezcan a la vez
-            ParallelTransition aparicionPokemons = new ParallelTransition(scaleJugador, scaleRival);
-
-            //cuando terminan lanzamos los textos a la cola
-            aparicionPokemons.setOnFinished(eventoPokemons -> {
-                escribirLog("¡Un combate aleatorio ha comenzado!");
-                escribirLog("¡Nos enfrentamos a " + rival.getNombreEntrenador() + " no podemos fallar!"); // ahora no es Misco
-                
-                if (combateActual.getPokemonActualRival() != null) {
-                    escribirLog("¡El rival saca a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
-                } else {
-                    escribirLog("ERROR: ¡El rival no tiene Pokémon en su equipo!");
-                }
-                
-                if (combateActual.getPokemonActualJugador() != null) {
-                    escribirLog("¡Ve, " + combateActual.getPokemonActualJugador().getNombrePokemon() + "!");
-                } else {
-                    escribirLog("ERROR: ¡No tienes Pokémon sanos en tu equipo!");
-                }
-                
-                //al actualizar la vista aqui las barras de vida apareceran con el color correcto
-                actualizarVista();
-            });
-
-            //arrancamos la animacion de crecimiento de pokeball
-            aparicionPokemons.play();
-        });
-
-        //juntarlo todo(Entrada -> Pausa -> Salida)
-        SequentialTransition animacionCompleta = new SequentialTransition(entrada, pausaGif, salida);
-        animacionCompleta.play(); 
+        imgEntrenadorJugador.setTranslateX(-400); ///izquierda
+        imgEntrenadorRival.setTranslateX(400);    ///derech
+        
+        ///primero el texto inicial
+        escribirLog("¡Un combate aleatorio ha comenzado!"); 
+        escribirLog("@ENTRENADORES_IN@"); 
+        escribirLog("¡Nos enfrentamos a " + rival.getNombreEntrenador() + " no podemos fallar!"); 
+        escribirLog("@ENTRENADORES_OUT@"); 
+        
+        ///TURNO RIVAL
+        if (combateActual.getPokemonActualRival() != null) {
+            escribirLog("¡El rival saca a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
+            escribirLog("@MOSTRAR_NUEVO_RIVAL@"); 
+        } else {
+            escribirLog("ERROR: ¡El rival no tiene Pokémon en su equipo!");
+        }
+        
+        //TURNO NUESTRO
+        if (combateActual.getPokemonActualJugador() != null) {
+            escribirLog("¡Ve, " + combateActual.getPokemonActualJugador().getNombrePokemon() + "!");
+            escribirLog("@MOSTRAR_NUEVO_JUGADOR@"); 
+        } else {
+            escribirLog("ERROR: ¡No tienes Pokémon sanos en tu equipo!");
+        }
     }
     
     //metodo para volver a la pantalla de seleccion 
@@ -1166,12 +1341,12 @@ public class CombateController implements Initializable {
         pausaSalida.setOnFinished(e -> {
             try {
          
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
 
                 //cargamos su css 
-                URL urlCss = this.getClass().getResource("/view/principal/vistaPrincipal.css");
+                URL urlCss = this.getClass().getResource("/view/.css");
                 if (urlCss != null) {
                     // si lo encuentra lo aplica
                     scene.getStylesheets().add(urlCss.toExternalForm());
@@ -1196,59 +1371,68 @@ public class CombateController implements Initializable {
     }
     
     /**
-     * abre el menu para elegir a un nuevo pokemon.
-     * @param obligatorio true si nuestro pokemon ha muerto y no podemos cancelar el cambio
+     * Abre el menu lateral para elegir a un nuevo Pokemon.
+     * @param obligatorio true si nuestro Pokemon ha muerto y no podemos cancelar el cambio
      */
     private void abrirMenuCambio(boolean obligatorio) {
-        //ocultamos los otros menus y mostramos este
+        
+        ///ocultamos los otros menus y mostramos este
         panelMenuPrincipal.setVisible(false);
         panelMenuAtaques.setVisible(false);
         panelCambioPokemon.setVisible(true);
         
-        //si es obligatorio cambiar porque nos han matado ocultamos el boton de volver
+        ///si es obligatorio cambiar ocultamos el boton de volver
         if (obligatorio == true) {
             btnVolverCambio.setVisible(false);
         } else {
             btnVolverCambio.setVisible(true);
         }
         
-        //metemos los botones en un array para recorrerlos facil
+        ///metemos los botones en un array para recorrerlos
         Button[] botonesEquipo = {btnPokemon1, btnPokemon2, btnPokemon3, btnPokemon4, btnPokemon5, btnPokemon6};
         Pokemon[] miEquipo = jugador.getEquipoPokemon();
         
-        //recorremos los 6 huecos
-        for (int i = 0; i < 6; i++) {
+        ///recorremos los 6 huecos de nuestro equipo
+        for (int i = 0; i < 6; i = i + 1) {
+            
             if (miEquipo[i] != null) {
                 Pokemon p = miEquipo[i];
                 
-                //creamos la imagen en pequeñito
+                ///intentamos cargar la imagen frontal para hacer el icono
                 String rutaImagen = p.getImgFrontalPokemon();
+                
                 if (rutaImagen != null) {
-                    File imgFile = new File(rutaImagen);
-                    if (imgFile.exists()) {
+                    //aplicamos el prefijo base para encontrar la carpeta imgs correctamente
+                    String prefijoBase = "imgs/Pokemons/sprites/crystal/transparent/";
+                    String rutaIcono = prefijoBase + rutaImagen;
+                    File imgFile = new File(rutaIcono);
+                    
+                    if (imgFile.exists() == true) {
                         ImageView icono = new ImageView(new Image(imgFile.toURI().toString()));
-                        //forzamos el tamaño para que sea un icono
+                        
+                        ///forzamos el tamaño para que sea un icono pequeño
                         icono.setFitWidth(40); 
                         icono.setFitHeight(40);
                         icono.setPreserveRatio(true);
                         
-                        //le ponemos la imagen al boton
+                        ///e ponemos la imagen al boton
                         botonesEquipo[i].setGraphic(icono);
                     }
                 }
                 
-                //escribimos el nombre y la vida separados por un salto de linea (\n)
+                ///escribimos el nombre y la vida 
                 botonesEquipo[i].setText(p.getNombrePokemon() + "\nPS: " + p.getVitalidad() + " / " + p.getVitalidadMaxima());
                 botonesEquipo[i].setVisible(true);
                 
-                //si esta debilitado o ya esta luchando deshabilitamos el boton
+                ///si esta debilitado o es el que ya esta luchando desactivamos el boton para no poder pulsarlo
                 if (p.getVitalidad() <= 0 || p == combateActual.getPokemonActualJugador()) {
                     botonesEquipo[i].setDisable(true);
                 } else {
                     botonesEquipo[i].setDisable(false);
                 }
+                
             } else {
-                //si el hueco del equipo esta vacio ocultamos el boton
+                ///si el hueco del equipo esta vacio ocultamos el boton
                 botonesEquipo[i].setVisible(false);
             }
         }
@@ -1282,7 +1466,7 @@ public class CombateController implements Initializable {
     
     
     /**
-     * Lanza una ventana emergente para elegir qué ataque olvidar
+     * Lanza una ventana emergente para elegir que ataque olvidar
      */
     private void gestionarAprendizajeMovimiento(Pokemon p) {
         Movimiento nuevoMov = p.getMovimientoPendiente();
@@ -1351,27 +1535,4 @@ public class CombateController implements Initializable {
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
