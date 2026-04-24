@@ -310,5 +310,45 @@ public class PokemonDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	//metodo para recuperar un pokemon base directamente de la pokedex
+		public static Pokemon obtenerPokemonDesdePokedex(Connection con, int numPokedex) {
+			Pokemon p = new Pokemon();
+			String sql = "SELECT * FROM POKEDEX WHERE NUM_POKEDEX = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(1, numPokedex);
+				ResultSet rs = ps.executeQuery();
+				
+				if (rs.next()) {
+					p.setNumPokedex(rs.getInt("NUM_POKEDEX"));
+					p.setNombrePokemon(rs.getString("NOM_POKEMON"));
+					
+					//leemos los tipos de la pokedex
+					p.setTipoPrincipal(Tipos.valueOf(rs.getString("TIPO1").trim().toUpperCase()));
+					String tipo2Bd = rs.getString("TIPO2");
+					if (tipo2Bd != null) {
+						p.setTipoSecundario(Tipos.valueOf(tipo2Bd.trim().toUpperCase()));
+					}
+					
+					//leemos las imagenes 2d y 3d
+					p.setImgFrontalPokemon(rs.getString("IMG_FRONTAL"));
+					p.setImgPosteriorPokemon(rs.getString("IMG_TRASERA"));
+					p.setImgFrontalPokemon3D(rs.getString("IMG_FRONTAL3D"));
+					p.setImgPosteriorPokemon3D(rs.getString("IMG_TRASERA3D"));
+					
+					//shiny
+					p.setImgShinyFrontal(rs.getString("IMG_SHINY_FRONTAL"));
+					p.setImgShinyPosterior(rs.getString("IMG_SHINY_TRASERA"));
+					p.setImgShinyFrontal3D(rs.getString("IMG_SHINY_FRONTAL3D"));
+					p.setImgShinyPosterior3D(rs.getString("IMG_SHINY_TRASERA3D"));
+
+					return p;
+				}
+			} catch (Exception e) {
+				System.out.println("ERROR al buscar pokemon en la pokedex: " + e.getMessage());
+			}
+			return null;
+		}
 
 }
