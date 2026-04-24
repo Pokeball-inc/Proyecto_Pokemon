@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -17,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
@@ -40,6 +43,7 @@ import javafx.animation.ScaleTransition;
 
 import bd.ConexionBBDD;
 import dao.CapturaDao;
+import dao.MovimientoDAO;
 import dao.PokemonDAO;
 import model.Combate;
 import model.Entrenador;
@@ -48,6 +52,7 @@ import model.Movimiento;
 import model.Pokemon;
 import model.Sesion;
 import model.Turno;
+
 
 public class CombateController implements Initializable {
 
@@ -824,9 +829,18 @@ public class CombateController implements Initializable {
         	pRival.setEstadoActual(Estados.DEBILITADO);
             escribirLog("¡El " + pRival.getNombrePokemon() + " enemigo se ha debilitado!");
             
+            /// guardamos los niveles de los popkemon
+            int[] nivelesAntes = new int[6];
+            for (int i = 0; i < 6; i++) {
+                Pokemon p = jugador.getEquipoPokemon()[i];
+                if (p != null) {
+                    nivelesAntes[i] = p.getNivel();
+                }
+            }
+            
             // mostrar xp ganada
             for (Pokemon miPkmn : jugador.getEquipoPokemon()) {
-                if (miPkmn != null) {
+                if (miPkmn != null && miPkmn.getVitalidad() > 0) {
                     int expGanada = (miPkmn.getNivel() + (pRival.getNivel() * 10)) / 4;
                     escribirLog(miPkmn.getNombrePokemon() + " ha ganado " + expGanada + " puntos de EXP.");
                 }
@@ -835,8 +849,24 @@ public class CombateController implements Initializable {
             registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
             // ---------------------------
             
+            // guardamos el resultado del boolean en una variable porque reparte la exp
+            boolean rivalTieneMas = combateActual.puedeContinuar(false);
+            
+            // comprobamos si suben de nivel y tiene ataques pendientes
+            for (int i = 0; i < 6; i++) {
+                Pokemon p = jugador.getEquipoPokemon()[i];
+                if (p != null && p.getNivel() > nivelesAntes[i]) {
+                    escribirLog("¡" + p.getNombrePokemon() + " ha subido al nivel " + p.getNivel() + "!");
+                    
+                    // si al subir de nivel se le ha quedado un ataque pendiente salta la ventana
+                    if (p.getMovimientoPendiente() != null) {
+                        gestionarAprendizajeMovimiento(p);
+                    }
+                }
+            }
+            
             //si muere, el rival saca otro (el metodo puedecontinuar ya suma el ko)
-            if (combateActual.puedeContinuar(false)) {
+            if (rivalTieneMas) {
                 escribirLog("¡El rival ha enviado a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
             } else {
                 //si no le quedan ganamos (6 kos), finalizamos
@@ -1251,7 +1281,76 @@ public class CombateController implements Initializable {
     
     
     
-    
+    /**
+     * Lanza una ventana emergente para elegir qué ataque olvidar
+     */
+    private void gestionarAprendizajeMovimiento(Pokemon p) {
+        Movimiento nuevoMov = p.getMovimientoPendiente();
+        if (nuevoMov == null) return; // si no hay nada pendiente no hacemos nada
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("¡Aprender nuevo movimiento!");
+        alerta.setHeaderText(p.getNombrePokemon() + " quiere aprender " + nuevoMov.getNombreMovimiento() + ".\nPero ya conoce 4 movimientos. ¿Deseas olvidar uno?");
+
+        // creamos los botones con los nombres de los 4 ataques actuales
+        ButtonType btn1 = new ButtonType("Olvidar " + p.getMovimientos()[0].getNombreMovimiento());
+        ButtonType btn2 = new ButtonType("Olvidar " + p.getMovimientos()[1].getNombreMovimiento());
+        ButtonType btn3 = new ButtonType("Olvidar " + p.getMovimientos()[2].getNombreMovimiento());
+        ButtonType btn4 = new ButtonType("Olvidar " + p.getMovimientos()[3].getNombreMovimiento());
+        ButtonType btnCancelar = new ButtonType("No aprender", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        // Los metemos en la alerta
+        alerta.getButtonTypes().setAll(btn1, btn2, btn3, btn4, btnCancelar);
+
+        // Mostramos la ventana y esperamos a que el jugador haga clic
+        Optional<ButtonType> resultado = alerta.showAndWait();
+
+        // comprobamos que se pulsa
+        if (resultado.isPresent()) {
+            int idMovViejo = -1; // guardaremos ID del ataque a sustituir
+
+            if (resultado.get() == btn1) {
+                idMovViejo = p.getMovimientos()[0].getIdMovimiento();
+                escribirLog("1, 2 y... ¡Puf! Olvidó " + p.getMovimientos()[0].getNombreMovimiento() + " y aprendió " + nuevoMov.getNombreMovimiento() + ".");
+                p.reemplazarMovimiento(0, nuevoMov);
+                
+            } else if (resultado.get() == btn2) {
+                idMovViejo = p.getMovimientos()[1].getIdMovimiento();
+                escribirLog("1, 2 y... ¡Puf! Olvidó " + p.getMovimientos()[1].getNombreMovimiento() + " y aprendió " + nuevoMov.getNombreMovimiento() + ".");
+                p.reemplazarMovimiento(1, nuevoMov);
+                
+            } else if (resultado.get() == btn3) {
+                idMovViejo = p.getMovimientos()[2].getIdMovimiento();
+                escribirLog("1, 2 y... ¡Puf! Olvidó " + p.getMovimientos()[2].getNombreMovimiento() + " y aprendió " + nuevoMov.getNombreMovimiento() + ".");
+                p.reemplazarMovimiento(2, nuevoMov);
+                
+            } else if (resultado.get() == btn4) {
+                idMovViejo = p.getMovimientos()[3].getIdMovimiento();
+                escribirLog("1, 2 y... ¡Puf! Olvidó " + p.getMovimientos()[3].getNombreMovimiento() + " y aprendió " + nuevoMov.getNombreMovimiento() + ".");
+                p.reemplazarMovimiento(3, nuevoMov);
+                
+            } else {
+                p.setMovimientoPendiente(null); // si se cancela no lo aprende
+                escribirLog(p.getNombrePokemon() + " no aprendió " + nuevoMov.getNombreMovimiento() + ".");
+            }
+            
+            // si borramos un ataque lo actualizamos en la bg
+            if (idMovViejo != -1) {
+                try {
+                    ConexionBBDD conector = new ConexionBBDD();
+                    Connection con = conector.getConexion();
+                    
+                    // instanciamos  y actualizamos
+                    MovimientoDAO movDao = new MovimientoDAO(con);
+                    movDao.cambiarMovimientoBD(p.getIdPokemon(), idMovViejo, nuevoMov);
+                    
+                    con.close();
+                } catch (Exception e) {
+                    System.out.println("Error de conexión al guardar el ataque: " + e.getMessage());
+                }
+            }
+        }
+    }
     
     
     

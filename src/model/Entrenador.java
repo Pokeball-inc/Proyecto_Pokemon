@@ -278,6 +278,14 @@ public class Entrenador {
               p.setVitalidad(p.getVitalidadMaxima());
               p.setEstadoActual(model.Estados.SANO);
               p.setTurnosEstadoRestantes(0);
+           // restauramos los PP de todos sus movimientos
+              if (p.getMovimientos() != null) {
+                  for (Movimiento m : p.getMovimientos()) {
+                      if (m != null) {
+                          m.setCantidadMovimientos(15); 
+                      }
+                  }
+              }
           }
       }
       System.out.println("¡Tu equipo ha sido curado por completo!");

@@ -233,4 +233,24 @@ public class MovimientoDAO implements IMovimientoDAO {
 	        e.printStackTrace();
 	    }
 	}
+	
+	/**
+     * reemplaza un movimiento viejo por uno nuevo en la tabla SET_MOVIMIENTOS
+     */
+    public void cambiarMovimientoBD(int idPokemon, int idMovimientoViejo, Movimiento nuevoMovimiento) {
+        // actualizamos el ID del movimiento y le ponemos los PP al máximo
+        String sql = "UPDATE SET_MOVIMIENTOS SET ID_MOVIMIENTO = ?, PP = ? WHERE ID_POKEMON = ? AND ID_MOVIMIENTO = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, nuevoMovimiento.getIdMovimiento());
+            ps.setInt(2, nuevoMovimiento.getCantidadMovimientos()); 
+            ps.setInt(3, idPokemon);
+            ps.setInt(4, idMovimientoViejo);
+            
+            ps.executeUpdate();
+            System.out.println("BD: Movimiento actualizado con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al cambiar movimiento en BD: " + e.getMessage());
+        }
+    }
 }
