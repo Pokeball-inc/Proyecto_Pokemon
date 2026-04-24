@@ -170,7 +170,7 @@ public class Combate {
    * @param e, el entrenador,jugador o rival
    * @return el primer Pokemon con vitalidad > 0
    */
-  private Pokemon buscarPrimerPokemonVivo(Entrenador e) {
+	public Pokemon buscarPrimerPokemonVivo(Entrenador e) {
       // recorremos el array de 6 pokemon del equipo
       for (Pokemon p : e.getEquipoPokemon()) {
           // si el hueco no está vacio y el pokemon tiene más de 0 de vida

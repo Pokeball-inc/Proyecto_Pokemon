@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import bd.ConexionBBDD;
 import dao.PokemonDAO;
+import model.Combate;
 import model.Entrenador;
 import model.Pokemon;
 import model.Sesion;
@@ -115,7 +116,20 @@ public class SeleccionCombateController implements Initializable {
 	 */
 	@FXML
 	private void clickAccesoLiga(MouseEvent event) {
-		// Por ahora lo dejamos vacio o con un log para probar que funciona
+		Combate verificador = new Combate();
+		
+		// si devuelve null es que no hay pokemon vivos y no deja entrar
+        if (verificador.buscarPrimerPokemonVivo(Sesion.entrenadorLogueado) == null) {
+            
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("¡Cuidado!");
+            alerta.setHeaderText("Tu equipo no puede luchar");
+            alerta.setContentText("¡Todos tus Pokémon están debilitados! Ve a curarlos antes de buscar problemas.");
+            alerta.showAndWait();
+            
+            return; 
+        }
+        	// empezamos el try catch para cargar la vista
 		System.out.println("Clic detectado: Cambiando a la Liga (Proximamente)");
 
 		
@@ -127,6 +141,20 @@ public class SeleccionCombateController implements Initializable {
 	 */
 		@FXML
 		private void clickAccesoCombateAleatorio(MouseEvent event) {
+			Combate verificador = new Combate();
+			
+		// si devuelve null es que no hay pokemon vivos y no deja entrar
+        if (verificador.buscarPrimerPokemonVivo(Sesion.entrenadorLogueado) == null) {
+            
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("¡Cuidado!");
+            alerta.setHeaderText("Tu equipo no puede luchar");
+            alerta.setContentText("¡Todos tus Pokémon están debilitados! Ve a curarlos antes de buscar problemas.");
+            alerta.showAndWait();
+            
+            return; 
+        }
+        	// empezamos el try catch para cargar la vista
 			try {
 				System.out.println("Cargando la vista de combate...");
 
