@@ -808,6 +808,8 @@ public class CombateController implements Initializable {
                 escribirLog("¡Te has quedado sin Pokémon! Has perdido...");
                 
                 registrarEventoEspecial("finPierdeCombate", "El entrenador ha perdido el combate");
+                // actualizamos en bd
+                guardarProgresoBD();
                 //volvemos al menu despues de 4s
                 volverAlMenuPrincipal(4);
             }
@@ -831,6 +833,8 @@ public class CombateController implements Initializable {
                 escribirLog("¡Has ganado el combate! No le quedan Pokémon al rival.");
                 
                 registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
+                // actualizamos en bd
+                guardarProgresoBD();
                 //volvemos al menu despues de 4s
                 volverAlMenuPrincipal(4);
             }
@@ -951,6 +955,9 @@ public class CombateController implements Initializable {
             //si el combate sigue en curso y el jugador sale, cuenta como retirada
             if (combateActual != null && combateActual.getPokemonKOEntrenador() < 6 && combateActual.getPokemonKORival() < 6) {
                 combateActual.retirarse(); //pierde 1/3 de su dinero
+                
+             // actualizamos en bd
+                guardarProgresoBD();
             }
 
             //mandamos el mensaje a la pantalla
@@ -1196,4 +1203,56 @@ public class CombateController implements Initializable {
             }
         }
     }
+    
+    /**
+     * metodo para guardar el estado actual del equipo del jugador en la bd
+     */
+    private void guardarProgresoBD() {
+        System.out.println("Guardando progreso en la base de datos...");
+        try {
+            // abrimos la conexión
+            ConexionBBDD conector = new bd.ConexionBBDD();
+            Connection con = conector.getConexion();
+            
+            // recorremos nuestro equipo y actualizamos cada Pokémon
+            for (Pokemon p : jugador.getEquipoPokemon()) {
+                if (p != null) {
+                    PokemonDAO.actualizarStatsBD(con, p);
+                }
+            }
+            
+            con.close();
+            System.out.println("¡Progreso guardado correctamente!");
+            
+        } catch (Exception e) {
+            System.out.println("ERROR al guardar el progreso en la BD: " + e.getMessage());
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
