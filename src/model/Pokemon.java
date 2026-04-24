@@ -33,8 +33,7 @@ public class Pokemon {
 	 */
 	private String motePokemon;
 	/**
-	 * 
-	 * vitalidad del Pokemon
+	 * * vitalidad del Pokemon
 	 */
 
 	private int vitalidad;
@@ -43,8 +42,7 @@ public class Pokemon {
 	private int vitalidadMaxima;
 
 	/**
-	 * 
-	 * ataque del Pokemon
+	 * * ataque del Pokemon
 	 */
 
 	private int ataque;
@@ -65,8 +63,7 @@ public class Pokemon {
 	 */
 	private int velocidad;
 	/**
-	 * 
-	 * nivel del Pokemon
+	 * * nivel del Pokemon
 	 */
 
 	private int nivel = 1;
@@ -125,6 +122,7 @@ public class Pokemon {
 	 * indica el origen del Pokemon, si es crianza o captura
 	 */
 	private String origen;
+	
 	/**
 	 * el spray de la imagen frontal del pokemon
 	 */
@@ -141,6 +139,23 @@ public class Pokemon {
 	 * la imagen del spray del Pokemon por detras en 3D
 	 */
 	private String imgPosteriorPokemon3D;
+	/**
+	 * la imagen del spray del Pokemon shiny frontal
+	 */
+	private String imgShinyFrontal;
+	/**
+	 * la imagen del spray del Pokemon shiny frontal en 3D
+	 */
+	private String imgShinyFrontal3D;
+	/**
+	 * la imagen del spray del Pokemon shiny por detras
+	 */
+	private String imgShinyPosterior;
+	/**
+	 * la imagen del spray del Pokemon shiny por detras en 3D
+	 */
+	private String imgShinyPosterior3D;
+
 	/**
 	 * El nivel de que necesita el pokemon para evolucionar
 	 */
@@ -191,8 +206,7 @@ public class Pokemon {
 
 	/**
 	 * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad maxima en caso de curarse
-	 * 
-	 * */
+	 * * */
 	public void setVitalidad(int newVar) {
 		// Si intentamos curar más del máximo, se queda en el máximo
 		if (newVar > this.vitalidadMaxima) {
@@ -212,9 +226,9 @@ public class Pokemon {
 
 	public int getAtaque() {
 		// Quemado: su ataque se reduce a la mitad
-	    if (this.estadoActual == Estados.QUEMADO) {
-	        return this.ataque / 2;
-	    }
+		if (this.estadoActual == Estados.QUEMADO) {
+			return this.ataque / 2;
+		}
 		return ataque;
 	}
 
@@ -232,9 +246,9 @@ public class Pokemon {
 
 	public int getAtaqueEspecial() {
 		// Helado: su ataque especial se reduce a la mitad
-	    if (this.estadoActual == Estados.HELADO) {
-	        return this.ataqueEspecial / 2;
-	    }
+		if (this.estadoActual == Estados.HELADO) {
+			return this.ataqueEspecial / 2;
+		}
 		return ataqueEspecial;
 	}
 
@@ -247,15 +261,14 @@ public class Pokemon {
 	}
 
 	public void setVelocidad(int newVar) {
-		
 		velocidad = newVar;
 	}
 
 	public int getVelocidad() {
 		// Paralizado: su velocidad se reduce a la mitad
-	    if (this.estadoActual == Estados.PARALIZADO) {
-	        return this.velocidad / 2;
-	    }
+		if (this.estadoActual == Estados.PARALIZADO) {
+			return this.velocidad / 2;
+		}
 		return velocidad;
 	}
 
@@ -411,6 +424,38 @@ public class Pokemon {
 		return imgPosteriorPokemon3D;
 	}
 
+	public String getImgShinyFrontal() {
+		return imgShinyFrontal;
+	}
+
+	public void setImgShinyFrontal(String imgShinyFrontal) {
+		this.imgShinyFrontal = imgShinyFrontal;
+	}
+
+	public String getImgShinyFrontal3D() {
+		return imgShinyFrontal3D;
+	}
+
+	public void setImgShinyFrontal3D(String imgShinyFrontal3D) {
+		this.imgShinyFrontal3D = imgShinyFrontal3D;
+	}
+
+	public String getImgShinyPosterior() {
+		return imgShinyPosterior;
+	}
+
+	public void setImgShinyPosterior(String imgShinyPosterior) {
+		this.imgShinyPosterior = imgShinyPosterior;
+	}
+
+	public String getImgShinyPosterior3D() {
+		return imgShinyPosterior3D;
+	}
+
+	public void setImgShinyPosterior3D(String imgShinyPosterior3D) {
+		this.imgShinyPosterior3D = imgShinyPosterior3D;
+	}
+
 	public void setNivelEvolucion(int newVar) {
 		nivelEvolucion = newVar;
 	}
@@ -445,27 +490,27 @@ public class Pokemon {
 	 * @param recibe un nit con la cantidad de experiencia que gana
 	 */
 	public void ganarExperiencia(int puntos) {
-	    // sumamos la experiencia nueva a la que ya teniamos
-	    this.setExperiencia(this.getExperiencia() + puntos);
+		// sumamos la experiencia nueva a la que ya teniamos
+		this.setExperiencia(this.getExperiencia() + puntos);
 
-	    // calculamos cuanto necesita para subir (10 * nivel actual)
-	    int expNecesaria = 10 * this.getNivel();
+		// calculamos cuanto necesita para subir (10 * nivel actual)
+		int expNecesaria = 10 * this.getNivel();
 
-	    // comprobamos si ha llegado al limite para subir de nivel
-	    // usamos un while por si gana tanta experiencia que sube varios niveles de golpe
-	    while (this.getExperiencia() >= expNecesaria) {
-	        
-	        // restamos la experiencia consumida para subir este nivel
-	        this.setExperiencia(this.getExperiencia() - expNecesaria);
-	        
-	        // llamamos al metodo que ya teniamos para aumentar los stats y el nivel
-	        this.subirNivel();
-	        
-	        // actualizamos el nuevo limite de experiencia
-	        expNecesaria = 10 * this.getNivel();
-	        
-	        System.out.println("¡Subida de nivel! Ahora eres nivel: " + this.getNivel());
-	    }
+		// comprobamos si ha llegado al limite para subir de nivel
+		// usamos un while por si gana tanta experiencia que sube varios niveles de golpe
+		while (this.getExperiencia() >= expNecesaria) {
+			
+			// restamos la experiencia consumida para subir este nivel
+			this.setExperiencia(this.getExperiencia() - expNecesaria);
+			
+			// llamamos al metodo que ya teniamos para aumentar los stats y el nivel
+			this.subirNivel();
+			
+			// actualizamos el nuevo limite de experiencia
+			expNecesaria = 10 * this.getNivel();
+			
+			System.out.println("¡Subida de nivel! Ahora eres nivel: " + this.getNivel());
+		}
 	}
 
 	/**
@@ -503,67 +548,65 @@ public class Pokemon {
 	 * @return true si evoluciona, false en caso contrario.
 	 */
 	public boolean comprobarEvolucion() {
-	    if (this.nivelEvolucion > 0 && this.nivel >= this.nivelEvolucion) {
-	        System.out.println("¡Atención! " + this.nombrePokemon + " está evolucionando...");
-	        return true;
-	    }
-	    return false;
+		if (this.nivelEvolucion > 0 && this.nivel >= this.nivelEvolucion) {
+			System.out.println("¡Atención! " + this.nombrePokemon + " está evolucionando...");
+			return true;
+		}
+		return false;
 	}
 	
 
 	/**
 	 * metodo atacar del Pokemon con salida (CONSTANTES): NEUTRO = VENTAJA X2
 	 * DOBLEVENTAJA x4 DESVENTAJA 1/2 DOBLEDESVENTAJA 1/4
-	 * 
-	 * y comprueba si el tipo de ataque es del mismo tipo que el pokemon que lo
+	 * * y comprueba si el tipo de ataque es del mismo tipo que el pokemon que lo
 	 * realiza x1.5
-	 * 
-	 * @param movimiento recibe el movimiento que se va a realizar
+	 * * @param movimiento recibe el movimiento que se va a realizar
 	 * @param pokemon recibe el pokemon que recibe el ataque
 	 * @return String: NEUTRO, VENTAJA, DOBLE_VENTAJA o DESVENTAJA
 	 */
 	public String atacar(Movimiento movimiento, Pokemon pokemonDefensor) {
-	    
-	    // obtenemos efectividad de la TablaTipos 
-	    double m1 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoPrincipal());
-	    double m2 = 1.0;
-	    
-	    if (pokemonDefensor.getTipoSecundario() != null) {
-	        m2 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario());
-	    }
-	    
-	    double multiplicadorTipos = m1 * m2;
+		
+		// obtenemos efectividad de la TablaTipos 
+		double m1 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoPrincipal());
+		double m2 = 1.0;
+		
+		if (pokemonDefensor.getTipoSecundario() != null) {
+			m2 = TablaTipos.obtenerEficacia(movimiento.getTipo(), pokemonDefensor.getTipoSecundario());
+		}
+		
+		double multiplicadorTipos = m1 * m2;
 
-	    // aplicamos mismo tipo - x1.5
-	    double potenciaFinal = movimiento.getPotencia();
-	    if (movimiento.getTipo() == this.getTipoPrincipal() || movimiento.getTipo() == this.getTipoSecundario()) {
-	        potenciaFinal *= 1.5; 
-	    }
+		// aplicamos mismo tipo - x1.5
+		double potenciaFinal = movimiento.getPotencia();
+		if (movimiento.getTipo() == this.getTipoPrincipal() || movimiento.getTipo() == this.getTipoSecundario()) {
+			potenciaFinal *= 1.5; 
+		}
 
-	    // calculamos daño base segun categoria
-	    double danioBase;
-	    if (movimiento.getCategoriaDano().equalsIgnoreCase("Fisico")) {
-	        danioBase = (this.getAtaque() * potenciaFinal) / (double) pokemonDefensor.getDefensa();
-	    } else {
-	        danioBase = (this.getAtaqueEspecial() * potenciaFinal) / (double) pokemonDefensor.getDefensaEspecial();
-	    }
+		// calculamos daño base segun categoria
+		double danioBase;
+		if (movimiento.getCategoriaDano().equalsIgnoreCase("Fisico")) {
+			danioBase = (this.getAtaque() * potenciaFinal) / (double) pokemonDefensor.getDefensa();
+		} else {
+			danioBase = (this.getAtaqueEspecial() * potenciaFinal) / (double) pokemonDefensor.getDefensaEspecial();
+		}
 
-	    // aplicamos daño final con los multiplicadores 
-	    int danioFinal = (int) (danioBase * multiplicadorTipos);
-	    pokemonDefensor.setVitalidad(pokemonDefensor.getVitalidad() - danioFinal);
+		// aplicamos daño final con los multiplicadores 
+		int danioFinal = (int) (danioBase * multiplicadorTipos);
+		pokemonDefensor.setVitalidad(pokemonDefensor.getVitalidad() - danioFinal);
 
-	    // salida segun los multiplicadores
-	    if (multiplicadorTipos >= 4.0) {
-	    	return "DOBLE_VENTAJA"; 
-	    }
-	    if (multiplicadorTipos >= 2.0) {
-	    	return "VENTAJA";
-	    }
-	    if (multiplicadorTipos < 1.0 && multiplicadorTipos > 0) {
-	    	return "DESVENTAJA";
-	    }
-	    
-	    return "NEUTRO";
+		// salida segun los multiplicadores
+		if (multiplicadorTipos >= 4.0) {
+			return "DOBLE_VENTAJA"; 
+		}
+		if (multiplicadorTipos >= 2.0) {
+			return "VENTAJA";
+		}
+		if (multiplicadorTipos < 1.0 && multiplicadorTipos > 0) {
+			return "DESVENTAJA";
+		}
+		
+		return "NEUTRO";
 	}
 	
 	
@@ -572,14 +615,14 @@ public class Pokemon {
 	 * @return un objeto Movimiento aleatorio de entre los que conoce
 	 */
 	public Movimiento elegirMovimientoAleatorio() {
-	    List<Movimiento> validos = new ArrayList<>();
-	    for (Movimiento m : movimientos) {
-	        if (m != null) {
-	            validos.add(m);
-	        }
-	    }
-	    Random r = new Random();
-	    return validos.get(r.nextInt(validos.size()));
+		List<Movimiento> validos = new ArrayList<>();
+		for (Movimiento m : movimientos) {
+			if (m != null) {
+				validos.add(m);
+			}
+		}
+		Random r = new Random();
+		return validos.get(r.nextInt(validos.size()));
 	}
 	
 
@@ -604,9 +647,7 @@ public class Pokemon {
 	/**
 	 * metodo para que el pokemon pueda aprender un movimiento cada 3 niveles
 	 * @param movimiento recibe un array de movimientos y puede aprender un ataque de entre todos los del array
-	 *                   
-	 * 
-	 */
+	 * * */
 	public void aprenderMovimiento(Movimiento nuevoMovimiento) {
 		// comprobamos si hay hueco en el array de 4 movimientos y si hay lo añadimos
 		boolean aprendido = false;
@@ -625,29 +666,29 @@ public class Pokemon {
 		}
 	}
 
-	  /**
-	   * metodo para limpiar todos los estados temporales que no siguen fuera del combate
-	   */
-	  public void limpiarEstadosTemporales() {
-	      if (this.estadoActual == Estados.CONFUSO || 
-	          this.estadoActual == Estados.AMEDENTRADO || 
-	          this.estadoActual == Estados.ENAMORADO ||
-	          this.estadoActual == Estados.APRESADO ||
-	          this.estadoActual == Estados.MALDITO ||
-	          this.estadoActual == Estados.DRENADORAS ||
-	          this.estadoActual == Estados.CANTOMORTAL ||
-	          this.estadoActual == Estados.CENTROATENCION ||
-	          this.estadoActual == Estados.SOMNOLIENTO) {
-	          
-	          this.setEstadoActual(Estados.SANO);
-	          this.setTurnosEstadoRestantes(0); // reseteo contadotr 
-	          
-	          // se limpia el estado actual antes pero si tiene uno permantente se le pone
-	          if (this.estadoActual == Estados.SANO && this.estadoPermanente != Estados.SANO) {
-	              this.estadoActual = this.estadoPermanente;
-	          }
-	      }
-	  }
+	/**
+	 * metodo para limpiar todos los estados temporales que no siguen fuera del combate
+	 */
+	public void limpiarEstadosTemporales() {
+		if (this.estadoActual == Estados.CONFUSO || 
+			this.estadoActual == Estados.AMEDENTRADO || 
+			this.estadoActual == Estados.ENAMORADO ||
+			this.estadoActual == Estados.APRESADO ||
+			this.estadoActual == Estados.MALDITO ||
+			this.estadoActual == Estados.DRENADORAS ||
+			this.estadoActual == Estados.CANTOMORTAL ||
+			this.estadoActual == Estados.CENTROATENCION ||
+			this.estadoActual == Estados.SOMNOLIENTO) {
+			
+			this.setEstadoActual(Estados.SANO);
+			this.setTurnosEstadoRestantes(0); // reseteo contadotr 
+			
+			// se limpia el estado actual antes pero si tiene uno permantente se le pone
+			if (this.estadoActual == Estados.SANO && this.estadoPermanente != Estados.SANO) {
+				this.estadoActual = this.estadoPermanente;
+			}
+		}
+	}
 	
 /**
  * Metodo para cambiar el color de fonde respecto al tipo del pokemon que aparece
