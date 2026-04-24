@@ -96,6 +96,9 @@
                             </font>
                         </Text>
                     </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Pane>
                 <Pane fx:id="comprarObjeto" layoutX="33.0" layoutY="404.0">
                     <children>
@@ -123,6 +126,9 @@
                             </font>
                         </Text>
                     </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Pane>
                 <Text fill="#110a0b" layoutX="146.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio:" wrappingWidth="75.0">
                     <font>
@@ -134,14 +140,14 @@
                         <Font name="Verdana Bold" size="17.0" />
                     </font>
                 </Text>
-                <ImageView fitHeight="583.0" fitWidth="435.0" layoutX="-63.0" layoutY="-32.0" pickOnBounds="true">
+                <ImageView fitHeight="583.0" fitWidth="435.0" layoutX="-63.0" layoutY="-32.0" mouseTransparent="true" pickOnBounds="true">
                     <image>
                         <Image url="@../../../imgs/Inventario/marcoInfoObjeto.png" />
                     </image>
                 </ImageView>
             </children>
         </Pane>
-        <ImageView fx:id="botonSalir" fitHeight="43.0" fitWidth="36.0" layoutX="1030.0" layoutY="563.0" onMouseClicked="#inventarioSalir" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="botonSalir" fitHeight="43.0" fitWidth="36.0" focusTraversable="true" layoutX="1030.0" layoutY="563.0" onMouseClicked="#inventarioSalir" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../imgs/Equipo/botonCerrarLoginV1.png" />
             </image>
@@ -163,10 +169,20 @@
                 </ScrollPane>
             </children>
         </Pane>
-          <ImageView fx:id="marcoCaja" fitHeight="415.0" fitWidth="605.0" layoutX="432.0" layoutY="113.0" mouseTransparent="true" pickOnBounds="true">
+          <ImageView fx:id="marcoCaja" fitHeight="415.0" fitWidth="605.0" focusTraversable="true" layoutX="432.0" layoutY="113.0" mouseTransparent="true" pickOnBounds="true">
               <image>
                   <Image url="@../../../imgs/Inventario/marcoCaja.png" />
               </image>
           </ImageView>
+      <StackPane focusTraversable="true" layoutX="904.0" mouseTransparent="true">
+         <children>
+            <Rectangle arcHeight="60.0" arcWidth="60.0" fill="#e4e4e4" height="37.0" opacity="0.53" stroke="WHITE" strokeType="INSIDE" width="170.0" />
+            <Text fx:id="textSaldo" strokeType="OUTSIDE" strokeWidth="0.0" text="Disponibles: 100 Pd" textAlignment="CENTER" wrappingWidth="99.0">
+               <font>
+                  <Font name="Courier New Bold Italic" size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
     </children>
 </AnchorPane>
