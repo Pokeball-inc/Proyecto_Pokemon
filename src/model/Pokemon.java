@@ -246,12 +246,29 @@ public class Pokemon {
 		ataque = newVar;
 	}
 
+	/**
+	 * get con logica para tener encuenta los bonus de los objetos y estados
+	 * @return atqFinal, el ataque final
+	 */
 	public int getAtaque() {
+		int atqFinal = this.ataque;
+        if (this.objetoEquipado != null) {
+            String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
+            // pesa +20% Atk
+            if (nombreObj.contains("pesa")) {
+            	atqFinal += (this.ataque * 20 / 100);
+            } 
+            // chaleco -15% Atk
+            else if (nombreObj.contains("chaleco")) {
+            	atqFinal -= (this.ataque * 15 / 100);
+            }
+        }
+		
 		// Quemado: su ataque se reduce a la mitad
 		if (this.estadoActual == Estados.QUEMADO) {
-			return this.ataque / 2;
+			return atqFinal / 2;
 		}
-		return ataque;
+		return atqFinal;
 	}
 
 	public void setDefensa(int newVar) {

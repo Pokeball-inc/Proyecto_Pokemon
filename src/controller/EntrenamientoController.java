@@ -319,6 +319,9 @@ public class EntrenamientoController implements Initializable {
         
         //subimos el resto de estadisticas
         pokemonSeleccionado.setVitalidadMaxima(pokemonSeleccionado.getVitalidadMaxima() + subeHp);
+        if (subeHp > 0) {
+            pokemonSeleccionado.setVitalidad(pokemonSeleccionado.getVitalidad() + subeHp);
+        }
         pokemonSeleccionado.setAtaque(pokemonSeleccionado.getAtaque() + subeAtk);
         pokemonSeleccionado.setDefensa(pokemonSeleccionado.getDefensa() + subeDef);
         pokemonSeleccionado.setAtaqueEspecial(pokemonSeleccionado.getAtaqueEspecial() + subeAtkSp);
