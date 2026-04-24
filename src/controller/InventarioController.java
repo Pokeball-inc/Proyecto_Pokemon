@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,14 +17,12 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Entrenador;
-import model.Objeto;
-import model.ObjetosTotales;
-import model.Sesion;
+import model.*;
 
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static dao.InventarioDAO.cargarInventario;
@@ -87,31 +86,38 @@ public class InventarioController implements Initializable {
             cajaObjetos.setAlignment(Pos.TOP_LEFT);
             cajaObjetos.setPadding(new Insets(50, 40, 30, 60));
 
-
             for (Objeto o : ObjetosTotales.todosLosObjetos) {
                 try {
-
                     /**
                      * Crear un Vbox para el objeto, donde estará dentro su imagen */
 
                     VBox celdaObjeto = new VBox(-2);
 
                     // Darle estilo a la celda:
-                    celdaObjeto.setStyle(
-                            "-fx-background-color: rgba(255, 255, 255, 0.4);" +
-                                    "-fx-background-radius: 15;" +
-                                    "-fx-cursor: hand;" +
-                                    "-fx-padding: 10;" +
-                                    "-fx-border-insets: 5px;" +
-                                    "-fx-background-insets: 5px;"
-                    );
+                    celdaObjeto.setStyle("-fx-background-color: rgba(255, 255, 255, 0.4);" + "-fx-background-radius: 15;" + "-fx-cursor: hand;" + "-fx-padding: 10;" + "-fx-border-insets: 5px;" + "-fx-background-insets: 5px;");
+
 
                     ImageView img = cargarImagen(o.getImgObjeto());
+
+                    // Uso de streams, para revisar si el objeto de la iteración y el de la lista completa son iguales
+
+                    boolean existe = entrenadorActual.getInventario().getListaObjetos().stream().anyMatch(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == o.getIdObjeto());
+
+                    // Si el entrenador no lo tiene;
+
+                    if (!existe) {
+                        // EFECTO BLANCO Y NEGRO (O ALGO ASI)
+
+                        ColorAdjust ca = new ColorAdjust();
+                        ca.setContrast(-0.52);
+                        ca.setSaturation(-0.92);
+
+                        img.setEffect(ca);
+                    }
 
                     // Ahora añadir la vistaImagen a la celda
 
                     celdaObjeto.getChildren().add(img);
-
                     celdaObjeto.setOnMouseClicked(event -> {
                         try {
                             System.out.println("Se ha clickeado en el objeto " + o.getNombreObjeto());
@@ -178,7 +184,14 @@ public class InventarioController implements Initializable {
 
         txtDescObjeto.setText(objeto.getDescripcionObjeto());
 
-        // Luego pongo la cantidad, me falta conectar eso
+        // Ahora la cantidad
+
+        int cantidad = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
+                .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
+
+        // El sum devuelve 0 si no encuentra nada en el stream, mejor que un if xd
+
+        txtcantidadObjeto.setText(String.valueOf(cantidad));
 
     }
 
