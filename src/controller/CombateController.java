@@ -46,6 +46,7 @@ import model.Entrenador;
 import model.Movimiento;
 import model.Pokemon;
 import model.Sesion;
+import model.Turno;
 
 public class CombateController implements Initializable {
 
@@ -194,6 +195,15 @@ public class CombateController implements Initializable {
             double porcentajeVidaJugador = (double) pJugador.getVitalidad() / pJugador.getVitalidadMaxima();
             if (porcentajeVidaJugador < 0) {
                 porcentajeVidaJugador = 0; 
+               
+            }
+            
+            String rutaJ = Sesion.vista2D ? pJugador.getImgPosteriorPokemon() : pJugador.getImgPosteriorPokemon3D();
+            if (rutaJ != null) {
+                File fileJ = new File(rutaJ);
+                if (fileJ.exists()) {
+                    imgPokemonJugador.setImage(new Image(fileJ.toURI().toString()));
+                }
             }
             
             barraVitalidadPkmnJugador.setProgress(porcentajeVidaJugador);
@@ -235,6 +245,14 @@ public class CombateController implements Initializable {
             double porcentajeVidaRival = (double) pRival.getVitalidad() / pRival.getVitalidadMaxima();
             if (porcentajeVidaRival < 0) {
                 porcentajeVidaRival = 0;
+            }
+            
+            String rutaR = Sesion.vista2D ? pRival.getImgFrontalPokemon() : pRival.getImgFrontalPokemon3D();
+            if (rutaR != null) {
+                File fileR = new File(rutaR);
+                if (fileR.exists()) {
+                    imgPokemonRival.setImage(new Image(fileR.toURI().toString()));
+                }
             }
             
             barraVitalidadPkmnRival.setProgress(porcentajeVidaRival);
@@ -430,6 +448,7 @@ public class CombateController implements Initializable {
         //volvemos a ocultar el panel de ataques automaticamente al elegir uno
         panelMenuAtaques.setVisible(false);
         panelMenuPrincipal.setVisible(true);
+        btnSalirMenuAtaque.setVisible(false);
         
         Pokemon pJugador = combateActual.getPokemonActualJugador();
         
@@ -444,20 +463,15 @@ public class CombateController implements Initializable {
         //la ia elige su ataque aleatorio
         Movimiento movRival = elegirAtaqueRival();
 
-        //le pasamos los dos ataques a la logica del modelo
+        // calculamos velocidad, estados, daño y llenaráa la lista de turnos
         combateActual.procesarTurno(movJugador, movRival);
 
-        //leemos el historial generado para narrarlo en pantalla
-        model.Turno ultimoTurno = combateActual.obtenerUltimoTurno();
-        
-        //escribimos lo que paso sin lanzar strings en blanco
-        if (ultimoTurno != null) {
-            if (!ultimoTurno.getAccionEntrenador().isEmpty()) {
-                escribirLog(ultimoTurno.getAccionEntrenador());
-            }
-            if (!ultimoTurno.getAccionEntrenadorRival().isEmpty()) {
-                escribirLog(ultimoTurno.getAccionEntrenadorRival());
-            }
+        // leemos lo que ha pasado del historial 
+        Turno ultimo = combateActual.obtenerUltimoTurno();
+        if (ultimo != null) {
+            // añadimos a la cola de mensajes animados
+            escribirLog(ultimo.getAccionEntrenador());
+            escribirLog(ultimo.getAccionEntrenadorRival());
         }
 
         //comprobamos si alguien ha caido debilitado tras el cruce
@@ -626,7 +640,10 @@ public class CombateController implements Initializable {
 
         //comprobar si el jugador ha muerto tras el ataque
         if (pJugador.getVitalidad() <= 0) {
+        	pJugador.setVitalidad(0);
             escribirLog("¡Tu " + pJugador.getNombrePokemon() + " se ha debilitado!");
+            
+            registrarEventoEspecial("debilitado1", "El jugador ha perdido a " + pJugador.getNombrePokemon());
             
             //comprobamos si quedan vivos en el equipo
             if (combateActual.puedeContinuar(true)) {
@@ -636,12 +653,18 @@ public class CombateController implements Initializable {
                 //si no quedan perdemos
                 combateActual.finalizarCombate();
                 escribirLog("¡Te has quedado sin Pokémon! Has perdido...");
+                
+                registrarEventoEspecial("finPierdeCombate", "El entrenador ha perdido el combate");
             }
         }
 
         //comprobar si el rival ha muerto (ko)
         if (pRival.getVitalidad() <= 0) {
+        	pRival.setVitalidad(0);
             escribirLog("¡El " + pRival.getNombrePokemon() + " enemigo se ha debilitado!");
+            
+            registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
+            // ---------------------------
             
             //si muere, el rival saca otro (el metodo puedecontinuar ya suma el ko)
             if (combateActual.puedeContinuar(false)) {
@@ -650,8 +673,29 @@ public class CombateController implements Initializable {
                 //si no le quedan ganamos (6 kos), finalizamos
                 combateActual.finalizarCombate();
                 escribirLog("¡Has ganado el combate! No le quedan Pokémon al rival.");
+                
+                registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
             }
         }
+        actualizarVista();
+    }
+    
+    /**
+     *  metodo para registrar eventos que no son ataques (muertes, fin de combate) en el historial
+     */
+    private void registrarEventoEspecial(String tipoEvento, String descripcion) {
+        Turno evento = new Turno();
+        evento.setNumeroTurnoActual(combateActual.getHistorialTurnos().size() + 1);
+        
+        // identificamos el evento en la accion para el Log posterior
+        evento.setAccionEntrenador("[" + tipoEvento.toUpperCase() + "] " + descripcion);
+        evento.setAccionEntrenadorRival(""); 
+
+        // guardamos el estado vital actual para el log - OK KO
+        evento.setEstadoPokemon1(combateActual.getPokemonActualJugador().getVitalidad() > 0 ? "OK" : "KO");
+        evento.setEstadoPokemon2(combateActual.getPokemonActualRival().getVitalidad() > 0 ? "OK" : "KO");
+
+        combateActual.añadirTurno(evento);
     }
 
     /**
