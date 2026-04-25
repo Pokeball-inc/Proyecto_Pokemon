@@ -195,6 +195,9 @@ public class CombateController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		colaMensajes.clear();
+	    escribiendoMensaje = false;
+	    controlesBloqueados = false;
 		// instanciar el combate
 		combateActual = new Combate();
 

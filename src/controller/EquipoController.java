@@ -725,6 +725,10 @@ public class EquipoController implements Initializable {
             System.out.println("Error al guardar la cura en BD: " + e.getMessage());
         }
         
+        if (pokemonSeleccionado != null) {
+            mostrarDetallesPokemon(pokemonSeleccionado);
+        }
+        
         //alerta de exito
         mostrarAlertaEstado("Centro Pokémon", "¡Tus Pokémon han recuperado toda su energía y sus PPs!", Alert.AlertType.INFORMATION, "imgs/Equipo/curarEquipo.png");
     }

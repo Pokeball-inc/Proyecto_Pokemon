@@ -282,7 +282,7 @@ public class Entrenador {
               if (p.getMovimientos() != null) {
                   for (Movimiento m : p.getMovimientos()) {
                       if (m != null) {
-                          m.setCantidadMovimientos(15); 
+                          m.setCantidadMovimientos(m.getCantidadMovimientosMaximos()); 
                       }
                   }
               }
