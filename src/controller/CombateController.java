@@ -229,6 +229,12 @@ public class CombateController implements Initializable {
         
         //arrancamos la animacion
         animacionEntrada(); 
+        
+        //asignamos CSS a los 4 botones
+        if (btnAtaque1 != null) btnAtaque1.getStyleClass().add("boton-ataque");
+        if (btnAtaque2 != null) btnAtaque2.getStyleClass().add("boton-ataque");
+        if (btnAtaque3 != null) btnAtaque3.getStyleClass().add("boton-ataque");
+        if (btnAtaque4 != null) btnAtaque4.getStyleClass().add("boton-ataque");
     } 
     
     /**
