@@ -256,4 +256,43 @@ public class EntrenadorDAO {
         }
     }
 
+    /**
+     * mtodo para buscar un entrenador por su ID para la liga.
+     */
+    public Entrenador buscarPorId(int id) {
+        ConexionBBDD conexion = new ConexionBBDD();
+        Connection con = conexion.getConexion();
+        
+        String sql = "SELECT * FROM ENTRENADOR WHERE ID_ENTRENADOR = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Entrenador e = new Entrenador();
+                e.setIdEntrenador(rs.getInt("ID_ENTRENADOR"));
+                e.setNombreEntrenador(rs.getString("NOM_ENTRENADOR"));
+                e.setPokedollares(rs.getInt("POKEDOLARES"));
+                e.setEsNPC(rs.getBoolean("ES_NPC"));
+                e.setImgFrontalEntrenador(rs.getString("IMG_ENTRENADOR"));
+
+                return e; // devolvemos al entrenador cargado
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error al buscar entrenador por ID: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return null;
+    }
 }

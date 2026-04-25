@@ -22,11 +22,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import bd.ConexionBBDD;
+import dao.EntrenadorDAO;
 import dao.PokemonDAO;
 import model.Combate;
 import model.Entrenador;
+import model.LigaPokemon;
 import model.Pokemon;
 import model.Sesion;
+import model.UbicacionPokemon;
 
 /**
  * Clase SeleccionCombateController
@@ -128,6 +131,42 @@ public class SeleccionCombateController implements Initializable {
             alerta.showAndWait();
             
             return; 
+        }
+        
+        Sesion.modoLiga = true;
+        Sesion.ligaActual = new LigaPokemon(); 
+        Sesion.ligaActual.setJugador(Sesion.entrenadorLogueado);
+        
+     // cargamos los entrenadores de la liga
+        try {
+            EntrenadorDAO entrenadorDao = new EntrenadorDAO(); 
+            List<Entrenador> altoMando = new ArrayList<>();
+            
+            for (int i = 1; i <= 5; i++) {
+                // los buscamos 
+                Entrenador jefe = entrenadorDao.buscarPorId(i); 
+                if(jefe != null) {
+                    // cargamos sus pokemon de la bd
+                	PokemonDAO.obtenerPokemon(this.con, jefe, UbicacionPokemon.EQUIPO);
+                    altoMando.add(jefe);
+                }
+            }
+            Sesion.ligaActual.setAltoMando(altoMando);
+            
+            // creamos a Doppelganger
+            Entrenador doppelganger = entrenadorDao.buscarPorId(6);
+            if (doppelganger == null) { 
+                doppelganger = new Entrenador();
+                doppelganger.setNombreEntrenador("Doppelganger");
+            }
+            Sesion.ligaActual.setDoppelganger(doppelganger);
+            
+            // iniciamos la liga y reseteamos la penalizacion
+            Sesion.ligaActual.iniciarLiga();
+            Sesion.penalizacionLigaCura = false;
+            
+        } catch (Exception e) {
+            System.out.println("Error preparando entrenadores de la Liga: " + e.getMessage());
         }
         //empezamos el try catch para cargar la vista
      			try {
