@@ -409,24 +409,91 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
 
 
 /**
- * metodo para validar estados antes de atacar y ejecutar el daño
+ * metodo para validar estados antes de atacar, ejecutar el daño o alterar estadísticas
  * @param atacante pokemon que intenta realizar el movimiento
  * @param objetivo pokemon que recibe el posible impacto
  * @param mov movimiento a realizar
  * @return el mensaje de texto de lo ocurrido para el historial
  */
 private String ejecutarAccion(Pokemon atacante, Pokemon objetivo, Movimiento mov) {
-    //verificamos si hay alguna restricción de estado
+    //verificamos si hay alguna restricci0n de estado (
     String mensajeRestriccion = verificarRestriccionEstado(atacante);
     
     if (mensajeRestriccion != null) {
-        //si hay mensaje, devolvemos eso y no llamamos a atacar()
         return mensajeRestriccion;
     }
 
-    //si no hay restricción (mensajeRestriccion == null), atacamos
-    String eficacia = atacante.atacar(mov, objetivo);
-    return atacante.getNombrePokemon() + " usó " + mov.getNombreMovimiento() + " (" + eficacia + ")";
+    //preparamos el inicio del mensaje
+    String logBase = "¡" + atacante.getNombrePokemon() + " usó " + mov.getNombreMovimiento() + "!\n";
+    String desc = mov.getDescripcionMovimiento(); 
+
+    //CASO 1 ataque con daño 
+    if (mov.getPotencia() > 0) {
+        String eficacia = atacante.atacar(mov, objetivo);
+        
+        //si el ataque de daño tambien tenia un estado secundario
+        if (mov.getEstadoAplicado() != Estados.SANO && objetivo.getVitalidad() > 0 && objetivo.getEstadoActual() == Estados.SANO) {
+            //probabilidad del 30% de aplicar el efecto secundario
+            if (new Random().nextInt(100) < 30) {
+                objetivo.setEstadoActual(mov.getEstadoAplicado());
+                return logBase + "(" + eficacia + ")\n¡" + objetivo.getNombrePokemon() + " ha sido " + mov.getEstadoAplicado() + "!";
+            }
+        }
+        
+        return logBase + "(" + eficacia + ")";
+    }
+    
+    //CASO 2 es una mejora 
+    if (mov.getTipoMovimiento() == TiposMovimiento.MEJORA) {
+        if (desc.contains("ataque")) {
+            atacante.setAtaque(atacante.getAtaque() + 5);
+            return logBase + "¡El Ataque de " + atacante.getNombrePokemon() + " subió!";
+        } else if (desc.contains("defensa")) {
+            atacante.setDefensa(atacante.getDefensa() + 5);
+            return logBase + "¡La Defensa de " + atacante.getNombrePokemon() + " subió!";
+        } else if (desc.contains("velocidad")) {
+            atacante.setVelocidad(atacante.getVelocidad() + 5);
+            return logBase + "¡La Velocidad de " + atacante.getNombrePokemon() + " subió!";
+        }
+        return logBase + "¡Las estadísticas de " + atacante.getNombrePokemon() + " mejoraron!";
+    }
+
+    ///CASO 3 baja stats o aplica problema 
+    if (mov.getTipoMovimiento() == TiposMovimiento.ESTADO) {
+        
+        //que aplica
+        if (mov.getEstadoAplicado() != Estados.SANO) {
+            //comprobamos que el rival no tenga ya un estado 
+            if (objetivo.getEstadoActual() == Estados.SANO) {
+                objetivo.setEstadoActual(mov.getEstadoAplicado());
+                
+                //le damos unos turnos base si es sueño o canto mortal
+                objetivo.setTurnosEstadoRestantes(3); 
+                
+                return logBase + "¡" + objetivo.getNombrePokemon() + " ahora está " + mov.getEstadoAplicado() + "!";
+            } else {
+                return logBase + "Pero falló... " + objetivo.getNombrePokemon() + " ya tiene un problema de estado.";
+            }
+        } 
+        
+        //baja estadisticas
+        else {
+            //evitamos que las estadísticas bajen de 1 
+            if (desc.contains("velocidad")) {
+                objetivo.setVelocidad(Math.max(1, objetivo.getVelocidad() - 5)); 
+                return logBase + "¡La Velocidad de " + objetivo.getNombrePokemon() + " bajó!";
+            } else if (desc.contains("ataque")) {
+                objetivo.setAtaque(Math.max(1, objetivo.getAtaque() - 5));
+                return logBase + "¡El Ataque de " + objetivo.getNombrePokemon() + " bajó!";
+            } else if (desc.contains("defensa")) {
+                objetivo.setDefensa(Math.max(1, objetivo.getDefensa() - 5));
+                return logBase + "¡La Defensa de " + objetivo.getNombrePokemon() + " bajó!";
+            }
+            return logBase + "¡Las estadísticas de " + objetivo.getNombrePokemon() + " bajaron!";
+        }
+    }
+
+    return logBase;
 }
 
 
