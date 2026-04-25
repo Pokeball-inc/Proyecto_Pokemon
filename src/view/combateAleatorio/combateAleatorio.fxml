@@ -156,22 +156,22 @@
       </ImageView>
       <Pane fx:id="panelMenuAtaques" layoutX="763.0" layoutY="439.0" prefHeight="137.0" prefWidth="272.0" style="-fx-background-color: black;" visible="false">
          <children>
-            <Button fx:id="btnAtaque1" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque1" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 1">
+            <Button fx:id="btnAtaque1" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque1" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 1" wrapText="true">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnAtaque2" layoutX="136.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque2" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 2">
+            <Button fx:id="btnAtaque2" layoutX="136.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#usarAtaque2" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 2" wrapText="true">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnAtaque3" layoutX="8.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque3" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 3">
+            <Button fx:id="btnAtaque3" layoutX="8.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque3" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 3" wrapText="true">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnAtaque4" layoutX="136.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque4" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 4">
+            <Button fx:id="btnAtaque4" layoutX="136.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#usarAtaque4" prefHeight="60.0" prefWidth="128.0" styleClass="boton-ataque" text="Ataque 4" wrapText="true">
                <font>
                   <Font name="Consolas" size="12.0" />
                </font>
