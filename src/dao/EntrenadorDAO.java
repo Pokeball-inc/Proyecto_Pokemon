@@ -262,13 +262,13 @@ public class EntrenadorDAO {
     public Entrenador buscarPorId(int id) {
         ConexionBBDD conexion = new ConexionBBDD();
         Connection con = conexion.getConexion();
-        
+
         String sql = "SELECT * FROM ENTRENADOR WHERE ID_ENTRENADOR = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
-            
+
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -292,7 +292,7 @@ public class EntrenadorDAO {
                 ex.printStackTrace();
             }
         }
-        
+
         return null;
     }
 }

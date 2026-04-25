@@ -7,13 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Tooltip;
-import javafx.scene.control.skin.TooltipSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import model.Sesion;
 
 import java.io.File;
@@ -36,18 +32,19 @@ public class CreditosController implements Initializable {
     private ImageView pablotxt;
     @FXML
     private ImageView isaiastxt;
+
     public void initialize(URL location, ResourceBundle resources) {
         main();
     }
 
-    public void main(){
+    public void main() {
 
         /// Boton Salir
         botonSalir.setOnMouseClicked(event -> {
 
             /// Si el entrenador está logueado, te lleva a la principal, si no, al login
 
-            if (Sesion.entrenadorLogueado != null){
+            if (Sesion.entrenadorLogueado != null) {
                 try {
                     cargarPrincipal(event);
                 } catch (IOException e) {

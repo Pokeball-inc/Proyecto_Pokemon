@@ -1,24 +1,20 @@
 package controller;
 
+import dao.EntrenadorDAO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.event.ActionEvent;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.Entrenador;
 import model.Ruleta;
 import model.Sesion;
-import dao.EntrenadorDAO;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,57 +23,57 @@ import java.util.ResourceBundle;
 
 public class CasinoRuletaController implements Initializable {
 
-	@FXML
-	private Label lblResultado;
-	@FXML
-	private Label lblPokedollares;
-	@FXML
-	private TextField txtApuesta;
-	@FXML
-	private TextField txtNumeroElegido;
-	@FXML 
-	private Button botonRojo;
-    @FXML 
+    @FXML
+    private Label lblResultado;
+    @FXML
+    private Label lblPokedollares;
+    @FXML
+    private TextField txtApuesta;
+    @FXML
+    private TextField txtNumeroElegido;
+    @FXML
+    private Button botonRojo;
+    @FXML
     private Button botonNegro;
 
-	private Ruleta juego;
+    private Ruleta juego;
     private Entrenador entrenador = Sesion.entrenadorLogueado;
-	private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
-	private Ruleta.EleccionColor colorSeleccionado = null;
+    private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
+    private Ruleta.EleccionColor colorSeleccionado = null;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// inicializamos la ruleta con el entrenador de la sesion
-		juego = new Ruleta();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // inicializamos la ruleta con el entrenador de la sesion
+        juego = new Ruleta();
 
-		juego.setEntrenador(entrenador);
+        juego.setEntrenador(entrenador);
 
-        System.out.println("Carga la ruleta para el entrenador: "+ entrenador.getNombreEntrenador());
+        System.out.println("Carga la ruleta para el entrenador: " + entrenador.getNombreEntrenador());
 
-		// actualizamos el ui con los pokedollares que tiene el entrenador
-		actualizarUI();
-	}
+        // actualizamos el ui con los pokedollares que tiene el entrenador
+        actualizarUI();
+    }
 
-	
+
     @FXML
- // metodo para el boton rojo
+        // metodo para el boton rojo
     void seleccionarRojo(ActionEvent event) {
         colorSeleccionado = Ruleta.EleccionColor.ROJO;
         // Efecto visual: borde dorado para saber que está seleccionado
         botonRojo.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3px; -fx-background-color: red; -fx-text-fill: white;");
-        botonNegro.setStyle("-fx-background-color: black; -fx-text-fill: white;"); 
+        botonNegro.setStyle("-fx-background-color: black; -fx-text-fill: white;");
     }
 
     @FXML
- // metodo para el boton negro
+        // metodo para el boton negro
     void seleccionarNegro(ActionEvent event) {
         colorSeleccionado = Ruleta.EleccionColor.NEGRO;
         // Efecto visual: borde dorado
         botonNegro.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3px; -fx-background-color: black; -fx-text-fill: white;");
-        botonRojo.setStyle("-fx-background-color: red; -fx-text-fill: white;"); 
+        botonRojo.setStyle("-fx-background-color: red; -fx-text-fill: white;");
     }
-	
-	
+
+
     @FXML
     void girarClick(ActionEvent event) {
         try {
@@ -91,22 +87,22 @@ public class CasinoRuletaController implements Initializable {
 
             // comprobamos que se ha elegido
             // valor por defecto si no se elige snumero
-            int numElegido = -1; 
+            int numElegido = -1;
             boolean tieneNumero = !txtNumeroElegido.getText().isEmpty();
             boolean tieneColor = (colorSeleccionado != null);
             Ruleta.formaApuesta tipo;
 
             // comprobamos el tipo de apuesta segun los campos rellenos
             if (tieneNumero && tieneColor) {
-            	// numero y color
+                // numero y color
                 tipo = Ruleta.formaApuesta.NUMYCOLOR;
                 numElegido = Integer.parseInt(txtNumeroElegido.getText());
             } else if (tieneNumero) {
-            	// numero
+                // numero
                 tipo = Ruleta.formaApuesta.NUMEROSOLO;
                 numElegido = Integer.parseInt(txtNumeroElegido.getText());
             } else if (tieneColor) {
-            	// color
+                // color
                 tipo = Ruleta.formaApuesta.COLORSOLO;
             } else {
                 // si no hay nada seleccionado avisamos y paramos el juego
@@ -116,9 +112,9 @@ public class CasinoRuletaController implements Initializable {
 
             // ejecutamos la logica del juego en Ruleta
             juego.jugarRuleta(tipo, numElegido, colorSeleccionado, cantidad);
-            
+
             // recuperamos los resultados que ha generado la ruleta mediante los getters
-            int numGanador = juego.getUltimoNumero(); 
+            int numGanador = juego.getUltimoNumero();
             String colorGanador = juego.getUltimoColor();
             int premio = juego.getUltimoPremio();
 
@@ -133,17 +129,17 @@ public class CasinoRuletaController implements Initializable {
 
             if (premio > 0) {
                 tipoAlerta = Alert.AlertType.INFORMATION;
-                
+
                 // se acierta numero y color
                 if (acertoNumero && acertoColor) {
                     cabecera = "¡¡¡PREMIO GORDO!!!";
                     textoPremio = "¡Has acertado el número y el color!\nGanaste: +" + premio + " Pokedóllares";
-                } 
+                }
                 // se acierta numero
                 else if (acertoNumero) {
                     cabecera = "¡BIEN! ACERTASTE EL NÚMERO";
                     textoPremio = "El color no es correcto, pero el número sí.\nGanaste: +" + premio + " Pokedóllares";
-                } 
+                }
                 // se acierta color
                 else {
                     cabecera = "¡ALGO ES ALGO! ACERTASTE EL COLOR";
@@ -162,7 +158,7 @@ public class CasinoRuletaController implements Initializable {
             // mostramos la alerta
             mostrarAlertaRuleta(cabecera, resultado, textoPremio, tipoAlerta);
 
-         // actyualizamos las ganancias en la bd
+            // actyualizamos las ganancias en la bd
             if (Sesion.entrenadorLogueado != null) {
                 entrenadorDAO.actualizarPokedollares(Sesion.entrenadorLogueado.getIdEntrenador(),
                         Sesion.entrenadorLogueado.getPokedollares());
@@ -170,9 +166,9 @@ public class CasinoRuletaController implements Initializable {
 
             // Refrescamos la etiqueta de dinero en la pantalla
             actualizarUI();
-            
+
             // Limpiamos los campos y colores para la siguiente jugada
-            resetearApuesta(); 
+            resetearApuesta();
 
         } catch (NumberFormatException e) {
             // Si el usuario mete letras en lugar de números, saltará este error
@@ -180,45 +176,46 @@ public class CasinoRuletaController implements Initializable {
         }
     }
 
-    
- // dejamos la vista de la ruleta por defecto sin las cosas marcadas y numero introducidos
+
+    // dejamos la vista de la ruleta por defecto sin las cosas marcadas y numero introducidos
     private void resetearApuesta() {
         // borramos la elección interna del color
         colorSeleccionado = null;
-        
+
         // limpiamos los cuadros de texto
         txtNumeroElegido.clear();
         txtApuesta.clear();
-        
+
         // quitamos el borde dorado de los botones
         botonRojo.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-background-radius: 10;");
         botonNegro.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 10;");
     }
 
 
-	// metodo para crear la ventana emergente con el resultadod e la ruleta
+    // metodo para crear la ventana emergente con el resultadod e la ruleta
     private void mostrarAlertaRuleta(String mensajeGanador, String resultadoRuleta, String cantidadGanada, Alert.AlertType tipo) {
         Alert alerta = new Alert(tipo);
-        
+
         // configuramos los textos de la alerta
         alerta.setTitle("Resultado de la Ruleta");
-        
+
         // mostrara  "¡HAS GANADO!" o "HAS PERDIDO"
         alerta.setHeaderText(mensajeGanador);
-        
+
         // muestra el numero, color y, si se gana el premio, el premio
         alerta.setContentText(resultadoRuleta + "\n" + cantidadGanada);
 
         DialogPane dialogPane = alerta.getDialogPane();
-        
-     // ponemos el icono de pokemon en la esquina de la ventana
+
+        // ponemos el icono de pokemon en la esquina de la ventana
         try {
             Stage stage = (Stage) dialogPane.getScene().getWindow();
             stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
 
-     // vinculamos el css correspondiente segun si es victoria o derrota
-        if(tipo == Alert.AlertType.WARNING) {
+        // vinculamos el css correspondiente segun si es victoria o derrota
+        if (tipo == Alert.AlertType.WARNING) {
             dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
         } else {
             dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
@@ -226,28 +223,28 @@ public class CasinoRuletaController implements Initializable {
 
         alerta.showAndWait(); // bloquea la aplicacion hasta se cierra el pop-up
     }
-    
-	// metodo para actualizar los pokedollares del entrenador en la vista
-	private void actualizarUI() {
-		if (Sesion.entrenadorLogueado != null) {
-			lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
-		}
-	}
-	
+
+    // metodo para actualizar los pokedollares del entrenador en la vista
+    private void actualizarUI() {
+        if (Sesion.entrenadorLogueado != null) {
+            lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
+        }
+    }
+
     @FXML
-    // metodo para el boton para volver al casino
-    void clickSalir(MouseEvent event) { 
+        // metodo para el boton para volver al casino
+    void clickSalir(MouseEvent event) {
         try {
             // cargamos el FXML del menu principal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/casino/Casino.fxml"));
             Parent root = loader.load();
 
-         // obtenemos la ventana actual a partir del boton pulsado
+            // obtenemos la ventana actual a partir del boton pulsado
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // creamos la escena con el tamaño original del menú principal
             Scene scene = new Scene(root, 720, 720);
-            
+
             stage.setScene(scene);
             stage.setTitle("Pokémon - Casino");
             stage.centerOnScreen();

@@ -7,6 +7,5 @@ public class ObjetosTotales {
 
     // Lista con todos los objetos
 
-    public static final List<Objeto> todosLosObjetos = new ArrayList<>()
-
-;}
+    public static final List<Objeto> todosLosObjetos = new ArrayList<>();
+}

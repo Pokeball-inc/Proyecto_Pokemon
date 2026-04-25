@@ -1,5 +1,6 @@
 package controller;
 
+import dao.EntrenadorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.CaraCruz;
 import model.Sesion;
-import dao.EntrenadorDAO;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,196 +25,185 @@ import java.util.ResourceBundle;
 
 public class CasinoMonedaController implements Initializable {
 
-	@FXML
-	private Label lblResultado;
-	@FXML
-	private Label lblPokedollares;
-	@FXML
-	private TextField txtApuesta;
-	@FXML 
-	private ImageView imgMoneda;
+    @FXML
+    private Label lblResultado;
+    @FXML
+    private Label lblPokedollares;
+    @FXML
+    private TextField txtApuesta;
+    @FXML
+    private ImageView imgMoneda;
 
-	private CaraCruz juego;
-	private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
+    private CaraCruz juego;
+    private EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// iniciamos el juego con el entrenador de la sesion
-		juego = new CaraCruz(Sesion.entrenadorLogueado);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // iniciamos el juego con el entrenador de la sesion
+        juego = new CaraCruz(Sesion.entrenadorLogueado);
 
-		System.out.println("Entrenador: "+ Sesion.entrenadorLogueado.getNombreEntrenador());
+        System.out.println("Entrenador: " + Sesion.entrenadorLogueado.getNombreEntrenador());
 
-		// mostramos el saldo actual del entrenador nada mas cargar la pantalla
-		actualizarUI();
-	}
+        // mostramos el saldo actual del entrenador nada mas cargar la pantalla
+        actualizarUI();
+    }
 
-	// metodo que se ejecuta al pulsar el boton CARAde pikachu (cara)
-	@FXML
-	void clickCara(MouseEvent event) {
-		jugar(CaraCruz.Eleccion.CARA);
-	}
+    // metodo que se ejecuta al pulsar el boton CARAde pikachu (cara)
+    @FXML
+    void clickCara(MouseEvent event) {
+        jugar(CaraCruz.Eleccion.CARA);
+    }
 
-	// metodo que se ejecuta al pulsar el boton CRUZ
-	@FXML
-	void clickCruz(MouseEvent event) {
-		jugar(CaraCruz.Eleccion.CRUZ);
-	}
+    // metodo que se ejecuta al pulsar el boton CRUZ
+    @FXML
+    void clickCruz(MouseEvent event) {
+        jugar(CaraCruz.Eleccion.CRUZ);
+    }
 
-	// metodo para la apuesta y el resultado
-	private void jugar(CaraCruz.Eleccion eleccionUsuario) {
-		
-		lblResultado.setVisible(false);
-	    lblResultado.setManaged(false);
-	    
-		try {
-			// leemos la cantidad que el usuario quiere apostar desde el input
-			int cantidadApuesta = Integer.parseInt(txtApuesta.getText());
+    // metodo para la apuesta y el resultado
+    private void jugar(CaraCruz.Eleccion eleccionUsuario) {
 
-			// comprobamos si el entrenador tiene dinero suficiente para esa apuesta
-			if (juego.puedeApostar(cantidadApuesta)) {
+        lblResultado.setVisible(false);
+        lblResultado.setManaged(false);
 
-				// ejecutamos la logica caracruz
-				// este metodo ya descuenta si pierde o suma el doble si gana
-				String mensajeResultado = juego.jugarMoneda(eleccionUsuario, cantidadApuesta);
-				
-				// definimos la ruta de la imagen segun lo que salio
-				String rutaImagen;
-	            String resultadoTexto;
-				
-				// obtenemos el resultado que ha salido 
-				if (juego.getResultadoUltimoLanzamiento() == CaraCruz.Eleccion.CARA) {
-					// si sale cara cargamos la imagen de pikachu
-					rutaImagen = "imgs/Casino/VMoneda/caraMoneda.png";
-	                resultadoTexto = "CARA";
-				} else {
-					// si sale cruz cargamos la imagen de la pokeball
-					rutaImagen = "imgs/Casino/VMoneda/cruzMoneda.png";
-	                resultadoTexto = "CRUZ";
-				}
+        try {
+            // leemos la cantidad que el usuario quiere apostar desde el input
+            int cantidadApuesta = Integer.parseInt(txtApuesta.getText());
 
-				// mostramos el mensaje que devuelve el resultado
-				lblResultado.setText(mensajeResultado);
-				
-				// comprobamos si ha ganado para elegir el tipo de alerta
-	            if (mensajeResultado.contains("ganado")) {
-	                mostrarAlertaCasino("¡Victoria!", "¡Ha salido " + resultadoTexto + "!", 
-	                                   "¡Enhorabuena! has ganado " + (cantidadApuesta * 2) + " pokedollares.", 
-	                                   Alert.AlertType.INFORMATION, rutaImagen);
-	            } else {
-	                mostrarAlertaCasino("¡Derrota!", "¡Ha salido " + resultadoTexto + "!", 
-	                                   "Lo sentimos, has perdido tu apuesta.", 
-	                                   Alert.AlertType.WARNING, rutaImagen);
-	            }
+            // comprobamos si el entrenador tiene dinero suficiente para esa apuesta
+            if (juego.puedeApostar(cantidadApuesta)) {
 
-				// actualizamos las ganancias en la bd
-				entrenadorDAO.actualizarPokedollares(Sesion.entrenadorLogueado.getIdEntrenador(),Sesion.entrenadorLogueado.getPokedollares());
+                // ejecutamos la logica caracruz
+                // este metodo ya descuenta si pierde o suma el doble si gana
+                String mensajeResultado = juego.jugarMoneda(eleccionUsuario, cantidadApuesta);
 
-				// actualizamos el ui con los pokedollares que tiene el entrenador
-				actualizarUI();
+                // definimos la ruta de la imagen segun lo que salio
+                String rutaImagen;
+                String resultadoTexto;
 
-			} else {
-				// si no tiene dinero suficiente avisamos al usuario
-				mostrarMensajeError("¡No tienes suficientes Pokedóllares!");
-			}
+                // obtenemos el resultado que ha salido
+                if (juego.getResultadoUltimoLanzamiento() == CaraCruz.Eleccion.CARA) {
+                    // si sale cara cargamos la imagen de pikachu
+                    rutaImagen = "imgs/Casino/VMoneda/caraMoneda.png";
+                    resultadoTexto = "CARA";
+                } else {
+                    // si sale cruz cargamos la imagen de la pokeball
+                    rutaImagen = "imgs/Casino/VMoneda/cruzMoneda.png";
+                    resultadoTexto = "CRUZ";
+                }
 
-		} catch (NumberFormatException e) {
-			mostrarMensajeError("¡Introduce una apuesta válida!");
-		}
-	}
+                // mostramos el mensaje que devuelve el resultado
+                lblResultado.setText(mensajeResultado);
 
-	// metodo para actualizar los pokedollares del entrenador en la vista
-	private void actualizarUI() {
-		if (Sesion.entrenadorLogueado != null) {
-			lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
-			System.out.println(Sesion.entrenadorLogueado.getNombreEntrenador());
-		}
-	}
-	
-	
-	// metodo para crear la ventana emergente con la imagen de la moneda
-		private void mostrarAlertaCasino(String titulo, String cabecera, String contenido, Alert.AlertType tipo, String rutaImagenMoneda) {
-	        Alert alerta = new Alert(tipo);
-	        alerta.setTitle(titulo);
-	        alerta.setHeaderText(cabecera);
-	        alerta.setContentText(contenido);
+                // comprobamos si ha ganado para elegir el tipo de alerta
+                if (mensajeResultado.contains("ganado")) {
+                    mostrarAlertaCasino("¡Victoria!", "¡Ha salido " + resultadoTexto + "!",
+                            "¡Enhorabuena! has ganado " + (cantidadApuesta * 2) + " pokedollares.",
+                            Alert.AlertType.INFORMATION, rutaImagen);
+                } else {
+                    mostrarAlertaCasino("¡Derrota!", "¡Ha salido " + resultadoTexto + "!",
+                            "Lo sentimos, has perdido tu apuesta.",
+                            Alert.AlertType.WARNING, rutaImagen);
+                }
 
-	        try {
-	            // creamos la imagen de la moneda que ha salido
-	            String urlImagen = new File(rutaImagenMoneda).toURI().toString();
-	            ImageView imagenMoneda = new ImageView(new Image(urlImagen));
-	            
-	            // ajustamos el tamaño para que quepa bien en el pop-up
-	            imagenMoneda.setFitHeight(80);
-	            imagenMoneda.setFitWidth(80);
-	            
-	            // establecemos esta imagen como el icono principal de la alerta
-	            alerta.setGraphic(imagenMoneda); 
-	        } catch (Exception e) {
-	            System.out.println("Error al cargar la imagen en la alerta");
-	        }
+                // actualizamos las ganancias en la bd
+                entrenadorDAO.actualizarPokedollares(Sesion.entrenadorLogueado.getIdEntrenador(), Sesion.entrenadorLogueado.getPokedollares());
 
-	        DialogPane dialogPane = alerta.getDialogPane();
-	        
-	        // ponemos el icono de pokemon en la esquina de la ventana
-	        try {
-	            Stage stage = (Stage) dialogPane.getScene().getWindow();
-	            stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
-	        } catch (Exception e) { }
+                // actualizamos el ui con los pokedollares que tiene el entrenador
+                actualizarUI();
 
-	        // vinculamos el css correspondiente segun si es victoria o derrota
-	        if(tipo == Alert.AlertType.WARNING) {
-	            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
-	        } else {
-	            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
-	        }
+            } else {
+                // si no tiene dinero suficiente avisamos al usuario
+                mostrarMensajeError("¡No tienes suficientes Pokedóllares!");
+            }
 
-	        alerta.showAndWait(); // bloquea la aplicacion hasta se cierra el pop-up
-	    }
+        } catch (NumberFormatException e) {
+            mostrarMensajeError("¡Introduce una apuesta válida!");
+        }
+    }
 
-	
-		// metodo nuevo para gestionar la aparicion del texto del label
-		private void mostrarMensajeError(String texto) {
-		    lblResultado.setText(texto);
-		    lblResultado.setVisible(true);
-		    lblResultado.setManaged(true);
-		}
-	
-	    @FXML
-	    // metodo para el boton para volver al casino
-	    void clickSalir(MouseEvent event) { 
-	        try {
-	            // cargamos el FXML del menu principal
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/casino/Casino.fxml"));
-	            Parent root = loader.load();
+    // metodo para actualizar los pokedollares del entrenador en la vista
+    private void actualizarUI() {
+        if (Sesion.entrenadorLogueado != null) {
+            lblPokedollares.setText(Sesion.entrenadorLogueado.getPokedollares() + " Pokedóllares");
+            System.out.println(Sesion.entrenadorLogueado.getNombreEntrenador());
+        }
+    }
 
-	         // obtenemos la ventana actual a partir del boton pulsado
-	            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-	            // creamos la escena con el tamaño original del menú principal
-	            Scene scene = new Scene(root, 720, 720);
-	            
-	            stage.setScene(scene);
-	            stage.setTitle("Pokémon - Casino");
-	            stage.centerOnScreen();
-	            stage.show();
+    // metodo para crear la ventana emergente con la imagen de la moneda
+    private void mostrarAlertaCasino(String titulo, String cabecera, String contenido, Alert.AlertType tipo, String rutaImagenMoneda) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(contenido);
 
-	        } catch (IOException e) {
-	            System.err.println("Error al intentar volver al Menú Principal: " + e.getMessage());
-	            e.printStackTrace();
-	        }
-	    }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+        try {
+            // creamos la imagen de la moneda que ha salido
+            String urlImagen = new File(rutaImagenMoneda).toURI().toString();
+            ImageView imagenMoneda = new ImageView(new Image(urlImagen));
+
+            // ajustamos el tamaño para que quepa bien en el pop-up
+            imagenMoneda.setFitHeight(80);
+            imagenMoneda.setFitWidth(80);
+
+            // establecemos esta imagen como el icono principal de la alerta
+            alerta.setGraphic(imagenMoneda);
+        } catch (Exception e) {
+            System.out.println("Error al cargar la imagen en la alerta");
+        }
+
+        DialogPane dialogPane = alerta.getDialogPane();
+
+        // ponemos el icono de pokemon en la esquina de la ventana
+        try {
+            Stage stage = (Stage) dialogPane.getScene().getWindow();
+            stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
+        } catch (Exception e) {
+        }
+
+        // vinculamos el css correspondiente segun si es victoria o derrota
+        if (tipo == Alert.AlertType.WARNING) {
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
+        } else {
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+        }
+
+        alerta.showAndWait(); // bloquea la aplicacion hasta se cierra el pop-up
+    }
+
+
+    // metodo nuevo para gestionar la aparicion del texto del label
+    private void mostrarMensajeError(String texto) {
+        lblResultado.setText(texto);
+        lblResultado.setVisible(true);
+        lblResultado.setManaged(true);
+    }
+
+    @FXML
+        // metodo para el boton para volver al casino
+    void clickSalir(MouseEvent event) {
+        try {
+            // cargamos el FXML del menu principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/casino/Casino.fxml"));
+            Parent root = loader.load();
+
+            // obtenemos la ventana actual a partir del boton pulsado
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // creamos la escena con el tamaño original del menú principal
+            Scene scene = new Scene(root, 720, 720);
+
+            stage.setScene(scene);
+            stage.setTitle("Pokémon - Casino");
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al intentar volver al Menú Principal: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
 }

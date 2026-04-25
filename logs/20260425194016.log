@@ -1,0 +1,5 @@
+2026-04-25 19:40:16.476 INFO inicioCombate pokemon={“Butterfree”, 1, 1, OK}, pokemonRival={“Zapdos”, 5, Paco el del Bar, OK}, turno=1
+2026-04-25 19:40:16.476 INFO cambio1 pokemon={“Arcanine”, 1, 1, OK}, pokemonRival={“Zapdos”, 5, Paco el del Bar, OK}, turno=2
+2026-04-25 19:40:16.477 INFO Giro Fuego pokemon={“Arcanine”, 1, 1, OK}, pokemonRival={“Zapdos”, 5, Paco el del Bar, KO}, turno=3
+2026-04-25 19:40:16.477 INFO debilitado2 pokemon={“Arcanine”, 1, 1, OK}, pokemonRival={“Zapdos”, 5, Paco el del Bar, KO}, turno=4
+2026-04-25 19:40:16.477 INFO debilitado2 pokemon={“Arcanine”, 1, 1, OK}, pokemonRival={“Zapdos”, 5, Paco el del Bar, KO}, turno=5

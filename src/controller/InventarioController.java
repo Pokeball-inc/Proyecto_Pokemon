@@ -219,19 +219,19 @@ public class InventarioController implements Initializable {
         // Modificar botones de Comprar y Usar en función de la cantidad que poseas
 
 
-            usarObjeto.setVisible(true);
+        usarObjeto.setVisible(true);
 
-            /// El botón de comprar centrado
+        /// El botón de comprar centrado
 
-            Rectangle rectComprar = (Rectangle) comprarObjeto.getChildren().get(0);
-            comprarObjeto.setLayoutX(33);
-            comprarObjeto.setLayoutY(404);
-            comprarObjeto.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            comprarObjeto.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            rectComprar.setWidth(102);
-            rectComprar.setHeight(37);
-            rectComprar.setLayoutX(0);
-            rectComprar.setLayoutY(0);
+        Rectangle rectComprar = (Rectangle) comprarObjeto.getChildren().get(0);
+        comprarObjeto.setLayoutX(33);
+        comprarObjeto.setLayoutY(404);
+        comprarObjeto.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        comprarObjeto.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        rectComprar.setWidth(102);
+        rectComprar.setHeight(37);
+        rectComprar.setLayoutX(0);
+        rectComprar.setLayoutY(0);
 
         ///  Evento de mouse para comprar
 
@@ -247,7 +247,7 @@ public class InventarioController implements Initializable {
                 new EntrenadorDAO().actualizarPokedollares(entrenadorActual.getIdEntrenador(), nuevoSaldo);
                 InventarioDAO.actualizarInventario(con);
 
-                System.out.println("Has comprado "+ objeto.getNombreObjeto() +" por "+ String.valueOf(objeto.getPrecio()) + "!");
+                System.out.println("Has comprado " + objeto.getNombreObjeto() + " por " + String.valueOf(objeto.getPrecio()) + "!");
 
                 /// Recargar
 
@@ -260,7 +260,7 @@ public class InventarioController implements Initializable {
                 /// Aviso de saldo insuficiente
 
                 mostrarAlerta("¡Error al comprar objeto!", "No tienes suficiente saldo para realizar esta compra",
-                        "Saldo necesario: "+ String.valueOf(objeto.getPrecio()) + "\nTu saldo: " + String.valueOf(entrenadorActual.getPokedollares()), Alert.AlertType.WARNING );
+                        "Saldo necesario: " + String.valueOf(objeto.getPrecio()) + "\nTu saldo: " + String.valueOf(entrenadorActual.getPokedollares()), Alert.AlertType.WARNING);
             }
         });
 
@@ -268,17 +268,11 @@ public class InventarioController implements Initializable {
         /// Evento de Mouse para equipar o desequipar un objeto
 
         usarObjeto.setOnMouseClicked(event -> {
-           abrirPanelSeleccion(ListaPokemon, objeto);
+            abrirPanelSeleccion(ListaPokemon, objeto);
         });
 
 
-
-
     }
-
-
-
-
 
 
     ///  Method para cargar un Panel donde salgan todos los pokemons
@@ -335,7 +329,7 @@ public class InventarioController implements Initializable {
 
                 cajaPokemon.setOnMouseClicked(event -> {
 
-                    System.out.println("Has seleccionado a "+ p.getMotePokemon());
+                    System.out.println("Has seleccionado a " + p.getMotePokemon());
 
                     if (p.getObjetoEquipado() != null) {
                         System.out.println("Tiene equipado -> " + p.getObjetoEquipado().getNombreObjeto());
@@ -344,8 +338,7 @@ public class InventarioController implements Initializable {
                     }
 
                 });
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 
@@ -386,74 +379,74 @@ public class InventarioController implements Initializable {
 
                 // Si el pokemon ya tiene un objeto equipado, se desequipa
 
-               if (p.getObjetoEquipado() != null) {
+                if (p.getObjetoEquipado() != null) {
 
-                   Objeto objetoAQuitar = p.getObjetoEquipado();
+                    Objeto objetoAQuitar = p.getObjetoEquipado();
 
-                   if (objetoAQuitar.getIdObjeto() == objeto.getIdObjeto()) {
+                    if (objetoAQuitar.getIdObjeto() == objeto.getIdObjeto()) {
 
-                       // Añadirlo al inventario del entrenador
+                        // Añadirlo al inventario del entrenador
 
-                       entrenadorActual.getInventario().añadirObjeto(objetoAQuitar,  1);
+                        entrenadorActual.getInventario().añadirObjeto(objetoAQuitar, 1);
 
-                       System.out.println("Objeto "+ objeto.getNombreObjeto() + " Desequipado") ;
+                        System.out.println("Objeto " + objeto.getNombreObjeto() + " Desequipado");
 
-                       PokemonDAO.actualizarObjetoPokemon(con, p, null);
-                   } else {
+                        PokemonDAO.actualizarObjetoPokemon(con, p, null);
+                    } else {
 
-                       // Añadirlo al inventario del entrenador
+                        // Añadirlo al inventario del entrenador
 
-                       entrenadorActual.getInventario().añadirObjeto(objetoAQuitar,  1);
+                        entrenadorActual.getInventario().añadirObjeto(objetoAQuitar, 1);
 
-                       PokemonDAO.actualizarObjetoPokemon(con, p, null);
+                        PokemonDAO.actualizarObjetoPokemon(con, p, null);
 
-                       // Recuperamos la cantidad de objetos disponibles
+                        // Recuperamos la cantidad de objetos disponibles
 
-                       int cantidadDisponible = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
-                               .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
+                        int cantidadDisponible = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
+                                .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
 
-                       if (cantidadDisponible > 0) {
-                           entrenadorActual.getInventario().añadirObjeto(objeto, -1);
-                       } else {
-                           return;
-                       }
+                        if (cantidadDisponible > 0) {
+                            entrenadorActual.getInventario().añadirObjeto(objeto, -1);
+                        } else {
+                            return;
+                        }
 
-                       // Y lo añadimos
+                        // Y lo añadimos
 
-                       PokemonDAO.actualizarObjetoPokemon(con, p, objeto);
-
-
-                       System.out.println("Objeto "+ objeto.getNombreObjeto() + " Equipado.");
-
-                   }
-
-               } else {
-
-                   // Recuperamos la cantidad de objetos disponibles
-
-                   int cantidadDisponible = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
-                           .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
-
-                   if (cantidadDisponible > 0) {
-                       entrenadorActual.getInventario().añadirObjeto(objeto, -1);
-                   } else {
-                       return;
-                   }
-
-                   // Y lo añadimos
-
-                   PokemonDAO.actualizarObjetoPokemon(con, p, objeto);
+                        PokemonDAO.actualizarObjetoPokemon(con, p, objeto);
 
 
-                   System.out.println("Objeto "+ objeto.getNombreObjeto() + " Equipado.");
-               }
+                        System.out.println("Objeto " + objeto.getNombreObjeto() + " Equipado.");
 
-               InventarioDAO.actualizarInventario(con);
+                    }
 
-               panelSeleccion.setVisible(false);
+                } else {
 
-               cargarObjetos();
-               cargarInfoObjeto(objeto);
+                    // Recuperamos la cantidad de objetos disponibles
+
+                    int cantidadDisponible = entrenadorActual.getInventario().getListaObjetos().stream().filter(objetoInventario -> objetoInventario.getObjeto().getIdObjeto() == objeto.getIdObjeto())
+                            .mapToInt(objetoInventario -> objetoInventario.getCantidad()).sum();
+
+                    if (cantidadDisponible > 0) {
+                        entrenadorActual.getInventario().añadirObjeto(objeto, -1);
+                    } else {
+                        return;
+                    }
+
+                    // Y lo añadimos
+
+                    PokemonDAO.actualizarObjetoPokemon(con, p, objeto);
+
+
+                    System.out.println("Objeto " + objeto.getNombreObjeto() + " Equipado.");
+                }
+
+                InventarioDAO.actualizarInventario(con);
+
+                panelSeleccion.setVisible(false);
+
+                cargarObjetos();
+                cargarInfoObjeto(objeto);
 
             });
         }
@@ -466,13 +459,13 @@ public class InventarioController implements Initializable {
 
     /**
      * Boton/Accion para cerrar la caja de seleccion sin haber elegido ningun Pokemon.
+     *
      * @param event El evento de raton
      */
     @FXML
     public void cerrarSeleccion(MouseEvent event) {
         panelSeleccion.setVisible(false);
     }
-
 
 
     // Method para cargar la imagen de un objeto, si ya me canse de repetir codigo xd
@@ -528,12 +521,11 @@ public class InventarioController implements Initializable {
         }
 
         //Para diferenciar entre exito y fracaso
-        if(tipo == Alert.AlertType.WARNING) {
+        if (tipo == Alert.AlertType.WARNING) {
             dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
         } else {
             dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); //Enlace con archivo alertas css personalizado
         }
-
 
 
         alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana

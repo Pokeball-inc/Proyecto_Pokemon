@@ -1,0 +1,15 @@
+2026-04-25 20:06:05.830 INFO inicioCombate pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Poliwrath”, 32, Becario Explotado, OK}, turno=1
+2026-04-25 20:06:05.830 INFO Lanzallamas pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Poliwrath”, 32, Becario Explotado, KO}, turno=2
+2026-04-25 20:06:05.830 INFO debilitado2 pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Poliwrath”, 32, Becario Explotado, KO}, turno=3
+2026-04-25 20:06:05.830 INFO debilitado2 pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Poliwrath”, 32, Becario Explotado, KO}, turno=4
+2026-04-25 20:06:05.830 INFO Rueda Fuego pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Beedrill”, 30, Becario Explotado, KO}, turno=5
+2026-04-25 20:06:05.830 INFO debilitado2 pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Beedrill”, 30, Becario Explotado, KO}, turno=6
+2026-04-25 20:06:05.831 INFO debilitado2 pokemon={“Arcanine”, 30, 1, OK}, pokemonRival={“Beedrill”, 30, Becario Explotado, KO}, turno=7
+2026-04-25 20:06:05.831 INFO cambio1 pokemon={“Togepi”, 8, 1, OK}, pokemonRival={“Magby”, 35, Becario Explotado, OK}, turno=8
+2026-04-25 20:06:05.831 INFO cambio1 pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Magby”, 35, Becario Explotado, OK}, turno=9
+2026-04-25 20:06:05.831 INFO Rueda Fuego pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Magby”, 35, Becario Explotado, KO}, turno=10
+2026-04-25 20:06:05.831 INFO debilitado2 pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Magby”, 35, Becario Explotado, KO}, turno=11
+2026-04-25 20:06:05.831 INFO debilitado2 pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Magby”, 35, Becario Explotado, KO}, turno=12
+2026-04-25 20:06:05.831 INFO Lanzallamas pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Exeggutor”, 33, Becario Explotado, KO}, turno=13
+2026-04-25 20:06:05.831 INFO debilitado2 pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Exeggutor”, 33, Becario Explotado, KO}, turno=14
+2026-04-25 20:06:05.831 INFO debilitado2 pokemon={“Arcanine”, 31, 1, OK}, pokemonRival={“Exeggutor”, 33, Becario Explotado, KO}, turno=15

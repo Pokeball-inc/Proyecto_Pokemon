@@ -41,7 +41,7 @@ public class CapturaDao {
                 p.setImgShinyFrontal3D(rs.getString("IMG_SHINY_FRONTAL3D"));
                 p.setImgShinyPosterior(rs.getString("IMG_SHINY_TRASERA"));
                 p.setImgShinyPosterior3D(rs.getString("IMG_SHINY_TRASERA3D"));
-                
+
 
                 generarStats(p);
 
@@ -113,13 +113,13 @@ public class CapturaDao {
 
             ps.setInt(1, p.getNumPokedex());
             ps.setInt(2, idEntrenador);
-            
+
             if (p.getMotePokemon() != null && !p.getMotePokemon().isEmpty()) {
                 ps.setString(3, p.getMotePokemon());
             } else {
                 ps.setString(3, p.getNombrePokemon());
             }
-            
+
             if (p.getSexo() != null) {
                 ps.setString(4, p.getSexo().name());
             } else {
@@ -135,16 +135,16 @@ public class CapturaDao {
             ps.setInt(11, p.getNivel());
             ps.setInt(12, p.getExperiencia());
             ps.setInt(13, p.getFertilidad());
-            
+
             if (p.getEstadoActual() != null) {
                 ps.setString(14, p.getEstadoActual().name());
             } else {
                 ps.setString(14, "SANO");
             }
-            
+
             ps.setString(15, ubicacion);
             ps.setInt(16, p.getVitalidad());
-            
+
             //guardamos si el Pokemon es Shiny o no en la BD
             ps.setBoolean(17, p.getEsShiny());
 

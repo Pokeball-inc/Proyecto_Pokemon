@@ -1,7 +1,8 @@
 package model;
 
 /**
- * Esta clase es para permitir la "cantidad" en los objetos */
+ * Esta clase es para permitir la "cantidad" en los objetos
+ */
 public class ObjetoInventario {
 
     // Atributos
@@ -20,11 +21,14 @@ public class ObjetoInventario {
     public Objeto getObjeto() {
         return objeto;
     }
-    public void setObjeto(Objeto objeto) {}
+
+    public void setObjeto(Objeto objeto) {
+    }
 
     public int getCantidad() {
         return cantidad;
     }
+
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }

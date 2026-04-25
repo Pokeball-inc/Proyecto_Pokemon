@@ -7,15 +7,6 @@ import dao.PokemonDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import java.io.File;
-import java.net.URL;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -35,6 +26,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.*;
+
+import java.io.File;
+import java.net.URL;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
 public class EquipoController implements Initializable {
@@ -89,7 +88,7 @@ public class EquipoController implements Initializable {
     private Pokemon pokemonSeleccionado;
     @FXML
     private ImageView curarEquipo;
-    
+
 
     private List<Pokemon> ListaPokemon = new ArrayList<>();
 
@@ -126,7 +125,7 @@ public class EquipoController implements Initializable {
         }
     }
 
- // Caja
+    // Caja
     private void cargarInventario() {
         // Limpiamos el TilePane antes de cargar para evitar duplicados visuales
         cajaPokemon.getChildren().clear();
@@ -242,7 +241,6 @@ public class EquipoController implements Initializable {
                 cajaPokemon.setVgap(20);
 
 
-
             } catch (Exception e) {
                 System.out.println("Error cargando imagen de pokemon: " + e.getMessage());
             }
@@ -253,7 +251,7 @@ public class EquipoController implements Initializable {
         }
     }
 
- // Metodo para mostrar detalles de pokemons
+    // Metodo para mostrar detalles de pokemons
 
     private void mostrarDetallesPokemon(Pokemon p) {
         if (p == null) return;
@@ -544,9 +542,9 @@ public class EquipoController implements Initializable {
 
             reproducirSonido(p.getIdPokemon());
 
-            } catch(Exception ex){
-                System.out.println(ex.getMessage());
-            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     // Metodo para recargar la informacion visual
 
@@ -657,25 +655,25 @@ public class EquipoController implements Initializable {
 
         }
     }
-    
+
     //BOTON curar
     @FXML
     private void aumentarTamanoBotonCurarEquipo(MouseEvent event) {
-    	curarEquipo.setScaleX(curarEquipo.getScaleX() + 0.2);
+        curarEquipo.setScaleX(curarEquipo.getScaleX() + 0.2);
         curarEquipo.setScaleY(curarEquipo.getScaleY() + 0.2);
     }
-    
+
     @FXML
     private void disminuirTamanoBotonCurarEquipo(MouseEvent event) {
-    	curarEquipo.setScaleX(curarEquipo.getScaleX() - 0.2);
+        curarEquipo.setScaleX(curarEquipo.getScaleX() - 0.2);
         curarEquipo.setScaleY(curarEquipo.getScaleY() - 0.2);
     }
-    
+
     @FXML
     // boton curar pokemon
     public void clickCurarPokemon(MouseEvent event) {
         Entrenador jugador = Sesion.entrenadorLogueado;
-        
+
         //comprobamos si necesita curar
         boolean necesitaCura = false;
         for (Pokemon p : jugador.getEquipoPokemon()) {
@@ -704,12 +702,12 @@ public class EquipoController implements Initializable {
 
         //si necesita cura
         jugador.curarEquipoCompleto();
-        
+
         try {
             ConexionBBDD conector = new ConexionBBDD();
             Connection con = conector.getConexion();
             MovimientoDAO movDao = new MovimientoDAO(con);
-            
+
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
                     PokemonDAO.actualizarStatsBD(con, p);
@@ -721,7 +719,7 @@ public class EquipoController implements Initializable {
         } catch (Exception e) {
             System.out.println("Error al guardar la cura en BD: " + e.getMessage());
         }
-        
+
         //alerta de exito
         mostrarAlertaEstado("Centro Pokémon", "¡Tus Pokémon han recuperado toda su energía y sus PPs!", Alert.AlertType.INFORMATION, "imgs/Equipo/curarEquipo.png");
     }
@@ -745,8 +743,8 @@ public class EquipoController implements Initializable {
         } catch (Exception e) {
             System.out.println("No se pudo cargar el icono central de la alerta");
         }
-        
-     //aplicamos el CSS para diferenciar entre exito y fracaso
+
+        //aplicamos el CSS para diferenciar entre exito y fracaso
         try {
             if (tipo == Alert.AlertType.WARNING) {
                 alerta.getDialogPane().getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
@@ -764,7 +762,8 @@ public class EquipoController implements Initializable {
             if (fileIcono.exists()) {
                 stageAlerta.getIcons().add(new Image(fileIcono.toURI().toString()));
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         alerta.showAndWait();
     }

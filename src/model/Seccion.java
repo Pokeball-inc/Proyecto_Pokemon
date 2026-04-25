@@ -22,7 +22,7 @@ public class Seccion {
 
     // Constructor parametrizado
 
-    public Seccion(int id,  String nombre, String rutaImagen, String rutaFXML, String rutaCSS) {
+    public Seccion(int id, String nombre, String rutaImagen, String rutaFXML, String rutaCSS) {
         this.id = id;
         this.nombre = nombre;
         this.rutaImagen = rutaImagen;

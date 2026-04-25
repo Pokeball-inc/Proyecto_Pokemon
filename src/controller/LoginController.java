@@ -1,5 +1,8 @@
 package controller;
 
+import bd.ConexionBBDD;
+import dao.EntrenadorDAO;
+import dao.PokemonDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -10,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,19 +21,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Entrenador;
 import model.Sesion;
-import javafx.scene.input.MouseEvent;
+import model.UbicacionPokemon;
 
+import javax.swing.*;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
-
-import dao.EntrenadorDAO;
-
-import javax.swing.JOptionPane;
-
-import bd.ConexionBBDD;
-import dao.PokemonDAO;
-import model.UbicacionPokemon;
 
 public class LoginController implements Initializable {
 
@@ -131,7 +128,6 @@ public class LoginController implements Initializable {
     }
 
 
-
 // ---------------------------- BOTÓN DE CRÉDITOS ---------------------------- \\
 
     @FXML
@@ -182,23 +178,23 @@ public class LoginController implements Initializable {
         }
 
         EntrenadorDAO dao = new EntrenadorDAO();
-        
-     // usamos el login ue nos devuelve el entrenadore cargado
+
+        // usamos el login ue nos devuelve el entrenadore cargado
         Entrenador entrenadorLogueado = dao.login(usuario, contrasena);
 
-     // si entrenadorLogueado no es null, el login es correcto
+        // si entrenadorLogueado no es null, el login es correcto
         if (entrenadorLogueado != null) {
             // si login es correcto lo mostramos
-            System.out.println("Login correcto: " + entrenadorLogueado.getNombreEntrenador()); 
+            System.out.println("Login correcto: " + entrenadorLogueado.getNombreEntrenador());
 
             try {
-            	
+
                 //cargar los pokemon del entrenador de la BD
                 PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.EQUIPO);
                 PokemonDAO.obtenerPokemon(con, entrenadorLogueado, UbicacionPokemon.CAJA);
                 System.out.println("Pokémon del entrenador descargados de la base de datos.");
-                
-               Sesion.entrenadorLogueado = entrenadorLogueado;
+
+                Sesion.entrenadorLogueado = entrenadorLogueado;
 
                 // cargamos la vista pantalla principal
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/principal/vistaPrincipal.fxml"));

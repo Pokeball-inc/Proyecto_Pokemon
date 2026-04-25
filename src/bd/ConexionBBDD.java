@@ -6,37 +6,37 @@ import java.sql.SQLException;
 
 
 public class ConexionBBDD {
-	
-	public Connection dataBaseLink;
-	
 
-	public Connection getConexion() {
-		String dataBaseName = "PROYECTO_POKEMON";
-		String dataBaseUser = "root";
-		String dataBasePassword = "";
-		String url = "jdbc:mysql://localhost:3306/" + dataBaseName;
-		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			dataBaseLink = DriverManager.getConnection(url, dataBaseUser, dataBasePassword);
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
-		} 
-			return dataBaseLink;
-	}
+    public Connection dataBaseLink;
+
+
+    public Connection getConexion() {
+        String dataBaseName = "PROYECTO_POKEMON";
+        String dataBaseUser = "root";
+        String dataBasePassword = "";
+        String url = "jdbc:mysql://localhost:3306/" + dataBaseName;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            dataBaseLink = DriverManager.getConnection(url, dataBaseUser, dataBasePassword);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return dataBaseLink;
+    }
 
 }
 
 /*
- * 
+ *
  * TODO
  * terminar conexion y comprobar, esta cogida de los apuntes
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  * */

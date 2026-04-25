@@ -1,5 +1,8 @@
 package controller;
 
+import bd.ConexionBBDD;
+import dao.EntrenadorDAO;
+import dao.PokemonDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,13 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Entrenador;
+import model.Pokemon;
+import model.Sesion;
 
 import java.io.File;
 import java.net.URL;
@@ -30,80 +31,73 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import bd.ConexionBBDD;
-import dao.EntrenadorDAO;
-import dao.PokemonDAO;
-import model.Entrenador;
-import model.Pokemon;
-import model.Sesion;
-
 public class EntrenamientoController implements Initializable {
 
     //Elementos vista
-    
-    @FXML 
+
+    @FXML
     private ListView<Pokemon> listaPokemon; //El menú lateral con scroll
-    
+
     // Elementos de la vista central 
-    @FXML 
+    @FXML
     private ImageView imgPokemonCentral;
-    
-    @FXML 
+
+    @FXML
     private ImageView imgSexoPokemon;
-    
-    @FXML 
+
+    @FXML
     private ImageView imgTipo1Pokemon;
-    
-    @FXML 
+
+    @FXML
     private ImageView imgTipo2Pokemon;
-    
-    @FXML 
+
+    @FXML
     private ImageView imgShiny;
-    
+
     @FXML
     private ImageView imgFondoPantalla; //para cambiar el fondo al pasar el cursor
-    
-    @FXML 
+
+    @FXML
     private Text txtNombreCentral;
-    
-    @FXML 
+
+    @FXML
     private Text txtNivelCentral;
-    
+
     @FXML
     private Text txtPokedollares;
-    
+
     @FXML
     private Text txtAtkPokemon;
-    
+
     @FXML
     private Text txtHpPokemon;
-    
+
     @FXML
     private Text txtDefensaPokemon;
-    
+
     @FXML
     private Text txtAtkSpPokemon;
-    
+
     @FXML
     private Text txtDefensaSpPokemon;
-    
+
     @FXML
     private Text txtVelocidadPokemon;
 
     //Botones
-    
+
     @FXML
-    private ImageView botonEntrenamientoPesado; 
-    
+    private ImageView botonEntrenamientoPesado;
+
     @FXML
-    private ImageView botonEntrenamientoFurioso; 
-    
+    private ImageView botonEntrenamientoFurioso;
+
     @FXML
     private ImageView botonEntrenamientoFuncional;
-    
+
     @FXML
-    private ImageView botonEntrenamientoOnirico; 
-    
+    private ImageView botonEntrenamientoOnirico;
+
     @FXML
     private ImageView botonSalir;
 
@@ -126,7 +120,7 @@ public class EntrenamientoController implements Initializable {
         //Conectar a BD
         ConexionBBDD conector = new ConexionBBDD();
         this.con = conector.getConexion();
-        
+
         //Actualizar UI del dinero
         if (txtPokedollares != null) {
             txtPokedollares.setText("Pokedollares: " + entrenadorActual.getPokedollares());
@@ -134,12 +128,12 @@ public class EntrenamientoController implements Initializable {
 
         //Cargar los pokemon (Equipo + Caja) en el menu lateral
         cargarPokemonEnLista();
-        
+
         //Elegir uno al azar para que presida la sala de entrenamiento al entrar
         seleccionarPokemonAleatorio();
     }
 
-  //Metodo para cambiar el fondo de pantalla 
+    //Metodo para cambiar el fondo de pantalla
     private void cambiarFondoPantalla(String rutaFondo) {
         //prueba enlazado con el id
         if (imgFondoPantalla == null) {
@@ -149,7 +143,7 @@ public class EntrenamientoController implements Initializable {
 
         try {
             File archivoFondo = new File(rutaFondo);
-            
+
             //comprobar ruta
             if (archivoFondo.exists()) {
                 imgFondoPantalla.setImage(new Image(archivoFondo.toURI().toString()));
@@ -162,9 +156,9 @@ public class EntrenamientoController implements Initializable {
     }
 
     //Cambiar tamaño de botones (gracias Elyass XDDD)
-    
+
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON ENTRENAR AL PASAR EL CURSOR ---------------
-    
+
     //ENTRENAMIENTO PESADO
     @FXML
     private void aumentarTamañoBotonEntrenamientoPesado(MouseEvent event) {
@@ -183,7 +177,7 @@ public class EntrenamientoController implements Initializable {
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
-    
+
     //ENTRENAMIENTO FURIOSO
     @FXML
     private void aumentarTamañoBotonEntrenamientoFurioso(MouseEvent event) {
@@ -202,7 +196,7 @@ public class EntrenamientoController implements Initializable {
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
-    
+
     //ENTRENAMIENTO FUNCIONAL
     @FXML
     private void aumentarTamañoBotonEntrenamientoFuncional(MouseEvent event) {
@@ -221,7 +215,7 @@ public class EntrenamientoController implements Initializable {
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
-    
+
     //ENTRENAMIENTO ONIRICO
     @FXML
     private void aumentarTamañoBotonEntrenamientoOnirico(MouseEvent event) {
@@ -260,36 +254,36 @@ public class EntrenamientoController implements Initializable {
     @FXML
     public void clicEntrenamientoPesado(MouseEvent event) {
         //coste 20. sube: vitalidad(+5), defensa(+5), defensa especial(+5)
-        procesarEntrenamiento("Pesado", 20, 5, 0, 5, 0, 5, 0); 
+        procesarEntrenamiento("Pesado", 20, 5, 0, 5, 0, 5, 0);
     }
 
     //accion para el boton de entrenamiento furioso
     @FXML
     public void clicEntrenamientoFurioso(MouseEvent event) {
         //coste 30. sube: ataque(+5), ataque especial(+5), velocidad(+5)
-        procesarEntrenamiento("Furioso", 30, 0, 5, 0, 5, 0, 5); 
+        procesarEntrenamiento("Furioso", 30, 0, 5, 0, 5, 0, 5);
     }
 
     //accion para el boton de entrenamiento funcional
     @FXML
     public void clicEntrenamientoFuncional(MouseEvent event) {
         //coste 40. sube: vitalidad(+5), ataque(+5), defensa(+5), velocidad(+5)
-        procesarEntrenamiento("Funcional", 40, 5, 5, 5, 0, 0, 5); 
+        procesarEntrenamiento("Funcional", 40, 5, 5, 5, 0, 0, 5);
     }
 
     //accion para el boton de entrenamiento onirico
     @FXML
     public void clicEntrenamientoOnirico(MouseEvent event) {
         //coste 40. sube: vitalidad(+5), ataque especial(+5), defensa especial(+5), velocidad(+5)
-        procesarEntrenamiento("Onírico", 40, 5, 0, 0, 5, 5, 5); 
+        procesarEntrenamiento("Onírico", 40, 5, 0, 0, 5, 5, 5);
     }
 
     //Metodo general para comprobar dinero, restar y subir stats
     private void procesarEntrenamiento(String nombreEntrenamiento, int costeMultiplicador, int subeHp, int subeAtk, int subeDef, int subeAtkSp, int subeDefSp, int subeVel) {
-        
+
         //bloqueamos el fondo para que el hover del raton no lo quite
         fondoBloqueado = true;
-        
+
         //comprobamos que haya un pokemon seleccionado
         if (pokemonSeleccionado == null) {
             mostrarAlerta("Error", "¡Falta Pokémon!", "Selecciona primero un Pokémon del menú lateral para entrenarlo.", AlertType.WARNING);
@@ -301,13 +295,13 @@ public class EntrenamientoController implements Initializable {
 
         //calculamos el coste del entrenamiento en base a su nivel
         int coste = pokemonSeleccionado.getNivel() * costeMultiplicador;
-        
+
         //comprobamos fondos del entrenador
         if (entrenadorActual.getPokedollares() < coste) {
-            mostrarAlerta("Sin fondos", "¡Te faltan Pokedollars!", 
-                "El Entrenamiento " + nombreEntrenamiento + " para un Pokémon de Nvl " + pokemonSeleccionado.getNivel() + 
-                " cuesta " + coste + " Pokedollars.\nActualmente tienes: " + entrenadorActual.getPokedollares(), 
-                AlertType.WARNING);
+            mostrarAlerta("Sin fondos", "¡Te faltan Pokedollars!",
+                    "El Entrenamiento " + nombreEntrenamiento + " para un Pokémon de Nvl " + pokemonSeleccionado.getNivel() +
+                            " cuesta " + coste + " Pokedollars.\nActualmente tienes: " + entrenadorActual.getPokedollares(),
+                    AlertType.WARNING);
             //Desbloqueamos y volvemos al fondo predeterminado
             fondoBloqueado = false;
             cambiarFondoPantalla(FONDO_DEFAULT);
@@ -316,7 +310,7 @@ public class EntrenamientoController implements Initializable {
 
         //restamos el dinero EN MEMORIA
         entrenadorActual.setPokedollares(entrenadorActual.getPokedollares() - coste);
-        
+
         //subimos el resto de estadisticas
         pokemonSeleccionado.setVitalidadMaxima(pokemonSeleccionado.getBaseVitalidadMaxima() + subeHp);
         if (subeHp > 0) {
@@ -333,13 +327,13 @@ public class EntrenamientoController implements Initializable {
             txtPokedollares.setText("Pokedollars: " + entrenadorActual.getPokedollares());
         }
         actualizarVistaCentral();
-        listaPokemon.refresh(); 
+        listaPokemon.refresh();
 
         //guardar datos en la BASE DE DATOS
         try {
             PokemonDAO.actualizarStatsBD(con, pokemonSeleccionado);
-            
-            EntrenadorDAO entrenadorDao = new EntrenadorDAO(); 
+
+            EntrenadorDAO entrenadorDao = new EntrenadorDAO();
             //Grande Isaias xDDD
             entrenadorDao.actualizarPokedollares(entrenadorActual.getIdEntrenador(), entrenadorActual.getPokedollares());
         } catch (Exception e) {
@@ -347,11 +341,11 @@ public class EntrenamientoController implements Initializable {
         }
 
         //mostramos la alerta de exito sin avisos porque ya le hemos avisado antes
-        mostrarAlerta("¡Entrenamiento Completado!", 
-            "¡El Entrenamiento " + nombreEntrenamiento + " ha sido un éxito!", 
-            pokemonSeleccionado.getNombrePokemon() + " se ha vuelto más fuerte.\n" +
-            "Se han cobrado " + coste + " Pokedollars por los servicios.", 
-            AlertType.INFORMATION);
+        mostrarAlerta("¡Entrenamiento Completado!",
+                "¡El Entrenamiento " + nombreEntrenamiento + " ha sido un éxito!",
+                pokemonSeleccionado.getNombrePokemon() + " se ha vuelto más fuerte.\n" +
+                        "Se han cobrado " + coste + " Pokedollars por los servicios.",
+                AlertType.INFORMATION);
 
         //al cerrar el dialogo volvemos a poner el fondo normal y desbloqueamos
         fondoBloqueado = false;
@@ -361,26 +355,26 @@ public class EntrenamientoController implements Initializable {
     //Metodo para pedir confirmacion antes de gastar dinero
     private boolean mostrarConfirmacion(String titulo, String cabecera, String contenido) {
         //ventana del tipo confirmacion (con botones de aceptar/cancelar)
-        Alert alerta = new Alert(AlertType.CONFIRMATION); 
-        
+        Alert alerta = new Alert(AlertType.CONFIRMATION);
+
         //Textos de la ventana
-        alerta.setTitle(titulo); 
-        alerta.setHeaderText(cabecera); 
-        alerta.setContentText(contenido); 
-        
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(contenido);
+
         //Parte visual de la alerta
         try {
             String rutaIcono = new File("imgs/Login/Login-icon.png").toURI().toString();
             ImageView icono = new ImageView(new Image(rutaIcono));
             icono.setFitHeight(50);
             icono.setFitWidth(50);
-            alerta.setGraphic(icono); 
+            alerta.setGraphic(icono);
         } catch (Exception e) {
             System.out.println("error cargando el icono de alerta");
         }
-        
-        DialogPane dialogPane = alerta.getDialogPane(); 
-        
+
+        DialogPane dialogPane = alerta.getDialogPane();
+
         //Icono esquina superior izquierda
         try {
             Stage stage = (Stage) dialogPane.getScene().getWindow();
@@ -388,13 +382,13 @@ public class EntrenamientoController implements Initializable {
         } catch (Exception e) {
             System.out.println("error cargando el icono superior");
         }
-        
+
         //Aplicamos el estilo css de tus alertas
-        dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); 
-        
+        dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+
         //Esperamos la respuesta del usuario
         Optional<ButtonType> resultado = alerta.showAndWait();
-        
+
         //Devuelve true solo si pulsa el boton "OK" / "Aceptar"
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
@@ -403,8 +397,8 @@ public class EntrenamientoController implements Initializable {
 
     private void configurarDiseñoLista() {
         listaPokemon.setCellFactory(param -> new ListCell<Pokemon>() {
-            
-        	@Override
+
+            @Override
             protected void updateItem(Pokemon pokemon, boolean empty) {
                 super.updateItem(pokemon, empty);
 
@@ -413,10 +407,10 @@ public class EntrenamientoController implements Initializable {
                     setGraphic(null);
                 } else {
                     //Creamos una cajita horizontal
-                    HBox fila = new HBox(15); 
+                    HBox fila = new HBox(15);
                     fila.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-                    fila.setPadding(new javafx.geometry.Insets(10, 10, 10, 10)); 
-                    
+                    fila.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+
                     //Limitamos el ancho de la fila al ancho de la lista para eliminar barra scroll horizontal
                     fila.setMaxWidth(listaPokemon.getWidth() - 20);
                     //Para que se adapte si cambias el tamaño de la ventana:
@@ -431,7 +425,7 @@ public class EntrenamientoController implements Initializable {
                         // quitamos lo de transparent de la ruta base, muere en crystal/
                         String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
                         File archivoLista = new File(rutaImagen);
-                        
+
                         // comprobamos si existe para que no de el error feo y pete la lista
                         if (archivoLista.exists()) {
                             img.setImage(new Image(archivoLista.toURI().toString()));
@@ -439,12 +433,13 @@ public class EntrenamientoController implements Initializable {
                             System.out.println("ERROR MINIATURA ENTRENAMIENTO: No encuentro a " + pokemon.getNombrePokemon() + " en -> " + archivoLista.getAbsolutePath());
                             // si quieres que ponga una imagen vacia o de error, seria aqui
                         }
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
 
                     //Creamos su nombre y nivel
-                    VBox textos = new VBox(5); 
+                    VBox textos = new VBox(5);
                     textos.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-                    
+
                     //Comprobamos si tiene mote  y añadimos estrella si es Shiny
                     String nombreAMostrar;
                     if (pokemon.getMotePokemon() != null && !pokemon.getMotePokemon().trim().isEmpty()) {
@@ -452,22 +447,22 @@ public class EntrenamientoController implements Initializable {
                     } else {
                         nombreAMostrar = pokemon.getNombrePokemon();
                     }
-                    
+
                     if (pokemon.getEsShiny()) {
                         nombreAMostrar += "★";
                     }
-                                            
+
                     Label lblNombre = new Label(nombreAMostrar);
                     lblNombre.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 16px;");
-                    
+
                     Label lblNivel = new Label("Lvl " + pokemon.getNivel());
                     lblNivel.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 14px;");
-                    
+
                     textos.getChildren().addAll(lblNombre, lblNivel);
 
                     //Lo metemos todo en la cajita
                     fila.getChildren().addAll(img, textos);
-                    
+
                     setGraphic(fila);
                 }
             }
@@ -485,45 +480,45 @@ public class EntrenamientoController implements Initializable {
     //Metodo para cargar en la lista 
     private void cargarPokemonEnLista() {
         ObservableList<Pokemon> pokemonParaMostrar = FXCollections.observableArrayList();
-        
+
         //Añadir los del equipo 
         for (Pokemon p : entrenadorActual.getEquipoPokemon()) {
             if (p != null) {
                 pokemonParaMostrar.add(p);
             }
         }
-        
+
         //Añadir los de la caja 
         for (Pokemon p : entrenadorActual.getCajaPokemon()) {
             if (p != null) {
                 pokemonParaMostrar.add(p);
             }
         }
-        
+
         listaPokemon.setItems(pokemonParaMostrar);
     }
-    
+
     //Metodo para elegir un pokemon al azar al entrar a la sala
     private void seleccionarPokemonAleatorio() {
         ObservableList<Pokemon> todosLosPokemon = listaPokemon.getItems();
-        
+
         if (todosLosPokemon != null && !todosLosPokemon.isEmpty()) {
             Random rand = new Random();
             Pokemon aleatorio = todosLosPokemon.get(rand.nextInt(todosLosPokemon.size()));
-            
+
             // Le decimos a la lista que seleccione este pokemon visualmente. 
             //se llama a actualizarVistaCentral automaticamente
             listaPokemon.getSelectionModel().select(aleatorio);
-            
+
             // Si hay muchos, hace que la barra de scroll baje hasta 
             listaPokemon.scrollTo(aleatorio);
         }
     }
-    
+
     //Metodo para actualizar el centro de la pantalla al hacer click en la lista
     private void actualizarVistaCentral() {
         if (pokemonSeleccionado == null) return;
-        
+
         //Actualizamos Textos (Nombre y Nivel)
         if (txtNombreCentral != null) {
             String nombreAMostrar;
@@ -532,19 +527,19 @@ public class EntrenamientoController implements Initializable {
             } else {
                 nombreAMostrar = pokemonSeleccionado.getNombrePokemon();
             }
-            
+
             // Añadimos la estrella si es shiny
             if (pokemonSeleccionado.getEsShiny()) {
                 nombreAMostrar += "★";
             }
-            
+
             txtNombreCentral.setText(nombreAMostrar);
         }
-        
+
         if (txtNivelCentral != null) {
             txtNivelCentral.setText("Lvl " + pokemonSeleccionado.getNivel());
         }
-        
+
         //actualizamos Imagen Central y comprobamos si es SHINY
         if (imgPokemonCentral != null) {
             try {
@@ -555,7 +550,7 @@ public class EntrenamientoController implements Initializable {
 
                 //metodo inteligente
                 String rutaRelativa = pokemonSeleccionado.getRutaImagenActual(true, !Sesion.vista2D);
-                
+
                 // la ruta base se queda en crystal/
                 String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
                 File archivoCentral = new File(rutaImagen);
@@ -567,25 +562,25 @@ public class EntrenamientoController implements Initializable {
                     System.out.println("ERROR IMAGEN CENTRAL: No encuentro al bicho en -> " + archivoCentral.getAbsolutePath());
                     imgPokemonCentral.setImage(null);
                 }
-                
+
             } catch (Exception e) {
                 System.out.println("Error cargando imagen central: " + e.getMessage());
             }
         }
-        
+
         //Actualizamos Imagen SEXO
         if (imgSexoPokemon != null && pokemonSeleccionado.getSexo() != null) {
             String rutaSexo = "";
             if (pokemonSeleccionado.getSexo() == model.Sexo.MACHO) {
-                rutaSexo = "imgs/Entrenamiento/sexo/macho.png"; 
+                rutaSexo = "imgs/Entrenamiento/sexo/macho.png";
             } else if (pokemonSeleccionado.getSexo() == model.Sexo.HEMBRA) {
                 rutaSexo = "imgs/Entrenamiento/sexo/Hembra.png";
             } else {
                 rutaSexo = "imgs/Entrenamiento/sexo/Neutro2.0.png";
             }
-            
+
             File archivoSexo = new File(rutaSexo);
-            if(archivoSexo.exists()) {
+            if (archivoSexo.exists()) {
                 imgSexoPokemon.setImage(new Image(archivoSexo.toURI().toString()));
             } else {
                 System.out.println("ERROR SEXO: No encuentro la imagen en -> " + archivoSexo.getAbsolutePath());
@@ -596,9 +591,9 @@ public class EntrenamientoController implements Initializable {
         //Actualizamos Imagen TIPO 1
         if (imgTipo1Pokemon != null && pokemonSeleccionado.getTipoPrincipal() != null) {
             String nombreTipo = pokemonSeleccionado.getTipoPrincipal().name();
-            File archivoTipo1 = new File("imgs/Entrenamiento/Tipos/" + nombreTipo + ".png"); 
-            
-            if(archivoTipo1.exists()) {
+            File archivoTipo1 = new File("imgs/Entrenamiento/Tipos/" + nombreTipo + ".png");
+
+            if (archivoTipo1.exists()) {
                 imgTipo1Pokemon.setImage(new Image(archivoTipo1.toURI().toString()));
             } else {
                 System.out.println("ERROR TIPO 1: No encuentro la imagen en -> " + archivoTipo1.getAbsolutePath());
@@ -611,11 +606,11 @@ public class EntrenamientoController implements Initializable {
             if (pokemonSeleccionado.getTipoSecundario() != null) {
                 String nombreTipo2 = pokemonSeleccionado.getTipoSecundario().name();
                 File archivoTipo2 = new File("imgs/Entrenamiento/Tipos/" + nombreTipo2 + ".png");
-                
-                if(archivoTipo2.exists()) {
+
+                if (archivoTipo2.exists()) {
                     imgTipo2Pokemon.setImage(new Image(archivoTipo2.toURI().toString()));
                     //Lo mostramos por si estaba oculto
-                    imgTipo2Pokemon.setVisible(true); 
+                    imgTipo2Pokemon.setVisible(true);
                 } else {
                     System.out.println("ERROR TIPO 2: No encuentro la imagen en -> " + archivoTipo2.getAbsolutePath());
                     imgTipo2Pokemon.setImage(null);
@@ -626,34 +621,34 @@ public class EntrenamientoController implements Initializable {
                 imgTipo2Pokemon.setVisible(false);
             }
         }
-        
+
         //Actualizamos las estadisticas (Stats) del Pokemon
-        
+
         //Vitalidad (HP)
         if (txtHpPokemon != null) {
             txtHpPokemon.setText(String.valueOf(pokemonSeleccionado.getVitalidadMaxima()));
         }
-        
+
         //Ataque
         if (txtAtkPokemon != null) {
             txtAtkPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaque()));
         }
-        
+
         //Defensa
         if (txtDefensaPokemon != null) {
             txtDefensaPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensa()));
         }
-        
+
         //Ataque Especial
         if (txtAtkSpPokemon != null) {
             txtAtkSpPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaqueEspecial()));
         }
-        
+
         //Defensa Especial
         if (txtDefensaSpPokemon != null) {
             txtDefensaSpPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensaEspecial()));
         }
-        
+
         //Velocidad
         if (txtVelocidadPokemon != null) {
             txtVelocidadPokemon.setText(String.valueOf(pokemonSeleccionado.getVelocidad()));
@@ -709,26 +704,26 @@ public class EntrenamientoController implements Initializable {
     //Metodo para mostrar pop-up con mensajes
     private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
         //ventana del tipo que pasemos informacion, advertencia... lo que queramos
-        Alert alerta = new Alert(tipo); 
-        
+        Alert alerta = new Alert(tipo);
+
         //Textos de la ventana
-        alerta.setTitle(titulo); 
-        alerta.setHeaderText(cabecera); 
-        alerta.setContentText(contenido); 
-        
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(contenido);
+
         //Parte visual de la alerta
         try {
             String rutaIcono = new File("imgs/Login/Login-icon.png").toURI().toString();
             ImageView icono = new ImageView(new Image(rutaIcono));
             icono.setFitHeight(50);
             icono.setFitWidth(50);
-            alerta.setGraphic(icono); 
+            alerta.setGraphic(icono);
         } catch (Exception e) {
             System.out.println("No se puede cargar el icono personalizado");
         }
-        
-        DialogPane dialogPane = alerta.getDialogPane(); 
-        
+
+        DialogPane dialogPane = alerta.getDialogPane();
+
         //Icono esquina superior izquierda
         try {
             Stage stage = (Stage) dialogPane.getScene().getWindow();
@@ -736,15 +731,15 @@ public class EntrenamientoController implements Initializable {
         } catch (Exception e) {
             System.out.println("No se puede cargar el icono personalizado");
         }
-        
+
         //Para diferenciar entre exito y fracaso 
-        if(tipo == AlertType.WARNING) {
+        if (tipo == AlertType.WARNING) {
             dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
         } else {
-            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); 
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
         }
-        
-        alerta.showAndWait(); 
+
+        alerta.showAndWait();
     }
 
     @Override
@@ -758,7 +753,7 @@ public class EntrenamientoController implements Initializable {
 
         // Preparamos el diseño visual del ListView antes de cargar los datos
         configurarDiseñoLista();
-        
+
         // Conectamos BD y cargamos la info del entrenador (y selecciona el aleatorio)
         setEntrenador();
     }

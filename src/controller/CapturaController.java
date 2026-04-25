@@ -1,5 +1,8 @@
 package controller;
 
+import bd.ConexionBBDD;
+import dao.CapturaDao;
+import dao.PokemonDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -8,21 +11,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.text.Text;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextInputDialog;
+import model.Entrenador;
+import model.Pokemon;
+import model.Sesion;
+import model.UbicacionPokemon;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,14 +38,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.*;
 
-import dao.CapturaDao;
-import dao.PokemonDAO;
-import model.Entrenador;
-import model.Pokemon;
-import model.Sesion;
-import model.UbicacionPokemon;
-import bd.ConexionBBDD;
-
 public class CapturaController implements Initializable {
 
     // PANEL PARTICULAS
@@ -47,7 +45,8 @@ public class CapturaController implements Initializable {
     @FXML
     private Pane panelParticulas;
 
-    @FXML ImageView fondoPokemon;
+    @FXML
+    ImageView fondoPokemon;
     @FXML
     private Text txtNombre; // para cambiar el nombre del pokemon
 
@@ -71,8 +70,8 @@ public class CapturaController implements Initializable {
 
     @FXML
     private ImageView imgSexo; //para las imagenes del sexo
-    
-    
+
+
     private Pokemon pokemonActual;
 
     @FXML
@@ -87,36 +86,35 @@ public class CapturaController implements Initializable {
 
     @FXML
     private ImageView botonSalir;
-    
-    
+
+
     private Connection con;
 
 
     private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
-    
+
 
     private CapturaDao capturaDao = new CapturaDao();
-    
+
     // obtener el entrenador de la bd
     public void setEntrenador() {
-    	if (this.entrenadorActual != null) {
-    	try {
-    		// creamos conexion a bd
-            ConexionBBDD conector = new ConexionBBDD();
-            Connection con = conector.getConexion();
-            
-            // llamamos al dao para rellenar el array de equipo del entrenador
-            PokemonDAO.obtenerPokemon(con, entrenadorActual, UbicacionPokemon.EQUIPO);
-            
-            // para comprobar
-            System.out.println("Entrenador: " + this.entrenadorActual.getNombreEntrenador());
+        if (this.entrenadorActual != null) {
+            try {
+                // creamos conexion a bd
+                ConexionBBDD conector = new ConexionBBDD();
+                Connection con = conector.getConexion();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+                // llamamos al dao para rellenar el array de equipo del entrenador
+                PokemonDAO.obtenerPokemon(con, entrenadorActual, UbicacionPokemon.EQUIPO);
+
+                // para comprobar
+                System.out.println("Entrenador: " + this.entrenadorActual.getNombreEntrenador());
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
-
 
 
     @Override
@@ -127,9 +125,8 @@ public class CapturaController implements Initializable {
         setEntrenador();
 
         // sacamos el primer pokemon nada mas entrar
-         generarEncuentro();
-         
-         
+        generarEncuentro();
+
 
         // 3. generamos las particulas (las 240 que pusimos para que mole mas) 
         for (int i = 0; i < 240; i++) {
@@ -319,7 +316,7 @@ public class CapturaController implements Initializable {
 
             // comprobamos que no sea null el pokemon
             if (this.pokemonActual != null) {
-            	
+
                 // logica de probabilidad shiny
                 java.util.Random r = new java.util.Random();
                 if (r.nextInt(100) < 5) {
@@ -327,16 +324,16 @@ public class CapturaController implements Initializable {
                 } else {
                     this.pokemonActual.setEsShiny(false);
                 }
-            		
+
                 // logica para elegir el sexo realista basado en la Pokedex
                 model.Sexo sexoRealista = Pokemon.generarSexoPokemon(this.pokemonActual.getNumPokedex());
                 this.pokemonActual.setSexo(sexoRealista);
-                
+
                 String rutaIcono = "";
-                
+
                 // asignamos el icono dependiendo del sexo que nos haya devuelto el metodo
                 if (sexoRealista == model.Sexo.MACHO) {
-                    rutaIcono = "imgs/Captura/sexo/Macho.png"; 
+                    rutaIcono = "imgs/Captura/sexo/Macho.png";
                 } else if (sexoRealista == model.Sexo.HEMBRA) {
                     rutaIcono = "imgs/Captura/sexo/Hembra.png";
                 } else {
@@ -346,19 +343,19 @@ public class CapturaController implements Initializable {
                 //Actualizar el icono de la vista
                 try {
                     File archivoIcono = new File(rutaIcono);
-                    
+
                     if (archivoIcono.exists()) {
                         Image imagenCargada = new Image(archivoIcono.toURI().toString());
                         imgSexo.setImage(imagenCargada);
                     } else {
                         System.out.println("No encuentro el archivo de imagen en: " + archivoIcono.getAbsolutePath());
-                        imgSexo.setImage(null); 
+                        imgSexo.setImage(null);
                     }
                 } catch (Exception e) {
                     System.out.println("Error raro al poner la imagen del sexo: " + e.getMessage());
                 }
-            	
-            	
+
+
                 // actualizamos el nombre en la vista
                 if (this.pokemonActual.getEsShiny()) {
                     txtNombre.setText(this.pokemonActual.getNombrePokemon() + "★");
@@ -403,7 +400,7 @@ public class CapturaController implements Initializable {
                         Image img = new Image(archivoPokemon.toURI().toString());
                         imgPokemonActual.setImage(img);
                         imgPokemonActual.setVisible(true);
-                        
+
                         // Mantenemos tus valores de posicionamiento y tamaño originales
                         imgPokemonActual.setLayoutX(-62);
                         imgPokemonActual.setLayoutY(-78);
@@ -419,14 +416,14 @@ public class CapturaController implements Initializable {
 
                     // CAMBIAR EL TEXTO DE VIDA A LA GENERADA AUTOMÁTICAMENTE
                     if (this.pokemonActual.getVitalidadMaxima() != 0) {
-                        vidaCaptura.setText(pokemonActual.getVitalidad()+"/"+pokemonActual.getVitalidadMaxima());
+                        vidaCaptura.setText(pokemonActual.getVitalidad() + "/" + pokemonActual.getVitalidadMaxima());
                     }
 
                     // CAMBIAR EL COLOR DE LAS PARTICULAS EN PANTALLA EN FUNCION DEL POKEMON QUE HA SALIDO
                     pokemonActual.cambiarColor();
                     javafx.scene.paint.Color colorCambio = this.pokemonActual.getColor();
-                    for (Node capturaParticulas : panelParticulas.getChildren()){
-                        if (capturaParticulas instanceof javafx.scene.shape.Circle circle){
+                    for (Node capturaParticulas : panelParticulas.getChildren()) {
+                        if (capturaParticulas instanceof javafx.scene.shape.Circle circle) {
                             circle.setFill(colorCambio);
                         }
                     }
@@ -470,8 +467,7 @@ public class CapturaController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    
+
 
     // metodo para capturar el pokemon
     @FXML
@@ -483,50 +479,50 @@ public class CapturaController implements Initializable {
         }
 
         Random r = new Random();
-        
+
         //probabilidad 2/3 de captura
-        if (r.nextInt(3) < 2) { 
-        	// input + logica mote, muestra el nombre dle atrapado y pide mote
+        if (r.nextInt(3) < 2) {
+            // input + logica mote, muestra el nombre dle atrapado y pide mote
             TextInputDialog dialogMote = new TextInputDialog(pokemonActual.getNombrePokemon());
             dialogMote.setTitle("¡Pokémon Atrapado!");
             dialogMote.setHeaderText("¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!");
             dialogMote.setContentText("Introduce un mote para tu Pokémon:");
-            
-           // obtenemos la ventana del dialogo para personalizarla
+
+            // obtenemos la ventana del dialogo para personalizarla
             Stage stageMote = (Stage) dialogMote.getDialogPane().getScene().getWindow();
             // añadimos el icono de la pokeball de Elyass xD
             stageMote.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
-            
+
             // css para el formato de las aletas
             dialogMote.getDialogPane().getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
             // para evitar el NullPointerException uso esta clase lo tuve que buscar
             Optional<String> resultado = dialogMote.showAndWait();
-            
+
             // si el usuario escribe algo y da a OK, se pone el mote y si cancela o deja vacio se queda el original
             if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
                 boolean esValido = esMoteValido(resultado.get());
 
-                if  (esValido) {
+                if (esValido) {
                     pokemonActual.setMotePokemon(resultado.get());
                 } else {
-                    mostrarAlerta("Mote no permitido", "Formato inválido",  "El nombre solo debe contener letras y no palabras malsonantes.", AlertType.WARNING);
+                    mostrarAlerta("Mote no permitido", "Formato inválido", "El nombre solo debe contener letras y no palabras malsonantes.", AlertType.WARNING);
                     pokemonActual.setMotePokemon(pokemonActual.getNombrePokemon());
                 }
             } else {
                 pokemonActual.setMotePokemon(pokemonActual.getNombrePokemon());
             }
-        	
-        	
+
+
             // establecemos que no esta guardado en el equipo por defecto
             boolean guardadoEnEquipo = false;
             // obtenemos los pokemon del equipo
-            Pokemon[] equipo = entrenadorActual.getEquipoPokemon(); 
-            
+            Pokemon[] equipo = entrenadorActual.getEquipoPokemon();
+
             // intentamos meter al nuevo equipo
             for (int i = 0; i < equipo.length; i++) {
-            	// si hay hueco en el array
+                // si hay hueco en el array
                 if (equipo[i] == null) {
-                	// introduce el pokemon al array
+                    // introduce el pokemon al array
                     equipo[i] = pokemonActual;
                     // establecemos la ubicacion del pokemon en equipo
                     pokemonActual.setUbicacion(UbicacionPokemon.EQUIPO);
@@ -535,10 +531,10 @@ public class CapturaController implements Initializable {
                     break;
                 }
             }
-            
+
             // si no podemos, a la caja
             if (!guardadoEnEquipo) {
-            	// lo añadimos a la lista de la caja pokemon
+                // lo añadimos a la lista de la caja pokemon
                 entrenadorActual.getCajaPokemon().add(pokemonActual);
                 // cambiamos su ubicacion a la caja
                 pokemonActual.setUbicacion(UbicacionPokemon.CAJA);
@@ -550,18 +546,18 @@ public class CapturaController implements Initializable {
             String mensajeCuerpo = "¡Has atrapado a " + pokemonActual.getNombrePokemon() + "!";
             String mensajeDetalle = "Ahora tu " + pokemonActual.getNombrePokemon() + " se llama " + pokemonActual.getMotePokemon() + ".\nFue enviado a: " + pokemonActual.getUbicacion();
             mostrarAlerta("¡Enhorabuena!", mensajeCuerpo, mensajeDetalle, AlertType.INFORMATION);
-            
+
             // generamos otro encuento 
-            generarEncuentro(); 
-            
+            generarEncuentro();
+
         } else {
-        		//System.out.println("¡Se ha escapado! Inténtalo de nuevo.");
-        		mostrarAlerta("¡Oh no!","¡El pokemon se ha escapado","¡ "+pokemonActual.getNombrePokemon()+" ha huido de la Pokeball!",AlertType.WARNING);
+            //System.out.println("¡Se ha escapado! Inténtalo de nuevo.");
+            mostrarAlerta("¡Oh no!", "¡El pokemon se ha escapado", "¡ " + pokemonActual.getNombrePokemon() + " ha huido de la Pokeball!", AlertType.WARNING);
             if (r.nextInt(3) < 2) {
                 generarEncuentro();
             }
         }
-           
+
     }
 
     /// Method para revisar si el Mote del pokemon es válido;
@@ -596,48 +592,47 @@ public class CapturaController implements Initializable {
 
         return mote.matches(palabrasSoloLetras) && !mote.matches(palabrasProhibidas);
     }
-    
-  //Metodo para mostrar pop-up con mensajes
+
+    //Metodo para mostrar pop-up con mensajes
     private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
-    		Alert alerta = new Alert(tipo); //ventana del tipo que pasemos informacion, advertencia... lo que queramos
-    		//Textos de la ventana
-    		alerta.setTitle(titulo); //Texto barra superior
-    		alerta.setHeaderText(cabecera); //Texto grande en negrita
-    		alerta.setContentText(contenido); //Texto en pequeño
-    		
-    		//Parte visual de la alerta
-    		//Icono central
-    		try {
-    			String rutaIcono = new File("imgs/Login/Login-icon.png").toURI().toString();
-    			ImageView icono = new ImageView(new Image(rutaIcono));
-    			icono.setFitHeight(50);
-    			icono.setFitWidth(50);
-    			alerta.setGraphic(icono); //sustituye el que hay por defecto
-    		} catch (Exception e) {
-    			System.out.println("No se puede cargar el icono personalizado");
-    		}
-    		
-    		DialogPane dialogPane = alerta.getDialogPane(); //panel principal de alerta
-    		
-    		//Icono esquina superior izquierda
-    		try {
-    			Stage stage = (Stage) dialogPane.getScene().getWindow();
-    			stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
-    		} catch (Exception e) {
-    			System.out.println("No se puede cargar el icono personalizado");
-    		}
-    		
-    		//Para diferenciar entre exito y fracaso 
-    		if(tipo == AlertType.WARNING) {
-    			dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
-    		} else {
-    			dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); //Enlace con archivo alertas css personalizado
-    		}
-    		
-    		
-    		
-    		alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
-    		
+        Alert alerta = new Alert(tipo); //ventana del tipo que pasemos informacion, advertencia... lo que queramos
+        //Textos de la ventana
+        alerta.setTitle(titulo); //Texto barra superior
+        alerta.setHeaderText(cabecera); //Texto grande en negrita
+        alerta.setContentText(contenido); //Texto en pequeño
+
+        //Parte visual de la alerta
+        //Icono central
+        try {
+            String rutaIcono = new File("imgs/Login/Login-icon.png").toURI().toString();
+            ImageView icono = new ImageView(new Image(rutaIcono));
+            icono.setFitHeight(50);
+            icono.setFitWidth(50);
+            alerta.setGraphic(icono); //sustituye el que hay por defecto
+        } catch (Exception e) {
+            System.out.println("No se puede cargar el icono personalizado");
+        }
+
+        DialogPane dialogPane = alerta.getDialogPane(); //panel principal de alerta
+
+        //Icono esquina superior izquierda
+        try {
+            Stage stage = (Stage) dialogPane.getScene().getWindow();
+            stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
+        } catch (Exception e) {
+            System.out.println("No se puede cargar el icono personalizado");
+        }
+
+        //Para diferenciar entre exito y fracaso
+        if (tipo == AlertType.WARNING) {
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
+        } else {
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); //Enlace con archivo alertas css personalizado
+        }
+
+
+        alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
+
     }
 
 }
