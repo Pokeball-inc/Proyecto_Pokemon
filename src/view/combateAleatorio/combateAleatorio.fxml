@@ -114,7 +114,7 @@
          <children>
             <Pane prefHeight="95.0" prefWidth="264.0">
                <children>
-                  <ProgressBar fx:id="barraVitalidadPkmnJugador" layoutX="32.0" layoutY="44.0" prefHeight="10.0" prefWidth="200.0" progress="0.0" />
+                  <ProgressBar fx:id="barraVitalidadPkmnJugador" layoutX="32.0" layoutY="44.0" prefHeight="10.0" prefWidth="200.0" progress="0.0" style="-fx-accent:: #32cd32;;" />
                   <Text fx:id="txtNombrePkmnJugador" fill="WHITE" layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charmander" wrappingWidth="165.51693725585938">
                      <font>
                         <Font name="Consolas Bold" size="24.0" />
@@ -135,7 +135,7 @@
                         <Image url="@../../../imgs/Entrenamiento/sexo/Macho.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="estadoPokemonJugador" fitHeight="24.0" fitWidth="75.0" layoutX="14.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="estadoPokemonJugador" fitHeight="24.0" fitWidth="75.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../imgs/Combate/botones/BotonDescanso.png" />
                      </image>
