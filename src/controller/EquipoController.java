@@ -544,33 +544,8 @@ public class EquipoController implements Initializable {
             /// Si el pokemon es de la primera generación, entonces que tenga sonido, no he encontrado los sonidos de la
             /// segunda
 
-            if (p.getIdPokemon() <= 151) {
-                try {
-                    String sonido = "sonidos/Pokemon/" + p.getIdPokemon() + ".wav";
-                    Media sound = new Media(new File(sonido).toURI().toString());
+            reproducirSonido(p.getIdPokemon());
 
-                    // Detiene el anterior para que no pete
-
-                    if (mediaPlayer != null) {
-                        mediaPlayer.stop();
-                        mediaPlayer.dispose();
-                    }
-
-                    // Inicializar mediaPlayer
-
-                    mediaPlayer = new MediaPlayer(sound);
-                    sonidoPokemon.setVisible(true);
-
-                    sonidoPokemon.setOnMouseClicked(event -> {
-                        mediaPlayer.play();
-                    });
-
-
-                } catch (Exception e) {
-                    System.out.println("Error al cargar el sonido: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
             } catch(Exception ex){
                 System.out.println(ex.getMessage());
             }
@@ -597,7 +572,94 @@ public class EquipoController implements Initializable {
         cargarInventario();
         mostrarDetallesPokemon(pokemonSeleccionado);
     }
-    
+
+
+    // Metodo para reproducir sonido
+
+    private void reproducirSonido(int idPokemon) {
+
+
+        if (idPokemon <= 151) {
+            try {
+                String sonido = "sonidos/Pokemon/" + idPokemon + ".wav";
+                Media sound = new Media(new File(sonido).toURI().toString());
+
+                // Detiene el anterior para que no pete
+
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                }
+
+                // Inicializar mediaPlayer
+
+                mediaPlayer = new MediaPlayer(sound);
+                sonidoPokemon.setVisible(true);
+
+                sonidoPokemon.setOnMouseClicked(event -> {
+                    mediaPlayer.play();
+                });
+
+
+            } catch (Exception e) {
+                System.out.println("Error al cargar el sonido: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else if (idPokemon % 2 == 0) {
+            try {
+                String sonido = "sonidos/Pokemon/3.wav";
+                Media sound = new Media(new File(sonido).toURI().toString());
+
+                // Detiene el anterior para que no pete
+
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                }
+
+                // Inicializar mediaPlayer
+
+                mediaPlayer = new MediaPlayer(sound);
+                sonidoPokemon.setVisible(true);
+
+                sonidoPokemon.setOnMouseClicked(event -> {
+                    mediaPlayer.play();
+                });
+
+
+            } catch (Exception e) {
+                System.out.println("Error al cargar el sonido: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                String sonido = "sonidos/Pokemon/142.wav";
+                Media sound = new Media(new File(sonido).toURI().toString());
+
+                // Detiene el anterior para que no pete
+
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                }
+
+                // Inicializar mediaPlayer
+
+                mediaPlayer = new MediaPlayer(sound);
+                sonidoPokemon.setVisible(true);
+
+                sonidoPokemon.setOnMouseClicked(event -> {
+                    mediaPlayer.play();
+                });
+
+
+            } catch (Exception e) {
+                System.out.println("Error al cargar el sonido: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
+    }
     
     //BOTON curar
     @FXML
