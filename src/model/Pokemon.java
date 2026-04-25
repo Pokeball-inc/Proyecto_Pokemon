@@ -1171,40 +1171,63 @@ public class Pokemon {
 	}
 	
 	/**
-	 * Método inteligente para obtener la ruta de la imagen si es shiny o no
-	 * si es frontal/trasera y si es 2D/3D.
-	 */
-	public String getRutaImagenActual(boolean esFrontal, boolean es3D) {
-		//shiny
-		if (this.esShiny) { 
-	        if (es3D) {
-	            if (esFrontal) {
-	                return imgShinyFrontal3D;
-	            } else {
-	                return imgShinyPosterior3D;
-	            }
-	        } else { // Si es 2D
-	            if (esFrontal) {
-	                return imgShinyFrontal;
-	            } else {
-	                return imgShinyPosterior;
-	            }
-	        }
-	    } else { 
-	        if (es3D) {
-	            if (esFrontal) {
-	                return imgFrontalPokemon3D;
-	            } else {
-	                return imgPosteriorPokemon3D;
-	            }
-	        } else { // Si es 2D
-	            if (esFrontal) {
-	                return imgFrontalPokemon;
-	            } else {
-	                return imgPosteriorPokemon;
-	            }
-	        }
-	    }
-	}
+     * Método a prueba de balas: Limpia las carpetas raras de la base de datos,
+     * y si la base de datos está vacía (NULL), deduce el nombre automáticamente.
+     */
+    public String getRutaImagenActual(boolean esFrontal, boolean es3D) {
+        String archivoRaw = "";
+        
+        //obtener el texto como esta en la BD
+        if (this.esShiny) {
+            if (es3D) {
+                archivoRaw = esFrontal ? imgShinyFrontal3D : imgShinyPosterior3D;
+            } else {
+                archivoRaw = esFrontal ? imgShinyFrontal : imgShinyPosterior;
+            }
+        } else {
+            if (es3D) {
+                archivoRaw = esFrontal ? imgFrontalPokemon3D : imgPosteriorPokemon3D;
+            } else {
+                archivoRaw = esFrontal ? imgFrontalPokemon : imgPosteriorPokemon;
+            }
+        }
+
+        //limpiar la ruta
+        String nombreLimpio = "";
+        if (archivoRaw != null && !archivoRaw.trim().isEmpty()) {
+            int index = Math.max(archivoRaw.lastIndexOf('/'), archivoRaw.lastIndexOf('\\'));
+            if (index >= 0) {
+                nombreLimpio = archivoRaw.substring(index + 1);
+            } else {
+                nombreLimpio = archivoRaw;
+            }
+        }
+
+        ///Gemini e.e 
+        // ====================================================================
+        // 3. ¡EL SALVAVIDAS MÁGICO! 🛟
+        // Si la base de datos devolvió NULL o vacio, fabricamos el nombre
+        // usando el nombre del Pokémon (ej: "parasect.gif" o "parasect.png")
+        // ====================================================================
+        if (nombreLimpio == null || nombreLimpio.trim().isEmpty()) {
+            String extension = es3D ? ".gif" : ".png";
+            nombreLimpio = this.nombrePokemon.toLowerCase() + extension;
+        }
+
+        //montar la ruta correcta 
+        if (this.esShiny) {
+            if (es3D) {
+                return "shiny/3DModelos/" + nombreLimpio;
+            } else {
+                return "transparent/shiny/" + nombreLimpio;
+            }
+        } else {
+            if (es3D) {
+                return "transparent/3DAnimados/" + nombreLimpio;
+            } else {
+                return "transparent/" + nombreLimpio;
+            }
+        }
+    }
 
 }

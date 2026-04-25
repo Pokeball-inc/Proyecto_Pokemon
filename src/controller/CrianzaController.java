@@ -113,7 +113,6 @@ public class CrianzaController implements Initializable {
      * y muestra los primeros Pokemon disponibles en pantalla de forma predeterminada.
      */
     public void setEntrenador() {
-
         // Conectar a BD
         ConexionBBDD conector = new ConexionBBDD();
         this.con = conector.getConexion();
@@ -130,7 +129,6 @@ public class CrianzaController implements Initializable {
         if (!machosDisponibles.isEmpty()) {
             machoElegido = machosDisponibles.get(rand.nextInt(machosDisponibles.size()));
             
-            //Comprobamos mote del macho
             String nombreMacho;
             if (machoElegido.getMotePokemon() != null && !machoElegido.getMotePokemon().trim().isEmpty()) {
                 nombreMacho = machoElegido.getMotePokemon();
@@ -138,23 +136,24 @@ public class CrianzaController implements Initializable {
                 nombreMacho = machoElegido.getNombrePokemon();
             }
             
+            if (machoElegido.getEsShiny()) {
+                nombreMacho += "★";
+            }
+            
             txtNombreMacho.setText(nombreMacho);
             txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
 
-            // En función del Tipo de imagen que desee el usuario
-
-            String rutaImagen = "";
-
-            if (Sesion.vista2D) {
-
-                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.machoElegido.getImgFrontalPokemon();
-
+            String rutaRelativa = machoElegido.getRutaImagenActual(true, !Sesion.vista2D);
+            String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+            File archivoMacho = new File(rutaImagen);
+            
+            if (archivoMacho.exists()) {
+                imgMacho.setImage(new Image(archivoMacho.toURI().toString()));
             } else {
-                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.machoElegido.getImgFrontalPokemon3D();
+                System.out.println("ERROR CRIANZA: No se encontró al padre -> " + archivoMacho.getAbsolutePath());
+                imgMacho.setImage(null);
             }
-
-            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-            imgMacho.setImage(new Image(rutaImagenAdaptada));
+            
         } else {
             txtNombreMacho.setText("No hay Machos");
             imgMacho.setImage(null);
@@ -163,7 +162,6 @@ public class CrianzaController implements Initializable {
         if (!hembrasDisponibles.isEmpty()) {
             hembraElegida = hembrasDisponibles.get(rand.nextInt(hembrasDisponibles.size()));
             
-            //Comprobamos mote de la hembra
             String nombreHembra;
             if (hembraElegida.getMotePokemon() != null && !hembraElegida.getMotePokemon().trim().isEmpty()) {
                 nombreHembra = hembraElegida.getMotePokemon();
@@ -171,23 +169,24 @@ public class CrianzaController implements Initializable {
                 nombreHembra = hembraElegida.getNombrePokemon();
             }
             
+            if (hembraElegida.getEsShiny()) {
+                nombreHembra += "★";
+            }
+            
             txtNombreHembra.setText(nombreHembra);
             txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
 
-            // En función del Tipo de imagen que desee el usuario
-
-            String rutaImagen = "";
-
-            if (Sesion.vista2D) {
-
-                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.hembraElegida.getImgFrontalPokemon();
-
+            String rutaRelativa = hembraElegida.getRutaImagenActual(true, !Sesion.vista2D);
+            String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+            File archivoHembra = new File(rutaImagen);
+            
+            if (archivoHembra.exists()) {
+                imgHembra.setImage(new Image(archivoHembra.toURI().toString()));
             } else {
-                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.hembraElegida.getImgFrontalPokemon3D();
+                System.out.println("ERROR CRIANZA: No se encontró a la madre -> " + archivoHembra.getAbsolutePath());
+                imgHembra.setImage(null);
             }
-
-            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-            imgHembra.setImage(new Image(rutaImagenAdaptada));
+            
         } else {
             txtNombreHembra.setText("No hay Hembras");
             imgHembra.setImage(null);
@@ -224,24 +223,14 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    //Cambiar tamaño de botones (gracias Elyass XDDD)
-    
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CAMBIAR MACHO AL PASAR EL CURSOR ---------------
     
-    /**
-     * Aumenta el tamaño del boton de cambiar macho al pasar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void aumentarTamañoBotonCambiarMacho(MouseEvent event) {
         botonCambiarMacho.setScaleX(botonCambiarMacho.getScaleX() + 0.2);
         botonCambiarMacho.setScaleY(botonCambiarMacho.getScaleY() + 0.2);
     }
 
-    /**
-     * Disminuye el tamaño del boton de cambiar macho al apartar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void disminuirTamañoBotonCambiarMacho(MouseEvent event) {
         botonCambiarMacho.setScaleX(botonCambiarMacho.getScaleX() - 0.2);
@@ -250,20 +239,12 @@ public class CrianzaController implements Initializable {
     
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CAMBIAR HEMBRA AL PASAR EL CURSOR ---------------
     
-    /**
-     * Aumenta el tamaño del boton de cambiar hembra al pasar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void aumentarTamañoBotonCambiarHembra(MouseEvent event) {
         botonCambiarHembra.setScaleX(botonCambiarHembra.getScaleX() + 0.2);
         botonCambiarHembra.setScaleY(botonCambiarHembra.getScaleY() + 0.2);
     }
 
-    /**
-     * Disminuye el tamaño del boton de cambiar hembra al apartar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void disminuirTamañoBotonCambiarHembra(MouseEvent event) {
         botonCambiarHembra.setScaleX(botonCambiarHembra.getScaleX() - 0.2);
@@ -272,20 +253,12 @@ public class CrianzaController implements Initializable {
 
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON CRIAR AL PASAR EL CURSOR ---------------
     
-    /**
-     * Aumenta el tamaño del boton de criar al pasar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void aumentarTamañoBotonCriar(MouseEvent event) {
         botonCriar.setScaleX(botonCriar.getScaleX() + 0.2);
         botonCriar.setScaleY(botonCriar.getScaleY() + 0.2);
     }
 
-    /**
-     * Disminuye el tamaño del boton de criar al apartar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void disminuirTamañoBotonCriar(MouseEvent event) {
         botonCriar.setScaleX(botonCriar.getScaleX() - 0.2);
@@ -294,20 +267,12 @@ public class CrianzaController implements Initializable {
 
     // --------------- INCREMENTAR Y DISMINUIR TAMAÑO DEL BOTON SALIR AL PASAR EL CURSOR ---------------
     
-    /**
-     * Aumenta el tamaño del boton de salir al pasar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void aumentarTamañoBotonSalir(MouseEvent event) {
         botonSalir.setScaleX(botonSalir.getScaleX() + 0.2);
         botonSalir.setScaleY(botonSalir.getScaleY() + 0.2);
     }
 
-    /**
-     * Disminuye el tamaño del boton de salir al apartar el cursor.
-     * @param event El evento de raton
-     */
     @FXML
     private void disminuirTamañoBotonSalir(MouseEvent event) {
         botonSalir.setScaleX(botonSalir.getScaleX() - 0.2);
@@ -316,10 +281,6 @@ public class CrianzaController implements Initializable {
     
     // --------------- LOGICA DE LA SELECCION DE PADRES (CAJA PC) ---------------
     
-    /**
-     * Accion al hacer clic en el boton de cambiar el macho. Abre el panel de seleccion.
-     * @param event El evento de raton
-     */
     @FXML
     public void clicCambiarMacho(MouseEvent event) {
         if (!machosDisponibles.isEmpty()) {
@@ -331,10 +292,6 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    /**
-     * Accion al hacer clic en el boton de cambiar la hembra. Abre el panel de seleccion.
-     * @param event El evento de raton
-     */
     @FXML
     public void clicCambiarHembra(MouseEvent event) {
         if (!hembrasDisponibles.isEmpty()) {
@@ -348,43 +305,32 @@ public class CrianzaController implements Initializable {
 
     /**
      * Abre el panel emergente y genera una cuadricula visual con los Pokemon pasados por parametro.
-     * @param listaMostrar La lista de Pokemon a renderizar en la vista.
      */
     private void abrirPanelSeleccion(List<Pokemon> listaMostrar) {
-        //Vaciamos lo que hubiera de antes en la cuadricula
         contenedorPokemons.getChildren().clear();
 
-        //Por cada Pokemon en la lista, creamos su miniatura
         for (Pokemon p : listaMostrar) {
-            //Creamos una cajita vertical
             javafx.scene.layout.VBox cajaPokemon = new javafx.scene.layout.VBox();
             cajaPokemon.setAlignment(javafx.geometry.Pos.CENTER);
             cajaPokemon.setSpacing(5);
-            //Efecto cristalizado para que parezca un boton
             cajaPokemon.setStyle("-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 10; -fx-padding: 10; -fx-cursor: hand;");
 
-            //Creamos su imagen
             ImageView imgPoke = new ImageView();
             imgPoke.setFitHeight(80);
             imgPoke.setFitWidth(80);
+            
             try {
-                // En función del Tipo de imagen que desee el usuario
+                String rutaRelativa = p.getRutaImagenActual(true, !Sesion.vista2D);
+                String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+                File archivoMini = new File(rutaImagen);
 
-                String rutaImagen = "";
-
-                if (Sesion.vista2D) {
-
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + p.getImgFrontalPokemon();
-
+                if (archivoMini.exists()) {
+                    imgPoke.setImage(new Image(archivoMini.toURI().toString()));
                 } else {
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + p.getImgFrontalPokemon3D();
+                    System.out.println("ERROR MINIATURA CRIANZA -> " + archivoMini.getAbsolutePath());
                 }
-
-                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                imgPoke.setImage(new Image(rutaImagenAdaptada));
             } catch (Exception e) {}
 
-            //Comprobamos si tiene mote, si no, usamos el nombre de la especie
             String nombreAMostrar;
             if (p.getMotePokemon() != null && !p.getMotePokemon().trim().isEmpty()) {
                 nombreAMostrar = p.getMotePokemon();
@@ -392,92 +338,73 @@ public class CrianzaController implements Initializable {
                 nombreAMostrar = p.getNombrePokemon();
             }
 
-            //Creamos su nombre y nivel
+            if (p.getEsShiny()) {
+                nombreAMostrar += "★";
+            }
+
             Text txtNombre = new Text(nombreAMostrar + " (Nv." + p.getNivel() + ")");
             txtNombre.setFill(javafx.scene.paint.Color.WHITE);
 
-            //Lo metemos todo en la cajita
             cajaPokemon.getChildren().addAll(imgPoke, txtNombre);
-
-            //Asignamos el evento de click a la cajita
             cajaPokemon.setOnMouseClicked(event -> pokemonSeleccionado(p));
-
-            //Añadimos la cajita a la cuadricula general
             contenedorPokemons.getChildren().add(cajaPokemon);
         }
 
-        //Mostramos el panel gigante y lo traemos al frente
         panelSeleccion.setVisible(true);
         panelSeleccion.toFront(); 
     }
 
     /**
      * Metodo que se ejecuta al seleccionar un Pokemon concreto dentro del panel de seleccion.
-     * @param p El pokemon elegido por el jugador.
      */
     private void pokemonSeleccionado(Pokemon p) {
         
-        //Comprobamos si el pokemon que acabamos de hacer clic tiene mote
         String nombreAMostrar;
         if (p.getMotePokemon() != null && !p.getMotePokemon().trim().isEmpty()) {
             nombreAMostrar = p.getMotePokemon();
         } else {
             nombreAMostrar = p.getNombrePokemon();
         }
+        
+        if (p.getEsShiny()) {
+            nombreAMostrar += "★";
+        }
 
         if (seleccionandoMacho) {
-            //Guardamos el macho y actualizamos la vista principal
+            // Guardamos el macho y actualizamos la vista principal
             machoElegido = p;
-            txtNombreMacho.setText(nombreAMostrar); //Aqui ponemos mote
+            txtNombreMacho.setText(nombreAMostrar); 
             txtFertilidadMacho.setText("Fertilidad: " + machoElegido.getFertilidad() + "/5");
+            
             try {
-                // En función del Tipo de imagen que desee el usuario
-
-                String rutaImagen = "";
-
-                if (Sesion.vista2D) {
-
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + machoElegido.getImgFrontalPokemon();
-
-                } else {
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + machoElegido.getImgFrontalPokemon3D();
+                String rutaRelativa = p.getRutaImagenActual(true, !Sesion.vista2D);
+                String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+                File archivoMacho = new File(rutaImagen);
+                if (archivoMacho.exists()) {
+                    imgMacho.setImage(new Image(archivoMacho.toURI().toString()));
                 }
-
-                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                imgMacho.setImage((new Image(rutaImagenAdaptada)));
             } catch (Exception e) {}
             
         } else {
-            //Guardamos la hembra y actualizamos la vista principal
+            // Guardamos la hembra y actualizamos la vista principal
             hembraElegida = p;
-            txtNombreHembra.setText(nombreAMostrar); //Aqui ponemos mote
+            txtNombreHembra.setText(nombreAMostrar); 
             txtFertilidadHembra.setText("Fertilidad: " + hembraElegida.getFertilidad() + "/5");
+            
             try {
-                // En función del Tipo de imagen que desee el usuario
-
-                String rutaImagen = "";
-
-                if (Sesion.vista2D) {
-
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + hembraElegida.getImgFrontalPokemon();
-
-                } else {
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + hembraElegida.getImgFrontalPokemon3D();
+                String rutaRelativa = p.getRutaImagenActual(true, !Sesion.vista2D);
+                String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+                File archivoHembra = new File(rutaImagen);
+                if (archivoHembra.exists()) {
+                    imgHembra.setImage(new Image(archivoHembra.toURI().toString()));
                 }
-
-                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                imgHembra.setImage((new Image(rutaImagenAdaptada)));
             } catch (Exception e) {}
         }
 
-        //Cerramos el panel tras elegir
+        // Cerramos el panel tras elegir
         cerrarSeleccion(null);
     }
 
-    /**
-     * Boton/Accion para cerrar la caja de seleccion sin haber elegido ningun Pokemon.
-     * @param event El evento de raton
-     */
     @FXML
     public void cerrarSeleccion(MouseEvent event) {
         panelSeleccion.setVisible(false);
@@ -485,11 +412,6 @@ public class CrianzaController implements Initializable {
 
     // --------------- FIN LOGICA DE LA SELECCION DE PADRES ---------------
 
-    /**
-     * Metodo que se activa al hacer clic en el boton "Criar". Comprueba que 
-     * existen los padres y lanza la ventana del huevo.
-     * @param event El evento de raton
-     */
     @FXML
     public void accionCriar(MouseEvent event) {
         //Comprobaciones de seguridad
@@ -499,7 +421,9 @@ public class CrianzaController implements Initializable {
         }
 
         //Si la imagen del bebe de la crianza anterior estaba visible, la ocultamos
-        if (imgBebe != null) imgBebe.setVisible(false);
+        if (imgBebe != null) {
+            imgBebe.setVisible(false);
+        }
 
         //Si devuelve true se ha pulsado abrir y se abre el huevo
         if (mostrarAlertaHuevo()) {
@@ -509,7 +433,6 @@ public class CrianzaController implements Initializable {
     
     /**
      * Muestra una ventana de dialogo preguntando al jugador si desea abrir el huevo.
-     * @return true si el jugador decide abrirlo, false si decide dejarlo/cancelar.
      */
     private boolean mostrarAlertaHuevo() {
         Alert alertaHuevo = new Alert(AlertType.INFORMATION);
@@ -554,18 +477,32 @@ public class CrianzaController implements Initializable {
     }
 
     /**
-     * Logica para crear al nuevo Pokemon bebe (cria). Genera sus stats base heredados,
-     * mezcla los motes, actualiza la fertilidad de los padres y guarda todo en base de datos.
+     * Logica para crear al nuevo Pokemon bebe (cria).
      */
     private void eclosionarHuevo() {
         //Crear al bebé (La especie base será la de la madre, regla común en Pokémon)
         Pokemon bebe = new Pokemon();
         bebe.setNombrePokemon(hembraElegida.getNombrePokemon());
         bebe.setNumPokedex(hembraElegida.getNumPokedex());
+        
+        //1 de cada 100 sale shiny por defecto pero si un padre lo es baja a 1 de cada 20
+        int probabilidad = 100;
+        if (machoElegido.getEsShiny() || hembraElegida.getEsShiny()) {
+            probabilidad = 20;
+        }
+        bebe.setEsShiny(rand.nextInt(probabilidad) == 0);
+
+        //copiamos las rutas de las imagenes de la madre
         bebe.setImgFrontalPokemon(hembraElegida.getImgFrontalPokemon());
         bebe.setImgFrontalPokemon3D(hembraElegida.getImgFrontalPokemon3D());
         bebe.setImgPosteriorPokemon(hembraElegida.getImgPosteriorPokemon());
         bebe.setImgPosteriorPokemon3D(hembraElegida.getImgPosteriorPokemon3D());
+        
+        bebe.setImgShinyFrontal(hembraElegida.getImgShinyFrontal());
+        bebe.setImgShinyFrontal3D(hembraElegida.getImgShinyFrontal3D());
+        bebe.setImgShinyPosterior(hembraElegida.getImgShinyPosterior());
+        bebe.setImgShinyPosterior3D(hembraElegida.getImgShinyPosterior3D());
+
         bebe.setNivel(1); //El bebé nace a nivel 1
         bebe.setExperiencia(0);
         bebe.setFertilidad(5); //Fertilidad máxima al nacer
@@ -597,6 +534,7 @@ public class CrianzaController implements Initializable {
         } else {
             moteBebe = mitadMadre + mitadPadre;
         }
+        
         bebe.setMotePokemon(moteBebe);
 
         //Heredar las mejores estadisticas
@@ -649,21 +587,19 @@ public class CrianzaController implements Initializable {
             }
 
             if (imgBebe != null) {
-
-                // En función del Tipo de imagen que desee el usuario
-
-                String rutaImagen = "";
-
-                if (Sesion.vista2D) {
-
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + bebe.getImgFrontalPokemon();
-
+                //metodo inteligente par shiny 
+                String rutaRelativa = bebe.getRutaImagenActual(true, !Sesion.vista2D);
+                String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+                File archivoBebe = new File(rutaImagen);
+                
+                System.out.println("Intentando eclosionar bebé en: " + rutaImagen);
+                
+                if (archivoBebe.exists()) {
+                    imgBebe.setImage(new Image(archivoBebe.toURI().toString()));
                 } else {
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + bebe.getImgFrontalPokemon3D();
+                    System.out.println("ERROR BEBÉ: La imagen del recién nacido no se encuentra -> " + archivoBebe.getAbsolutePath());
                 }
-
-                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                imgBebe.setImage(new Image(rutaImagenAdaptada));
+                
                 imgBebe.setVisible(true); 
             }
 
@@ -674,10 +610,18 @@ public class CrianzaController implements Initializable {
             } else {
                 destino = "a la CAJA";
             }
+            
+            // Añadimos la estrella al nombre en el anuncio si es Shiny
+            String nombreAnuncio;
+            if (bebe.getEsShiny()) {
+                nombreAnuncio = bebe.getNombrePokemon() + " ★";
+            } else {
+                nombreAnuncio = bebe.getNombrePokemon();
+            }
 
-            //Mostrar alerta de exito (Pausa el codigo hasta que se pulse aceptar)
+            //Mostrar alerta de exito
             mostrarAlerta("¡El huevo ha eclosionado!", 
-                    "¡Enhorabuena! Tienes un nuevo " + bebe.getNombrePokemon(), 
+                    "¡Enhorabuena! Tienes un nuevo " + nombreAnuncio, 
                     "Su nuevo mote es: " + bebe.getMotePokemon() + "\nSe ha enviado " + destino + ".", 
                     AlertType.INFORMATION);
 
@@ -690,7 +634,6 @@ public class CrianzaController implements Initializable {
                 String rutaHuevo = new File("imgs/Crianza/Huevo.png").toURI().toString(); 
                 imgHuevo.setImage(new Image(rutaHuevo));
                 imgHuevo.setVisible(true);
-
                 imgBebe.setLayoutX(403);
                 imgBebe.setLayoutY(278);
             }
@@ -700,16 +643,11 @@ public class CrianzaController implements Initializable {
             e.printStackTrace();
         }
 
-        //Recargar candidatos (Por si alguno se quedó con 0 de fertilidad)
+        //Recargar candidatos y refrescar vista
         cargarCandidatos();
-        //Refrescar los padres actuales por si se quedaron vacios tras la crianza
         setEntrenador();
     }
 
-    /**
-     * Metodo para volver a la pantalla del menu principal.
-     * @param event El evento de raton
-     */
     @FXML
     public void crianzaSalir(MouseEvent event) {
         try {
@@ -755,35 +693,24 @@ public class CrianzaController implements Initializable {
         }
     }
 
-    /**
-     * Metodo de utilidad para lanzar y mostrar alertas de informacion en pantalla.
-     * @param titulo El texto superior de la ventana.
-     * @param cabecera El texto principal en negrita.
-     * @param contenido La descripcion detallada del mensaje.
-     * @param tipo El tipo de alerta (INFORMATION, WARNING, ERROR).
-     */
     private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
-        Alert alerta = new Alert(tipo); //ventana del tipo que pasemos informacion, advertencia... lo que queramos
-        //Textos de la ventana
-        alerta.setTitle(titulo); //Texto barra superior
-        alerta.setHeaderText(cabecera); //Texto grande en negrita
-        alerta.setContentText(contenido); //Texto en pequeño
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(contenido);
         
-        //Parte visual de la alerta
-        //Icono central
         try {
             String rutaIcono = new File("imgs/Login/Login-icon.png").toURI().toString();
             ImageView icono = new ImageView(new Image(rutaIcono));
             icono.setFitHeight(50);
             icono.setFitWidth(50);
-            alerta.setGraphic(icono); //sustituye el que hay por defecto
+            alerta.setGraphic(icono);
         } catch (Exception e) {
             System.out.println("No se puede cargar el icono personalizado");
         }
         
-        DialogPane dialogPane = alerta.getDialogPane(); //panel principal de alerta
+        DialogPane dialogPane = alerta.getDialogPane();
         
-        //Icono esquina superior izquierda
         try {
             Stage stage = (Stage) dialogPane.getScene().getWindow();
             stage.getIcons().add(new Image(new File("imgs/Login/Login-icon.png").toURI().toString()));
@@ -791,29 +718,21 @@ public class CrianzaController implements Initializable {
             System.out.println("No se puede cargar el icono personalizado");
         }
         
-        //Para diferenciar entre exito y fracaso 
         if(tipo == AlertType.WARNING) {
             dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
         } else {
-            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm()); //Enlace con archivo alertas css personalizado
+            dialogPane.getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
         }
         
-        alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
+        alerta.showAndWait();
     }
 
-    /**
-     * Metodo de inicializacion llamado automaticamente por JavaFX al cargar la vista FXML.
-     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-
-        // Mostrar entrenador actual
 
         System.out.println("Entrenador: "+ entrenadorActual.getNombreEntrenador());
 
         setEntrenador();
-
-        // Revisar que machos están cargando y luego las hembras
 
         System.out.println("---- Machos disponibles ----");
         for (Pokemon p : machosDisponibles) {
