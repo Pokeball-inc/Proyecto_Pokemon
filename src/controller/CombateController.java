@@ -209,7 +209,7 @@ public class CombateController implements Initializable {
 
 			// si doppelganger no tiene equipo guardado, le generamos uno aleatorio la
 			// primera vez
-if (Sesion.ligaActual.getCombateActual() == 6) {
+			if (Sesion.ligaActual.getCombateActual() == 6) {
 				
 				Pokemon[] equipoEspejo = new Pokemon[6];
 				
