@@ -112,6 +112,30 @@ public class SeleccionCombateController implements Initializable {
 		botonAccesoCombateAleatorio.setScaleX(botonAccesoCombateAleatorio.getScaleX() - 0.2);
 		botonAccesoCombateAleatorio.setScaleY(botonAccesoCombateAleatorio.getScaleY() - 0.2);
 	}
+	
+	@FXML
+    private void aumentarTamañoBotonSiguienteCombate(MouseEvent event) {
+        ((ImageView)event.getSource()).setScaleX(1.2);
+        ((ImageView)event.getSource()).setScaleY(1.2);
+    }
+
+    @FXML
+    private void disminuirTamañoBotonSiguienteCombate(MouseEvent event) {
+        ((ImageView)event.getSource()).setScaleX(1.0);
+        ((ImageView)event.getSource()).setScaleY(1.0);
+    }
+
+    @FXML
+    private void aumentarTamañoBotonCurarPokemon(MouseEvent event) {
+        ((ImageView)event.getSource()).setScaleX(1.2);
+        ((ImageView)event.getSource()).setScaleY(1.2);
+    }
+
+    @FXML
+    private void disminuirTamañoBotonCurarPokemon(MouseEvent event) {
+        ((ImageView)event.getSource()).setScaleX(1.0);
+        ((ImageView)event.getSource()).setScaleY(1.0);
+    }
 
 	/**
 	 * Metodo para gestionar la transicion a la vista de la Liga Pokemon.
@@ -217,6 +241,53 @@ public class SeleccionCombateController implements Initializable {
      			}
 		
 	}
+	
+	@FXML
+    private void curarEquipo(MouseEvent event) {
+        if (Sesion.ligaActual != null) {
+            // llama al método que cura al equipo y activa la penalizacion
+            Sesion.ligaActual.recuperacionPokemon(); 
+            
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Centro Pokémon");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Tus Pokémon han sido restaurados. ¡La recompensa del próximo combate será reducida!");
+            alerta.showAndWait();
+        }
+    }
+
+    /**
+     * accion del boton para continuar al siguiente combate de la liga
+     * carga de nuevo la vista de liga
+     */
+    @FXML
+    private void irSiguienteCombate(MouseEvent event) {
+        try {
+            System.out.println("Cargando combate numero: " + Sesion.ligaActual.getCombateActual());
+            
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            // Cargamos de nuevo la pantalla de combate
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ligaPokemon/Liga.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            try {
+                String css = this.getClass().getResource("/view/combateAleatorio/combateAleatorio.css").toExternalForm();
+                scene.getStylesheets().add(css);
+            } catch (Exception e) {
+                System.out.println("No se pudo cargar el CSS en el segundo combate.");
+            }
+            
+            stage.setScene(scene);
+            stage.show();
+            
+        } catch (Exception e) {
+            System.out.println("Error al reanudar la liga: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Metodo para gestionar la transicion a la vista de Combate Aleatorio.
