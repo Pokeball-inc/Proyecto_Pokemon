@@ -210,6 +210,9 @@ public class CombateController implements Initializable {
         //empezamos el combate 
         combateActual.empezarCombate(jugador, rival);
         
+        ///cargamos el fondo 
+        cargarFondoAleatorio();
+        
         /// Obligamos a los menus a estar arriba del todo asi aunque el texto o las imagenes crezcan nunca tapan
         if (panelMenuPrincipal != null) panelMenuPrincipal.toFront();
         if (panelMenuAtaques != null) panelMenuAtaques.toFront();
@@ -227,6 +230,38 @@ public class CombateController implements Initializable {
         //arrancamos la animacion
         animacionEntrada(); 
     } 
+    
+    /**
+     * Busca en la carpeta de fondos y elige uno al azar para el combate actual.
+     */
+    private void cargarFondoAleatorio() {
+        try {
+            ///ruta a la carpeta
+            File carpetaFondos = new File("imgs/Combate/FondoCombateAleatorio"); 
+            
+            ///leemos todos los archivos que hay dentro de la carpeta
+            File[] archivos = carpetaFondos.listFiles();
+
+            ///comprobamos que la carpeta existe y que al menos tiene 1 archivo
+            if (archivos != null && archivos.length > 0) {
+                
+                Random r = new Random();
+                
+                ///elegimos un archivo al azar de la lista
+                File imagenElegida = archivos[r.nextInt(archivos.length)];
+                
+                ///si nuestro ImageView esta bien enlazado le ponemos la foto
+                if (fondoCombateAleatorio != null) {
+                    fondoCombateAleatorio.setImage(new Image(imagenElegida.toURI().toString()));
+                }
+                
+            } else {
+                System.out.println("Aviso: No se encontraron imagenes en la carpeta de fondos.");
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR al cargar el fondo aleatorio: " + e.getMessage());
+        }
+    }
     
     /**
      * Refresca todos los textos, imagenes y barras de vida de la pantalla
@@ -270,13 +305,29 @@ public class CombateController implements Initializable {
                 barraVitalidadPkmnJugador.setProgress(porcentajeVidaJugador);
                 cambiarColorBarra(barraVitalidadPkmnJugador, porcentajeVidaJugador);
 
-                ///actualizamos los textos de los botones de ataque
+                ///actualizamos los textos de los botones de ataque para que muestren los PPs
                 Movimiento[] ataques = pJugador.getMovimientos();
                 
-                if (ataques[0] != null) { btnAtaque1.setText(ataques[0].getNombreMovimiento()); } else { btnAtaque1.setText("-"); }
-                if (ataques[1] != null) { btnAtaque2.setText(ataques[1].getNombreMovimiento()); } else { btnAtaque2.setText("-"); }
-                if (ataques[2] != null) { btnAtaque3.setText(ataques[2].getNombreMovimiento()); } else { btnAtaque3.setText("-"); }
-                if (ataques[3] != null) { btnAtaque4.setText(ataques[3].getNombreMovimiento()); } else { btnAtaque4.setText("-"); }
+                if (ataques[0] != null) { 
+                    btnAtaque1.setText(ataques[0].getNombreMovimiento() + "\n(" + ataques[0].getCantidadMovimientos() + "/" + ataques[0].getCantidadMovimientosMaximos() + ")"); 
+                } else { 
+                    btnAtaque1.setText("-"); 
+                }
+                if (ataques[1] != null) { 
+                    btnAtaque2.setText(ataques[1].getNombreMovimiento() + "\\n(" + ataques[1].getCantidadMovimientos() + "/" + ataques[1].getCantidadMovimientosMaximos() + ")"); 
+                } else { 
+                    btnAtaque2.setText("-"); 
+                }
+                if (ataques[2] != null) { 
+                    btnAtaque3.setText(ataques[2].getNombreMovimiento() + "\\n(" + ataques[2].getCantidadMovimientos() + "/" + ataques[2].getCantidadMovimientosMaximos() + ")"); 
+                } else { 
+                    btnAtaque3.setText("-"); 
+                }
+                if (ataques[3] != null) { 
+                    btnAtaque4.setText(ataques[3].getNombreMovimiento() + "\\n(" + ataques[3].getCantidadMovimientos() + "/" + ataques[3].getCantidadMovimientosMaximos() + ")"); 
+                } else { 
+                    btnAtaque4.setText("-"); 
+                }
             }
 
             ///Actualizar pantalla del rival (Solo si no está bloqueada)
@@ -615,6 +666,15 @@ public class CombateController implements Initializable {
             return; 
         }
 
+        ///comprobamos si quedan PP
+        if (movJugador.getCantidadMovimientos() <= 0) {
+            escribirLog("¡No te quedan usos para " + movJugador.getNombreMovimiento() + "!");
+            return; 
+        }
+
+        ///si quedan -1
+        movJugador.reducirUso();
+
         ///el rival elige su ataque con la IA basica
         Movimiento movRival = elegirAtaqueRival();
         
@@ -933,10 +993,27 @@ public class CombateController implements Initializable {
             if (rivalTieneMas == true) {
                 escribirLog("¡El rival ha enviado a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
                 escribirLog("@MOSTRAR_NUEVO_RIVAL@"); 
-            } else {
+            }else {
                 vistaRivalBloqueada = false;
+                
+                ///miramos el dinero antes de terminar
+                int dineroAntes = jugador.getPokedollares();
+                
+                ///finalizamos
                 combateActual.finalizarCombate();
+                
+                ///calculamos la diferencia para saber cuanto hemos ganado
+                int dineroGanado = jugador.getPokedollares() - dineroAntes;
+                
                 escribirLog("¡Has ganado el combate! No le quedan Pokémon al rival.");
+                
+                ///mostramos el texto y apagamos
+                if (Sesion.penalizacionCuraLiga == true) {
+                    escribirLog("¡Has ganado " + dineroGanado + " Pokedólares! (Penalización aplicada)");
+                    Sesion.penalizacionCuraLiga = false; ///apagamos la penalizacion para el siguiente combate
+                } else {
+                    escribirLog("¡Has ganado " + dineroGanado + " Pokedólares!");
+                }
                 
                 registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
                 escribirLog("@FIN_COMBATE@"); //este comando guarda en BD y sale
@@ -1438,10 +1515,21 @@ public class CombateController implements Initializable {
             ConexionBBDD conector = new bd.ConexionBBDD();
             Connection con = conector.getConexion();
             
+            // instanciamos el DAO de movimientos para poder guardar los PP
+            MovimientoDAO movDao = new MovimientoDAO(con);
+            
             // recorremos nuestro equipo y actualizamos cada Pokémon
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
                     PokemonDAO.actualizarStatsBD(con, p);
+                    
+                    //guardamos los PP actuales de cada movimiento que tenga el Pokemon
+                    for (int i = 0; i < 4; i++) {
+                        Movimiento mov = p.getMovimientos()[i];
+                        if (mov != null) {
+                            movDao.actualizarPPs(p.getIdPokemon(), mov.getIdMovimiento(), mov.getCantidadMovimientos());
+                        }
+                    }
                 }
             }
             
