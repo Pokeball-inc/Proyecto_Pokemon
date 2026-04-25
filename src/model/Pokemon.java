@@ -99,7 +99,7 @@ public class Pokemon {
      */
     private Estados estadoActual = Estados.SANO;
 
-    // turnos que quedan para que acabe el estado
+    /// turnos que quedan para que acabe el estado
     private int turnosEstadoRestantes = 0;
 
     /**
@@ -222,7 +222,8 @@ public class Pokemon {
 
     /**
      * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad
-     * maxima en caso de curarse *
+     * maxima en caso de curarse 
+     * @param ewVar, la nueva vitalidad
      */
     public void setVitalidad(int newVar) {
         int maxVitalidadReal = this.getVitalidadMaxima();
@@ -497,6 +498,10 @@ public class Pokemon {
         return turnosEstadoRestantes;
     }
 
+    /**
+     * set con la logica para corregir el fallo con las vitalidades maximas y actuales de los pokemon al equipar el objeto
+     * @param objeto newVar,recibe el objeto 
+     * */
     public void setObjetoEquipado(Objeto newVar) {
         // guardamos la vida maxima antes del objeto
         int maxAntes = this.getVitalidadMaxima();
@@ -818,10 +823,9 @@ public class Pokemon {
     /**
      * metodo atacar del Pokemon con salida (CONSTANTES): NEUTRO = VENTAJA X2
      * DOBLEVENTAJA x4 DESVENTAJA 1/2 DOBLEDESVENTAJA 1/4 * y comprueba si el tipo
-     * de ataque es del mismo tipo que el pokemon que lo realiza x1.5 * @param
-     * movimiento recibe el movimiento que se va a realizar
-     *
-     * @param pokemon recibe el pokemon que recibe el ataque
+     * de ataque es del mismo tipo que el pokemon que lo realiza x1.5 *
+     * @param movimiento recibe el movimiento que se va a realizar
+     * @param pokemon, recibe el pokemon que recibe el ataque
      * @return String: NEUTRO, VENTAJA, DOBLE_VENTAJA o DESVENTAJA
      */
     /**
@@ -937,7 +941,7 @@ public class Pokemon {
     /**
      * intenta añadir un nuevo movimiento al pokemon si tiene un hueco libre
      * actualiza la memoria correctamente
-     *
+     * @param nuevoMovimiento, recibe el nuevo movimiento a aprender
      * @return true si lo ha aprendido, false si ya tiene 4
      */
     public boolean aprenderMovimientoEnHuecoVacio(Movimiento nuevoMovimiento) {
@@ -985,7 +989,7 @@ public class Pokemon {
      * metodo apra reemplazar un movcimiento existente por uno nuevo
      *
      * @param incideNuevo, donde ira el nuevo movimiento
-     * @param el           nuevo movimiento a aprender
+     * @param el nuevo movimiento a aprender
      */
     public void reemplazarMovimiento(int indiceNuevo, Movimiento nuevoMovimiento) {
         if (indiceNuevo >= 0 && indiceNuevo < 4) {
@@ -1122,7 +1126,7 @@ public class Pokemon {
 
     /**
      * equipa un objeto al pokemon, sustituye si ya tiene uno
-     *
+     * @param nuevjoObjeto, el nuevo objeto a equipar
      * @return el objeto que tenia equipado o null si no tenia
      */
     public Objeto equiparObjeto(Objeto nuevoObjeto) {
@@ -1176,7 +1180,10 @@ public class Pokemon {
 
     /**
      * Método a prueba de balas: Limpia las carpetas raras de la base de datos,
-     * y si la base de datos está vacía (NULL), deduce el nombre automáticamente.
+     * y si la base de datos está vacía (NULL), deduce el nombre automáticamente
+     * @param esFrontal, recibe si es o no frontal
+     * @param es3D, resibe si es o no 3D
+     * @return devuelve la ruta de la imagen dependiendo de si es o no 3D uy si es o no frontal
      */
     public String getRutaImagenActual(boolean esFrontal, boolean es3D) {
         String archivoRaw = "";

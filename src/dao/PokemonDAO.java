@@ -345,7 +345,12 @@ public class PokemonDAO {
         }
     }
 
-    ///  Metodo para actualizar el objeto que tiene equipado el pokemon
+    /**
+     * Metodo para actualizar el objeto que tiene equipado el pokemon
+     * @param con, conexion con la bd
+     * @param pokemon al que se le actualizara el objeto
+     * @param el objeto que se le pondra
+     * */  
 
     public static void actualizarObjetoPokemon(Connection con, Pokemon p, Objeto objeto) {
 
@@ -370,7 +375,12 @@ public class PokemonDAO {
         }
     }
 
-    //metodo para recuperar un pokemon base directamente de la pokedex
+    /**
+     * Metodo para obtener un pokemon desde la pokedex para generar los entrenadores aleatorios con pokemons aleatorios
+     * @param con, conexion con la bd
+     * @param numPokedex, numero de la pokedex del pokemon
+     * @return devuelve el pokemon
+     * */  
     public static Pokemon obtenerPokemonDesdePokedex(Connection con, int numPokedex) {
         Pokemon p = new Pokemon();
         String sql = "SELECT * FROM POKEDEX WHERE NUM_POKEDEX = ?";

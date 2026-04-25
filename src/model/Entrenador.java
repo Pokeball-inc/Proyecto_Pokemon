@@ -302,8 +302,7 @@ public class Entrenador {
 
     /**
      * metodo para mover los Pokemon desde el equipo a la caja
-     *
-     * @param *recibe el pokemon que se va a mover a la caja
+     * @param recibe el pokemon que se va a mover a la caja
      */
     public void moverPokemonACaja(Pokemon pokemon) {
         // 1. Buscamos el Pokémon dentro del equipo
@@ -328,8 +327,7 @@ public class Entrenador {
 
     /**
      * metodo para mover los Pokemon desde la caja al equipo
-     *
-     * @param *recibe el pokemon que se va a mover al equipo
+     * @param recibe el pokemon que se va a mover al equipo
      */
     public void moverPokemonAEquipo(Pokemon pokemon) {
         // 1. Buscamos si hay un hueco libre en el equipo
@@ -518,6 +516,7 @@ public class Entrenador {
 
     /**
      * metodo para comprobar si el entrenador tiene Pokemons vivos y puede luchar
+     * @return devuelve true o false dependiendo si tiene o nopokemon vivos
      */
     public boolean puedeLuchar() {
         if (equipoPokemon == null) {
@@ -535,6 +534,7 @@ public class Entrenador {
 
     /**
      * metodo para el comabte Pokemon
+     * @param recibe el entrenador rival
      */
     public void combatir(Entrenador rival) {
         // instanciamos la clase que controla la pelea

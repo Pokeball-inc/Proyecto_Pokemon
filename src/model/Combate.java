@@ -156,6 +156,7 @@ public class Combate {
      *
      * @param entrenador,      el entrenador jugador, nosotros
      * @param entrenadorRival, el bot
+     * @param log, log para el regiustro de logs
      */
     public void empezarCombate(Entrenador jugador, Entrenador rival, Log log) {
         this.logAsociado = log;
@@ -222,7 +223,8 @@ public class Combate {
     /**
      * metodo para aplicar los efectos que se aplican a final de turno
      *
-     * @param recibe el pokemon nuestro y el rival por parametro
+     * @param recibe el pokemon nuestro 
+     * @param recibe el pokemon rival 
      *
      */
     public void aplicarEfectosFinalDeTurno(Pokemon p, Pokemon rival) {
@@ -293,7 +295,7 @@ public class Combate {
 
     /**
      * Comprueba si el estado actual impide atacar y devuelve el mensaje para el log.
-     *
+     * @param resibe el pokemon a verificar si tiene un estado que le iompida algo
      * @return El mensaje de la restricción, o NULL si el Pokémon puede atacar normalmente.
      */
     public String verificarRestriccionEstado(Pokemon p) {
@@ -577,6 +579,7 @@ public class Combate {
 
     /**
      * Method para registrar los logs, no mas repetir codigo. Me he reformado en mis ultimos commits
+     * @param recibe el string a registrar
      */
 
     private void registrarEventoLog(String accion) {
@@ -615,6 +618,7 @@ public class Combate {
 
     /**
      * metodo que reparte experiencia a todo el equipo respecto al nivel del rival derrotado
+     * @param recibe el pokemon rival derrotado para calcula la exp a reparrtir
      */
     public void repartirExperienciaEquipo(Pokemon rivalDerrotado) {
         Pokemon[] equipo = this.getEntrenador().getEquipoPokemon();
@@ -683,6 +687,7 @@ public class Combate {
 
     /**
      * metodo para añadir turno al historial
+     * @param recibe el turno a añadir al historial
      */
     public void añadirTurno(Turno nuevoTurno) {
         this.historialTurnos.add(nuevoTurno);
