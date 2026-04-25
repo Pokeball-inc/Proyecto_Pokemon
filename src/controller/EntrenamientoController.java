@@ -169,8 +169,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void aumentarTamañoBotonEntrenamientoPesado(MouseEvent event) {
         if (botonEntrenamientoPesado != null) {
-        	botonEntrenamientoPesado.setScaleX(botonEntrenamientoPesado.getScaleX() + 0.2);
-        	botonEntrenamientoPesado.setScaleY(botonEntrenamientoPesado.getScaleY() + 0.2);
+            botonEntrenamientoPesado.setScaleX(botonEntrenamientoPesado.getScaleX() + 0.2);
+            botonEntrenamientoPesado.setScaleY(botonEntrenamientoPesado.getScaleY() + 0.2);
             cambiarFondoPantalla(FONDO_PESADO);
         }
     }
@@ -178,8 +178,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void disminuirTamañoBotonEntrenamientoPesado(MouseEvent event) {
         if (botonEntrenamientoPesado != null) {
-        	botonEntrenamientoPesado.setScaleX(botonEntrenamientoPesado.getScaleX() - 0.2);
-        	botonEntrenamientoPesado.setScaleY(botonEntrenamientoPesado.getScaleY() - 0.2);
+            botonEntrenamientoPesado.setScaleX(botonEntrenamientoPesado.getScaleX() - 0.2);
+            botonEntrenamientoPesado.setScaleY(botonEntrenamientoPesado.getScaleY() - 0.2);
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
@@ -188,8 +188,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void aumentarTamañoBotonEntrenamientoFurioso(MouseEvent event) {
         if (botonEntrenamientoFurioso != null) {
-        	botonEntrenamientoFurioso.setScaleX(botonEntrenamientoFurioso.getScaleX() + 0.2);
-        	botonEntrenamientoFurioso.setScaleY(botonEntrenamientoFurioso.getScaleY() + 0.2);
+            botonEntrenamientoFurioso.setScaleX(botonEntrenamientoFurioso.getScaleX() + 0.2);
+            botonEntrenamientoFurioso.setScaleY(botonEntrenamientoFurioso.getScaleY() + 0.2);
             cambiarFondoPantalla(FONDO_FURIOSO);
         }
     }
@@ -197,8 +197,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void disminuirTamañoBotonEntrenamientoFurioso(MouseEvent event) {
         if (botonEntrenamientoFurioso != null) {
-        	botonEntrenamientoFurioso.setScaleX(botonEntrenamientoFurioso.getScaleX() - 0.2);
-        	botonEntrenamientoFurioso.setScaleY(botonEntrenamientoFurioso.getScaleY() - 0.2);
+            botonEntrenamientoFurioso.setScaleX(botonEntrenamientoFurioso.getScaleX() - 0.2);
+            botonEntrenamientoFurioso.setScaleY(botonEntrenamientoFurioso.getScaleY() - 0.2);
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
@@ -207,8 +207,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void aumentarTamañoBotonEntrenamientoFuncional(MouseEvent event) {
         if (botonEntrenamientoFuncional != null) {
-        	botonEntrenamientoFuncional.setScaleX(botonEntrenamientoFuncional.getScaleX() + 0.2);
-        	botonEntrenamientoFuncional.setScaleY(botonEntrenamientoFuncional.getScaleY() + 0.2);
+            botonEntrenamientoFuncional.setScaleX(botonEntrenamientoFuncional.getScaleX() + 0.2);
+            botonEntrenamientoFuncional.setScaleY(botonEntrenamientoFuncional.getScaleY() + 0.2);
             cambiarFondoPantalla(FONDO_FUNCIONAL);
         }
     }
@@ -216,8 +216,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void disminuirTamañoBotonEntrenamientoFuncional(MouseEvent event) {
         if (botonEntrenamientoFuncional != null) {
-        	botonEntrenamientoFuncional.setScaleX(botonEntrenamientoFuncional.getScaleX() - 0.2);
-        	botonEntrenamientoFuncional.setScaleY(botonEntrenamientoFuncional.getScaleY() - 0.2);
+            botonEntrenamientoFuncional.setScaleX(botonEntrenamientoFuncional.getScaleX() - 0.2);
+            botonEntrenamientoFuncional.setScaleY(botonEntrenamientoFuncional.getScaleY() - 0.2);
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
@@ -226,8 +226,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void aumentarTamañoBotonEntrenamientoOnirico(MouseEvent event) {
         if (botonEntrenamientoOnirico != null) {
-        	botonEntrenamientoOnirico.setScaleX(botonEntrenamientoOnirico.getScaleX() + 0.2);
-        	botonEntrenamientoOnirico.setScaleY(botonEntrenamientoOnirico.getScaleY() + 0.2);
+            botonEntrenamientoOnirico.setScaleX(botonEntrenamientoOnirico.getScaleX() + 0.2);
+            botonEntrenamientoOnirico.setScaleY(botonEntrenamientoOnirico.getScaleY() + 0.2);
             cambiarFondoPantalla(FONDO_ONIRICO);
         }
     }
@@ -235,8 +235,8 @@ public class EntrenamientoController implements Initializable {
     @FXML
     private void disminuirTamañoBotonEntrenamientoOnirico(MouseEvent event) {
         if (botonEntrenamientoOnirico != null) {
-        	botonEntrenamientoOnirico.setScaleX(botonEntrenamientoOnirico.getScaleX() - 0.2);
-        	botonEntrenamientoOnirico.setScaleY(botonEntrenamientoOnirico.getScaleY() - 0.2);
+            botonEntrenamientoOnirico.setScaleX(botonEntrenamientoOnirico.getScaleX() - 0.2);
+            botonEntrenamientoOnirico.setScaleY(botonEntrenamientoOnirico.getScaleY() - 0.2);
             if (!fondoBloqueado) cambiarFondoPantalla(FONDO_DEFAULT);
         }
     }
@@ -422,41 +422,14 @@ public class EntrenamientoController implements Initializable {
                     //Para que se adapte si cambias el tamaño de la ventana:
                     fila.prefWidthProperty().bind(listaPokemon.widthProperty().subtract(20));
 
-                    //Creamos su imagen (Comprobando si es Shiny)
+                    //Creamos su imagen (usando el método inteligente del modelo)
                     ImageView img = new ImageView();
                     img.setFitHeight(50);
                     img.setFitWidth(50);
                     try {
-                        String ruta;
-                        if (pokemon.getEsShiny() != null && pokemon.getEsShiny() == true) {
-                            // En función del Tipo de imagen que desee el usuario
-
-                            String rutaImagen = "";
-
-                            if (Sesion.vista2D) {
-
-                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/shiny/" + pokemon.getImgFrontalPokemon();
-
-                            } else {
-                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/3DAnimados/shiny/" + pokemon.getImgFrontalPokemon3D();
-                            }
-                            ruta = new File(rutaImagen).toURI().toString();
-                        } else {
-
-                            // En función del Tipo de imagen que desee el usuario
-
-                            String rutaImagen = "";
-
-                            if (Sesion.vista2D) {
-
-                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemon.getImgFrontalPokemon();
-
-                            } else {
-                                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemon.getImgFrontalPokemon3D();
-                            }
-
-                            ruta = new File(rutaImagen).toURI().toString();
-                        }
+                        String rutaRelativa = pokemon.getRutaImagenActual(true, !Sesion.vista2D);
+                        String rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + rutaRelativa;
+                        String ruta = new File(rutaImagen).toURI().toString();
                         img.setImage(new Image(ruta));
                     } catch (Exception e) {}
 
@@ -464,12 +437,16 @@ public class EntrenamientoController implements Initializable {
                     VBox textos = new VBox(5); 
                     textos.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
                     
-                    //Comprobamos si tiene mote 
+                    //Comprobamos si tiene mote y añadimos estrella si es Shiny
                     String nombreAMostrar;
                     if (pokemon.getMotePokemon() != null && !pokemon.getMotePokemon().trim().isEmpty()) {
                         nombreAMostrar = pokemon.getMotePokemon();
                     } else {
                         nombreAMostrar = pokemon.getNombrePokemon();
+                    }
+                    
+                    if (pokemon.getEsShiny()) {
+                        nombreAMostrar += " ★";
                     }
                                             
                     Label lblNombre = new Label(nombreAMostrar);
@@ -547,6 +524,12 @@ public class EntrenamientoController implements Initializable {
             } else {
                 nombreAMostrar = pokemonSeleccionado.getNombrePokemon();
             }
+            
+            // Añadimos la estrella si es shiny
+            if (pokemonSeleccionado.getEsShiny()) {
+                nombreAMostrar += " ★";
+            }
+            
             txtNombreCentral.setText(nombreAMostrar);
         }
         
@@ -554,50 +537,22 @@ public class EntrenamientoController implements Initializable {
             txtNivelCentral.setText("Lvl " + pokemonSeleccionado.getNivel());
         }
         
-        //Actualizamos Imagen Central y comprobamos si es SHINY
+        //actualizamos Imagen Central y comprobamos si es SHINY
         if (imgPokemonCentral != null) {
             try {
-                String rutaImagen;
-                
-                if (pokemonSeleccionado.getEsShiny() != null && pokemonSeleccionado.getEsShiny() == true) {
-                    //mostramos el icono de Shiny
-                    if (imgShiny != null) imgShiny.setVisible(true);
-                    //cargamos la imagen desde la carpeta Shiny
-
-                    // En función del Tipo de imagen que desee el usuario
-
-                    if (Sesion.vista2D) {
-
-                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/shiny/" + pokemonSeleccionado.getImgFrontalPokemon();
-
-                    } else {
-                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/shiny/" + pokemonSeleccionado.getImgFrontalPokemon3D();
-                    }
-
-                    String ruta = new File(rutaImagen).toURI().toString();
-                    imgPokemonCentral.setImage(new Image(ruta));
-
-                } else {
-                    //ocultamos el icono de Shiny
-                    if (imgShiny != null) imgShiny.setVisible(false);
-
-                    // En función del Tipo de imagen que desee el usuario
-
-                    if (Sesion.vista2D) {
-
-                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemonSeleccionado.getImgFrontalPokemon();
-
-                    } else {
-                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + pokemonSeleccionado.getImgFrontalPokemon3D();
-                    }
-
-                    String ruta = new File(rutaImagen).toURI().toString();
-                    imgPokemonCentral.setImage(new Image(ruta));
-
+                // mostramos u ocultamos el icono de Shiny
+                if (imgShiny != null) {
+                    imgShiny.setVisible(pokemonSeleccionado.getEsShiny());
                 }
+
+                // Generamos la ruta
+                String rutaRelativa = pokemonSeleccionado.getRutaImagenActual(true, !Sesion.vista2D);
+                String rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + rutaRelativa;
                 String ruta = new File(rutaImagen).toURI().toString();
 
+                // Establecemos la imagen final
                 imgPokemonCentral.setImage(new Image(ruta));
+                
             } catch (Exception e) {
                 System.out.println("Error cargando imagen central: " + e.getMessage());
             }
