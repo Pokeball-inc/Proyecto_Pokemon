@@ -266,6 +266,7 @@ public class CombateController implements Initializable {
     /**
      * Actualiza los iconos de estado en la vista.
      */
+ 
     private void actualizarIconosEstado() {
         Pokemon pJugador = combateActual.getPokemonActualJugador();
         Pokemon pRival = combateActual.getPokemonActualRival();
@@ -274,16 +275,18 @@ public class CombateController implements Initializable {
         if (pJugador != null && estadoPokemonJugador != null) {
             gestionarImagenEstado(pJugador, estadoPokemonJugador);
         }
-
+ 
         //actualizar estado del Rival
         if (pRival != null && estadoPokemonRival != null) {
             gestionarImagenEstado(pRival, estadoPokemonRival);
         }
     }
-
+ 
+ 
     /**
      * Logica interna para decidir que imagen poner o si se oculta
      */
+ 
     private void gestionarImagenEstado(Pokemon p, ImageView imgView) {
         Estados estado = p.getEstadoActual();
 
@@ -319,8 +322,11 @@ public class CombateController implements Initializable {
                 imgView.setVisible(false);
                 return;
         }
-
+ 
+ 
+ 
         //cargar la imagen desde la carpeta
+ 
         try {
             File file = new File("imgs/Combate/estados/" + nombreImagen);
             if (file.exists()) {
@@ -330,7 +336,8 @@ public class CombateController implements Initializable {
                 imgView.setVisible(false);
             }
         } catch (Exception e) {
-            imgView.setVisible(false);
+        	imgView.setVisible(false);
+
         }
     }
     
@@ -1066,13 +1073,8 @@ public class CombateController implements Initializable {
                             } catch (Exception e) {
                                 System.out.println("Error al guardar el nuevo ataque aprendido en combate: " + e.getMessage());
                             }
-                            // buscamos el primer hueco vacipo del Pokemon y le metemos el ataque
-                            for (int j = 0; j < 4; j++) {
-                                if (p.getMovimientos()[j] == null) {
-                                    p.reemplazarMovimiento(j, nuevoAtaque); 
-                                    break;
-                                }
-                            }
+                            // aprendemos en el hueco vacio
+                            p.aprenderMovimientoEnHuecoVacio(nuevoAtaque);
                          // actualizar si es el pokemon peleando
                             if (p == combateActual.getPokemonActualJugador()) {
                                 escribirLog("@UPDATE_VISTA@"); // asi el guion "-" cambiara por el nombre del ataque
@@ -1121,6 +1123,8 @@ public class CombateController implements Initializable {
 
         combateActual.añadirTurno(evento);
     }
+    
+    
 
     /**
      * Añade un mensaje a la cola de texto para que aparezca animado.
