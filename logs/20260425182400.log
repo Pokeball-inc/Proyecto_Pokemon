@@ -1,4 +1,0 @@
-2026-04-25 18:24:00.755 INFO inicioCombate pokemon={“Arcanine”, 12, 1, OK}, pokemonRival={“Murkrow”, 15, Mister Pro, OK}, turno=1
-2026-04-25 18:24:00.756 INFO Impactrueno pokemon={“Arcanine”, 12, 1, OK}, pokemonRival={“Murkrow”, 15, Mister Pro, KO}, turno=2
-2026-04-25 18:24:00.756 INFO debilitado2 pokemon={“Arcanine”, 12, 1, OK}, pokemonRival={“Murkrow”, 15, Mister Pro, KO}, turno=3
-2026-04-25 18:24:00.756 INFO debilitado2 pokemon={“Arcanine”, 12, 1, OK}, pokemonRival={“Murkrow”, 15, Mister Pro, KO}, turno=4

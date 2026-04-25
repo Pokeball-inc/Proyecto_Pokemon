@@ -1506,6 +1506,7 @@ if (Sesion.ligaActual.getCombateActual() == 6) {
                     
                 case "@FIN_LIGA_GANAR@":
                 case "@FIN_LIGA_PERDER@":
+					logActual.generarFicheroLog();
                     guardarProgresoBD();
                     panelMenuPrincipal.setVisible(false); 
                     panelMenuAtaques.setVisible(false);
