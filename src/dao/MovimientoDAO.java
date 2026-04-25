@@ -81,6 +81,9 @@ public class MovimientoDAO implements IMovimientoDAO {
             mov.setEstadoAplicado(identificarEstado(desc));
         }
 
+        ///generamos los PP maximos y actuales automaticamente según su potencia
+        mov.generarCantidadMovimientos();
+
         // devolvemos el movimiento ya listo para usarse en el combate
         return mov;
     }
@@ -243,7 +246,10 @@ public class MovimientoDAO implements IMovimientoDAO {
         
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, nuevoMovimiento.getIdMovimiento());
-            ps.setInt(2, nuevoMovimiento.getCantidadMovimientos()); 
+            
+            ///guarda el maximo de PP
+            ps.setInt(2, nuevoMovimiento.getCantidadMovimientosMaximos()); 
+            
             ps.setInt(3, idPokemon);
             ps.setInt(4, idMovimientoViejo);
             
@@ -258,11 +264,35 @@ public class MovimientoDAO implements IMovimientoDAO {
      * restaura todos los PP de los movimientos de un pokemon al maximo
      */
     public void restaurarPPsCompletos(int idPokemon) {
-        String sql = "UPDATE SET_MOVIMIENTOS SET PP = 15 WHERE ID_POKEMON = ?";
+        //buscamos los movimientos tiene equipados el Pokemon 
+        String sqlSelect = "SELECT ID_MOVIMIENTO FROM SET_MOVIMIENTOS WHERE ID_POKEMON = ?";
         
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, idPokemon);
-            ps.executeUpdate();
+        //preparamos el update para actualizar cada uno por separado a su maximo
+        String sqlUpdate = "UPDATE SET_MOVIMIENTOS SET PP = ? WHERE ID_POKEMON = ? AND ID_MOVIMIENTO = ?";
+        
+        try (PreparedStatement psSelect = connection.prepareStatement(sqlSelect);
+             PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
+            
+            psSelect.setInt(1, idPokemon);
+            ResultSet rs = psSelect.executeQuery();
+            
+            //recorremos los ataques que tiene equipados
+            while (rs.next()) {
+                int idMov = rs.getInt("ID_MOVIMIENTO");
+                
+                ///buscamos por id
+                Movimiento mov = buscarPorId(idMov);
+                
+                if (mov != null) {
+                    //actualizamos los PP con su maximo
+                    psUpdate.setInt(1, mov.getCantidadMovimientosMaximos());
+                    psUpdate.setInt(2, idPokemon);
+                    psUpdate.setInt(3, idMov);
+                    psUpdate.executeUpdate();
+                }
+            }
+            System.out.println("BD: Todos los PPs del Pokémon " + idPokemon + " han sido restaurados a su máximo original.");
+            
         } catch (SQLException e) {
             System.out.println("Error al restaurar PPs en BD: " + e.getMessage());
         }
@@ -277,7 +307,9 @@ public class MovimientoDAO implements IMovimientoDAO {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, idPokemon);
             ps.setInt(2, nuevoMovimiento.getIdMovimiento());
-            ps.setInt(3, nuevoMovimiento.getCantidadMovimientos());
+            
+            ///insertado siempre con el maximo
+            ps.setInt(3, nuevoMovimiento.getCantidadMovimientosMaximos());
             
             ps.executeUpdate();
             System.out.println("BD: Nuevo movimiento aprendido e insertado con éxito.");
