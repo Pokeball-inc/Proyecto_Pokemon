@@ -26,10 +26,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -46,6 +45,8 @@ public class EquipoController implements Initializable {
     private Entrenador entrenadorActual = Sesion.entrenadorLogueado;
     @FXML
     private TilePane cajaPokemon;
+    @FXML
+    private StackPane sonidoPokemon;
     @FXML
     private ImageView fotoPokemon;
     @FXML
@@ -84,7 +85,7 @@ public class EquipoController implements Initializable {
     private Rectangle rectMoverEquipo;
     @FXML
     private Pane panelDetalles;
-
+    private MediaPlayer mediaPlayer;
     private Pokemon pokemonSeleccionado;
     @FXML
     private ImageView curarEquipo;
@@ -259,6 +260,7 @@ public class EquipoController implements Initializable {
         if (p == null) return;
 
         try {
+            sonidoPokemon.setVisible(false);
             // Actualizamos la referencia y nos aseguramos de que tenga color
             pokemonSeleccionado = p;
             pokemonSeleccionado.cambiarColor();
@@ -381,13 +383,13 @@ public class EquipoController implements Initializable {
 
             if (pokemonSeleccionado.getMovimientos()[0] != null) {
                 mov1 = pokemonSeleccionado.getMovimientos()[0].getNombreMovimiento();
-            } 
+            }
             if (pokemonSeleccionado.getMovimientos()[1] != null) {
                 mov2 = pokemonSeleccionado.getMovimientos()[1].getNombreMovimiento();
-            } 
+            }
             if (pokemonSeleccionado.getMovimientos()[2] != null) {
                 mov3 = pokemonSeleccionado.getMovimientos()[2].getNombreMovimiento();
-            } 
+            }
             if (pokemonSeleccionado.getMovimientos()[3] != null) {
                 mov4 = pokemonSeleccionado.getMovimientos()[3].getNombreMovimiento();
             }
@@ -539,10 +541,29 @@ public class EquipoController implements Initializable {
                 });
             }
 
+            /// Si el pokemon es de la primera generación, entonces que tenga sonido, no he encontrado los sonidos de la
+            /// segunda
 
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
+            if (p.getIdPokemon() <= 151) {
+                try {
+                    String sonido = "sonidos/Pokemon/" + p.getIdPokemon() + ".wav";
+                    Media sound = new Media(new File(sonido).toURI().toString());
+
+                    // Inicializar mediaPlayer
+                    mediaPlayer = new MediaPlayer(sound);
+
+                } catch (Exception e) {
+                    System.out.println("Error al cargar el sonido: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                sonidoPokemon.setVisible(true);
+                sonidoPokemon.setOnMouseClicked(event -> {
+                    mediaPlayer.play();
+                });
+            }
+            } catch(Exception ex){
+                System.out.println(ex.getMessage());
+            }
     }
 
     // Metodo para recargar la informacion visual

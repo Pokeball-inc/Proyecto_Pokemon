@@ -193,7 +193,7 @@ public class MainController implements Initializable {
 
     private void cargarMusica() {
         try {
-            String musica = "imgs/Principal/Principal.mp3";
+            String musica = "sonidos/Principal.mp3";
             Media sound = new Media(new File(musica).toURI().toString());
 
             // Inicializar mediaPlayer
