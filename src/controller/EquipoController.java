@@ -675,19 +675,43 @@ public class EquipoController implements Initializable {
     }
     
     @FXML
-    // voton curar pokemon
+    // boton curar pokemon
     public void clickCurarPokemon(MouseEvent event) {
         Entrenador jugador = Sesion.entrenadorLogueado;
-        MovimientoDAO movDao = new MovimientoDAO(con);
         
-        // curamos todo el equipo
+        //comprobamos si necesita curar
+        boolean necesitaCura = false;
+        for (Pokemon p : jugador.getEquipoPokemon()) {
+            if (p != null) {
+                //comprobamos si le falta vida
+                if (p.getVitalidad() < p.getVitalidadMaxima()) {
+                    necesitaCura = true;
+                    break;
+                }
+                //comprobamos si le faltan PPs en algun movimiento
+                for (Movimiento m : p.getMovimientos()) {
+                    if (m != null && m.getCantidadMovimientos() < m.getCantidadMovimientosMaximos()) {
+                        necesitaCura = true;
+                        break;
+                    }
+                }
+            }
+            if (necesitaCura) break;
+        }
+
+        //si no necesita cura salta alerta error
+        if (!necesitaCura) {
+            mostrarAlertaEstado("Equipo en forma", "Tus Pokémon ya están a tope de energía y PPs. ¡No necesitan descansar!", Alert.AlertType.WARNING, "imgs/Equipo/alertaCurar.png");
+            return;
+        }
+
+        //si necesita cura
         jugador.curarEquipoCompleto();
         
-        
-        // sincronizamos la curacion con la bd
         try {
             ConexionBBDD conector = new ConexionBBDD();
             Connection con = conector.getConexion();
+            MovimientoDAO movDao = new MovimientoDAO(con);
             
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
@@ -701,14 +725,51 @@ public class EquipoController implements Initializable {
             System.out.println("Error al guardar la cura en BD: " + e.getMessage());
         }
         
-        // mostramos alerta informando de la curacion
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Curación Pokémon");
+        //alerta de exito
+        mostrarAlertaEstado("Centro Pokémon", "¡Tus Pokémon han recuperado toda su energía y sus PPs!", Alert.AlertType.INFORMATION, "imgs/Equipo/curarEquipo.png");
+    }
+
+    /**
+     * Método auxiliar para generar las alertas con tu estilo personalizado
+     */
+    private void mostrarAlertaEstado(String titulo, String contenido, Alert.AlertType tipo, String rutaIconoCentral) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
         alerta.setHeaderText(null);
-        alerta.setContentText("¡Tus Pokémon han recuperado toda su energía y sus PPs!");
-        alerta.showAndWait();
+        alerta.setContentText(contenido);
+
+        // Icono central personalizado
+        try {
+            String ruta = new File(rutaIconoCentral).toURI().toString();
+            ImageView icono = new ImageView(new Image(ruta));
+            icono.setFitHeight(50);
+            icono.setFitWidth(50);
+            alerta.setGraphic(icono);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar el icono central de la alerta");
+        }
         
-        recargarTodo();
+     //aplicamos el CSS para diferenciar entre exito y fracaso
+        try {
+            if (tipo == Alert.AlertType.WARNING) {
+                alerta.getDialogPane().getStylesheets().add(getClass().getResource("/view/captura/alertas2.css").toExternalForm());
+            } else {
+                alerta.getDialogPane().getStylesheets().add(getClass().getResource("/view/captura/alertas.css").toExternalForm());
+            }
+        } catch (Exception e) {
+            System.out.println("Aviso: No se pudo cargar el CSS de la alerta.");
+        }
+
+        // Icono superior de la ventana
+        try {
+            Stage stageAlerta = (Stage) alerta.getDialogPane().getScene().getWindow();
+            File fileIcono = new File("imgs/Login/Login-icon.png");
+            if (fileIcono.exists()) {
+                stageAlerta.getIcons().add(new Image(fileIcono.toURI().toString()));
+            }
+        } catch (Exception e) {}
+
+        alerta.showAndWait();
     }
 
     //Boton de salir
