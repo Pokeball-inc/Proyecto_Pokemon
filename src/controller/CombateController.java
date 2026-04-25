@@ -51,6 +51,7 @@ import model.Estados;
 import model.Movimiento;
 import model.Pokemon;
 import model.Sesion;
+import model.Tipos;
 import model.Turno;
 
 
@@ -782,6 +783,9 @@ public class CombateController implements Initializable {
                 if (mov == null) {
                     mov = new Movimiento();
                     mov.setNombreMovimiento("Placaje Letal");
+                    mov.setCategoriaDano("Fisico");
+                    mov.setPotencia(40);
+                    mov.setTipo(Tipos.NORMAL);
                 }
                 
                 movimientos[j] = mov;
@@ -891,35 +895,18 @@ public class CombateController implements Initializable {
             
             vistaRivalBloqueada = true;
             
+         // repartimos la XP 
+            boolean rivalTieneMas = combateActual.puedeContinuar(false);
             ///mostrar xp ganada
             for (int i = 0; i < 6; i = i + 1) {
                 Pokemon miPkmn = jugador.getEquipoPokemon()[i];
-                if (miPkmn != null) {
-                    if (miPkmn.getVitalidad() > 0) {
+                if (miPkmn != null && miPkmn.getVitalidad() > 0) {
                         int expGanada = (miPkmn.getNivel() + (pRival.getNivel() * 10)) / 4;
                         escribirLog(miPkmn.getNombrePokemon() + " ha ganado " + expGanada + " puntos de EXP.");
-                    }
                 }
             }
             
             registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
-   
-            ///buscamos al siguiente pokemon sin decirle al programa que lo cambie todavia para que la vista antigua no se rompa
-            boolean rivalTieneMas = false;
-            Pokemon pokemonSiguiente = null; 
-            
-            for (int i = 0; i < 6; i = i + 1) {
-                Pokemon p = rival.getEquipoPokemon()[i];
-                if (p != null) {
-                    if (p.getVitalidad() > 0) {
-                        if (p != pRival) { ///ignoramos al que acaba de morir
-                            rivalTieneMas = true;
-                            pokemonSiguiente = p;
-                            break;
-                        }
-                    }
-                }
-            }
             
             ///comprobamos si suben de nivel y tiene ataques pendientes
             for (int i = 0; i < 6; i = i + 1) {
@@ -938,7 +925,7 @@ public class CombateController implements Initializable {
           
             ///si muere el rival saca otro
             if (rivalTieneMas == true) {
-                escribirLog("¡El rival ha enviado a " + pokemonSiguiente.getNombrePokemon() + "!");
+                escribirLog("¡El rival ha enviado a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
                 escribirLog("@MOSTRAR_NUEVO_RIVAL@"); 
             } else {
                 vistaRivalBloqueada = false;
@@ -991,9 +978,6 @@ public class CombateController implements Initializable {
         
         if (colaMensajes.isEmpty()) {
             controlesBloqueados = false; 
-            if (txtLogCombate != null) {
-                txtLogCombate.setText(""); 
-            }
             return;
         }
 
@@ -1015,7 +999,7 @@ public class CombateController implements Initializable {
                 switch (mensajeActual) {
                     
                     case "@MOSTRAR_NUEVO_RIVAL@":
-                        try { combateActual.puedeContinuar(false); } catch (Exception ex) { } 
+                        
                         vistaRivalBloqueada = false;
                         actualizarVista();
                         
@@ -1144,7 +1128,7 @@ public class CombateController implements Initializable {
                         guardarProgresoBD();
                         panelMenuPrincipal.setVisible(false); 
                         panelMenuAtaques.setVisible(false);
-                        volverAlMenuPrincipal(5);
+                        volverASeleccionCombate(5);
                         escribiendoMensaje = false;
                         return;
                 }
@@ -1233,7 +1217,7 @@ public class CombateController implements Initializable {
                     System.out.println("cargando la vista principal tras huir...");
 
                     //cargar la vista principal 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate/SeleccionCombate.fxml"));
                     Parent root = loader.load();
                     Scene scene = new Scene(root);
 
@@ -1242,7 +1226,7 @@ public class CombateController implements Initializable {
                     scene.getStylesheets().add(css);
 
                     //titulo, forzar el tamaño de la ventana y bloquear cambio manual
-                    ventanaActual.setTitle("PokeINC - Principal");
+                    ventanaActual.setTitle("PokeINC - Seleccion Combate");
                     ventanaActual.setResizable(false);
 
                     //cargar icono
@@ -1331,7 +1315,7 @@ public class CombateController implements Initializable {
     }
     
     //metodo para volver a la pantalla de seleccion 
-    private void volverAlMenuPrincipal(int segundosPausa) {
+    private void volverASeleccionCombate(int segundosPausa) {
         controlesBloqueados = true;
         
         //usamos el panel principal para encontrar la ventana
@@ -1341,7 +1325,7 @@ public class CombateController implements Initializable {
         pausaSalida.setOnFinished(e -> {
             try {
          
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SeleccionCombate/SeleccionCombate.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
 
@@ -1355,7 +1339,7 @@ public class CombateController implements Initializable {
                     System.out.println("Aviso: No se encontró vistaPrincipal.css. Cargando pantalla sin estilos extra.");
                 }
 
-                ventanaActual.setTitle("PokeINC - Principal");
+                ventanaActual.setTitle("PokeINC - Seleccion Combate");
                 ventanaActual.setResizable(false);
 
                 ventanaActual.setScene(scene);
