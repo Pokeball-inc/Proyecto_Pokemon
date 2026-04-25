@@ -1110,6 +1110,7 @@ public class CombateController implements Initializable {
 				Pokemon miPkmn = jugador.getEquipoPokemon()[i];
 				if (miPkmn != null && miPkmn.getVitalidad() > 0) {
 					int expGanada = (miPkmn.getNivel() + (pRival.getNivel() * 10)) / 4;
+					miPkmn.ganarExperiencia(expGanada);
 					escribirLog(miPkmn.getNombrePokemon() + " ha ganado " + expGanada + " puntos de EXP.");
 				}
 			}
