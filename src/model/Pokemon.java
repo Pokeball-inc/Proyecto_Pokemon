@@ -1169,5 +1169,42 @@ public class Pokemon {
 		System.out.println(this.nombrePokemon + " no lleva ningún objeto equipado.");
 		return null;
 	}
+	
+	/**
+	 * Método inteligente para obtener la ruta de la imagen si es shiny o no
+	 * si es frontal/trasera y si es 2D/3D.
+	 */
+	public String getRutaImagenActual(boolean esFrontal, boolean es3D) {
+		//shiny
+		if (this.esShiny) { 
+	        if (es3D) {
+	            if (esFrontal) {
+	                return imgShinyFrontal3D;
+	            } else {
+	                return imgShinyPosterior3D;
+	            }
+	        } else { // Si es 2D
+	            if (esFrontal) {
+	                return imgShinyFrontal;
+	            } else {
+	                return imgShinyPosterior;
+	            }
+	        }
+	    } else { 
+	        if (es3D) {
+	            if (esFrontal) {
+	                return imgFrontalPokemon3D;
+	            } else {
+	                return imgPosteriorPokemon3D;
+	            }
+	        } else { // Si es 2D
+	            if (esFrontal) {
+	                return imgFrontalPokemon;
+	            } else {
+	                return imgPosteriorPokemon;
+	            }
+	        }
+	    }
+	}
 
 }

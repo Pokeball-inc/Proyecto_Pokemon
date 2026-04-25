@@ -321,8 +321,15 @@ public class CapturaController implements Initializable {
             // comprobamos que no sea null el pokemon
             if (this.pokemonActual != null) {
             	
+                // logica de probabilidad shiny (5% para pruebas)
+                java.util.Random r = new java.util.Random();
+                if (r.nextInt(100) < 5) {
+                    this.pokemonActual.setEsShiny(true);
+                } else {
+                    this.pokemonActual.setEsShiny(false);
+                }
             		
-            		// logica para elegir el sexo realista basado en la Pokedex
+                // logica para elegir el sexo realista basado en la Pokedex
                 model.Sexo sexoRealista = Pokemon.generarSexoPokemon(this.pokemonActual.getNumPokedex());
                 this.pokemonActual.setSexo(sexoRealista);
                 
@@ -353,27 +360,23 @@ public class CapturaController implements Initializable {
                 }
             	
             	
-                // actualizamos el nombre en la vista
-                txtNombre.setText(this.pokemonActual.getNombrePokemon());
+                // actualizamos el nombre en la vista (añadiendo la estrella si es shiny)
+                if (this.pokemonActual.getEsShiny()) {
+                    txtNombre.setText(this.pokemonActual.getNombrePokemon() + " ★");
+                } else {
+                    txtNombre.setText(this.pokemonActual.getNombrePokemon());
+                }
 
                 // cargamos la imagen correspondiente al nombre del pokemon
                 try {
 
-                    // En función del Tipo de imagen que desee el usario
-
                     String rutaImagen = "";
 
-                    if (Sesion.vista2D) {
-
-                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonActual.getImgFrontalPokemon();
-
-                    } else {
-                        rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonActual.getImgFrontalPokemon3D();
-                    }
-
+                    // usamos el metodo inteligente del modelo para obtener la ruta
+                    String rutaRelativa = this.pokemonActual.getRutaImagenActual(true, !Sesion.vista2D);
+                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + rutaRelativa;
 
                     String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                    // System.out.println(rutaImagenAdaptada);
 
                     // ESTABLECE EL TEXTO DE TIPO1 AL DELPOKEMON ACTUAL
                     this.txtTipo1.setText(this.pokemonActual.getTipoPrincipal().toString());
@@ -428,9 +431,9 @@ public class CapturaController implements Initializable {
 
                     // CAMBIAR EL COLOR DE LAS PARTICULAS EN PANTALLA EN FUNCION DEL POKEMON QUE HA SALIDO
                     pokemonActual.cambiarColor();
-                    Color colorCambio = this.pokemonActual.getColor();
+                    javafx.scene.paint.Color colorCambio = this.pokemonActual.getColor();
                     for (Node capturaParticulas : panelParticulas.getChildren()){
-                        if (capturaParticulas instanceof Circle circle){
+                        if (capturaParticulas instanceof javafx.scene.shape.Circle circle){
                             circle.setFill(colorCambio);
                         }
                     }
@@ -457,7 +460,6 @@ public class CapturaController implements Initializable {
             System.out.println("error: la conexion con la bbdd es nula");
         }
     }
-
 
 
 

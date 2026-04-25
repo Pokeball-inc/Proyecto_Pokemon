@@ -37,6 +37,11 @@ public class CapturaDao {
                 p.setImgFrontalPokemon3D(rs.getString("IMG_FRONTAL3D"));
                 p.setImgPosteriorPokemon(rs.getString("IMG_TRASERA"));
                 p.setImgPosteriorPokemon3D(rs.getString("IMG_TRASERA3D"));
+                p.setImgShinyFrontal(rs.getString("IMG_SHINY_FRONTAL"));
+                p.setImgShinyFrontal3D(rs.getString("IMG_SHINY_FRONTAL3D"));
+                p.setImgShinyPosterior(rs.getString("IMG_SHINY_TRASERA"));
+                p.setImgShinyPosterior3D(rs.getString("IMG_SHINY_TRASERA3D"));
+                
 
                 generarStats(p);
 
@@ -98,27 +103,23 @@ public class CapturaDao {
     }
 
 
-    // metodo para guardar el pokemon capturado en la base de datos
+    //metodo para guardar el pokemon capturado en la base de datos
     public void guardarPokemon(Connection con, Pokemon p, int idEntrenador, String ubicacion) {
 
-        // preparamos la sentencia sql de insercion
-        // ponemos un "?" por cada columna para que java rellene los huecos luego
-        String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD_MAXIMA, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION, VITALIDAD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO POKEMON (NUM_POKEDEX, ID_ENTRENADOR, MOTE, SEXO, VITALIDAD_MAXIMA, ATAQUE, DEFENSA, VELOCIDAD, ATAQUE_SP, DEFENSA_SP, NIVEL, EXPERIENCIA, FERTILIDAD, ESTADO, UBICACION, VITALIDAD, ES_SHINY) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            // preparamos la conexión para enviar esta consulta
-            PreparedStatement ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS); //Para que sql le diga el ID
+            PreparedStatement ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
-            // rellenamos los values
             ps.setInt(1, p.getNumPokedex());
             ps.setInt(2, idEntrenador);
-            //Para el mote si es crianza (mezcla padres) y salvaje (su especie)
+            
             if (p.getMotePokemon() != null && !p.getMotePokemon().isEmpty()) {
                 ps.setString(3, p.getMotePokemon());
             } else {
                 ps.setString(3, p.getNombrePokemon());
             }
-            //Si es nulo el sexo toma valor neutro
+            
             if (p.getSexo() != null) {
                 ps.setString(4, p.getSexo().name());
             } else {
@@ -134,17 +135,19 @@ public class CapturaDao {
             ps.setInt(11, p.getNivel());
             ps.setInt(12, p.getExperiencia());
             ps.setInt(13, p.getFertilidad());
-            //Si es nulo se le da estado SANO por defecto
+            
             if (p.getEstadoActual() != null) {
                 ps.setString(14, p.getEstadoActual().name());
             } else {
                 ps.setString(14, "SANO");
             }
+            
             ps.setString(15, ubicacion);
             ps.setInt(16, p.getVitalidad());
+            
+            //guardamos si el Pokemon es Shiny o no en la BD
+            ps.setBoolean(17, p.getEsShiny());
 
-
-            //usamos el executeupdate para modificar la base de datos
             ps.executeUpdate();
 
             //Pedimos las claves generadas (el ID autonumérico)
