@@ -46,7 +46,7 @@
             <Font name="Consolas Bold" size="25.0" />
          </font>
       </Button>
-      <Button id="botonCreditosLogin" fx:id="creditosLogin" defaultButton="true" layoutX="71.0" layoutY="398.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-creditos" text="Créditos" textFill="WHITE" textOverrun="CLIP">
+      <Button id="botonCreditosLogin" fx:id="creditosLogin" defaultButton="true" layoutX="71.0" layoutY="398.0" onMouseClicked="#botonCreditos" mnemonicParsing="false" prefHeight="46.0" prefWidth="262.0" styleClass="pokemon-button-creditos" text="Créditos" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font name="Microsoft Tai Le Bold" size="16.0" />
          </font>

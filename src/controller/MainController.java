@@ -6,6 +6,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
@@ -312,6 +313,8 @@ public class MainController implements Initializable {
                 vidrioPrincipal.setOnMouseClicked(this::accederInventario);
             } else if (principal.getNombre().equals("CASINO")) {
                 vidrioPrincipal.setOnMouseClicked(this::accederCasino);
+            } else if (principal.getNombre().equals("CREDITOS")) {
+                vidrioPrincipal.setOnMouseClicked(this::accederCreditos);
             }
             // Elemento anterior
             if (indiceActual > 0) {
@@ -785,6 +788,33 @@ public class MainController implements Initializable {
             System.out.println("Error al alternar a 2D/3D " + e.getMessage());
         }
     }
+
+
+// ---------------------------- BOTÓN DE CRÉDITOS ---------------------------- \\
+
+    @FXML
+    public void accederCreditos(MouseEvent event) {
+        try {
+            // Cargar la vista Creditos
+
+            // cargamos la vista pantalla principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/creditos/creditos.fxml"));
+            Parent root = loader.load();
+
+
+            // Configuramos la escena y la mostramos
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            mediaPlayer.stop();
+            primaryStage.show();
+
+
+        } catch (Exception e) {
+            System.out.println("El juego no se ha cerrado correctamente" + e.getMessage());
+        }
+    }
+
 
     // --------------- LOGOUT ----------------
 
