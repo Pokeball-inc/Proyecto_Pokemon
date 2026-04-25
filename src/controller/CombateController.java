@@ -264,6 +264,77 @@ public class CombateController implements Initializable {
     }
     
     /**
+     * Actualiza los iconos de estado en la vista.
+     */
+    private void actualizarIconosEstado() {
+        Pokemon pJugador = combateActual.getPokemonActualJugador();
+        Pokemon pRival = combateActual.getPokemonActualRival();
+
+        //actualizar estado del Jugador
+        if (pJugador != null && estadoPokemonJugador != null) {
+            gestionarImagenEstado(pJugador, estadoPokemonJugador);
+        }
+
+        //actualizar estado del Rival
+        if (pRival != null && estadoPokemonRival != null) {
+            gestionarImagenEstado(pRival, estadoPokemonRival);
+        }
+    }
+
+    /**
+     * Logica interna para decidir que imagen poner o si se oculta
+     */
+    private void gestionarImagenEstado(Pokemon p, ImageView imgView) {
+        Estados estado = p.getEstadoActual();
+
+        //si el pokemon esta sano o debilitado no mostramos icono
+        if (estado == Estados.SANO || estado == Estados.DEBILITADO || p.getVitalidad() <= 0) {
+            imgView.setVisible(false);
+            return;
+        }
+
+        String nombreImagen = "";
+
+        //ruta a estado imagen
+        switch (estado) {
+            case PARALIZADO:
+                nombreImagen = "Paralizado.png";
+                break;
+            case QUEMADO:
+                nombreImagen = "Quemado.png";
+                break;
+            case DORMIDO:
+            case SOMNOLIENTO:
+                nombreImagen = "Dormido.png";
+                break;
+            case ENVENENADO:
+            case GRAVEMENTEENMVENEDADO:
+                nombreImagen = "Envenenado.png";
+                break;
+            case CONGELADO:
+            case HELADO:
+                nombreImagen = "Congelado.png";
+                break;
+            default:
+                imgView.setVisible(false);
+                return;
+        }
+
+        //cargar la imagen desde la carpeta
+        try {
+            File file = new File("imgs/Combate/estados/" + nombreImagen);
+            if (file.exists()) {
+                imgView.setImage(new Image(file.toURI().toString()));
+                imgView.setVisible(true);
+            } else {
+                imgView.setVisible(false);
+            }
+        } catch (Exception e) {
+            imgView.setVisible(false);
+        }
+    }
+    
+    /**
      * Refresca todos los textos, imagenes y barras de vida de la pantalla
      * leyendo los datos actuales del modelo. 
      */
@@ -362,6 +433,9 @@ public class CombateController implements Initializable {
                 
                 barraVitalidadPkmnRival.setProgress(porcentajeVidaRival);
                 cambiarColorBarra(barraVitalidadPkmnRival, porcentajeVidaRival);
+                
+                ///actualizamos los estados
+                actualizarIconosEstado();
             }
         } catch (Exception e) {
             System.out.println("Error silencioso en actualizarVista esquivado: " + e.getMessage());
