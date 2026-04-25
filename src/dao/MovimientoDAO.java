@@ -302,11 +302,12 @@ public class MovimientoDAO implements IMovimientoDAO {
      * Inserta un nuevo movimiento en  SET_MOVIMIENTOS
      */
     public void insertarMovimientoBD(int idPokemon, Movimiento nuevoMovimiento) {
-        String sql = "INSERT INTO SET_MOVIMIENTOS (ID_POKEMON, ID_MOVIMIENTO, PP) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO SET_MOVIMIENTOS (ID_POKEMON, ID_MOVIMIENTO, PP, ES_ACTIVO) VALUES (?, ?, ?, 1)";
         
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, idPokemon);
             ps.setInt(2, nuevoMovimiento.getIdMovimiento());
+            ps.setInt(3, nuevoMovimiento.getCantidadMovimientosMaximos());
             
             ///insertado siempre con el maximo
             ps.setInt(3, nuevoMovimiento.getCantidadMovimientosMaximos());
