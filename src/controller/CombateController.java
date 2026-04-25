@@ -915,6 +915,12 @@ public class CombateController implements Initializable {
                     if (p.getNivel() > nivelesAntes[i]) {
                         escribirLog("¡" + p.getNombrePokemon() + " ha subido al nivel " + p.getNivel() + "!");
                         
+                        // mostramos si aprende un movimiento cuando aun no tiene los 4
+                        if (p.getUltimoMovimientoAprendido() != null) {
+                            escribirLog("¡" + p.getNombrePokemon() + " ha aprendido " + p.getUltimoMovimientoAprendido().getNombreMovimiento() + "!");
+                            p.setUltimoMovimientoAprendido(null); // se vacia para el siguiente
+                        }
+                        
                         ///si al subir de nivel se le ha quedado un ataque pendiente salta la ventana
                         if (p.getMovimientoPendiente() != null) {
                             gestionarAprendizajeMovimiento(p);

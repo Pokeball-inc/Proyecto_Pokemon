@@ -267,4 +267,22 @@ public class MovimientoDAO implements IMovimientoDAO {
             System.out.println("Error al restaurar PPs en BD: " + e.getMessage());
         }
     }
+    
+    /**
+     * Inserta un nuevo movimiento en  SET_MOVIMIENTOS
+     */
+    public void insertarMovimientoBD(int idPokemon, Movimiento nuevoMovimiento) {
+        String sql = "INSERT INTO SET_MOVIMIENTOS (ID_POKEMON, ID_MOVIMIENTO, PP) VALUES (?, ?, ?)";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, idPokemon);
+            ps.setInt(2, nuevoMovimiento.getIdMovimiento());
+            ps.setInt(3, nuevoMovimiento.getCantidadMovimientos());
+            
+            ps.executeUpdate();
+            System.out.println("BD: Nuevo movimiento aprendido e insertado con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al insertar nuevo movimiento en BD: " + e.getMessage());
+        }
+    }
 }

@@ -173,6 +173,11 @@ public class Pokemon {
      * Movimiento que el Pokemon quiere aprender pero está esperando confirmación
      */
     private Movimiento movimientoPendiente = null;
+    
+    /**
+     * Guarda el último movimiento aprendido directamente
+     */
+    private Movimiento ultimoMovimientoAprendido = null;
 
 	//
 	// Constructors
@@ -601,6 +606,14 @@ public class Pokemon {
 		this.movimientoPendiente = movimientoPendiente;
 	}
 
+	public Movimiento getUltimoMovimientoAprendido() {
+		return ultimoMovimientoAprendido;
+	}
+
+	public void setUltimoMovimientoAprendido(Movimiento ultimoMovimientoAprendido) {
+		this.ultimoMovimientoAprendido = ultimoMovimientoAprendido;
+	}
+	
 	//
 	// Other methods
 	//
@@ -850,6 +863,7 @@ public class Pokemon {
 			if (movimientos[i] == null) {
 				movimientos[i] = nuevoMovimiento;
 				aprendido = true;
+				this.ultimoMovimientoAprendido = nuevoMovimiento;
 				System.out.println("INFO: " + nombrePokemon + " ha aprendido " + nuevoMovimiento.getNombreMovimiento());
 				break;
 			}
