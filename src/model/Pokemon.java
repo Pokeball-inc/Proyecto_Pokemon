@@ -930,6 +930,25 @@ public class Pokemon {
 		// aplicamos la curacion usando el setter para no sobrepasar el maximo
 		this.setVitalidad(this.vitalidad + curacion);
 	}
+	
+	/**
+	 * intenta añadir un nuevo movimiento al pokemon si tiene un hueco libre
+	 * actualiza la memoria correctamente
+	 * @return true si lo ha aprendido, false si ya tiene 4
+	 */
+	public boolean aprenderMovimientoEnHuecoVacio(Movimiento nuevoMovimiento) {
+	    if (this.movimientos == null) {
+	        this.movimientos = new Movimiento[4];
+	    }
+	    
+	    for (int i = 0; i < 4; i++) {
+	        if (this.movimientos[i] == null) {
+	            this.movimientos[i] = nuevoMovimiento;
+	            return true; // se lo guarda y sale
+	        }
+	    }
+	    return false; // No hay hueco
+	}
 
 	/**
 	 * metodo para que el pokemon pueda aprender un movimiento cada 3 niveles

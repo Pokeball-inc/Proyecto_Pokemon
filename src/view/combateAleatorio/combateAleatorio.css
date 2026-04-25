@@ -19,9 +19,19 @@
     -fx-background-radius: 10px;
     -fx-text-fill: white; 
     -fx-font-family: 'monospace'; 
-    -fx-font-size: 18px;
+    
+    /*bajamos un pelin la fuente para que quepan las dos lineas*/
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-cursor: hand; 
+    
+    /*propiedades nuevas para que no se corte el texto de los PP*/
+    -fx-wrap-text: true; /*obliga al texto a saltar de linea si no cabe*/
+    -fx-text-alignment: center; /*centra el texto (el nombre arriba y los PP abajo)*/
+    -fx-alignment: center; /*centra el contenido dentro del boton*/
+    -fx-min-height: 55px; /*altura minima obligatoria para las 2 lineas*/
+    -fx-pref-height: 60px; /*altura recomendada*/
+    -fx-padding: 2px 5px 2px 5px; /*margenes internos muy pequenos para no ahogar la letra*/
 }
 
 /*Efecto Hover*/

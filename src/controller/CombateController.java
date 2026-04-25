@@ -229,6 +229,12 @@ public class CombateController implements Initializable {
         
         //arrancamos la animacion
         animacionEntrada(); 
+        
+        //asignamos CSS a los 4 botones
+        if (btnAtaque1 != null) btnAtaque1.getStyleClass().add("boton-ataque");
+        if (btnAtaque2 != null) btnAtaque2.getStyleClass().add("boton-ataque");
+        if (btnAtaque3 != null) btnAtaque3.getStyleClass().add("boton-ataque");
+        if (btnAtaque4 != null) btnAtaque4.getStyleClass().add("boton-ataque");
     } 
     
     /**
@@ -266,6 +272,7 @@ public class CombateController implements Initializable {
     /**
      * Actualiza los iconos de estado en la vista.
      */
+ 
     private void actualizarIconosEstado() {
         Pokemon pJugador = combateActual.getPokemonActualJugador();
         Pokemon pRival = combateActual.getPokemonActualRival();
@@ -274,16 +281,18 @@ public class CombateController implements Initializable {
         if (pJugador != null && estadoPokemonJugador != null) {
             gestionarImagenEstado(pJugador, estadoPokemonJugador);
         }
-
+ 
         //actualizar estado del Rival
         if (pRival != null && estadoPokemonRival != null) {
             gestionarImagenEstado(pRival, estadoPokemonRival);
         }
     }
-
+ 
+ 
     /**
      * Logica interna para decidir que imagen poner o si se oculta
      */
+ 
     private void gestionarImagenEstado(Pokemon p, ImageView imgView) {
         Estados estado = p.getEstadoActual();
 
@@ -319,8 +328,11 @@ public class CombateController implements Initializable {
                 imgView.setVisible(false);
                 return;
         }
-
+ 
+ 
+ 
         //cargar la imagen desde la carpeta
+ 
         try {
             File file = new File("imgs/Combate/estados/" + nombreImagen);
             if (file.exists()) {
@@ -330,7 +342,8 @@ public class CombateController implements Initializable {
                 imgView.setVisible(false);
             }
         } catch (Exception e) {
-            imgView.setVisible(false);
+        	imgView.setVisible(false);
+
         }
     }
     
@@ -1051,7 +1064,27 @@ public class CombateController implements Initializable {
                         
                         // mostramos si aprende un movimiento cuando aun no tiene los 4
                         if (p.getUltimoMovimientoAprendido() != null) {
+                        	Movimiento nuevoAtaque = p.getUltimoMovimientoAprendido();
                             escribirLog("¡" + p.getNombrePokemon() + " ha aprendido " + p.getUltimoMovimientoAprendido().getNombreMovimiento() + "!");
+                            // para actualizar movimiento en la bd
+                            try {
+                                ConexionBBDD conector = new ConexionBBDD();
+                                Connection con = conector.getConexion();
+                                MovimientoDAO movDao = new MovimientoDAO(con);
+                                
+                                // insertamos el movimiento en la bd
+                                movDao.insertarMovimientoBD(p.getIdPokemon(), nuevoAtaque);
+                                
+                                con.close();
+                            } catch (Exception e) {
+                                System.out.println("Error al guardar el nuevo ataque aprendido en combate: " + e.getMessage());
+                            }
+                            // aprendemos en el hueco vacio
+                            p.aprenderMovimientoEnHuecoVacio(nuevoAtaque);
+                         // actualizar si es el pokemon peleando
+                            if (p == combateActual.getPokemonActualJugador()) {
+                                escribirLog("@UPDATE_VISTA@"); // asi el guion "-" cambiara por el nombre del ataque
+                            }
                             p.setUltimoMovimientoAprendido(null); // se vacia para el siguiente
                         }
                         
@@ -1096,6 +1129,8 @@ public class CombateController implements Initializable {
 
         combateActual.añadirTurno(evento);
     }
+    
+    
 
     /**
      * Añade un mensaje a la cola de texto para que aparezca animado.
@@ -1571,11 +1606,24 @@ public class CombateController implements Initializable {
             // abrimos la conexión
             ConexionBBDD conector = new bd.ConexionBBDD();
             Connection con = conector.getConexion();
+            MovimientoDAO movDao = new MovimientoDAO(con);
+            
+            
             
             // recorremos nuestro equipo y actualizamos cada Pokémon
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
                     PokemonDAO.actualizarStatsBD(con, p);
+                    
+                    // guardamos los PP actuales de cada ataque
+                    if (p.getMovimientos() != null) {
+                        for (int i = 0; i < 4; i++) {
+                            Movimiento mov = p.getMovimientos()[i];
+                            if (mov != null) {
+                                movDao.actualizarPPs(p.getIdPokemon(), mov.getIdMovimiento(), mov.getCantidadMovimientos());
+                            }
+                        }
+                    }
                 }
             }
             
