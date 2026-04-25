@@ -565,7 +565,7 @@ public class CrianzaController implements Initializable {
         bebe.setImgFrontalPokemon(hembraElegida.getImgFrontalPokemon());
         bebe.setImgFrontalPokemon3D(hembraElegida.getImgFrontalPokemon3D());
         bebe.setImgPosteriorPokemon(hembraElegida.getImgPosteriorPokemon());
-        bebe.setImgFrontalPokemon3D(hembraElegida.getImgFrontalPokemon3D());
+        bebe.setImgPosteriorPokemon3D(hembraElegida.getImgPosteriorPokemon3D());
         bebe.setNivel(1); //El bebé nace a nivel 1
         bebe.setExperiencia(0);
         bebe.setFertilidad(5); //Fertilidad máxima al nacer
@@ -600,13 +600,14 @@ public class CrianzaController implements Initializable {
         bebe.setMotePokemon(moteBebe);
 
         //Heredar las mejores estadisticas
-        bebe.setVitalidadMaxima(Math.max(machoElegido.getVitalidadMaxima(), hembraElegida.getVitalidadMaxima()));
-        bebe.setVitalidad(bebe.getVitalidadMaxima());
-        bebe.setAtaque(Math.max(machoElegido.getAtaque(), hembraElegida.getAtaque()));
-        bebe.setDefensa(Math.max(machoElegido.getDefensa(), hembraElegida.getDefensa()));
-        bebe.setAtaqueEspecial(Math.max(machoElegido.getAtaqueEspecial(), hembraElegida.getAtaqueEspecial()));
-        bebe.setDefensaEspecial(Math.max(machoElegido.getDefensaEspecial(), hembraElegida.getDefensaEspecial()));
-        bebe.setVelocidad(Math.max(machoElegido.getVelocidad(), hembraElegida.getVelocidad()));
+        int mejorHP = Math.max(machoElegido.getBaseVitalidadMaxima(), hembraElegida.getBaseVitalidadMaxima());
+        bebe.setVitalidadMaxima(mejorHP);
+        bebe.setVitalidad(mejorHP);
+        bebe.setAtaque(Math.max(machoElegido.getBaseAtaque(), hembraElegida.getBaseAtaque()));
+        bebe.setDefensa(Math.max(machoElegido.getBaseDefensa(), hembraElegida.getBaseDefensa()));
+        bebe.setAtaqueEspecial(Math.max(machoElegido.getBaseAtaqueEspecial(), hembraElegida.getBaseAtaqueEspecial()));
+        bebe.setDefensaEspecial(Math.max(machoElegido.getBaseDefensaEspecial(), hembraElegida.getBaseDefensaEspecial()));
+        bebe.setVelocidad(Math.max(machoElegido.getBaseVelocidad(), hembraElegida.getBaseVelocidad()));
         
         //Heredar tipos(Aleatorio entre los de los padres)
         bebe.setTipoPrincipal(hembraElegida.getTipoPrincipal());

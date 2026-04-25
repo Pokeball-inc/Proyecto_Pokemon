@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class PokemonDAO {
 
+	
     /**
      * Recupera la lista de Pokemon de la base de datos para un entrenador especifico
      * y segun su ubicacion (EQUIPO o CAJA), y los asigna al objeto Entrenador.
@@ -239,12 +240,12 @@ public class PokemonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             // introducimos los values
             ps.setInt(1, p.getVitalidad());
-            ps.setInt(2, p.getVitalidadMaxima());
-            ps.setInt(3, p.getAtaque());
-            ps.setInt(4, p.getDefensa());
-            ps.setInt(5, p.getAtaqueEspecial());
-            ps.setInt(6, p.getDefensaEspecial());
-            ps.setInt(7, p.getVelocidad());
+            ps.setInt(2, p.getBaseVitalidadMaxima());
+            ps.setInt(3, p.getBaseAtaque());
+            ps.setInt(4, p.getBaseDefensa());
+            ps.setInt(5, p.getBaseAtaqueEspecial());
+            ps.setInt(6, p.getBaseDefensaEspecial());
+            ps.setInt(7, p.getBaseVelocidad());
             ps.setInt(8, p.getNivel());
             ps.setInt(9, p.getExperiencia());
             ps.setInt(10, p.getIdPokemon());

@@ -73,8 +73,9 @@ public class CapturaDao {
 
         Random r = new Random();
         // para cada stat genera un numero aleatorio
-        p.setVitalidadMaxima(r.nextInt(50) + 50); // 50-100
-        p.setVitalidad(p.getVitalidadMaxima());
+        int vMaxBase = r.nextInt(50) + 50; // 50-100
+        p.setVitalidadMaxima(vMaxBase);
+        p.setVitalidad(vMaxBase);
         p.setAtaque(r.nextInt(20) + 10);          // 10-30
         p.setDefensa(r.nextInt(20) + 10);          // 10-30
         p.setAtaqueEspecial(r.nextInt(20) + 10);  // 10-30
@@ -124,12 +125,12 @@ public class CapturaDao {
                 ps.setString(4, "NEUTRO");
             }
 
-            ps.setInt(5, p.getVitalidadMaxima());
-            ps.setInt(6, p.getAtaque());
-            ps.setInt(7, p.getDefensa());
-            ps.setInt(8, p.getVelocidad());
-            ps.setInt(9, p.getAtaqueEspecial());
-            ps.setInt(10, p.getDefensaEspecial());
+            ps.setInt(5, p.getBaseVitalidadMaxima());
+            ps.setInt(6, p.getBaseAtaque());
+            ps.setInt(7, p.getBaseDefensa());
+            ps.setInt(8, p.getBaseVelocidad());
+            ps.setInt(9, p.getBaseAtaqueEspecial());
+            ps.setInt(10, p.getBaseDefensaEspecial());
             ps.setInt(11, p.getNivel());
             ps.setInt(12, p.getExperiencia());
             ps.setInt(13, p.getFertilidad());
@@ -187,12 +188,12 @@ public class CapturaDao {
                 ps.setString(2, p.getNombrePokemon());
             }
 
-            ps.setInt(3, p.getVitalidadMaxima());
-            ps.setInt(4, p.getAtaque());
-            ps.setInt(5, p.getDefensa());
-            ps.setInt(6, p.getVelocidad());
-            ps.setInt(7, p.getAtaqueEspecial());
-            ps.setInt(8, p.getDefensaEspecial());
+            ps.setInt(3, p.getBaseVitalidadMaxima());
+            ps.setInt(4, p.getBaseAtaque());
+            ps.setInt(5, p.getBaseDefensa());
+            ps.setInt(6, p.getBaseVelocidad());
+            ps.setInt(7, p.getBaseAtaqueEspecial());
+            ps.setInt(8, p.getBaseDefensaEspecial());
             ps.setInt(9, p.getNivel());
             ps.setInt(10, p.getExperiencia());
             ps.setInt(11, p.getFertilidad());

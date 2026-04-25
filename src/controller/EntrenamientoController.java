@@ -318,15 +318,15 @@ public class EntrenamientoController implements Initializable {
         entrenadorActual.setPokedollares(entrenadorActual.getPokedollares() - coste);
         
         //subimos el resto de estadisticas
-        pokemonSeleccionado.setVitalidadMaxima(pokemonSeleccionado.getVitalidadMaxima() + subeHp);
+        pokemonSeleccionado.setVitalidadMaxima(pokemonSeleccionado.getBaseVitalidadMaxima() + subeHp);
         if (subeHp > 0) {
             pokemonSeleccionado.setVitalidad(pokemonSeleccionado.getVitalidad() + subeHp);
         }
-        pokemonSeleccionado.setAtaque(pokemonSeleccionado.getAtaque() + subeAtk);
-        pokemonSeleccionado.setDefensa(pokemonSeleccionado.getDefensa() + subeDef);
-        pokemonSeleccionado.setAtaqueEspecial(pokemonSeleccionado.getAtaqueEspecial() + subeAtkSp);
-        pokemonSeleccionado.setDefensaEspecial(pokemonSeleccionado.getDefensaEspecial() + subeDefSp);
-        pokemonSeleccionado.setVelocidad(pokemonSeleccionado.getVelocidad() + subeVel);
+        pokemonSeleccionado.setAtaque(pokemonSeleccionado.getBaseAtaque() + subeAtk);
+        pokemonSeleccionado.setDefensa(pokemonSeleccionado.getBaseDefensa() + subeDef);
+        pokemonSeleccionado.setAtaqueEspecial(pokemonSeleccionado.getBaseAtaqueEspecial() + subeAtkSp);
+        pokemonSeleccionado.setDefensaEspecial(pokemonSeleccionado.getBaseDefensaEspecial() + subeDefSp);
+        pokemonSeleccionado.setVelocidad(pokemonSeleccionado.getBaseVelocidad() + subeVel);
 
         //refrescamos la vista para aplicar los cambios en tiempo real en la pantalla
         if (txtPokedollares != null) {

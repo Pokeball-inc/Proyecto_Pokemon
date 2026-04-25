@@ -222,11 +222,12 @@ public class Pokemon {
 	 * maxima en caso de curarse *
 	 */
 	public void setVitalidad(int newVar) {
+		int maxVitalidadReal = this.getVitalidadMaxima();
 		// si esta debilitado no sube la vida
 		if (this.estadoActual == Estados.DEBILITADO && newVar > 0) {
 			// si esta DEBILITADO, se queda en 0
-			if (newVar == this.vitalidadMaxima) { // cura completa, tipo centro pokemon
-				this.vitalidad = this.vitalidadMaxima;
+			if (newVar == maxVitalidadReal || newVar == this.vitalidadMaxima) { 
+				this.vitalidad = maxVitalidadReal;
 				this.estadoActual = Estados.SANO;
 			} else {
 				return; // No le dejamos curarse si esta muerto
@@ -578,6 +579,26 @@ public class Pokemon {
 		this.color = color;
 	}
 	
+	// para usar en bd y enrtrenar
+    public int getBaseVitalidadMaxima() { 
+    	return this.vitalidadMaxima; 
+    	}
+    public int getBaseAtaque() { 
+    	return this.ataque; 
+    }
+    public int getBaseDefensa() { 
+    	return this.defensa; 
+    	}
+    public int getBaseAtaqueEspecial() { 
+    	return this.ataqueEspecial; 
+    	}
+    public int getBaseDefensaEspecial() { 
+    	return this.defensaEspecial; 
+    	}
+    public int getBaseVelocidad() { 
+    	return this.velocidad; 
+    	}
+    
 	/**
 	 * get con logica para tener encuenta los bonus de los objetos y estados
 	 * @return vitMaxFinal, la vitalidad maxima final
@@ -662,7 +683,7 @@ public class Pokemon {
 		int aumentoVit = r.nextInt(5) + 1;
 
 		// actualizamos la Vitalidad Maxima
-		this.setVitalidadMaxima(this.getVitalidadMaxima() + aumentoVit);
+		this.vitalidadMaxima = this.vitalidadMaxima + aumentoVit;
 
 		// al subir de nivel el pokemon se cura
 		if (this.estadoActual != Estados.DEBILITADO) {
@@ -670,14 +691,13 @@ public class Pokemon {
 		}
 
 		// actualizamos el resto de stats
-		this.setAtaque(this.getAtaque() + r.nextInt(5) + 1);
-		this.setDefensa(this.getDefensa() + r.nextInt(5) + 1);
-		this.setAtaqueEspecial(this.getAtaqueEspecial() + r.nextInt(5) + 1);
-		this.setDefensaEspecial(this.getDefensaEspecial() + r.nextInt(5) + 1);
-		this.setVelocidad(this.getVelocidad() + r.nextInt(5) + 1);
+		this.ataque = this.ataque + (r.nextInt(5) + 1);
+		this.defensa = this.defensa + (r.nextInt(5) + 1);
+		this.ataqueEspecial = this.ataqueEspecial + (r.nextInt(5) + 1);
+		this.defensaEspecial = this.defensaEspecial + (r.nextInt(5) + 1);
+		this.velocidad = this.velocidad + (r.nextInt(5) + 1);
 
 		// metodo para que aprenda ataques cada 3 niveles,
-		// TODO controlador para buscar lkos movimientos
 		if (this.nivel % 3 == 0) {
 			try {
 				// abrimos conexion a bd
@@ -1022,11 +1042,21 @@ public class Pokemon {
     public Objeto equiparObjeto(Objeto nuevoObjeto) {
     	// desequipammos objeto si tuviera
         Objeto objetoViejo = this.desequiparObjeto(); 
-
+        
+        //variable para el ajuste de la vitalidad al equipar objetos que aumente la vitalidad maxima
+        int maxHpAntes = this.getVitalidadMaxima();
+        
         // equipamos el objeto
         this.objetoEquipado = nuevoObjeto;
         System.out.println("¡" + this.nombrePokemon + " se ha equipado con " + nuevoObjeto.getNombreObjeto() + "!");
-
+        
+      //variable para el ajuste de la vitalidad al equipar objetos que aumente la vitalidad maxima
+        int maxHpDespues = this.getVitalidadMaxima();
+        // si hay variacion al haberle equipado el objeto lo ajustamos
+        if (maxHpDespues > maxHpAntes) {
+            int diferencia = maxHpDespues - maxHpAntes;
+            this.setVitalidad(this.getVitalidad() + diferencia);
+        }
         // Devolvemos el antiguo para devolverlo al inventario
         return objetoViejo;
     }
