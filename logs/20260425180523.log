@@ -1,0 +1,5 @@
+2026-04-25 18:05:23.781 INFO inicioCombate pokemon={“Arcanine”, 11, 1, OK}, pokemonRival={“Dugtrio”, 11, Vegetta777, OK}, turno=1
+2026-04-25 18:05:23.781 INFO ¡Arcanine usó Rueda Fuego!
+(NEUTRO) pokemon={“Arcanine”, 11, 1, OK}, pokemonRival={“Dugtrio”, 11, Vegetta777, KO}, turno=2
+2026-04-25 18:05:23.781 INFO debilitado2 pokemon={“Arcanine”, 11, 1, OK}, pokemonRival={“Dugtrio”, 11, Vegetta777, KO}, turno=3
+2026-04-25 18:05:23.781 INFO [DEBILITADO2] El rival ha perdido a Dugtrio pokemon={“null”, 0, null, OK}, pokemonRival={“null”, 0, null, OK}, turno=4

@@ -45,14 +45,7 @@ import bd.ConexionBBDD;
 import dao.CapturaDao;
 import dao.MovimientoDAO;
 import dao.PokemonDAO;
-import model.Combate;
-import model.Entrenador;
-import model.Estados;
-import model.Movimiento;
-import model.Pokemon;
-import model.Sesion;
-import model.Tipos;
-import model.Turno;
+import model.*;
 
 public class CombateController implements Initializable {
 
@@ -172,6 +165,10 @@ public class CombateController implements Initializable {
 	@FXML
 	private Label txtLogCombate; // ventana de texto para narrar los turnos
 
+	// Variable para el log
+
+	private Log logActual = new Log();
+
 	// Variables
 
 	private Combate combateActual;
@@ -232,7 +229,7 @@ public class CombateController implements Initializable {
 		}
 
 		// empezamos el combate
-		combateActual.empezarCombate(jugador, rival);
+		combateActual.empezarCombate(jugador, rival, logActual);
 
 		/// Obligamos a los menus a estar arriba del todo asi aunque el texto o las
 		/// imagenes crezcan nunca tapan
@@ -1068,7 +1065,7 @@ public class CombateController implements Initializable {
 				/// si no quedan perdemos
 				vistaJugadorBloqueada = false;
 				combateActual.finalizarCombate();
-
+				logActual.generarFicheroLog();
 				if (Sesion.modoLiga && Sesion.ligaActual != null) {
 					escribirLog("¡Has sido derrotado! Tu desafío en la Liga Pokemon termina aquí...");
 					Sesion.ligaActual.gananciasPokedolares(false);
@@ -1103,6 +1100,18 @@ public class CombateController implements Initializable {
 
 			vistaRivalBloqueada = true;
 
+			// Antes de cambiar el pokemon rival, guardar todo
+			Pokemon pj = combateActual.getPokemonActualJugador();
+			String guardarNomPk1  = pj.getNombrePokemon();
+			int    guardarNivPk1  = pj.getNivel();
+			String guardarEnt1    = combateActual.getEntrenador().getNombreEntrenador();
+			String guardarEstPk1  = pj.getVitalidad() > 0 ? "OK" : "KO";
+
+			String guardarNomPk2  = pRival.getNombrePokemon();
+			int    guardarNivPk2  = pRival.getNivel();
+			String guardarEnt2    = combateActual.getEntrenadorRival().getNombreEntrenador();
+			String guardarEstPk2  = "KO";
+
 			// repartimos la XP
 			boolean rivalTieneMas = combateActual.puedeContinuar(false);
 			/// mostrar xp ganada
@@ -1115,8 +1124,9 @@ public class CombateController implements Initializable {
 				}
 			}
 
-			registrarEventoEspecial("debilitado2", "El rival ha perdido a " + pRival.getNombrePokemon());
-
+			registrarEventoEspecial("debilitado2", "",
+					guardarNomPk1, guardarNivPk1, guardarEnt1, guardarEstPk1,
+					guardarNomPk2, guardarNivPk2, guardarEnt2, guardarEstPk2);
 			/// comprobamos si suben de nivel y tiene ataques pendientes
 			for (int i = 0; i < 6; i = i + 1) {
 				Pokemon p = jugador.getEquipoPokemon()[i];
@@ -1167,7 +1177,7 @@ public class CombateController implements Initializable {
 			} else {
 				vistaRivalBloqueada = false;
 				combateActual.finalizarCombate();
-
+				logActual.generarFicheroLog();
 				if (Sesion.modoLiga && Sesion.ligaActual != null) {
 					Sesion.ligaActual.gananciasPokedolares(true);
 					if (Sesion.ligaActual.getCombateActual() == 6) {
@@ -1198,7 +1208,7 @@ public class CombateController implements Initializable {
 	}
 
 	/**
-	 * metodo para registrar eventos que no son ataques (muertes, fin de combate) en
+	 * metodo para registrar eventos que no son ataques (muertes) en
 	 * el historial
 	 */
 	private void registrarEventoEspecial(String tipoEvento, String descripcion) {
@@ -1206,14 +1216,51 @@ public class CombateController implements Initializable {
 		evento.setNumeroTurnoActual(combateActual.getHistorialTurnos().size() + 1);
 
 		// identificamos el evento en la accion para el Log posterior
-		evento.setAccionEntrenador("[" + tipoEvento.toUpperCase() + "] " + descripcion);
+		evento.setAccionEntrenador(tipoEvento);
 		evento.setAccionEntrenadorRival("");
 
-		// guardamos el estado vital actual para el log - OK KO
-		evento.setEstadoPokemon1(combateActual.getPokemonActualJugador().getVitalidad() > 0 ? "OK" : "KO");
-		evento.setEstadoPokemon2(combateActual.getPokemonActualRival().getVitalidad() > 0 ? "OK" : "KO");
+		Pokemon pj = combateActual.getPokemonActualJugador();
+		Pokemon pr = combateActual.getPokemonActualRival();
+
+		if (pj != null) {
+			evento.setDatosPk1(
+					pj.getNombrePokemon(),
+					pj.getNivel(),
+					combateActual.getEntrenador().getNombreEntrenador(),
+					pj.getVitalidad() > 0 ? "OK" : "KO"
+			);
+		}
+
+		if (pr != null) {
+			evento.setDatosPk2(
+					pr.getNombrePokemon(),
+					pr.getNivel(),
+					combateActual.getEntrenadorRival().getNombreEntrenador(),
+					pr.getVitalidad() > 0 ? "OK" : "KO"
+			);
+		}
+		combateActual.añadirTurno(evento);
+		logActual.añadirTurno(evento);
+	}
+
+	/**
+	 * metodo para registrar eventos que no son ataques (fin de combate) en
+	 * el historial
+	 */
+
+	private void registrarEventoEspecial(String tipoEvento, String descripcion,
+										 String nomPk1, int nivPk1, String ent1, String estPk1,
+										 String nomPk2, int nivPk2, String ent2, String estPk2) {
+
+		Turno evento = new Turno();
+		evento.setNumeroTurnoActual(combateActual.getHistorialTurnos().size() + 1);
+		evento.setAccionEntrenador(tipoEvento);
+		evento.setAccionEntrenadorRival("");
+		evento.setDatosPk1(nomPk1, nivPk1, ent1, estPk1);
+		evento.setDatosPk2(nomPk2, nivPk2, ent2, estPk2);
 
 		combateActual.añadirTurno(evento);
+		logActual.añadirTurno(evento);
 	}
 
 	/**
@@ -1391,6 +1438,7 @@ public class CombateController implements Initializable {
 					return;
 
 				case "@FIN_COMBATE@":
+					logActual.generarFicheroLog();
 					guardarProgresoBD();
 					panelMenuPrincipal.setVisible(false);
 					panelMenuAtaques.setVisible(false);
@@ -1399,6 +1447,7 @@ public class CombateController implements Initializable {
 					return;
 					
 				case "@FIN_COMBATE_LIGA@":
+					logActual.generarFicheroLog();
                     guardarProgresoBD();
                     panelMenuPrincipal.setVisible(false); 
                     panelMenuAtaques.setVisible(false);
@@ -1488,6 +1537,7 @@ public class CombateController implements Initializable {
 				combateActual.retirarse(); // pierde 1/3 de su dinero
 
 				// actualizamos en bd
+				logActual.generarFicheroLog(); // Generar log al huir
 				guardarProgresoBD();
 			}
 

@@ -44,7 +44,12 @@ public class Combate {
    * pokemon debilitados del rival
    */
   private int pokemonKORival = 0;
-  
+
+  /**
+   * Atributo del log */
+
+  private Log logAsociado;
+
   //
   // Constructors
   //
@@ -147,8 +152,9 @@ public class Combate {
    * @param entrenador, el entrenador jugador, nosotros
    * @param entrenadorRival, el bot
    */
-  public void empezarCombate(Entrenador jugador, Entrenador rival){
-	  this.setEntrenador(jugador);
+  public void empezarCombate(Entrenador jugador, Entrenador rival, Log log){
+	    this.logAsociado = log;
+        this.setEntrenador(jugador);
 	    this.setEntrenadorRival(rival);
 	    
 	    Pokemon pJugador = buscarPrimerPokemonVivo(jugador);
@@ -163,6 +169,8 @@ public class Combate {
 	        this.setPokemonActualRival(pRival);
 	        System.out.println("¡Combate listo!");
 	    }
+
+        registrarEventoLog("inicioCombate");
   }
   
   /**
@@ -196,6 +204,7 @@ public class Combate {
     	  // reseteamos los turnos de estado
     	  elegido.setTurnosEstadoRestantes(0);
           this.setPokemonActualJugador(elegido);
+          registrarEventoLog("cambio1");
           System.out.println("¡Has enviado a " + elegido.getNombrePokemon() + " a la batalla!");
           return true;
       } else {
@@ -344,7 +353,10 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
     // creamos el Turno para registrar lo que pasara
     Turno turnoActual = new Turno();
     turnoActual.setNumeroTurnoActual(this.getHistorialTurnos().size() + 1);
-    
+
+    // definir la accion del jugador
+
+    turnoActual.setAccionEntrenador(movJugador.getNombreMovimiento());
     
 
     // decidimos el orden de actuacion segun la velocidad de los pokemon
@@ -380,21 +392,23 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
     aplicarEfectosFinalDeTurno(this.getPokemonActualJugador(), this.getPokemonActualRival());
     aplicarEfectosFinalDeTurno(this.getPokemonActualRival(), this.getPokemonActualJugador());
 
+    /*
+    * */
     // guardamos los logs en el objeto turnoActual para el historial
-    if (jugadorVaPrimero) {
-        turnoActual.setAccionEntrenador(res1);
-        turnoActual.setAccionEntrenadorRival(res2);
-    } else {
-        turnoActual.setAccionEntrenador(res2);
-        turnoActual.setAccionEntrenadorRival(res1);
-    }
-    
- // Comprobamos el estado del Pokemon del jugador para el log
-    if (this.getPokemonActualJugador().getVitalidad() > 0) {
-        turnoActual.setEstadoPokemon1("OK");
-    } else {
-        turnoActual.setEstadoPokemon1("KO");
-    }
+//    if (jugadorVaPrimero) {
+//        turnoActual.setAccionEntrenador(res1);
+//        turnoActual.setAccionEntrenadorRival(res2);
+//    } else {
+//        turnoActual.setAccionEntrenador(res2);
+//        turnoActual.setAccionEntrenadorRival(res1);
+//    }
+//
+// // Comprobamos el estado del Pokemon del jugador para el log
+//    if (this.getPokemonActualJugador().getVitalidad() > 0) {
+//        turnoActual.setEstadoPokemon1("OK");
+//    } else {
+//        turnoActual.setEstadoPokemon1("KO");
+//    }
 
     // Comprobamos el estado del Pokemon del rival para el log
     if (this.getPokemonActualRival().getVitalidad() > 0) {
@@ -402,8 +416,24 @@ public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
     } else {
         turnoActual.setEstadoPokemon2("KO");
     }
-    
+
+    // Recoger los datos para añdirlos al log
+
+    Pokemon pokemonJugador = this.getPokemonActualJugador();
+    Pokemon pokemonRival = this.getPokemonActualRival();
+
+    turnoActual.setDatosPk1(pokemonJugador.getNombrePokemon(), pokemonJugador.getNivel(), entrenador.getNombreEntrenador(),
+            pokemonJugador.getVitalidad() > 0 ? "OK" : "KO");
+
+    turnoActual.setDatosPk2(pokemonRival.getNombrePokemon(), pokemonRival.getNivel(), entrenadorRival.getNombreEntrenador(),
+            pokemonRival.getVitalidad() > 0 ? "OK" : "KO");
     this.añadirTurno(turnoActual);
+
+    if (this.logAsociado != null) {
+        this.logAsociado.añadirTurno(turnoActual);
+    }
+
+
 }
 
 
@@ -516,11 +546,13 @@ public Turno obtenerUltimoTurno() {
  public boolean puedeContinuar(boolean esJugador) {
     if (esJugador) {
         this.setPokemonKOEntrenador(this.getPokemonKOEntrenador() + 1);
+        registrarEventoLog("debilitado1");
         return buscarPrimerPokemonVivo(this.getEntrenador()) != null;
     } else {
         // el rival ha perdido un pokemon
         this.setPokemonKORival(this.getPokemonKORival() + 1);
-        
+        registrarEventoLog("debilitado2");
+
         // repartimos experiencia justo ahora que acaba de morir uno
         repartirExperienciaEquipo(this.getPokemonActualRival());
         
@@ -533,7 +565,24 @@ public Turno obtenerUltimoTurno() {
     }
 }
 
-  
+    /**
+     * Method para registrar los logs, no mas repetir codigo. Me he reformado en mis ultimos commits*/
+
+    private void registrarEventoLog(String accion) {
+        Turno t = new Turno();
+        t.setNumeroTurnoActual(this.getHistorialTurnos().size() + 1);
+        t.setAccionEntrenador(accion);
+
+        t.setDatosPk1(pokemonActualJugador.getNombrePokemon(), pokemonActualJugador.getNivel(),
+                entrenador.getNombreEntrenador(), pokemonActualJugador.getVitalidad() > 0 ? "OK" : "KO");
+        t.setDatosPk2(pokemonActualRival.getNombrePokemon(), pokemonActualRival.getNivel(),
+                entrenadorRival.getNombreEntrenador(), pokemonActualRival.getVitalidad() > 0 ? "OK" : "KO");
+
+        this.añadirTurno(t);
+        if (this.logAsociado != null){
+            this.logAsociado.añadirTurno(t);        }
+    }
+
   /**
    * metodo para calcular y transferir los Pokedollares del perdedor al ganador
    * @param ganador ,el entrenador que ha gando
@@ -603,6 +652,7 @@ public Turno obtenerUltimoTurno() {
           if (this.getPokemonActualRival() != null) {
               repartirExperienciaEquipo(this.getPokemonActualRival());
           }
+          registrarEventoLog("finGanaCombate");
 
       } 
       // si gana el rival
@@ -612,6 +662,8 @@ public Turno obtenerUltimoTurno() {
             
           // añadimos el dienro al rival
           transferirPokedollares(this.getEntrenadorRival(), this.getEntrenador());
+
+          registrarEventoLog("finPierdeCombate");
       }
   }
   

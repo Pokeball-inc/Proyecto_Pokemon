@@ -282,7 +282,7 @@ public class Entrenador {
               if (p.getMovimientos() != null) {
                   for (Movimiento m : p.getMovimientos()) {
                       if (m != null) {
-                          m.setCantidadMovimientos(m.getCantidadMovimientosMaximos()); 
+                          m.setCantidadMovimientos(15);
                       }
                   }
               }
@@ -526,7 +526,7 @@ public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento
 	    Combate nuevoCombate = new Combate();
 	    
 	    // iniciamos el combate con los dos entrenadores
-	    nuevoCombate.empezarCombate(this, rival);
+	    nuevoCombate.empezarCombate(this, rival, new Log());
 
 	    System.out.println("Iniciando combate entre " + this.nombreEntrenador + " y " + rival.getNombreEntrenador());
   }
