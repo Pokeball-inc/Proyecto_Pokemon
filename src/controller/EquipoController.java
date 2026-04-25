@@ -580,6 +580,7 @@ public class EquipoController implements Initializable {
         // curamos todo el equipo
         jugador.curarEquipoCompleto();
         
+        
         // sincronizamos la curacion con la bd
         try {
             ConexionBBDD conector = new ConexionBBDD();

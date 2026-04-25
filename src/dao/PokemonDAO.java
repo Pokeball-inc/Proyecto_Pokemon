@@ -238,6 +238,15 @@ public class PokemonDAO {
         try {
             // preparamos la consulta
             PreparedStatement ps = con.prepareStatement(sql);
+            
+            int vitParaGuardar = p.getVitalidad();
+            int vitMaxBase = p.getBaseVitalidadMaxima();
+            
+            // para nunca guardar en la bd una vitalidad  mayor a la vitalidad mazima
+            if (vitParaGuardar > vitMaxBase) {
+                vitParaGuardar = vitMaxBase;
+            }
+            
             // introducimos los values
             ps.setInt(1, p.getVitalidad());
             ps.setInt(2, p.getBaseVitalidadMaxima());
