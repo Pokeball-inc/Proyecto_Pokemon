@@ -476,11 +476,6 @@ public Turno obtenerUltimoTurno() {
       // calculamos el tercio del dinero del perdedor
       int botin = perdedor.getPokedollares() / 3;
       
-      ///aplicamos la penalizacion de la cura en la liga
-      if (ganador == this.entrenador && Sesion.penalizacionCuraLiga == true) {
-          botin = botin / 2;
-      }
-      
       // actualizamos los  Pokedollares de ambos
       perdedor.setPokedollares(perdedor.getPokedollares() - botin);
       ganador.setPokedollares(ganador.getPokedollares() + botin);
@@ -518,7 +513,7 @@ public Turno obtenerUltimoTurno() {
   transferirPokedollares(this.getEntrenadorRival(), this.getEntrenador());
   
   System.out.println("Has abandonado el combate. Has perdido " + 
-                     (this.getEntrenador().getNombreEntrenador()) + ", se te retiran Pokedollares.");
+                     (this.getEntrenador().getNombreEntrenador()) + " Pokedollares.");
   }
 
 

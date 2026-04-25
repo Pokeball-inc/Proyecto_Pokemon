@@ -305,7 +305,7 @@ public class CombateController implements Initializable {
                 barraVitalidadPkmnJugador.setProgress(porcentajeVidaJugador);
                 cambiarColorBarra(barraVitalidadPkmnJugador, porcentajeVidaJugador);
 
-                ///actualizamos los textos de los botones de ataque para que muestren los PPs
+                ///actualizamos los textos de los botones de ataque para que muestren los PP
                 Movimiento[] ataques = pJugador.getMovimientos();
                 
                 if (ataques[0] != null) { 
@@ -665,7 +665,7 @@ public class CombateController implements Initializable {
         if (movJugador == null) {
             return; 
         }
-
+        
         ///comprobamos si quedan PP
         if (movJugador.getCantidadMovimientos() <= 0) {
             escribirLog("¡No te quedan usos para " + movJugador.getNombreMovimiento() + "!");
@@ -993,27 +993,10 @@ public class CombateController implements Initializable {
             if (rivalTieneMas == true) {
                 escribirLog("¡El rival ha enviado a " + combateActual.getPokemonActualRival().getNombrePokemon() + "!");
                 escribirLog("@MOSTRAR_NUEVO_RIVAL@"); 
-            }else {
+            } else {
                 vistaRivalBloqueada = false;
-                
-                ///miramos el dinero antes de terminar
-                int dineroAntes = jugador.getPokedollares();
-                
-                ///finalizamos
                 combateActual.finalizarCombate();
-                
-                ///calculamos la diferencia para saber cuanto hemos ganado
-                int dineroGanado = jugador.getPokedollares() - dineroAntes;
-                
                 escribirLog("¡Has ganado el combate! No le quedan Pokémon al rival.");
-                
-                ///mostramos el texto y apagamos
-                if (Sesion.penalizacionCuraLiga == true) {
-                    escribirLog("¡Has ganado " + dineroGanado + " Pokedólares! (Penalización aplicada)");
-                    Sesion.penalizacionCuraLiga = false; ///apagamos la penalizacion para el siguiente combate
-                } else {
-                    escribirLog("¡Has ganado " + dineroGanado + " Pokedólares!");
-                }
                 
                 registrarEventoEspecial("finGanaCombate", "El entrenador ha ganado el combate");
                 escribirLog("@FIN_COMBATE@"); //este comando guarda en BD y sale
@@ -1515,21 +1498,10 @@ public class CombateController implements Initializable {
             ConexionBBDD conector = new bd.ConexionBBDD();
             Connection con = conector.getConexion();
             
-            // instanciamos el DAO de movimientos para poder guardar los PP
-            MovimientoDAO movDao = new MovimientoDAO(con);
-            
             // recorremos nuestro equipo y actualizamos cada Pokémon
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
                     PokemonDAO.actualizarStatsBD(con, p);
-                    
-                    //guardamos los PP actuales de cada movimiento que tenga el Pokemon
-                    for (int i = 0; i < 4; i++) {
-                        Movimiento mov = p.getMovimientos()[i];
-                        if (mov != null) {
-                            movDao.actualizarPPs(p.getIdPokemon(), mov.getIdMovimiento(), mov.getCantidadMovimientos());
-                        }
-                    }
                 }
             }
             
