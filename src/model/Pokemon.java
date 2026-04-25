@@ -227,7 +227,7 @@ public class Pokemon {
 		// si esta debilitado no sube la vida
 		if (this.estadoActual == Estados.DEBILITADO && newVar > 0) {
 			// si esta DEBILITADO, se queda en 0
-			// comparamos con el máximo real con opbjeto
+			// comparamos con el maximo real con opbjeto
 			if (newVar >= maxVitalidadReal) {
 				this.vitalidad = maxVitalidadReal;
 				this.estadoActual = Estados.SANO;
@@ -264,12 +264,20 @@ public class Pokemon {
 		int atqFinal = this.ataque;
 		if (this.objetoEquipado != null) {
 			String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
-			// pesa +20% Atk
+			// amuleto +30% Atq
+            if (nombreObj.contains("amuleto")) {
+                atqFinal += (this.ataque * 30 / 100);
+            }
+			// pesa +20% Atq
 			if (nombreObj.contains("pesa")) {
 				atqFinal += (this.ataque * 20 / 100);
 			}
-			// chaleco -15% Atk
-			else if (nombreObj.contains("chaleco")) {
+			// inyeccion +15% Atq
+            else if (nombreObj.contains("inyeccion") || nombreObj.contains("inyección")) {
+                atqFinal += (this.ataque * 15 / 100);
+            }
+			// chaleco o monoculo -15% Atq
+			else if (nombreObj.contains("chaleco") || nombreObj.contains("monoculo") || nombreObj.contains("monóculo")) {
 				atqFinal -= (this.ataque * 15 / 100);
 			}
 		}
@@ -294,12 +302,20 @@ public class Pokemon {
 		int defFinal = this.defensa;
 		if (this.objetoEquipado != null) {
 			String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
-			// pesa o chaleco +20% Def
-			if (nombreObj.contains("pesa") || nombreObj.contains("chaleco")) {
-				defFinal += (this.defensa * 20 / 100);
-			}
+			// coraza +30% Def
+            if (nombreObj.contains("coraza")) {
+                defFinal += (this.defensa * 30 / 100);
+            }
+            // pesa o chaleco  +20% Def
+            else if (nombreObj.contains("pesa") || nombreObj.contains("chaleco")) {
+                defFinal += (this.defensa * 20 / 100);
+            } 
+            // monoculo o amuleo -15% Def
+            else if (nombreObj.contains("monoculo") || nombreObj.contains("monóculo") || nombreObj.contains("amuleto")) {
+                defFinal -= (this.defensa * 15 / 100);
+            }
 			// pluma -20% Def
-			else if (nombreObj.contains("pluma")) {
+			else if (nombreObj.contains("pluma")|| nombreObj.contains("gafas")) {
 				defFinal -= (this.defensa * 20 / 100);
 			}
 		}
@@ -319,10 +335,18 @@ public class Pokemon {
 		int atqEspFinal = this.ataqueEspecial;
 		if (this.objetoEquipado != null) {
 			String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
-			// pilas +30% AtkEsp
+			// pilas +30% AtqEsp
 			if (nombreObj.contains("pilas")) {
 				atqEspFinal += (this.ataqueEspecial * 30 / 100);
 			}
+			// gafas  +20% AtqEsp
+            else if (nombreObj.contains("gafas")) {
+                atqEspFinal += (this.ataqueEspecial * 20 / 100);
+            }
+            // inyeccion o monoculo +15% AtqEsp
+            else if (nombreObj.contains("inyeccion") || nombreObj.contains("inyección") || nombreObj.contains("monoculo") || nombreObj.contains("monóculo")) {
+                atqEspFinal += (this.ataqueEspecial * 15 / 100);
+            }
 		}
 		// Helado, su ataque especial se reduce a la mitad
 		if (this.estadoActual == Estados.HELADO) {
@@ -348,6 +372,14 @@ public class Pokemon {
 			if (nombreObj.contains("chaleco")) {
 				defEspFinal += (this.defensaEspecial * 20 / 100);
 			}
+			// monoculo +15% DefEsp
+            else if (nombreObj.contains("monoculo") || nombreObj.contains("monóculo")) {
+                defEspFinal += (this.defensaEspecial * 15 / 100);
+            }
+			// amuleto -15% DefEsp
+            else if (nombreObj.contains("amuleto")) {
+                defEspFinal -= (this.defensaEspecial * 15 / 100);
+            }
 			// pluma o pilas -20% DefEsp
 			else if (nombreObj.contains("pluma") || nombreObj.contains("pilas")) {
 				defEspFinal -= (this.defensaEspecial * 20 / 100);
@@ -369,17 +401,17 @@ public class Pokemon {
 		int velFinal = this.velocidad;
 		if (this.objetoEquipado != null) {
 			String nombreObj = this.objetoEquipado.getNombreObjeto().toLowerCase();
-			// Pluma: +30% Spd
+			// pluma  +30% Vel
 			if (nombreObj.contains("pluma")) {
 				velFinal += (this.velocidad * 30 / 100);
 			}
-			// pesa -20% Spd
+			// chaleco o baston -15% Vel 
+			else if (nombreObj.contains("chaleco") || nombreObj.contains("bastón") || nombreObj.contains("baston") || nombreObj.contains("coraza") || nombreObj.contains("inyeccion") || nombreObj.contains("inyección")) {
+				velFinal -= (this.velocidad * 15 / 100);
+			}
+			// pesa -20% Vel
 			else if (nombreObj.contains("pesa")) {
 				velFinal -= (this.velocidad * 20 / 100);
-			}
-			// chaleco o baston -15% Spd
-			else if (nombreObj.contains("chaleco") || nombreObj.contains("bastón") || nombreObj.contains("baston")) {
-				velFinal -= (this.velocidad * 15 / 100);
 			}
 		}
 

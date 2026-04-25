@@ -24,12 +24,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import dao.CapturaDao;
 import dao.PokemonDAO;
@@ -509,7 +510,14 @@ public class CapturaController implements Initializable {
             
             // si el usuario escribe algo y da a OK, se pone el mote y si cancela o deja vacio se queda el original
             if (resultado.isPresent() && !resultado.get().trim().isEmpty()) {
-                pokemonActual.setMotePokemon(resultado.get());
+                boolean esValido = esMoteValido(resultado.get());
+
+                if  (esValido) {
+                    pokemonActual.setMotePokemon(resultado.get());
+                } else {
+                    mostrarAlerta("Mote no permitido", "Formato inválido",  "El nombre solo debe contener letras y no palabras malsonantes.", AlertType.WARNING);
+                    pokemonActual.setMotePokemon(pokemonActual.getNombrePokemon());
+                }
             } else {
                 pokemonActual.setMotePokemon(pokemonActual.getNombrePokemon());
             }
@@ -561,6 +569,39 @@ public class CapturaController implements Initializable {
         }
            
     }
+
+    /// Method para revisar si el Mote del pokemon es válido;
+
+    private boolean esMoteValido(String mote) {
+
+        // Recupero la lista de palabras prohibidas de un archivo.txt que tendrá un montón de palabras.
+
+        File filePalabrasProhibidas = new File("palabras_prohibidas.txt");
+
+        List<String> palabras = new ArrayList<>();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filePalabrasProhibidas));
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                // Si la linea no está vacia, añadimos la linea a la lista de palabras
+                if (!linea.trim().isEmpty()) {
+                    palabras.add(linea.trim());
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo palabras_prohibidas.txt. - " + e.getMessage());
+        }
+
+        // Unimos las palabras con el |
+
+        String palabrasUnidas = String.join("|", palabras);
+        String palabrasProhibidas = "(?i).*(" + palabrasUnidas + ").*";
+        String palabrasSoloLetras = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$";
+
+        return mote.matches(palabrasSoloLetras) && !mote.matches(palabrasProhibidas);
+    }
     
   //Metodo para mostrar pop-up con mensajes
     private void mostrarAlerta(String titulo, String cabecera, String contenido, AlertType tipo) {
@@ -604,31 +645,5 @@ public class CapturaController implements Initializable {
     		alerta.showAndWait(); //muestra la ventana en la pantalla y para el codigo hasta que se acepta o se cierra la ventana
     		
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 
 }

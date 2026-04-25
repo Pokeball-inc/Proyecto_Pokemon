@@ -63,7 +63,9 @@ public class EquipoController implements Initializable {
     @FXML
     private Text atkPokemon;
     @FXML
-    private Text hpPokemon;
+    private Text hpPokemonActual;
+    @FXML
+    private Text hpPokemonMaxima;
     @FXML
     private Text atkPokemonEspecial;
     @FXML
@@ -307,7 +309,8 @@ public class EquipoController implements Initializable {
             // Cambiar el texto de las estadisticas
             atkPokemon.setText(String.valueOf(pokemonSeleccionado.getAtaque()));
             atkPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getAtaqueEspecial()));
-            hpPokemon.setText(pokemonSeleccionado.getVitalidad() + "/" + pokemonSeleccionado.getVitalidadMaxima());
+            hpPokemonActual.setText(String.valueOf(pokemonSeleccionado.getVitalidad()));
+            hpPokemonMaxima.setText(String.valueOf(pokemonSeleccionado.getVitalidadMaxima()));
             defensaPokemon.setText(String.valueOf(pokemonSeleccionado.getDefensa()));
             defensaPokemonEspecial.setText(String.valueOf(pokemonSeleccionado.getDefensaEspecial()));
             velocidadPokemon.setText(String.valueOf(pokemonSeleccionado.getVelocidad()));
@@ -332,9 +335,13 @@ public class EquipoController implements Initializable {
 
             Tooltip.install(atkPokemonEspecial, new Tooltip("Ataque Especial;\n - Se contrarresta con Defensa Especial"));
 
-            // Vitalidad
+            // Vitalidad Actual
 
-            Tooltip.install(hpPokemon, new Tooltip("Vitalidad actual y máxima;\n - Vitalidad actual: La vitalidad que tiene el pokemon actualmente \n - Vitalidad máxima: La vitalidad máxima que puede tener el pokemon en las mejores condiciones"));
+            Tooltip.install(hpPokemonActual, new Tooltip("Vitalidad actual y máxima;\n - Vitalidad actual: La vitalidad que tiene el pokemon actualmente \n - Vitalidad máxima: La vitalidad máxima que puede tener el pokemon en las mejores condiciones"));
+
+            // Vitalidad Maxima
+
+            Tooltip.install(hpPokemonMaxima, new Tooltip("Vitalidad actual y máxima;\n - Vitalidad actual: La vitalidad que tiene el pokemon actualmente \n - Vitalidad máxima: La vitalidad máxima que puede tener el pokemon en las mejores condiciones"));
 
             // Defensa
 
@@ -374,11 +381,14 @@ public class EquipoController implements Initializable {
 
             if (pokemonSeleccionado.getMovimientos()[0] != null) {
                 mov1 = pokemonSeleccionado.getMovimientos()[0].getNombreMovimiento();
-            } else if (pokemonSeleccionado.getMovimientos()[1] != null) {
+            } 
+            if (pokemonSeleccionado.getMovimientos()[1] != null) {
                 mov2 = pokemonSeleccionado.getMovimientos()[1].getNombreMovimiento();
-            } else if (pokemonSeleccionado.getMovimientos()[2] != null) {
+            } 
+            if (pokemonSeleccionado.getMovimientos()[2] != null) {
                 mov3 = pokemonSeleccionado.getMovimientos()[2].getNombreMovimiento();
-            } else if (pokemonSeleccionado.getMovimientos()[3] != null) {
+            } 
+            if (pokemonSeleccionado.getMovimientos()[3] != null) {
                 mov4 = pokemonSeleccionado.getMovimientos()[3].getNombreMovimiento();
             }
 
