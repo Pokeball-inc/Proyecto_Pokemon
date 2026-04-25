@@ -130,6 +130,32 @@ public class LoginController implements Initializable {
         }
     }
 
+
+
+// ---------------------------- BOTÓN DE CRÉDITOS ---------------------------- \\
+
+    @FXML
+    public void botonCreditos(MouseEvent event) {
+        try {
+            // Cargar la vista Creditos
+
+            // cargamos la vista pantalla principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/creditos/creditos.fxml"));
+            Parent root = loader.load();
+
+
+            // Configuramos la escena y la mostramos
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+
+        } catch (Exception e) {
+            System.out.println("El juego no se ha cerrado correctamente" + e.getMessage());
+        }
+    }
+
 // ---------------------------- BOTÓN DE ACCEDER CON LOGIN  ---------------------------- \\
 
 // Metodo para Acceder -- MouseEvent  cargar vista Principal
