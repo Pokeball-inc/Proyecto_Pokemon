@@ -381,11 +381,14 @@ public class EquipoController implements Initializable {
 
             if (pokemonSeleccionado.getMovimientos()[0] != null) {
                 mov1 = pokemonSeleccionado.getMovimientos()[0].getNombreMovimiento();
-            } else if (pokemonSeleccionado.getMovimientos()[1] != null) {
+            } 
+            if (pokemonSeleccionado.getMovimientos()[1] != null) {
                 mov2 = pokemonSeleccionado.getMovimientos()[1].getNombreMovimiento();
-            } else if (pokemonSeleccionado.getMovimientos()[2] != null) {
+            } 
+            if (pokemonSeleccionado.getMovimientos()[2] != null) {
                 mov3 = pokemonSeleccionado.getMovimientos()[2].getNombreMovimiento();
-            } else if (pokemonSeleccionado.getMovimientos()[3] != null) {
+            } 
+            if (pokemonSeleccionado.getMovimientos()[3] != null) {
                 mov4 = pokemonSeleccionado.getMovimientos()[3].getNombreMovimiento();
             }
 
