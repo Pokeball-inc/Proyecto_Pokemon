@@ -549,17 +549,27 @@ public class EquipoController implements Initializable {
                     String sonido = "sonidos/Pokemon/" + p.getIdPokemon() + ".wav";
                     Media sound = new Media(new File(sonido).toURI().toString());
 
+                    // Detiene el anterior para que no pete
+
+                    if (mediaPlayer != null) {
+                        mediaPlayer.stop();
+                        mediaPlayer.dispose();
+                    }
+
                     // Inicializar mediaPlayer
+
                     mediaPlayer = new MediaPlayer(sound);
+                    sonidoPokemon.setVisible(true);
+
+                    sonidoPokemon.setOnMouseClicked(event -> {
+                        mediaPlayer.play();
+                    });
+
 
                 } catch (Exception e) {
                     System.out.println("Error al cargar el sonido: " + e.getMessage());
                     e.printStackTrace();
                 }
-                sonidoPokemon.setVisible(true);
-                sonidoPokemon.setOnMouseClicked(event -> {
-                    mediaPlayer.play();
-                });
             }
             } catch(Exception ex){
                 System.out.println(ex.getMessage());
