@@ -1051,7 +1051,32 @@ public class CombateController implements Initializable {
                         
                         // mostramos si aprende un movimiento cuando aun no tiene los 4
                         if (p.getUltimoMovimientoAprendido() != null) {
+                        	Movimiento nuevoAtaque = p.getUltimoMovimientoAprendido();
                             escribirLog("¡" + p.getNombrePokemon() + " ha aprendido " + p.getUltimoMovimientoAprendido().getNombreMovimiento() + "!");
+                            // para actualizar movimiento en la bd
+                            try {
+                                ConexionBBDD conector = new ConexionBBDD();
+                                Connection con = conector.getConexion();
+                                MovimientoDAO movDao = new MovimientoDAO(con);
+                                
+                                // insertamos el movimiento en la bd
+                                movDao.insertarMovimientoBD(p.getIdPokemon(), nuevoAtaque);
+                                
+                                con.close();
+                            } catch (Exception e) {
+                                System.out.println("Error al guardar el nuevo ataque aprendido en combate: " + e.getMessage());
+                            }
+                            // buscamos el primer hueco vacipo del Pokemon y le metemos el ataque
+                            for (int j = 0; j < 4; j++) {
+                                if (p.getMovimientos()[j] == null) {
+                                    p.reemplazarMovimiento(j, nuevoAtaque); 
+                                    break;
+                                }
+                            }
+                         // actualizar si es el pokemon peleando
+                            if (p == combateActual.getPokemonActualJugador()) {
+                                escribirLog("@UPDATE_VISTA@"); // asi el guion "-" cambiara por el nombre del ataque
+                            }
                             p.setUltimoMovimientoAprendido(null); // se vacia para el siguiente
                         }
                         
@@ -1571,11 +1596,24 @@ public class CombateController implements Initializable {
             // abrimos la conexión
             ConexionBBDD conector = new bd.ConexionBBDD();
             Connection con = conector.getConexion();
+            MovimientoDAO movDao = new MovimientoDAO(con);
+            
+            
             
             // recorremos nuestro equipo y actualizamos cada Pokémon
             for (Pokemon p : jugador.getEquipoPokemon()) {
                 if (p != null) {
                     PokemonDAO.actualizarStatsBD(con, p);
+                    
+                    // guardamos los PP actuales de cada ataque
+                    if (p.getMovimientos() != null) {
+                        for (int i = 0; i < 4; i++) {
+                            Movimiento mov = p.getMovimientos()[i];
+                            if (mov != null) {
+                                movDao.actualizarPPs(p.getIdPokemon(), mov.getIdMovimiento(), mov.getCantidadMovimientos());
+                            }
+                        }
+                    }
                 }
             }
             
