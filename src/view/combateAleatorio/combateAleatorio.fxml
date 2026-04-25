@@ -94,9 +94,9 @@
                         <Image url="@../../../imgs/Entrenamiento/sexo/Macho.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="estadoPokemonRival" fitHeight="24.0" fitWidth="75.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="estadoPokemonRival" fitHeight="24.0" fitWidth="75.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
-                        <Image url="@../../../imgs/Combate/botones/BotonDescanso.png" />
+                        <Image url="@../../../imgs/Combate/estados/Envenenado.png" />
                      </image>
                   </ImageView>
                </children>
@@ -135,9 +135,9 @@
                         <Image url="@../../../imgs/Entrenamiento/sexo/Macho.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="estadoPokemonJugador" fitHeight="24.0" fitWidth="75.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="estadoPokemonJugador" fitHeight="24.0" fitWidth="75.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
-                        <Image url="@../../../imgs/Combate/botones/BotonDescanso.png" />
+                        <Image url="@../../../imgs/Combate/estados/Congelado.png" />
                      </image>
                   </ImageView>
                </children>
