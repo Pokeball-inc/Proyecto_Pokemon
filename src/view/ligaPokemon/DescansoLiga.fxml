@@ -11,14 +11,14 @@
             <Image url="@../../../imgs/Combate/FondoLiga/FondoDescansoLiga.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="btnSiguienteCombate" fitHeight="150.0" fitWidth="200.0" layoutX="618.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnSiguienteCombate" fitHeight="150.0" fitWidth="200.0" layoutX="618.0" layoutY="269.0" onMouseClicked="#irSiguienteCombate" onMouseEntered="#aumentarTamañoBotonSiguienteCombate" onMouseExited="#disminuirTamañoBotonSiguienteCombate" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../imgs/Combate/botones/BotonLucha.png" />
+            <Image url="@../../../imgs/Combate/botones/SiguienteCombate.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="btnCurar" fitHeight="150.0" fitWidth="200.0" layoutX="275.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnCurarPokemon" fitHeight="150.0" fitWidth="200.0" layoutX="275.0" layoutY="268.0" onMouseClicked="#curarEquipo" onMouseEntered="#aumentarTamañoBotonCurarPokemon" onMouseExited="#disminuirTamañoBotonCurarPokemon" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../imgs/Combate/botones/BotonLucha.png" />
+            <Image url="@../../../imgs/Combate/botones/Curar.png" />
          </image>
       </ImageView>
    </children>
