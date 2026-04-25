@@ -156,7 +156,6 @@ public class PokemonDAO {
             } else {
                 p.setEstadoActual(Estados.SANO);
             }
-            // TODO mirar para poner objects
             p.setObjetoEquipado(null);
             p.setEsShiny(rs.getBoolean("ES_SHINY"));
             p.setRatioCaptura(null);

@@ -209,21 +209,70 @@ public class CombateController implements Initializable {
 
 			// si doppelganger no tiene equipo guardado, le generamos uno aleatorio la
 			// primera vez
-			if (Sesion.ligaActual.getCombateActual() == 6) {
-				if (rival.getEquipoPokemon() == null || rival.getEquipoPokemon()[0] == null) {
-					Entrenador copiaAleatoria = generarRivalAleatorio();
-					rival.setEquipoPokemon(copiaAleatoria.getEquipoPokemon());
+if (Sesion.ligaActual.getCombateActual() == 6) {
+				
+				Pokemon[] equipoEspejo = new Pokemon[6];
+				
+				// Recorremos el equipo del jugador y creamos clones exactos para el rival
+				for (int i = 0; i < 6; i++) {
+					if (jugador.getEquipoPokemon()[i] != null) {
+						Pokemon original = jugador.getEquipoPokemon()[i];
+						Pokemon clon = new Pokemon();
+						
+						// Copiamos datos básicos
+						clon.setNombrePokemon(original.getNombrePokemon());
+						clon.setNumPokedex(original.getNumPokedex());
+						clon.setNivel(original.getNivel());
+						clon.setTipoPrincipal(original.getTipoPrincipal());
+						clon.setTipoSecundario(original.getTipoSecundario());
+						clon.setEsShiny(original.getEsShiny());
+						
+						// Copiamos las estadísticas 
+						clon.setVitalidadMaxima(original.getVitalidadMaxima());
+						clon.setVitalidad(original.getVitalidadMaxima()); 
+						clon.setAtaque(original.getBaseAtaque());
+						clon.setDefensa(original.getBaseDefensa());
+						clon.setAtaqueEspecial(original.getBaseAtaqueEspecial());
+						clon.setDefensaEspecial(original.getBaseDefensaEspecial());
+						clon.setVelocidad(original.getBaseVelocidad());
+						clon.setEstadoActual(Estados.SANO);
+						
+						// Copiamos las imágenes para que te mire de frente
+						clon.setImgFrontalPokemon(original.getImgFrontalPokemon());
+						clon.setImgFrontalPokemon3D(original.getImgFrontalPokemon3D());
+						
+						// Clonamos los movimientos para no compartir los PP en la memoria
+						Movimiento[] movsClon = new Movimiento[4];
+						for(int j = 0; j < 4; j++) {
+							if(original.getMovimientos()[j] != null) {
+								Movimiento mOrig = original.getMovimientos()[j];
+								Movimiento mClon = new Movimiento();
+								mClon.setNombreMovimiento(mOrig.getNombreMovimiento());
+								mClon.setPotencia(mOrig.getPotencia());
+								mClon.setTipo(mOrig.getTipo());
+								mClon.setCategoriaDano(mOrig.getCategoriaDano());
+								// El clon tiene todos sus PPs listos para usarlos
+								mClon.setCantidadMovimientos(mOrig.getCantidadMovimientosMaximos());
+								mClon.setCantidadMovimientosMaximos(mOrig.getCantidadMovimientosMaximos());
+								movsClon[j] = mClon;
+							}
+						}
+						clon.setMovimientos(movsClon);
+						
+						// Añadimos el clon al equipo del Doppelganger
+						equipoEspejo[i] = clon;
+					}
 				}
+				// Le asignamos tu equipo clonado al rival
+				rival.setEquipoPokemon(equipoEspejo);
 			}
 
 			// ocultamos los botones que no usamos en la liga
-			if (btnHuir != null)
-				btnHuir.setVisible(false);
-			if (btnDescanso != null)
-				btnDescanso.setVisible(false);
+			if (btnHuir != null) btnHuir.setVisible(false);
+			if (btnDescanso != null) btnDescanso.setVisible(false);
 
 		} else {
-			// Ccombate aleatorio
+			// Combate aleatorio
 			rival = generarRivalAleatorio();
 			cargarFondoAleatorio();
 		}
