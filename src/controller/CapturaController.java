@@ -304,7 +304,6 @@ public class CapturaController implements Initializable {
 
     // aqui esta a medio falta poner la extension del sprite donde estan los espacions grandes
 
-
     @FXML
     // --- metodo para pedir un pokemon al dao y actualizar la vista
     private void generarEncuentro() {
@@ -321,7 +320,7 @@ public class CapturaController implements Initializable {
             // comprobamos que no sea null el pokemon
             if (this.pokemonActual != null) {
             	
-                // logica de probabilidad shiny (5% para pruebas)
+                // logica de probabilidad shiny
                 java.util.Random r = new java.util.Random();
                 if (r.nextInt(100) < 5) {
                     this.pokemonActual.setEsShiny(true);
@@ -353,37 +352,32 @@ public class CapturaController implements Initializable {
                         imgSexo.setImage(imagenCargada);
                     } else {
                         System.out.println("No encuentro el archivo de imagen en: " + archivoIcono.getAbsolutePath());
-                        imgSexo.setImage(null); // Lo dejamos en blanco para que no muestre cosas falsas
+                        imgSexo.setImage(null); 
                     }
                 } catch (Exception e) {
                     System.out.println("Error raro al poner la imagen del sexo: " + e.getMessage());
                 }
             	
             	
-                // actualizamos el nombre en la vista (añadiendo la estrella si es shiny)
+                // actualizamos el nombre en la vista
                 if (this.pokemonActual.getEsShiny()) {
-                    txtNombre.setText(this.pokemonActual.getNombrePokemon() + " ★");
+                    txtNombre.setText(this.pokemonActual.getNombrePokemon() + "★");
                 } else {
                     txtNombre.setText(this.pokemonActual.getNombrePokemon());
                 }
 
                 // cargamos la imagen correspondiente al nombre del pokemon
                 try {
-
-                    String rutaImagen = "";
-
-                    // usamos el metodo inteligente del modelo para obtener la ruta
+                    //ruta base 
                     String rutaRelativa = this.pokemonActual.getRutaImagenActual(true, !Sesion.vista2D);
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + rutaRelativa;
+                    String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
 
-                    String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
+                    File archivoPokemon = new File(rutaImagen);
 
                     // ESTABLECE EL TEXTO DE TIPO1 AL DELPOKEMON ACTUAL
                     this.txtTipo1.setText(this.pokemonActual.getTipoPrincipal().toString());
 
-
                     // ESTABLECE EL TEXTO DE TIPO2 AL DELPOKEMON ACTUAL Y ADAPTA LOS ELEMENTOS VISUALES
-
                     if (this.pokemonActual.getTipoSecundario() == null) {
                         this.txtTipo2.setText("");
                         this.lblTipo1.setText("Tipo");
@@ -393,8 +387,7 @@ public class CapturaController implements Initializable {
                         this.txtTipo1.setLayoutY(384);
                         this.lblTipo1.setLayoutX(504);
                         this.lblTipo1.setLayoutY(409);
-                    } // ESTABLECE EL TEXTO DE TIPO2 AL DELPOKEMON ACTUAL Y ADAPTA LOS ELEMENTOS VISUALES
-                    else {
+                    } else {
                         this.lblTipo1.setText("Tipo 1");
                         this.lblTipo2.setVisible(true);
                         this.barraTipos.setVisible(true);
@@ -404,13 +397,14 @@ public class CapturaController implements Initializable {
                         this.lblTipo1.setLayoutY(409);
                         this.txtTipo2.setText(this.pokemonActual.getTipoSecundario().toString());
                     }
-                    // ESTABLECE LA IMAGEN DEL POKEMON Y FUERZA A QUE NO CAMBIE EL TAMAÑO DEL IMAGEVIEW
 
-                    if (rutaImagenAdaptada != null) {
-                       // System.out.println(rutaImagenAdaptada);
-                        Image img = new Image(rutaImagenAdaptada);
+                    // ESTABLECE LA IMAGEN DEL POKEMON (Verificando que el archivo exista)
+                    if (archivoPokemon.exists()) {
+                        Image img = new Image(archivoPokemon.toURI().toString());
                         imgPokemonActual.setImage(img);
                         imgPokemonActual.setVisible(true);
+                        
+                        // Mantenemos tus valores de posicionamiento y tamaño originales
                         imgPokemonActual.setLayoutX(-62);
                         imgPokemonActual.setLayoutY(-78);
                         imgPokemonActual.setFitWidth(150);
@@ -419,12 +413,11 @@ public class CapturaController implements Initializable {
                         imgPokemonActual.setY(30);
                         imgPokemonActual.setPreserveRatio(false);
                     } else {
-                      //  System.out.println(rutaImagen);
-                        System.out.println("no se ha encontrado el archivo: " + pokemonActual.getNombrePokemon());
+                        System.out.println("Archivo no encontrado: " + archivoPokemon.getAbsolutePath());
+                        imgPokemonActual.setImage(null);
                     }
 
                     // CAMBIAR EL TEXTO DE VIDA A LA GENERADA AUTOMÁTICAMENTE
-
                     if (this.pokemonActual.getVitalidadMaxima() != 0) {
                         vidaCaptura.setText(pokemonActual.getVitalidad()+"/"+pokemonActual.getVitalidadMaxima());
                     }
@@ -439,18 +432,18 @@ public class CapturaController implements Initializable {
                     }
 
                     // CAMBIAR EL COLOR DE FONDO DEL POKEMON EN FUNCION DE SU TIPO
-
-                        String rutaFondo = "imgs/Captura/fondosTipos/fondo" + this.pokemonActual.getTipoPrincipal().toString().toLowerCase() + ".png";
-                        String rutaFondoAdaptado = new File(rutaFondo).toURI().toString();
-                        Image imgFondo = new Image(rutaFondoAdaptado);
-
+                    String rutaFondo = "imgs/Captura/fondosTipos/fondo" + this.pokemonActual.getTipoPrincipal().toString().toLowerCase() + ".png";
+                    File archivoFondo = new File(rutaFondo);
+                    if (archivoFondo.exists()) {
+                        Image imgFondo = new Image(archivoFondo.toURI().toString());
                         double altura = fondoPokemon.getFitHeight();
                         double ancho = fondoPokemon.getFitWidth();
-
                         fondoPokemon.setImage(imgFondo);
                         fondoPokemon.setFitHeight(altura);
                         fondoPokemon.setFitWidth(ancho);
                         fondoPokemon.setPreserveRatio(false);
+                    }
+
                 } catch (Exception e) {
                     System.out.println("Error al generar el pokemon aleatorio: " + e.getMessage());
                     e.printStackTrace();
@@ -460,7 +453,6 @@ public class CapturaController implements Initializable {
             System.out.println("error: la conexion con la bbdd es nula");
         }
     }
-
 
 
     @FXML

@@ -422,22 +422,30 @@ public class EntrenamientoController implements Initializable {
                     //Para que se adapte si cambias el tamaño de la ventana:
                     fila.prefWidthProperty().bind(listaPokemon.widthProperty().subtract(20));
 
-                    //Creamos su imagen (usando el método inteligente del modelo)
+                    // --- CREAR IMAGEN CON EL METODO INTELIGENTE ---
                     ImageView img = new ImageView();
                     img.setFitHeight(50);
                     img.setFitWidth(50);
                     try {
                         String rutaRelativa = pokemon.getRutaImagenActual(true, !Sesion.vista2D);
-                        String rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + rutaRelativa;
-                        String ruta = new File(rutaImagen).toURI().toString();
-                        img.setImage(new Image(ruta));
+                        // quitamos lo de transparent de la ruta base, muere en crystal/
+                        String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+                        File archivoLista = new File(rutaImagen);
+                        
+                        // comprobamos si existe para que no de el error feo y pete la lista
+                        if (archivoLista.exists()) {
+                            img.setImage(new Image(archivoLista.toURI().toString()));
+                        } else {
+                            System.out.println("ERROR MINIATURA ENTRENAMIENTO: No encuentro a " + pokemon.getNombrePokemon() + " en -> " + archivoLista.getAbsolutePath());
+                            // si quieres que ponga una imagen vacia o de error, seria aqui
+                        }
                     } catch (Exception e) {}
 
                     //Creamos su nombre y nivel
                     VBox textos = new VBox(5); 
                     textos.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
                     
-                    //Comprobamos si tiene mote y añadimos estrella si es Shiny
+                    //Comprobamos si tiene mote  y añadimos estrella si es Shiny
                     String nombreAMostrar;
                     if (pokemon.getMotePokemon() != null && !pokemon.getMotePokemon().trim().isEmpty()) {
                         nombreAMostrar = pokemon.getMotePokemon();
@@ -446,7 +454,7 @@ public class EntrenamientoController implements Initializable {
                     }
                     
                     if (pokemon.getEsShiny()) {
-                        nombreAMostrar += " ★";
+                        nombreAMostrar += "★";
                     }
                                             
                     Label lblNombre = new Label(nombreAMostrar);
@@ -527,7 +535,7 @@ public class EntrenamientoController implements Initializable {
             
             // Añadimos la estrella si es shiny
             if (pokemonSeleccionado.getEsShiny()) {
-                nombreAMostrar += " ★";
+                nombreAMostrar += "★";
             }
             
             txtNombreCentral.setText(nombreAMostrar);
@@ -545,13 +553,20 @@ public class EntrenamientoController implements Initializable {
                     imgShiny.setVisible(pokemonSeleccionado.getEsShiny());
                 }
 
-                // Generamos la ruta
+                //metodo inteligente
                 String rutaRelativa = pokemonSeleccionado.getRutaImagenActual(true, !Sesion.vista2D);
-                String rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + rutaRelativa;
-                String ruta = new File(rutaImagen).toURI().toString();
+                
+                // la ruta base se queda en crystal/
+                String rutaImagen = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
+                File archivoCentral = new File(rutaImagen);
 
-                // Establecemos la imagen final
-                imgPokemonCentral.setImage(new Image(ruta));
+                // comprobamos si existe el archivo fisico
+                if (archivoCentral.exists()) {
+                    imgPokemonCentral.setImage(new Image(archivoCentral.toURI().toString()));
+                } else {
+                    System.out.println("ERROR IMAGEN CENTRAL: No encuentro al bicho en -> " + archivoCentral.getAbsolutePath());
+                    imgPokemonCentral.setImage(null);
+                }
                 
             } catch (Exception e) {
                 System.out.println("Error cargando imagen central: " + e.getMessage());
