@@ -15,7 +15,7 @@ public class Movimiento {
   /**
 
    * identificador de cada movimiento
-   *    */
+   * */
 
   private int idMovimiento = 1;
   /**
@@ -36,7 +36,7 @@ public class Movimiento {
   private TiposMovimiento tipoMovimiento;  /**
 
    * el estado que aplica el ataque
-   *    */
+   * */
 
   private Estados estadoAplicado;
   /**
@@ -50,7 +50,11 @@ public class Movimiento {
   /**
    * cantidad total de movimientos de cada moviento
    */
-  private int cantidadMovimientos = 15;
+  private int cantidadMovimientos;
+  
+  //cantidad maxima original de usos
+  private int cantidadMovimientosMaximos;
+  
   /**
    * para la animacion del movimiento
    */
@@ -140,6 +144,14 @@ public class Movimiento {
   public int getCantidadMovimientos () {
     return cantidadMovimientos;
   }
+  
+  public void setCantidadMovimientosMaximos (int newVar) {
+    cantidadMovimientosMaximos = newVar;
+  }
+
+  public int getCantidadMovimientosMaximos () {
+    return cantidadMovimientosMaximos;
+  }
 
 
   public void setanimacionMovimiento (String newVar) {
@@ -161,6 +173,40 @@ public class Movimiento {
   //
   // Other methods
   //
+  
+  /**
+   * calcula la cantidad de movimientos segun la potencia
+   * imitando el balanceo de los juegos originales.
+   */
+  public void generarCantidadMovimientos() {
+      //ataques de estado o mejora (potencia 0)
+      if (this.potencia == 0) {
+          this.cantidadMovimientosMaximos = 30;
+      } 
+      //ataques muy potentes
+      else if (this.potencia >= 110) {
+          this.cantidadMovimientosMaximos = 5;
+      } 
+      //ataques muy fuertes 
+      else if (this.potencia >= 90) {
+          this.cantidadMovimientosMaximos = 10;
+      } 
+      //ataques estandar fuertes 
+      else if (this.potencia >= 70) {
+          this.cantidadMovimientosMaximos = 15;
+      } 
+      //ataques medios
+      else if (this.potencia >= 45) {
+          this.cantidadMovimientosMaximos = 20;
+      } 
+      //ataques basicos 
+      else {
+          this.cantidadMovimientosMaximos = 35;
+      }
+      
+      //al empezar la cantidad actual es igual al maximo
+      this.cantidadMovimientos = this.cantidadMovimientosMaximos;
+  }
 
   /**
    * metodo para aplicar los estados del ataque tipo estado
@@ -181,7 +227,7 @@ public class Movimiento {
 
 
   /**
-   * metodo para realizar da�o del ataque tipo atque
+   * metodo para realizar dao del ataque tipo atque
    * @param        newparameter
    */
   public void aplicarDanio(TiposMovimiento movimientoDanio)

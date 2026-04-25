@@ -102,19 +102,31 @@ public class PokemonDAO {
             p.setVelocidad(rs.getInt("VELOCIDAD"));
             p.setNivel(rs.getInt("NIVEL"));
             p.setExperiencia(rs.getInt("EXPERIENCIA"));
-            // para extreaer los movimientos de la bd, creamos el array
+            //para extreaer los movimientos de la bd, creamos el array
             Movimiento[] movimientosCargados = new Movimiento[4];
-            // preparamos la consulta SQL
-            String sqlMovs = "SELECT ID_MOVIMIENTO FROM SET_MOVIMIENTOS WHERE ID_POKEMON = ? AND ES_ACTIVO = 1 LIMIT 4";
+            
+            ///añadimos la columna PP a la consulta
+            String sqlMovs = "SELECT ID_MOVIMIENTO, PP FROM SET_MOVIMIENTOS WHERE ID_POKEMON = ? AND ES_ACTIVO = 1 LIMIT 4";
+            
             // abrimos un try para gestionar la consulta de los movimientos
             try (PreparedStatement psMovs = conexion.prepareStatement(sqlMovs)) {
                 psMovs.setInt(1, p.getIdPokemon());
                 // ejecutamos la consulta y abrimos otro try para manejar los resultados
-                try (ResultSet rsMovs = psMovs.executeQuery()) { // Doble try para cerrar el ResultSet de movimientos
+                try (ResultSet rsMovs = psMovs.executeQuery()) { 
                     int i = 0;
                     // mientras la base de datos nos devuelva filas y no hayamos llenado los 4 huecos:
                     while (rsMovs.next() && i < 4) {
-                        movimientosCargados[i] = movDAO.buscarPorId(rsMovs.getInt("ID_MOVIMIENTO"));
+                        
+                        ///recuperamos el movimiento de la BD
+                        Movimiento mov = movDAO.buscarPorId(rsMovs.getInt("ID_MOVIMIENTO"));
+                        
+                        if (mov != null) {
+                            ///cargan los PP actuales
+                            mov.setCantidadMovimientos(rsMovs.getInt("PP"));
+                            
+                            // Lo guardamos en el array
+                            movimientosCargados[i] = mov;
+                        }
                         i++;
                     }
                 }
