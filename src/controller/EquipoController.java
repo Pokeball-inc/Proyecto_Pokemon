@@ -126,7 +126,7 @@ public class EquipoController implements Initializable {
         }
     }
 
-    // Caja
+ // Caja
     private void cargarInventario() {
         // Limpiamos el TilePane antes de cargar para evitar duplicados visuales
         cajaPokemon.getChildren().clear();
@@ -176,23 +176,21 @@ public class EquipoController implements Initializable {
                     celdaPokemon.getChildren().add(contenedorMarcaEquipo);
                 }
 
+                //metodo inteligente shiny
+                String rutaRelativa = p.getRutaImagenActual(true, !Sesion.vista2D);
+                String rutaFinal = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
 
-                // Crear el ImageView
+                System.out.println("Intentando cargar miniatura de " + p.getNombrePokemon() + ": " + rutaFinal);
 
-                // En función del Tipo de imagen que desee el usario
+                File archivo = new File(rutaFinal);
+                ImageView vistaImagen;
 
-                String rutaImagen = "";
-
-                if (Sesion.vista2D) {
-
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon();
-
+                if (archivo.exists()) {
+                    vistaImagen = new ImageView(new Image(archivo.toURI().toString()));
                 } else {
-                    rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon3D();
+                    System.out.println("ERROR MINIATURA: El archivo físico no existe en -> " + archivo.getAbsolutePath());
+                    vistaImagen = new ImageView(); // Lo dejamos vacío para que el juego no "crashee"
                 }
-
-                String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-                ImageView vistaImagen = new ImageView(new Image(rutaImagenAdaptada));
 
                 vistaImagen.setFitWidth(128);
                 vistaImagen.setFitHeight(128);
@@ -250,11 +248,12 @@ public class EquipoController implements Initializable {
             }
         }
         // Mostrar el primer pokemon de la lista por defecto, para que no salga el charizard ese xd
-
-        mostrarDetallesPokemon(ListaPokemon.getFirst()); //Supongo que GetFirst es mejor que get(0)
+        if (!ListaPokemon.isEmpty()) {
+            mostrarDetallesPokemon(ListaPokemon.getFirst()); //Supongo que GetFirst es mejor que get(0)
+        }
     }
 
-    // Metodo para mostrar detalles de pokemons
+ // Metodo para mostrar detalles de pokemons
 
     private void mostrarDetallesPokemon(Pokemon p) {
         if (p == null) return;
@@ -265,21 +264,20 @@ public class EquipoController implements Initializable {
             pokemonSeleccionado = p;
             pokemonSeleccionado.cambiarColor();
 
-            // buscamos el archivo en tu carpeta de sprites
-            // En función del Tipo de imagen que desee el usuario
+            //metodo inteligente shiny 
+            String rutaRelativa = pokemonSeleccionado.getRutaImagenActual(true, !Sesion.vista2D);
+            String rutaFinal = "imgs/Pokemons/sprites/crystal/" + rutaRelativa;
 
-            String rutaImagen = "";
+            System.out.println("Intentando cargar imagen de " + p.getNombrePokemon() + " en Equipo: " + rutaFinal);
 
-            if (Sesion.vista2D) {
-
-                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon();
-
+            File archivo = new File(rutaFinal);
+            if (archivo.exists()) {
+                fotoPokemon.setImage(new Image(archivo.toURI().toString()));
             } else {
-                rutaImagen = "imgs/Pokemons/sprites/crystal/transparent/" + this.pokemonSeleccionado.getImgFrontalPokemon3D();
+                System.out.println("ERROR: El archivo físico no existe en: " + archivo.getAbsolutePath());
+                fotoPokemon.setImage(null);
             }
 
-            String rutaImagenAdaptada = new File(rutaImagen).toURI().toString();
-            fotoPokemon.setImage(new Image(rutaImagenAdaptada));
             fotoPokemon.setFitWidth(180);
             fotoPokemon.setFitHeight(190);
             fotoPokemon.setX(55);
@@ -550,7 +548,6 @@ public class EquipoController implements Initializable {
                 System.out.println(ex.getMessage());
             }
     }
-
     // Metodo para recargar la informacion visual
 
     private void recargarTodo() {
@@ -723,10 +720,6 @@ public class EquipoController implements Initializable {
             System.out.println("Curación guardada en la Base de Datos.");
         } catch (Exception e) {
             System.out.println("Error al guardar la cura en BD: " + e.getMessage());
-        }
-        
-        if (pokemonSeleccionado != null) {
-            mostrarDetallesPokemon(pokemonSeleccionado);
         }
         
         //alerta de exito
