@@ -9,6 +9,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
+ * @author Elyass Douma Zouhairi
+ * @author Pablo Serrano Conesa
+ * @author Isaías Villarreal Méndez
+ */
+
+/**
  * Clase PokemonDAO
  * Encargada de gestionar todas las operaciones de acceso a datos (consultas,
  * actualizaciones, etc.) relacionadas con la entidad Pokemon en la base de datos MySQL.

@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * @author Elyass Douma Zouhairi
+ * @author Pablo Serrano Conesa
+ * @author Isaías Villarreal Méndez
+ */
 
 import java.util.ArrayList;
 
@@ -13,77 +18,76 @@ public class Entrenador {
     // Fields
     //
     /**
-     * el identificador del entrenador
+     * El identificador del entrenador
      *
      */
 
     private int idEntrenador = 1;
     /**
-     * nombre del entrenador
+     * Nombre del entrenador
      */
     private String nombreEntrenador;
     /**
-     * es la contrase�a del entrenador jugador
+     * Es la contraseña del entrenador jugador
      */
     private String contrasena;
     /**
-     * genero del entrenador
+     * Genero del entrenador
      */
     private Generos genero;
     /**
-     * ciudad natal del entrenador
+     * Ciudad natal del entrenador
      *
      */
 
     private String ciudadOrigen;
     /**
-     * tiempo de juego del entrenador
-     * comprobar  como almacenarlo  y guardarlo
+     * Tiempo de juego del entrenador
      */
 
     private Long tiempoJuego;
     /**
-     * dinero del jugador, su unidad es Pokedollares
-     * empieza con 800-1000 pokedolarres
+     * Dinero del jugador, su unidad es Pokedollares [Empieza con 8000 Pokedollares]
      */
 
     private int pokedollares;
     /**
-     * los Pokemon del equipo
+     * Los Pokemon ubicados en el EQUIPO
      */
     private Pokemon[] equipoPokemon;
     /**
-     * los Pokemon capturados que no estan en el equipo
+     * Los Pokemon ubicados en la CAJA
      */
     private ArrayList<Pokemon> cajaPokemon;
     /**
-     * victorias del entrenador
+     * Victorias del entrenador
      */
     private int victorias = 0;
     /**
-     * derrotas del entrenador
+     * Derrotas del entrenador
      */
     private int derrotas = 0;
     /**
-     * mochila con los objetos del entrenador
+     * Mochila con los objetos del entrenador
      */
     private Inventario inventario;
     /**
-     * para saber si es entrenador del juego o de un jugador
+     * Para saber si es entrenador del juego o de un jugador
      */
     private Boolean esNPC;
     /**
-     * para el spray frontal del entrenador
+     * Para el spray frontal del entrenador
      */
     private String imgFrontalEntrenador;
     /**
-     * para el spray posterior del entrenador
+     * Para el spray posterior del entrenador
      */
     private String imgPosteriorEntrenador;
 
-    //
-    // Constructors por defecto
-    //
+
+    /**
+     * Constructor por defecto de la clase Entrenador
+     * */
     public Entrenador() {
         super();
         this.idEntrenador = 0;
@@ -105,7 +109,25 @@ public class Entrenador {
 
     ;
 
-    //Constructor todos los parametros
+    /**
+     * Constructor completo para inicializar un Entrenador con todos sus atributos.
+     * * @param idEntrenador Identificador único del entrenador en la base de datos
+     * @param nombreEntrenador Nombre del entrenador
+     * @param contrasena La clave para poder acceder a la cuenta del entrenador
+     * @param genero El género del pokemon
+     * @param ciudadOrigen Ciudad de origen del entrenador
+     * @param tiempoJuego Tiempo total de juego
+     * @param pokedollares Cantidad de Pokedollares que tiene el Entrenador
+     * @param equipoPokemon Array con los 6 Pokémon que el entrenador tiene en el EQUIPO
+     * @param cajaPokemon Lista con los Pokémon que el pokemon tiene en la CAJA
+     * @param victorias Número total de combates ganados
+     * @param derrotas Número total de combates perdidos
+     * @param inventario Objeto que gestiona los ítems del entrenador (Antes también consumibles, pero no se implementaron al final)
+     * @param esNPC Indica si el entrenador es un personaje no jugable (IA)
+     * @param imgFrontalEntrenador Ruta del recurso para la imagen frontal del sprite
+     * @param imgPosteriorEntrenador Ruta del recurso para la imagen de espalda del sprite
+     */
+
     public Entrenador(int idEntrenador, String nombreEntrenador, String contrasena, Generos genero, String ciudadOrigen, long tiempoJuego, int pokedollares, Pokemon[] equipoPokemon, ArrayList<Pokemon> cajaPokemon, int victorias, int derrotas, Inventario inventario, boolean esNPC, String imgFrontalEntrenador, String imgPosteriorEntrenador) {
         super();
         this.idEntrenador = idEntrenador;
@@ -127,7 +149,14 @@ public class Entrenador {
 
     ;
 
-    //Constructor copia
+
+
+    /**
+     * Constructor copia del Entrenador
+     * Crea una nueva instancia de Entrenador a partir de otro ya existente.
+     * @param e Objeto Entrenador del cual se van a copiar los datos
+     */
+
     public Entrenador(Entrenador e) {
         this.idEntrenador = e.idEntrenador;
         this.nombreEntrenador = e.nombreEntrenador;
@@ -145,8 +174,6 @@ public class Entrenador {
         this.imgFrontalEntrenador = e.imgFrontalEntrenador;
         this.imgPosteriorEntrenador = e.imgPosteriorEntrenador;
     }
-
-    ;
 
 
     //
@@ -301,8 +328,8 @@ public class Entrenador {
     }
 
     /**
-     * metodo para mover los Pokemon desde el equipo a la caja
-     * @param recibe el pokemon que se va a mover a la caja
+     * Metodo para mover los Pokemon desde el equipo a la caja
+     * @param pokemon Recibe el pokemon que se va a mover a la caja
      */
     public void moverPokemonACaja(Pokemon pokemon) {
         // 1. Buscamos el Pokémon dentro del equipo
@@ -326,8 +353,8 @@ public class Entrenador {
     }
 
     /**
-     * metodo para mover los Pokemon desde la caja al equipo
-     * @param recibe el pokemon que se va a mover al equipo
+     * Metodo para mover los Pokemon desde la caja al equipo
+     * @param pokemon Recibe el pokemon que se va a mover al equipo
      */
     public void moverPokemonAEquipo(Pokemon pokemon) {
         // 1. Buscamos si hay un hueco libre en el equipo
@@ -358,20 +385,20 @@ public class Entrenador {
 
 
     /**
-     * para entrenar un Pokemon mediante pokedollares con diferentes tipos de
+     * Metodo para entrenar un Pokemon mediante pokedollares con diferentes tipos de
      * entrenamiento
-     * Entrenamiento pesado: se gastan 20*NIVEL pok�dollars y se aumentan las
-     * estad�sticas de defensa, defensa especial y vitalidad en 5 puntos.
-     * Entrenamiento furioso: se gastan 30*NIVEL pok�dollars y se aumentan las
-     * estad�sticas de ataque, ataque especial y velocidad en 5 puntos.
-     * Entrenamiento funcional: se gastan 40*NIVEL pok�dollars y se aumentan las
-     * estad�sticas de velocidad, ataque, defensa y vitalidad en 5 puntos.
-     * Entrenamiento on�rico: se gastan 40*NIVEL pok�dollars y se aumentan las
-     * estad�sticas de velocidad, ataque especial, defensa especial y vitalidad en 5
+     * Entrenamiento pesado: se gastan 20*NIVEL pokedollars y se aumentan las
+     * estadísticas de defensa, defensa especial y vitalidad en 5 puntos.
+     * Entrenamiento furioso: se gastan 30*NIVEL pokedollars y se aumentan las
+     * estadísticas de ataque, ataque especial y velocidad en 5 puntos.
+     * Entrenamiento funcional: se gastan 40*NIVEL pokedollars y se aumentan las
+     * estadísticas de velocidad, ataque, defensa y vitalidad en 5 puntos.
+     * Entrenamiento onírico: se gastan 40*NIVEL pokedollars y se aumentan las
+     * estadísticas de velocidad, ataque especial, defensa especial y vitalidad en 5
      * puntos.
      *
-     * @param pokemon,           recibe el pokemon a entrenar
-     * @param tipoEntrenamiento, y el tipo de entrenamiento a realizar
+     * @param pokemon Recibe el pokemon a entrenar
+     * @param tipoEntrenamiento Recibe el tipo de entrenamiento a realizar
      */
     public void entrenarPokemon(Pokemon pokemon, TipoEntrenamiento tipoEntrenamiento) {
         int coste = 0;
@@ -432,10 +459,9 @@ public class Entrenador {
     }
 
     /**
-     * metodo para crear un pokemon dependiendo de una rareza establecida por nosotros, no implementado
-     *
+     * Metodo para crear un pokemon dependiendo de una rareza establecida por nosotros, no implementado
      * @param rareza, recibe la rarezaz del pokemon
-     * @return devuelve el pokemon
+     * @return Devuelve el pokemon creado
      */
     private Pokemon crearPokemonPorRareza(Rareza rareza) {
         Pokemon nuevo = new Pokemon();
@@ -473,10 +499,9 @@ public class Entrenador {
     }
 
     /**
-     * logica cambiada en el controller
+     * @deprecated - Lógica cambiada en CapturaController
      * Metodo generar encuentro aleatorio (CAPTURA), genera un encuentro aleatorio por rareza
-     *
-     * @return devuelve el pokemon generado
+     * @return devuelve el pokemon generado por rareza
      */
     public Pokemon generarEncuentroAleatorio() {
         double ratio = Math.random() * 100;
@@ -494,11 +519,10 @@ public class Entrenador {
 
 
     /**
-     * logica cambiada en el controller
-     * metodo para capturar Pokemon (CAPTURA)
-     *
-     * @param *pokemon,    reibe el pokemon a capturar
-     * @param bolaLanzada, recibe el tipo de pokeball que se va a lanzar
+     * @deprecated - Lógica cambiada en CapturaController
+     * Metodo para capturar Pokemon (CAPTURA)
+     * @param pokemonSalvaje Recibe el pokemon a capturar
+     * @param bolaLanzada Recibe el tipo de pokeball que se va a lanzar
      */
     public void capturarPokemon(Pokemon pokemonSalvaje, TipoPokeBall bolaLanzada) {
         double intento = Math.random() * 255;
@@ -515,8 +539,9 @@ public class Entrenador {
     }
 
     /**
-     * metodo para comprobar si el entrenador tiene Pokemons vivos y puede luchar
-     * @return devuelve true o false dependiendo si tiene o nopokemon vivos
+     * @deprecated - Lógica cambiada en CapturaController
+     * Metodo para comprobar si el entrenador tiene Pokemons vivos y puede luchar
+     * @return Devuelve true o false dependiendo si tiene o nopokemon vivos
      */
     public boolean puedeLuchar() {
         if (equipoPokemon == null) {
@@ -533,8 +558,9 @@ public class Entrenador {
     }
 
     /**
-     * metodo para el comabte Pokemon
-     * @param recibe el entrenador rival
+     * @deprecated - Lógica cambiada en el Combate / CombateController
+     * Metodo para el combate Pokemon
+     * @param rival Recibe el entrenador rival
      */
     public void combatir(Entrenador rival) {
         // instanciamos la clase que controla la pelea
@@ -548,16 +574,17 @@ public class Entrenador {
 
 
     /**
-     * implementado en el controlador de crianza
-     * metodo para criar pokemon, el Pokemon criado tendra :
-     * Mote como mezcla (la mitad del mote ser� de la madre y la otra mitad del padre,
+     * @deprecated - Lógica cambiada en CrianzaController
+     *
+     * Metodo para criar pokemon, el Pokemon criado tendra :
+     * Mote como mezcla (la mitad del mote será de la madre y la otra mitad del padre,
      * con el orden aleatorio).
-     * Ataques mezclados (la mitad de los ataques ser�n del padre, la otra mitad ser�n
+     * Ataques mezclados (la mitad de los ataques serán del padre, la otra mitad serán
      * de la madre).
-     * Tipos mezclados (el hijo tendr�, de forma aleatoria, los tipos de los padres,
+     * Tipos mezclados (el hijo tendrá, de forma aleatoria, los tipos de los padres,
      * pudiendo tener ambos tipos del padre o de la madre, un tipo de cada o, en caso
      * de compartir tipos sus progenitores, el tipo que comparten ambos).
-     * Las mejores caracter�sticas de cada progenitor.
+     * Las mejores características de cada progenitor.
      *
      * @param pokemonMacho  recibe el pokemon macho
      * @param pokemonHembra recibe el pokemon hembra
