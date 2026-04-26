@@ -315,7 +315,7 @@ public class PokemonDAO {
      * su referencia (ID_POKEDEX) a la de su nueva evolucion.
      * * @param con La conexion activa a la base de datos.
      *
-     * @param p                    El Pokemon que va a evolucionar.
+     * @param p El Pokemon que va a evolucionar.
      * @param nombreNuevaEvolucion El nombre de la especie a la que se transforma.
      */
     public static void ejecutarEvolucionBD(Connection con, Pokemon p, String nombreNuevaEvolucion) {
@@ -348,8 +348,8 @@ public class PokemonDAO {
     /**
      * Metodo para actualizar el objeto que tiene equipado el pokemon
      * @param con, conexion con la bd
-     * @param pokemon al que se le actualizara el objeto
-     * @param el objeto que se le pondra
+     * @param p al que se le actualizara el objeto
+     * @param objeto objeto que se le pondra
      * */  
 
     public static void actualizarObjetoPokemon(Connection con, Pokemon p, Objeto objeto) {
