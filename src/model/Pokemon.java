@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * @author Elyass Douma Zouhairi
  * @author Pablo Serrano Conesa
- * @author Isaías Villarreal Méndez Class Pokemon
+ * @author Isaías Villarreal Méndez
  */
 public class Pokemon {
 
@@ -36,11 +36,16 @@ public class Pokemon {
      * mote del Pokemon
      */
     private String motePokemon;
+
     /**
-     * * vitalidad del Pokemon
+     * * vitalidad  actual del Pokemon
      */
 
     private int vitalidad;
+
+    /**
+     * * vitalidad  máxima del Pokemon
+     */
 
     // vida maxima del pokemon
     private int vitalidadMaxima;
@@ -90,9 +95,12 @@ public class Pokemon {
 
     private Sexo sexo;
     /**
-     * tipo del Pokemon
+     * tipo principal del Pokemon
      */
     private Tipos tipoPrincipal;
+    /**
+     * tipo secundario del Pokemon
+     */
     private Tipos tipoSecundario;
     /**
      * estado del Pokemon
@@ -183,47 +191,87 @@ public class Pokemon {
     //
     // Constructors
     //
+
+    /**
+     * Constructor por defecto de la clase Pokemon
+     * */
     public Pokemon() {
     }
 
     ;
 
+    /**
+     * Setter para establecer el ID del pokemon
+     * */
+
     public void setIdPokemon(int newVar) {
         idPokemon = newVar;
     }
+
+    /**
+     * Getter para recuperar el ID del pokemon
+     * */
 
     public int getIdPokemon() {
         return idPokemon;
     }
 
+    /**
+     * Setter para establecer el numero de pokedex del pokemon
+     * */
+
     public void setNumPokedex(int newVar) {
         numPokedex = newVar;
     }
+
+    /**
+     * Getter para recuperar el numero de pokedex del pokemon
+     * */
 
     public int getNumPokedex() {
         return numPokedex;
     }
 
+    /**
+     * Setter para establecer el ID del pokemon
+     * */
+
     public void setNombrePokemon(String newVar) {
         nombrePokemon = newVar;
     }
+
+    /**
+     * Setter para establecer el ID del pokemon
+     * */
 
     public String getNombrePokemon() {
         return nombrePokemon;
     }
 
+    /**
+     * Setter para establecer el ID del pokemon
+     * */
+
     public void setMotePokemon(String newVar) {
         motePokemon = newVar;
     }
+
+    /**
+     * Setter para establecer el ID del pokemon
+     * */
 
     public String getMotePokemon() {
         return motePokemon;
     }
 
     /**
-     * cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad
+     * Setter para establecer el ID del pokemon
+     * */
+
+    /**
+     * Cambiado el setVitalidad para que no pueda establecerse mas que la vitalidad
      * maxima en caso de curarse 
-     * @param ewVar, la nueva vitalidad
+     * @param newVar la nueva vitalidad
      */
     public void setVitalidad(int newVar) {
         int maxVitalidadReal = this.getVitalidadMaxima();
@@ -260,9 +308,9 @@ public class Pokemon {
     }
 
     /**
-     * get con logica para tener encuenta los bonus de los objetos y estados
+     * Get con logica para tener encuenta los bonus de los objetos y estados
      *
-     * @return atqFinal, el ataque final
+     * @return El ataque final
      */
     public int getAtaque() {
         int atqFinal = this.ataque;
@@ -298,9 +346,9 @@ public class Pokemon {
     }
 
     /**
-     * get con logica para tener encuenta los bonus de los objetos
+     * Get con logica para tener encuenta los bonus de los objetos
      *
-     * @return defFinal, la defensa final
+     * @return La defensa final
      */
     public int getDefensa() {
         int defFinal = this.defensa;
@@ -331,9 +379,9 @@ public class Pokemon {
     }
 
     /**
-     * get con logica para tener encuenta los bonus de los objetos y estados
+     * Get con logica para tener encuenta los bonus de los objetos y estados
      *
-     * @return atqEspFinal, el ataque especial final
+     * @return El ataque especial final
      */
     public int getAtaqueEspecial() {
         int atqEspFinal = this.ataqueEspecial;
@@ -364,9 +412,9 @@ public class Pokemon {
     }
 
     /**
-     * get con logica para tener encuenta los bonus de los objetos
+     * Get con logica para tener encuenta los bonus de los objetos
      *
-     * @return defEspFinal, la defensa especial final
+     * @return La defensa especial final
      */
     public int getDefensaEspecial() {
         int defEspFinal = this.defensaEspecial;
@@ -397,9 +445,9 @@ public class Pokemon {
     }
 
     /**
-     * get con logica para tener encuenta los bonus de los objetos y estados
+     * Get con logica para tener encuenta los bonus de los objetos y estados
      *
-     * @return velFinal, la velocidad final
+     * @return La velocidad final
      */
     public int getVelocidad() {
         int velFinal = this.velocidad;
@@ -499,8 +547,8 @@ public class Pokemon {
     }
 
     /**
-     * set con la logica para corregir el fallo con las vitalidades maximas y actuales de los pokemon al equipar el objeto
-     * @param objeto newVar,recibe el objeto 
+     * Set con la logica para corregir el fallo con las vitalidades maximas y actuales de los pokemon al equipar el objeto
+     * @param newVar recibe el objeto
      * */
     public void setObjetoEquipado(Objeto newVar) {
         // guardamos la vida maxima antes del objeto
@@ -668,9 +716,9 @@ public class Pokemon {
     }
 
     /**
-     * get con logica para tener encuenta los bonus de los objetos y estados
+     * Get con logica para tener encuenta los bonus de los objetos y estados
      *
-     * @return vitMaxFinal, la vitalidad maxima final
+     * @return La vitalidad maxima final
      */
     public int getVitalidadMaxima() {
         int vitMaxFinal = this.vitalidadMaxima;
@@ -709,11 +757,11 @@ public class Pokemon {
     //
 
     /**
-     * metodo para ganar experiencia despues de cada combate va acumuladno la
+     * Metodo para ganar experiencia despues de cada combate va acumulando la
      * sobrante y establece el nuevo limite de experiencia necesaria para el
      * siguiente nivel
      *
-     * @param recibe un nit con la cantidad de experiencia que gana
+     * @param puntos un numero con la cantidad de experiencia que gana
      */
     public void ganarExperiencia(int puntos) {
         // sumamos la experiencia nueva a la que ya teniamos
@@ -721,7 +769,6 @@ public class Pokemon {
 
         // calculamos cuanto necesita para subir (10 * nivel actual)
         int expNecesaria = 10 * this.getNivel();
-
         // comprobamos si ha llegado al limite para subir de nivel
         // usamos un while por si gana tanta experiencia que sube varios niveles de
         // golpe
@@ -810,7 +857,7 @@ public class Pokemon {
     /**
      * Comprueba si el Pokemon ha alcanzado el nivel necesario para evolucionar.
      *
-     * @return true si evoluciona, false en caso contrario.
+     * @return True si evoluciona, false en caso contrario.
      */
     public boolean comprobarEvolucion() {
         if (this.nivelEvolucion > 0 && this.nivel >= this.nivelEvolucion) {
@@ -825,8 +872,8 @@ public class Pokemon {
      * DOBLEVENTAJA x4 DESVENTAJA 1/2 DOBLEDESVENTAJA 1/4 * y comprueba si el tipo
      * de ataque es del mismo tipo que el pokemon que lo realiza x1.5 *
      * @param movimiento recibe el movimiento que se va a realizar
-     * @param pokemon, recibe el pokemon que recibe el ataque
-     * @return String: NEUTRO, VENTAJA, DOBLE_VENTAJA o DESVENTAJA
+     * @param pokemon recibe el pokemon que recibe el ataque
+     * @return Una cadena que indica la eficacia del golpe (VENTAJA, DESVENTAJA, INMUNE, NEUTRO)
      */
     /**
      * Ejecuta el ataque, aplica estados, calcula daño físico/especial y devuelve la
@@ -835,7 +882,6 @@ public class Pokemon {
     public String atacar(Movimiento movimiento, Pokemon pokemonDefensor) {
 
         String categoria = movimiento.getCategoriaDano();
-
         // aplicar estados
         if (movimiento.getEstadoAplicado() != null && movimiento.getEstadoAplicado() != Estados.SANO) {
             if (pokemonDefensor.getEstadoActual() == Estados.SANO) {
@@ -905,23 +951,7 @@ public class Pokemon {
     }
 
     /**
-     * metodo para obtener un movimiento aleatorio del pokemon para la "IA"
-     *
-     * @return un objeto Movimiento aleatorio de entre los que conoce
-     */
-    public Movimiento elegirMovimientoAleatorio() {
-        List<Movimiento> validos = new ArrayList<>();
-        for (Movimiento m : movimientos) {
-            if (m != null) {
-                validos.add(m);
-            }
-        }
-        Random r = new Random();
-        return validos.get(r.nextInt(validos.size()));
-    }
-
-    /**
-     * metodo para recuperar un procentajde de vida aleatorio en 10% un maximo de
+     * Metodo para recuperar un procentajde de vida aleatorio en 10% un maximo de
      * 50%
      */
     public void descansar() {
@@ -939,10 +969,10 @@ public class Pokemon {
     }
 
     /**
-     * intenta añadir un nuevo movimiento al pokemon si tiene un hueco libre
+     * Intenta añadir un nuevo movimiento al pokemon si tiene un hueco libre
      * actualiza la memoria correctamente
-     * @param nuevoMovimiento, recibe el nuevo movimiento a aprender
-     * @return true si lo ha aprendido, false si ya tiene 4
+     * @param nuevoMovimiento recibe el nuevo movimiento a aprender
+     * @return True si lo ha aprendido, false si ya tiene 4
      */
     public boolean aprenderMovimientoEnHuecoVacio(Movimiento nuevoMovimiento) {
         if (this.movimientos == null) {
@@ -959,10 +989,9 @@ public class Pokemon {
     }
 
     /**
-     * metodo para que el pokemon pueda aprender un movimiento cada 3 niveles
-     *
-     * @param movimiento recibe un array de movimientos y puede aprender un ataque
-     *                   de entre todos los del array *
+     * Metodo para que el pokemon pueda aprender un movimiento cada 3 niveles
+     * @param nuevoMovimiento recibe un array de movimientos y puede aprender un ataque
+     * de entre todos los del array *
      */
     public void aprenderMovimiento(Movimiento nuevoMovimiento) {
         // comprobamos si hay hueco en el array de 4 movimientos y si hay lo añadimos
@@ -986,10 +1015,9 @@ public class Pokemon {
     }
 
     /**
-     * metodo apra reemplazar un movcimiento existente por uno nuevo
-     *
-     * @param incideNuevo, donde ira el nuevo movimiento
-     * @param el nuevo movimiento a aprender
+     * Metodo para reemplazar un movimiento equipado por otro
+     * @param indiceNuevo donde ira el nuevo movimiento
+     * @param nuevoMovimiento nuevo movimiento a aprender
      */
     public void reemplazarMovimiento(int indiceNuevo, Movimiento nuevoMovimiento) {
         if (indiceNuevo >= 0 && indiceNuevo < 4) {
@@ -1001,7 +1029,7 @@ public class Pokemon {
     }
 
     /**
-     * metodo para limpiar todos los estados temporales que no siguen fuera del
+     * Método para limpiar todos los estados temporales que no siguen fuera del
      * combate
      */
     public void limpiarEstadosTemporales() {
@@ -1022,7 +1050,7 @@ public class Pokemon {
     }
 
     /**
-     * Metodo para cambiar el color de fonde respecto al tipo del pokemon que
+     * Método para cambiar el color de fonde respecto al tipo del pokemon que
      * aparece
      */
     public void cambiarColor() {
@@ -1125,65 +1153,11 @@ public class Pokemon {
     }
 
     /**
-     * equipa un objeto al pokemon, sustituye si ya tiene uno
-     * @param nuevjoObjeto, el nuevo objeto a equipar
-     * @return el objeto que tenia equipado o null si no tenia
-     */
-    public Objeto equiparObjeto(Objeto nuevoObjeto) {
-        // desequipammos objeto si tuviera
-        Objeto objetoViejo = this.desequiparObjeto();
-
-        // variable para el ajuste de la vitalidad al equipar objetos que aumente la
-        // vitalidad maxima
-        int maxHpAntes = this.getVitalidadMaxima();
-
-        // equipamos el objeto
-        this.objetoEquipado = nuevoObjeto;
-        System.out.println("¡" + this.nombrePokemon + " se ha equipado con " + nuevoObjeto.getNombreObjeto() + "!");
-
-        // variable para el ajuste de la vitalidad al equipar objetos que aumente la
-        // vitalidad maxima
-        int maxHpDespues = this.getVitalidadMaxima();
-        // si hay variacion al haberle equipado el objeto lo ajustamos
-        if (maxHpDespues > maxHpAntes) {
-            int diferencia = maxHpDespues - maxHpAntes;
-            this.setVitalidad(this.getVitalidad() + diferencia);
-        }
-        // Devolvemos el antiguo para devolverlo al inventario
-        return objetoViejo;
-    }
-
-    /**
-     * Desequipa el objeto actual y al ponerse null dfevuelve los stats normales al
-     * pokemon
-     *
-     * @return el objeto que teniaequipado o null si no tenia
-     */
-    public Objeto desequiparObjeto() {
-        if (this.objetoEquipado != null) {
-            Objeto objetoViejo = this.objetoEquipado;
-
-            System.out.println("Se le ha quitado " + objetoViejo.getNombreObjeto() + " a " + this.nombrePokemon + ".");
-            this.objetoEquipado = null; // vaciamos el objeto equipado
-
-            // para ajuste de la vida en caso
-            if (this.vitalidad > this.getVitalidadMaxima()) {
-                this.vitalidad = this.getVitalidadMaxima();
-            }
-
-            return objetoViejo; // devolvemos el objeto para que el Controlador lo guarde
-        }
-
-        System.out.println(this.nombrePokemon + " no lleva ningún objeto equipado.");
-        return null;
-    }
-
-    /**
      * Método a prueba de balas: Limpia las carpetas raras de la base de datos,
      * y si la base de datos está vacía (NULL), deduce el nombre automáticamente
-     * @param esFrontal, recibe si es o no frontal
-     * @param es3D, resibe si es o no 3D
-     * @return devuelve la ruta de la imagen dependiendo de si es o no 3D uy si es o no frontal
+     * @param esFrontal recibe si es o no frontal
+     * @param es3D recibe si es o no 3D
+     * @return Devuelve la ruta de la imagen dependiendo de si es o no 3D y si es o no frontal
      */
     public String getRutaImagenActual(boolean esFrontal, boolean es3D) {
         String archivoRaw = "";
