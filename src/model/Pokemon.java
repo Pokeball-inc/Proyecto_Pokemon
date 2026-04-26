@@ -14,6 +14,10 @@ import java.util.Random;
  * @author Pablo Serrano Conesa
  * @author Isaías Villarreal Méndez
  */
+
+/**
+ * Class Pokemon Clase Pokemon, guarda la información de los Pokemon recuperados de la base de datos, además de gestionar la lógica relacionada
+ * con los movimientos, subir de nivel, objetos, combate, etc...*/
 public class Pokemon {
 
     //

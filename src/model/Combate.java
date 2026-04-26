@@ -11,7 +11,7 @@ import java.util.Random;
  */
 
 /**
- * Class Combate
+ * Class Clase Combate, gestiona la lógica y guarda la información relacionada a los combates
  */
 public class Combate {
 
@@ -58,8 +58,11 @@ public class Combate {
     private Log logAsociado;
 
     //
-    // Constructors
+    // Constructor 
     //
+    
+    /**
+     * Constructor por defecto de la clase Combate*/
     public Combate() {
     }
 
@@ -160,7 +163,7 @@ public class Combate {
     //
 
     /**
-     * metodo para iniciar el combate
+     * Metodo para iniciar el combate
      *
      * @param jugador El entrenador jugador
      * @param rival El entrenador rival

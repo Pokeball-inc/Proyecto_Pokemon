@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 /**
- * Class Entrenador, clase entrenador, define a usuarios y contrincantes,
+ * Class Clase Entrenador, define al entrenador del jugador y a los entrenadores rivales que se generan
  */
 public class Entrenador {
 
