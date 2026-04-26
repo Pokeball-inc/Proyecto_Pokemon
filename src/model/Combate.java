@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * @author Elyass Douma Zouhairi
+ * @author Pablo Serrano Conesa
+ * @author Isaías Villarreal Méndez
+ */
+
+/**
  * Class Combate
  */
 public class Combate {
@@ -14,39 +20,39 @@ public class Combate {
     //
 
     /**
-     * el id de la clase combate
+     * La id del combate
      */
     private int idCombate = 1;
     /**
-     * entrenador en la clase combate (el jugador)
+     * El entrenador del jugador en el combate
      */
     private Entrenador entrenador;
     /**
-     * entrenador rival en combate
+     * El entrenador rival en el combate
      */
     private Entrenador entrenadorRival;
 
-    // pokemon actual nuestro
+    /** El Pokemon actual del jugador*/
     private Pokemon pokemonActualJugador;
 
-    // pokemon actual del rival
+    /**El Pokemon actual del rival*/
     private Pokemon pokemonActualRival;
     /**
-     * cada turno del combate
+     * Array donde se guarda el historial de turnos
      */
     private List<Turno> historialTurnos = new ArrayList<>();
 
     /**
-     * pokemon derrotados el jugador
+     * Los pokemons derrotados del jugador
      */
     private int pokemonKOEntrenador = 0;
     /**
-     * pokemon debilitados del rival
+     * Los pokemons derrotados del rival
      */
     private int pokemonKORival = 0;
 
     /**
-     * Atributo del log
+     * Parámetro para asociar el Log a su combate. Un log por combate completo
      */
 
     private Log logAsociado;
@@ -66,7 +72,6 @@ public class Combate {
     public void setIdCombate(int newVar) {
         idCombate = newVar;
     }
-
 
     public int getIdCombate() {
         return idCombate;
@@ -90,6 +95,7 @@ public class Combate {
 
     /**
      * Establece el Pokémon que el jugador saca a pelear.
+     * @param pokemonActualJugador Recibe el pokemon actual del jugador
      */
     public void setPokemonActualJugador(Pokemon pokemonActualJugador) {
         this.pokemonActualJugador = pokemonActualJugador;
@@ -104,6 +110,7 @@ public class Combate {
 
     /**
      * Establece el Pokémon que el rival saca a pelear.
+     * @param pokemonActualRival Recibe el pokemon actual del rival
      */
     public void setPokemonActualRival(Pokemon pokemonActualRival) {
         this.pokemonActualRival = pokemonActualRival;
@@ -118,6 +125,7 @@ public class Combate {
 
     /**
      * Permite asignar un historial completo de turnos.
+     * @param historialTurnos Recibe el Array de Turnos actual
      */
     public void setHistorialTurnos(List<Turno> historialTurnos) {
         this.historialTurnos = historialTurnos;
@@ -154,9 +162,9 @@ public class Combate {
     /**
      * metodo para iniciar el combate
      *
-     * @param entrenador,      el entrenador jugador, nosotros
-     * @param entrenadorRival, el bot
-     * @param log, log para el regiustro de logs
+     * @param jugador El entrenador jugador
+     * @param rival El entrenador rival
+     * @param log El objeto log para el registro de logs
      */
     public void empezarCombate(Entrenador jugador, Entrenador rival, Log log) {
         this.logAsociado = log;
@@ -180,7 +188,7 @@ public class Combate {
     }
 
     /**
-     * metodo para encontrar al primer pokemon vivo
+     * Metodo para encontrar al primer pokemon vivo
      *
      * @param e, el entrenador,jugador o rival
      * @return el primer Pokemon con vitalidad > 0
@@ -198,7 +206,7 @@ public class Combate {
 
 
     /**
-     * cambia el pokemon actual del jugador por otro del equipo.
+     * Cambia el pokemon actual del jugador por otro del equipo.
      *
      * @param indice El número del hueco del equipo, 0 a 5 por el array de 6 del equipo
      * @return true si el cambio fue posible, false si el pokemon elegido no tiene vida
@@ -221,10 +229,10 @@ public class Combate {
     }
 
     /**
-     * metodo para aplicar los efectos que se aplican a final de turno
+     * Metodo para aplicar los efectos que se aplican a final de turno
      *
-     * @param recibe el pokemon nuestro 
-     * @param recibe el pokemon rival 
+     * @param p Recibe el pokemon del jugador
+     * @param rival Recibe el pokemon del rival
      *
      */
     public void aplicarEfectosFinalDeTurno(Pokemon p, Pokemon rival) {
@@ -295,7 +303,7 @@ public class Combate {
 
     /**
      * Comprueba si el estado actual impide atacar y devuelve el mensaje para el log.
-     * @param resibe el pokemon a verificar si tiene un estado que le iompida algo
+     * @param p Recibe el pokemon a verificar si tiene un estado que le impida realizar algo
      * @return El mensaje de la restricción, o NULL si el Pokémon puede atacar normalmente.
      */
     public String verificarRestriccionEstado(Pokemon p) {
@@ -355,11 +363,11 @@ public class Combate {
 
 
     /**
-     * metodo para procesar un turno completo de combate decidiendo quien ataca primero en base a la  velocidad
+     * Metodo para procesar un turno completo de combate decidiendo quien ataca primero en base a la  velocidad
      * validacion de estados, ejecucion de daño y registro en el log
      *
      * @param movJugador el movimiento elegido por el usuario
-     * @param movRival   el movimiento elegido por la "IA"
+     * @param movRival el movimiento elegido por la "IA"
      */
     public void procesarTurno(Movimiento movJugador, Movimiento movRival) {
         // creamos el Turno para registrar lo que pasara
@@ -450,12 +458,12 @@ public class Combate {
 
 
     /**
-     * metodo para validar estados antes de atacar, ejecutar el daño o alterar estadísticas
+     * Metodo para validar estados antes de atacar, ejecutar el daño o alterar estadísticas
      *
-     * @param atacante pokemon que intenta realizar el movimiento
-     * @param objetivo pokemon que recibe el posible impacto
-     * @param mov      movimiento a realizar
-     * @return el mensaje de texto de lo ocurrido para el historial
+     * @param atacante El pokemon que intenta realizar el movimiento
+     * @param objetivo El pokemon que recibe el posible impacto
+     * @param mov El movimiento a realizar
+     * @return El mensaje de texto de lo ocurrido para el historial
      */
     private String ejecutarAccion(Pokemon atacante, Pokemon objetivo, Movimiento mov) {
         //verificamos si hay alguna restricci0n de estado (
@@ -540,7 +548,7 @@ public class Combate {
 
 
     /**
-     * metodo para obtener el ultimo turno registrado en el historial
+     * Metodo para obtener el ultimo turno registrado en el historial
      *
      * @return el Turno mas reciente
      */
@@ -550,10 +558,10 @@ public class Combate {
     }
 
     /**
-     * metodo para tras la muerte de un pokemon  preparar el cambio.
+     * Metodo para tras la muerte de un pokemon  preparar el cambio.
      *
-     * @param esJugador, true si el pokemon muerto es el nuestro
-     * @return true, si al entrenador le quedan mas pokemon para seguir peleando
+     * @param esJugador Booleano que devuelve si el pokemon muerto es el nuestro
+     * @return Si al entrenador le quedan mas pokemon para seguir peleando
      */
     public boolean puedeContinuar(boolean esJugador) {
         if (esJugador) {
@@ -578,8 +586,8 @@ public class Combate {
     }
 
     /**
-     * Method para registrar los logs, no mas repetir codigo. Me he reformado en mis ultimos commits
-     * @param recibe el string a registrar
+     * Metodo para registrar los logs de forma que se añadan al archivo de Logs
+     * @param accion Recibe el string a registrar
      */
 
     private void registrarEventoLog(String accion) {
@@ -599,10 +607,10 @@ public class Combate {
     }
 
     /**
-     * metodo para calcular y transferir los Pokedollares del perdedor al ganador
+     * Metodo para calcular y transferir los Pokedollares del perdedor al ganador
      *
-     * @param ganador   ,el entrenador que ha gando
-     * @param perdedor, el entrenador que ha eprdido
+     * @param ganador El entrenador que ha ganado
+     * @param perdedor El entrenador que ha perdido
      */
     public void transferirPokedollares(Entrenador ganador, Entrenador perdedor) {
         // calculamos el tercio del dinero del perdedor
@@ -617,8 +625,8 @@ public class Combate {
     }
 
     /**
-     * metodo que reparte experiencia a todo el equipo respecto al nivel del rival derrotado
-     * @param recibe el pokemon rival derrotado para calcula la exp a reparrtir
+     * Metodo que reparte experiencia a todo el equipo respecto al nivel del rival derrotado
+     * @param rivalDerrotado recibe el pokemon rival derrotado para calcula la exp a repartir
      */
     public void repartirExperienciaEquipo(Pokemon rivalDerrotado) {
         Pokemon[] equipo = this.getEntrenador().getEquipoPokemon();
@@ -635,7 +643,7 @@ public class Combate {
     }
 
     /**
-     * metodo para retirarse del combate
+     * Metodo para retirarse del combate
      */
     public void retirarse() {
         System.out.println("EL JUGADOR SE HA RETIRADO");
@@ -652,7 +660,7 @@ public class Combate {
 
 
     /**
-     * metodo para finalizar combate y establecer ganador
+     * Metodo para finalizar combate y establecer ganador
      */
     public void finalizarCombate() {
         System.out.println("EL COMBATE HA FINALIZADO");
@@ -686,8 +694,8 @@ public class Combate {
     }
 
     /**
-     * metodo para añadir turno al historial
-     * @param recibe el turno a añadir al historial
+     * Metodo para añadir turno al historial
+     * @param nuevoTurno Recibe el turno a añadir al historial
      */
     public void añadirTurno(Turno nuevoTurno) {
         this.historialTurnos.add(nuevoTurno);
