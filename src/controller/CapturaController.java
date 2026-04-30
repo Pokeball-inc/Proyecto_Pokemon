@@ -566,7 +566,7 @@ public class CapturaController implements Initializable {
 
         // Recupero la lista de palabras prohibidas de un archivo.txt que tendrá un montón de palabras.
 
-        File filePalabrasProhibidas = new File("palabras_prohibidas.txt");
+        File filePalabrasProhibidas = new File(".palabras_prohibidas.txt");
 
         List<String> palabras = new ArrayList<>();
 

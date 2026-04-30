@@ -5,4 +5,5 @@
 .classpath
 *.iml
 *.iml
+.palabras_probidas.txt
 PokeINC.iml
